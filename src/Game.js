@@ -1,4 +1,11 @@
-// src/Game.js
+import {
+  drawExperienceBar,
+  drawJobExperienceBar,
+  drawHealthBar,
+  drawManaBar,
+} from "./Bars.js";
+
+// Ejemplo de uso
 
 class Game {
   constructor(character) {
@@ -28,6 +35,16 @@ class Game {
           break;
       }
     }
+  }
+
+  showExperienceBar() {
+    drawExperienceBar(this.character.exp, this.character.maxExp);
+    drawJobExperienceBar(this.character.jobExp, this.character.maxJobExp);
+  }
+
+  showHealthBar() {
+    drawHealthBar(this.character.hp, this.character.maxHp);
+    drawManaBar(this.character.sp, this.character.maxSp);
   }
 
   showMainMenu() {

@@ -6,8 +6,35 @@
 import EquipmentSlot from "./Items/EquipmentSlot.js";
 import Inventory from "./Items/Inventory.js";
 
-class Character {
-  constructor(name, str, agi, vit, int, dex, luk) {
+import Job from "./Job.js";
+
+import Acolyte from "./Classes/Acolyte.js";
+import Archer from "./Classes/Archer.js";
+import Mage from "./Classes/Mage.js";
+import Merchant from "./Classes/Merchant.js";
+import Swordman from "./Classes/Swordman.js";
+import Thief from "./Classes/Thief.js";
+
+const jobs = {
+  Swordman,
+  Mage,
+  Archer,
+  Merchant,
+  Thief,
+  Acolyte,
+};
+
+function getJob(name) {
+  if (jobs[name]) {
+    return new jobs[name]();
+  } else {
+    return null;
+  }
+}
+
+export default class Character {
+  constructor(name, str, agi, vit, int, dex, luk, job = new Job("Novice", {})) {
+    // Atributos básicos
     this.name = name;
     this.str = str;
     this.agi = agi;
@@ -16,8 +43,28 @@ class Character {
     this.dex = dex;
     this.luk = luk;
 
-    this.inventory = new Inventory();
+    this.job = job;
 
+    // Nivel y experiencia
+    this.exp = 0;
+    this.baseLevel = 1;
+    this.jobLevel = 1;
+    this.skillPoints = 0;
+    this.passiveSkills = [];
+
+    // Estadísticas
+    this.health = vit * 100 + (baseLevel - 1) * 100;
+    this.mana = int * 100 + (baseLevel - 1) * 100;
+    this.strength = str * (baseLevel - 1) * 10;
+    this.attackSpeed = agi * (baseLevel - 1) * 2;
+    this.evasion = agi * 0.5;
+    this.hitRate = dex * 0.3;
+    this.criticalRate = luk * 0.3;
+    this.defense = vit * 0.5;
+    this.magicDefense = int * 0.5;
+
+    // Inventario
+    this.inventory = new Inventory();
     this.headgearSlot = new EquipmentSlot("Headgear", this.inventory);
     this.armorSlot = new EquipmentSlot("Armor", this.inventory);
     this.weaponSlot = new EquipmentSlot("Weapon", this.inventory);
@@ -31,53 +78,27 @@ class Character {
       new EquipmentSlot("Accessory 1", this.inventory),
       new EquipmentSlot("Accessory 2", this.inventory),
     ];
-
-    this.exp = 0; // Comenzamos con 0 experiencia
-    this.baseLevel = 1; // Y en el nivel 1
-    this.jobLevel = 1;
-    this.skillPoints = 0;
-    this.passiveSkills = [];
-
-    // Puntos de vida
-    this.health = vit * 100 + (baseLevel - 1) * 100;
-
-    // Puntos de maná
-    this.mana = int * 100 + (baseLevel - 1) * 100;
-
-    // Ataque
-    this.strength = str * (baseLevel - 1) * 10;
-
-    // Velocidad de ataque
-    this.attackSpeed = agi * (baseLevel - 1) * 2;
-
-    // Evasión
-    this.evasion = agi * 0.5;
-
-    // Tasa de golpe (HIT)
-    this.hitRate = dex * 0.3;
-
-    // Tasa de golpe crítico
-    this.criticalRate = luk * 0.3;
-
-    // Defensa
-    this.defense = vit * 0.5;
-
-    // Defensa mágica
-    this.magicDefense = int * 0.5;
+  }
+  changeJob(newJobName) {
+    const newJob = getJob(newJobName);
+    if (newJob) {
+      this.job = newJob;
+      this.jobLevel = 1;
+      this.skillPoints = 0;
+      this.passiveSkills = [];
+      newJob.applyTo(this);
+      console.log(`${this.name} is now a ${newJob.name}!`);
+    } else {
+      console.log(`Sorry, ${newJobName} is not a valid job.`);
+    }
   }
 
-  changeJob(job) {
-    this.job = job;
-    this.jobLevel = 1;
-    this.skillPoints = 0;
-    this.passiveSkills = [];
-  }
-
-  // Subir de nivel
   levelUp() {
     this.jobLevel++;
+    console.log(
+      `${this.name} subió de nivel! Ahora es nivel ${this.baseLevel}!`
+    );
 
-    // Y mejoramos nuestras estadísticas
     this.str += 1;
     this.agi += 1;
     this.vit += 1;
@@ -85,16 +106,11 @@ class Character {
     this.dex += 1;
     this.luk += 1;
 
-    console.log(
-      `${this.name} subió de nivel! Ahora es nivel ${this.baseLevel}!`
-    );
-
     if (this.jobLevel === 10) {
       this.chooseFirstJobClass();
     }
 
     if (this.jobLevel >= 40) {
-      // Character can gain more skill points beyond Job Level 40
       this.skillPoints++;
     }
   }
@@ -113,13 +129,10 @@ class Character {
       "Acolyte",
     ];
 
-    // Implement your logic to display the job options to the player
-    // Let the player make their selection and store it in a variable
     const selectedJobIndex = prompt(
       `Choose your first job class:\n\n1. ${jobOptions[0]}\n2. ${jobOptions[1]}\n3. ${jobOptions[2]}\n4. ${jobOptions[3]}\n5. ${jobOptions[4]}\n6. ${jobOptions[5]}\n\nEnter the corresponding number:`
     );
 
-    // Validate the player's selection and call the `changeJob` method
     const selectedJob = jobOptions[selectedJobIndex - 1];
 
     if (selectedJob) {
@@ -129,17 +142,13 @@ class Character {
     }
   }
 
-  // Al derrotar a un enemigo, ganamos experiencia
   defeatEnemy(enemy) {
-    // Por ejemplo, podríamos obtener EXP basado en el nivel del enemigo
     this.exp += enemy.baseLevel * 100;
     console.log(`${this.name} ganó ${enemy.baseLevel * 100} EXP!`);
     this.checkForLevelUp();
   }
 
-  // Verifica si hemos ganado suficiente EXP para subir de nivel
   checkForLevelUp() {
-    // Podríamos decir, por ejemplo, que necesitamos 1000 EXP para subir de nivel
     if (this.exp >= 1000) {
       this.levelUp();
     }
@@ -147,13 +156,10 @@ class Character {
 
   attack(target) {
     if (target.health > 0) {
-      // Calcular el daño físico considerando la defensa física del objetivo
       const physicalDamage = this.strength - target.defense;
 
-      // Calcular el daño mágico considerando la defensa mágica del objetivo
       const magicalDamage = this.magic - target.magicDefense;
 
-      // Aplicar los daños al objetivo si son positivos
       if (physicalDamage > 0) {
         target.health -= physicalDamage;
         console.log(
@@ -173,8 +179,6 @@ class Character {
   }
 
   dodge() {
-    // Usamos Math.random() para obtener un número aleatorio entre 0 y 1, y si es menor que nuestra tasa de evasión (normalizada a estar entre 0 y 1),
-    // entonces el personaje esquiva el ataque.
     if (Math.random() < this.evasion / 100) {
       console.log(`${this.name} dodged the attack!`);
       return true;
@@ -184,14 +188,35 @@ class Character {
     }
   }
 
-  // Creamos un nuevo método para atacar que tiene en cuenta la evasión
   attackAndConsiderEvasion(target) {
     if (!target.dodge()) {
       this.attack(target);
     }
   }
 
-  // Podríamos definir un método para mostrar las estadísticas del personaje
+  pickup(item) {
+    this.inventory.push(item);
+    console.log(`${this.name} picked up ${item.name}`);
+  }
+
+  use(item) {
+    const index = this.inventory.indexOf(item);
+    if (index !== -1) {
+      this.inventory.splice(index, 1);
+      console.log(`${this.name} used ${item.name}`);
+
+      if (item instanceof Armor) {
+        this.equipArmor(item);
+      }
+    } else {
+      console.log(`${this.name} doesn't have ${item.name} in the inventory`);
+    }
+  }
+
+  equipArmor(armor) {
+    this.armorSlot.equip(armor);
+  }
+
   showStats() {
     console.log(
       `${this.name} - Nivel ${this.baseLevel} ${this.type}\n` +
@@ -210,5 +235,3 @@ class Character {
     );
   }
 }
-
-export default Character;

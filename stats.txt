@@ -1,3 +1,12 @@
+    1. cada clase tendra 3 pasivas y 3 activas y su ataque basico
+    2. clase novice solo tendra ataque basico y doble ataque
+    3. los novice empezaran con un knife y una posion de hpRecovery
+    4. 
+
+
+
+    
+    
     // // Regeneración de HP
     // this.healthRegen = vit * 0.5;
 

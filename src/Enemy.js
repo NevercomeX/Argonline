@@ -25,11 +25,6 @@ class Enemy extends Character {
   attack(character) {
     console.log(`${this.name} ataca a ${character.name}`);
 
-    // Aquí podrías implementar la lógica de ataque del enemigo, que podría ser diferente de la de un personaje.
-    // Por ejemplo, podrías hacer que el enemigo ataque con un ataque especial cada 3 turnos.
-    // O podrías hacer que el enemigo ataque a un personaje aleatorio en lugar de al que está en la posición 0.
-
-    // Por ahora, solo atacamos al personaje en la posición 0.
     character.health -= this.strength;
     console.log(
       `${this.name} atacó a ${character.name}, la salud de ${character.name} es ahora ${character.health}`
@@ -37,8 +32,9 @@ class Enemy extends Character {
   }
 
   dropItem() {
-    // Aquí podrías implementar la lógica para soltar un item al ser derrotado.
-    // Esto podría involucrar seleccionar un item aleatoriamente de this.dropItems y devolverlo.
+    return this.drops
+      .filter((drop) => Math.random() < drop.dropRate)
+      .map((drop) => drop.item);
   }
 }
 
