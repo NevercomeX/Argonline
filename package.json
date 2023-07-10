@@ -1,0 +1,23 @@
+{
+  "name": "ahgonline",
+  "version": "1.0.0",
+  "description": "ragnarok online clone",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NevercomeX/Argonline.git"
+  },
+  "author": "nevercomex",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NevercomeX/Argonline/issues"
+  },
+  "homepage": "https://github.com/NevercomeX/Argonline#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
+}

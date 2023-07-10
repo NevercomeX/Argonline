@@ -3,6 +3,9 @@
 // Efecto de las pociones de HP y SP (talvez )
 // Efecto de ítems consumibles (talvez )
 
+import EquipmentSlot from "./Items/EquipmentSlot.js";
+import Inventory from "./Items/Inventory.js";
+
 class Character {
   constructor(name, str, agi, vit, int, dex, luk) {
     this.name = name;
@@ -12,22 +15,40 @@ class Character {
     this.int = int;
     this.dex = dex;
     this.luk = luk;
+
+    this.inventory = new Inventory();
+
+    this.headgearSlot = new EquipmentSlot("Headgear", this.inventory);
+    this.armorSlot = new EquipmentSlot("Armor", this.inventory);
+    this.weaponSlot = new EquipmentSlot("Weapon", this.inventory);
+    this.footgearSlot = new EquipmentSlot("Boots", this.inventory);
+    this.garmentSlot = new EquipmentSlot("Garment", this.inventory);
+    this.shieldSlot = new EquipmentSlot("Shield", this.inventory);
+    this.lowerHelmetSlot = new EquipmentSlot("LowerHelmet", this.inventory);
+    this.midderHelmetSlot = new EquipmentSlot("MidderHelmet", this.inventory);
+    this.upperHelmetSlot = new EquipmentSlot("UpperHelmet", this.inventory);
+    this.accessorySlots = [
+      new EquipmentSlot("Accessory 1", this.inventory),
+      new EquipmentSlot("Accessory 2", this.inventory),
+    ];
+
     this.exp = 0; // Comenzamos con 0 experiencia
-    this.level = 1; // Y en el nivel 1
+    this.baseLevel = 1; // Y en el nivel 1
+    this.jobLevel = 1;
+    this.skillPoints = 0;
+    this.passiveSkills = [];
 
     // Puntos de vida
-    this.health = vit * 100 + (level - 1) * 100;
+    this.health = vit * 100 + (baseLevel - 1) * 100;
 
     // Puntos de maná
-    this.mana = int * 100 + (level - 1) * 100;
+    this.mana = int * 100 + (baseLevel - 1) * 100;
 
     // Ataque
-    //StatusATK = (BaseLevel ÷ 4) + Str + (Dex ÷ 5) + (Luk ÷ 3)
-
-    this.strength = str * (level - 1) * 10;
+    this.strength = str * (baseLevel - 1) * 10;
 
     // Velocidad de ataque
-    this.attackSpeed = agi * (level - 1) * 2;
+    this.attackSpeed = agi * (baseLevel - 1) * 2;
 
     // Evasión
     this.evasion = agi * 0.5;
@@ -38,115 +59,23 @@ class Character {
     // Tasa de golpe crítico
     this.criticalRate = luk * 0.3;
 
-    // // Regeneración de HP
-    // this.healthRegen = vit * 0.5;
+    // Defensa
+    this.defense = vit * 0.5;
 
-    // // Regeneración de SP
-    // this.manaRegen = int * 0.5;
-
-    // // Puntos de vida máximos y mínimos
-    // this.maxHealth = vit * 100;
-    // this.minHealth = vit * 10;
-
-    // // Puntos de maná máximos y mínimos
-    // this.maxMana = int * 100;
-    // this.minMana = int * 10;
-
-    // // Penetración mágica
-    // this.magicPenetration = int * 0.5;
-
-    // // Penetración física
-    // this.physicalPenetration = str * 0.5;
-
-    // // Daño crítico físico
-    // this.physicalCriticalDamage = str * 0.5;
-
-    // // Daño crítico mágico
-    // this.magicCriticalDamage = int * 0.5;
-
-    // // Tasa de regeneración de SP
-    // this.manaRegenRate = int * 0.5;
-
-    // // Tasa de regeneración de HP
-    // this.healthRegenRate = vit * 0.5;
-
-    // // Resistencia a ataques físicos
-    // this.physicalResistance = vit * 0.5;
-
-    // // Resistencia a ataques mágicos
-    // this.magicResistance = int * 0.5;
-
-    // // Velocidad de movimiento
-    // this.movementSpeed = agi * 0.5;
-
-    // // Resistencia a golpes críticos
-    // this.criticalResistance = luk * 0.5;
-
-    // // Recuperación de SP por golpe
-    // this.manaRecoveryPerHit = int * 0.5;
-
-    // // Recuperación de HP por golpe
-    // this.healthRecoveryPerHit = vit * 0.5;
-
-    // // Absorción de SP por golpe
-    // this.manaAbsorptionPerHit = int * 0.5;
-
-    // // Absorción de HP por golpe
-    // this.healthAbsorptionPerHit = vit * 0.5;
-
-    // // Costo de SP de las habilidades
-    // this.manaCostPerSkill = int * 0.5;
-
-    // // Tasa de drop de ítems
-    // this.dropRate = luk * 0.5;
-
-    // // Tasa de experiencia obtenida
-    // this.expRate = luk * 0.5;
-
-    // // Tasa de esquiva
-    // this.dodgeRate = agi * 0.5;
+    // Defensa mágica
+    this.magicDefense = int * 0.5;
   }
 
-  // Podríamos definir un método para mostrar las estadísticas del personaje
-  showStats() {
-    console.log(
-      `${this.name} - Nivel ${this.level} ${this.type}\n` +
-        `STR: ${this.str}\n` +
-        `AGI: ${this.agi}\n` +
-        `VIT: ${this.vit}\n` +
-        `INT: ${this.int}\n` +
-        `DEX: ${this.dex}\n` +
-        `LUK: ${this.luk}\n` +
-        `EXP: ${this.exp}\n` +
-        `HP: ${this.health}\n` +
-        `ATK: ${this.strength}\n` +
-        `ATK Speed: ${this.attackSpeed}\n` +
-        `Evasion: ${this.evasion}\n` +
-        `Critical Rate: ${this.criticalRate}\n`
-    );
-  }
-
-  // Al derrotar a un enemigo, ganamos experiencia
-  defeatEnemy(enemy) {
-    // Por ejemplo, podríamos obtener EXP basado en el nivel del enemigo
-    this.exp += enemy.level * 100;
-    console.log(`${this.name} ganó ${enemy.level * 100} EXP!`);
-    this.checkForLevelUp();
-  }
-
-  // Verifica si hemos ganado suficiente EXP para subir de nivel
-  checkForLevelUp() {
-    // Podríamos decir, por ejemplo, que necesitamos 1000 EXP para subir de nivel
-    if (this.exp >= 1000) {
-      this.levelUp();
-    }
+  changeJob(job) {
+    this.job = job;
+    this.jobLevel = 1;
+    this.skillPoints = 0;
+    this.passiveSkills = [];
   }
 
   // Subir de nivel
   levelUp() {
-    this.level += 1;
-    // Restablecemos la EXP al excedente por encima de 1000
-    this.exp = this.exp - 1000;
+    this.jobLevel++;
 
     // Y mejoramos nuestras estadísticas
     this.str += 1;
@@ -156,7 +85,64 @@ class Character {
     this.dex += 1;
     this.luk += 1;
 
-    console.log(`${this.name} subió de nivel! Ahora es nivel ${this.level}!`);
+    console.log(
+      `${this.name} subió de nivel! Ahora es nivel ${this.baseLevel}!`
+    );
+
+    if (this.jobLevel === 10) {
+      this.chooseFirstJobClass();
+    }
+
+    if (this.jobLevel >= 40) {
+      // Character can gain more skill points beyond Job Level 40
+      this.skillPoints++;
+    }
+  }
+
+  addPassiveSkill(skill) {
+    this.passiveSkills.push(skill);
+  }
+
+  chooseFirstJobClass() {
+    const jobOptions = [
+      "Swordman",
+      "Mage",
+      "Archer",
+      "Merchant",
+      "Thief",
+      "Acolyte",
+    ];
+
+    // Implement your logic to display the job options to the player
+    // Let the player make their selection and store it in a variable
+    const selectedJobIndex = prompt(
+      `Choose your first job class:\n\n1. ${jobOptions[0]}\n2. ${jobOptions[1]}\n3. ${jobOptions[2]}\n4. ${jobOptions[3]}\n5. ${jobOptions[4]}\n6. ${jobOptions[5]}\n\nEnter the corresponding number:`
+    );
+
+    // Validate the player's selection and call the `changeJob` method
+    const selectedJob = jobOptions[selectedJobIndex - 1];
+
+    if (selectedJob) {
+      this.changeJob(selectedJob);
+    } else {
+      console.log("Invalid selection. Please try again.");
+    }
+  }
+
+  // Al derrotar a un enemigo, ganamos experiencia
+  defeatEnemy(enemy) {
+    // Por ejemplo, podríamos obtener EXP basado en el nivel del enemigo
+    this.exp += enemy.baseLevel * 100;
+    console.log(`${this.name} ganó ${enemy.baseLevel * 100} EXP!`);
+    this.checkForLevelUp();
+  }
+
+  // Verifica si hemos ganado suficiente EXP para subir de nivel
+  checkForLevelUp() {
+    // Podríamos decir, por ejemplo, que necesitamos 1000 EXP para subir de nivel
+    if (this.exp >= 1000) {
+      this.levelUp();
+    }
   }
 
   attack(target) {
@@ -203,6 +189,25 @@ class Character {
     if (!target.dodge()) {
       this.attack(target);
     }
+  }
+
+  // Podríamos definir un método para mostrar las estadísticas del personaje
+  showStats() {
+    console.log(
+      `${this.name} - Nivel ${this.baseLevel} ${this.type}\n` +
+        `STR: ${this.str}\n` +
+        `AGI: ${this.agi}\n` +
+        `VIT: ${this.vit}\n` +
+        `INT: ${this.int}\n` +
+        `DEX: ${this.dex}\n` +
+        `LUK: ${this.luk}\n` +
+        `EXP: ${this.exp}\n` +
+        `HP: ${this.health}\n` +
+        `ATK: ${this.strength}\n` +
+        `ATK Speed: ${this.attackSpeed}\n` +
+        `Evasion: ${this.evasion}\n` +
+        `Critical Rate: ${this.criticalRate}\n`
+    );
   }
 }
 

@@ -1,0 +1,67 @@
+    // // Regeneración de HP
+    // this.healthRegen = vit * 0.5;
+
+    // // Regeneración de SP
+    // this.manaRegen = int * 0.5;
+
+    // // Puntos de vida máximos y mínimos
+    // this.maxHealth = vit * 100;
+    // this.minHealth = vit * 10;
+
+    // // Puntos de maná máximos y mínimos
+    // this.maxMana = int * 100;
+    // this.minMana = int * 10;
+
+    // // Penetración mágica
+    // this.magicPenetration = int * 0.5;
+
+    // // Penetración física
+    // this.physicalPenetration = str * 0.5;
+
+    // // Daño crítico físico
+    // this.physicalCriticalDamage = str * 0.5;
+
+    // // Daño crítico mágico
+    // this.magicCriticalDamage = int * 0.5;
+
+    // // Tasa de regeneración de SP
+    // this.manaRegenRate = int * 0.5;
+
+    // // Tasa de regeneración de HP
+    // this.healthRegenRate = vit * 0.5;
+
+    // // Resistencia a ataques físicos
+    // this.physicalResistance = vit * 0.5;
+
+    // // Resistencia a ataques mágicos
+    // this.magicResistance = int * 0.5;
+
+    // // Velocidad de movimiento
+    // this.movementSpeed = agi * 0.5;
+
+    // // Resistencia a golpes críticos
+    // this.criticalResistance = luk * 0.5;
+
+    // // Recuperación de SP por golpe
+    // this.manaRecoveryPerHit = int * 0.5;
+
+    // // Recuperación de HP por golpe
+    // this.healthRecoveryPerHit = vit * 0.5;
+
+    // // Absorción de SP por golpe
+    // this.manaAbsorptionPerHit = int * 0.5;
+
+    // // Absorción de HP por golpe
+    // this.healthAbsorptionPerHit = vit * 0.5;
+
+    // // Costo de SP de las habilidades
+    // this.manaCostPerSkill = int * 0.5;
+
+    // // Tasa de drop de ítems
+    // this.dropRate = luk * 0.5;
+
+    // // Tasa de experiencia obtenida
+    // this.expRate = luk * 0.5;
+
+    // // Tasa de esquiva
+    // this.dodgeRate = agi * 0.5;
