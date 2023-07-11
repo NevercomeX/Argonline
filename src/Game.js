@@ -1,9 +1,12 @@
 import {
-  drawExperienceBar,
-  drawJobExperienceBar,
-  drawHealthBar,
-  drawManaBar,
-} from "./Bars.js";
+  drawMainMenu,
+  drawStatistics,
+  drawEnemyBar,
+  drawCharacterInfo,
+} from "./drawer.js";
+
+import generateEnemy from "./generateEnemy.js";
+import Battle from "./Combat.js";
 
 import readlineSync from "readline-sync";
 
@@ -46,39 +49,12 @@ class Game {
       }
     }
   }
-
-  showExperienceBar() {
-    drawExperienceBar(this.character.exp, this.character.maxExp);
-    drawJobExperienceBar(this.character.jobExp, this.character.maxJobExp);
-  }
-
-  showHealthBar() {
-    drawHealthBar(this.character.health, this.character.maxHealth);
-    drawManaBar(this.character.mana, this.character.maxMana);
-  }
-
-  mainBars() {
-    this.showHealthBar();
-    this.showExperienceBar();
-  }
-
   showMainMenu() {
-    console.clear();
-    this.mainBars();
-    console.log("\n--- MENÚ PRINCIPAL ---");
-    console.log("1. Combate");
-    console.log("2. Ver estadisticas");
-    console.log("3. Administrar equipamiento");
-    console.log("4. Ver inventario");
-    console.log("5. Opciones");
-    console.log("6. Salir del juego");
-    const option = readlineSync.question("Selecciona una opcion: ");
-    return option;
+    return drawMainMenu(this.character);
   }
 
   showStatsMenu() {
-    console.log("\n--- ESTADÍSTICAS ---");
-    this.character.showStats();
+    drawStatistics(this.character);
     console.log("Presiona cualquier tecla para volver al menu principal.");
     readlineSync.question("");
   }
@@ -107,16 +83,25 @@ class Game {
     );
   }
   startCombat() {
+    console.clear();
     let continueFighting = true;
     while (continueFighting && this.character.health > 0) {
-      const enemy = this.generateEnemy(); // Genera un nuevo enemigo
+      let enemy = generateEnemy();
+      console.log(`A wild ${enemy.name} has appeared!`);
       const battle = new Battle(this.character, enemy);
+
+      drawCharacterInfo(this.character);
+      console.log(" ");
+      console.log("⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️🔥 VS 🔥⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️");
+      console.log(" ");
+      drawEnemyBar(enemy);
+
       battle.start();
 
       if (this.character.health > 0) {
         console.log("Has derrotado al enemigo. ¿Deseas continuar luchando?");
-        const answer = readlineSync.question("Sí / No: ");
-        continueFighting = answer.toLowerCase() === "sí";
+        const answer = readlineSync.question("Si / No: ");
+        continueFighting = answer.toLowerCase() === "si";
       }
     }
 
@@ -129,10 +114,10 @@ class Game {
     }
   }
 
-  generateEnemy() {
-    // Aquí puedes generar un nuevo enemigo. Por ahora, solo devolveremos un enemigo básico.
-    return new Character("Enemigo", 100, 10);
-  }
+  // generateEnemy() {
+  //   // Aquí puedes generar un nuevo enemigo. Por ahora, solo devolveremos un enemigo básico.
+  //   return new Character("Enemigo", 100, 10);
+  // }
   // ...
 }
 

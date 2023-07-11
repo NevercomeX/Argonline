@@ -1,6 +1,7 @@
 class Job {
   constructor(name, skills = {}) {
     this.name = name;
+
     this.maxJobLevel = 10;
     this.maxBaseLevel = 99;
     this.skills = skills; // Inicialmente vacío, se llenará con los métodos de habilidades.

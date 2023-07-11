@@ -1,22 +1,33 @@
 class Enemy {
-  constructor(name, health, attackPower, magicPower) {
+  constructor(
+    name,
+    health,
+    attackPower,
+    defense,
+    magicDefense,
+    magicPower,
+    monsterType,
+    attackType,
+    baseExpAmount,
+    jobExpAmount,
+    loot
+  ) {
     this.name = name;
     this.health = health;
-    // this.mana = int * 100 + (level - 1) * 100;
-    // this.strength = str * (level - 1) * 10;
-    // this.attackSpeed = agi * (level - 1) * 2;
-    // this.evasion = agi * 0.5;
-    // this.hitRate = dex * 0.3;
-    // this.criticalRate = luk * 0.3;
-    // this.dropItems = [];
-    // this.exp = 0;
-    // this.level = 1;
+    this.maxHealth = health;
     this.attackPower = attackPower;
     this.magicPower = magicPower;
+    this.defense = defense;
+    this.magicDefense = magicDefense;
+    this.baseExpAmount = 50;
+    this.jobExpAmount = 40;
+    this.baseLevel = 10;
+    this.monsterType = "Orc"; // 'normal', 'boss', 'mini-boss'
+    this.attackType = "physical"; // 'physical' or 'magical'
+    this.loot = loot;
   }
-
   physicalAttack(target) {
-    let damage = this.attackPower - target.physicalDefense;
+    let damage = this.attackPower - target.defense;
     if (damage < 0) damage = 0; // El daño no puede ser negativo
     console.log(
       `${this.name} ataca físicamente a ${target.name} por ${damage} de daño.`
@@ -25,7 +36,7 @@ class Enemy {
   }
 
   magicalAttack(target) {
-    let damage = this.magicPower - target.magicalDefense;
+    let damage = this.magicPower - target.magicDefense;
     if (damage < 0) damage = 0; // El daño no puede ser negativo
     console.log(
       `${this.name} ataca mágicamente a ${target.name} por ${damage} de daño.`
@@ -33,20 +44,27 @@ class Enemy {
     target.health -= damage;
   }
 
-  // Puedes definir otros métodos que sean específicos de los enemigos
   attack(target) {
-    console.log(`${this.name} ataca a ${character.name}`);
-
-    character.health -= this.strength;
-    console.log(
-      `${this.name} atacó a ${character.name}, la salud de ${character.name} es ahora ${character.health}`
-    );
+    if (this.attackType === "physical") {
+      this.physicalAttack(target);
+    } else if (this.attackType === "magical") {
+      this.magicalAttack(target);
+    }
   }
-
-  dropItem() {
-    return this.drops
-      .filter((drop) => Math.random() < drop.dropRate)
-      .map((drop) => drop.item);
+  dropLoot() {
+    // Itera sobre cada objeto de botín posible
+    for (let i = 0; i < this.loot.length; i++) {
+      let lootItem = this.loot[i];
+      // Genera un número aleatorio entre 0 y 1
+      let random = Math.random();
+      // Si el número aleatorio es menor que la probabilidad de caída del objeto, lo deja caer
+      if (random < lootItem.dropChance) {
+        console.log(`${this.name} dropped a ${lootItem.name}!`);
+        return lootItem;
+      }
+    }
+    // Si no se deja caer ningún objeto, devuelve null
+    return null;
   }
 }
 

@@ -40,12 +40,14 @@ export default class Character {
     this.dex = dex;
     this.luk = luk;
 
-    this.job = job;
+    this.job = job.name;
+
+    this.attackType = "physical";
 
     // Nivel y experiencia
-    this.exp = 50;
+    this.baseExp = 0;
     this.jobExp = 0;
-    this.maxExp = 100;
+    this.maxBaseExp = 100;
     this.maxJobExp = 100;
 
     this.baseLevel = 1;
@@ -55,16 +57,18 @@ export default class Character {
 
     // Estadísticas
     // Atributos primarios
-    this.health = 100;
+    this.health = 10000;
     this.mana = 100;
-    this.maxHealth = vit * 100 + (this.baseLevel - 1) * 100;
-    this.maxMana = int * 100 + (this.baseLevel - 1) * 100;
+    this.maxHealth = 10000;
+    this.maxMana = 100;
 
     // Atributos secundarios
-    this.attackPower = str * (this.baseLevel - 1) * 10;
-    this.magicPower = int * (this.baseLevel - 1) * 10;
-    this.defense = vit * (this.baseLevel - 1) * 0.5;
-    this.magicDefense = int * 0.5;
+    this.attackPower = 50;
+    this.magicPower = 10;
+    this.defense = 5;
+    this.magicDefense = 3;
+
+    // Atributos terciarios
     this.attackSpeed = agi * (this.baseLevel - 1) * 2;
     this.evasion = agi * 0.5;
     this.hitRate = dex * 0.3;
@@ -100,11 +104,18 @@ export default class Character {
     }
   }
 
-  levelUp() {
-    this.jobLevel++;
+  gainExperience(enemyExperience) {
+    this.baseExp += enemyExperience.baseExpAmount;
+    this.jobExp += enemyExperience.jobExpAmount;
+    console.log(`${this.name} ganó ${enemyExperience.baseExpAmount} EXP base!`);
     console.log(
-      `${this.name} subió de nivel! Ahora es nivel ${this.baseLevel}!`
+      `${this.name} ganó ${enemyExperience.jobExpAmount} EXP de trabajo!`
     );
+    this.levelUp();
+  }
+
+  levelUp() {
+    // this.jobLevel++;
 
     this.str += 1;
     this.agi += 1;
@@ -113,13 +124,29 @@ export default class Character {
     this.dex += 1;
     this.luk += 1;
 
-    if (this.jobLevel === 10) {
-      this.chooseFirstJobClass();
+    if (this.baseExp >= this.maxBaseExp) {
+      this.baseExp = 0; // Restablece la experiencia base
+      this.baseLevel += 1; // Incrementa el nivel
+      console.log(
+        `${this.name} has leveled up! They are now level ${this.baseLevel}.`
+      );
     }
 
-    if (this.jobLevel >= 40) {
-      this.skillPoints++;
+    if (this.jobExp >= this.maxJobExp) {
+      this.jobExp = 0; // Restablece la experiencia de trabajo
+      this.jobLevel += 1; // Incrementa el nivel de trabajo
+      console.log(
+        `${this.name} has leveled up their job! They are now job level ${this.jobLevel}.`
+      );
     }
+
+    // if (this.jobLevel === 10) {
+    //   this.chooseFirstJobClass();
+    // }
+
+    // if (this.jobLevel >= 40) {
+    //   this.skillPoints++;
+    // }
   }
 
   chooseFirstJobClass() {
@@ -154,30 +181,6 @@ export default class Character {
   checkForLevelUp() {
     if (this.exp >= 1000) {
       this.levelUp();
-    }
-  }
-
-  attack(target) {
-    if (target.health > 0) {
-      const physicalDamage = this.strength - target.defense;
-
-      const magicalDamage = this.magic - target.magicDefense;
-
-      if (physicalDamage > 0) {
-        target.health -= physicalDamage;
-        console.log(
-          `${this.name} attacked ${target.name} for ${physicalDamage} physical damage`
-        );
-      }
-
-      if (magicalDamage > 0) {
-        target.health -= magicalDamage;
-        console.log(
-          `${this.name} attacked ${target.name} for ${magicalDamage} magical damage`
-        );
-      }
-
-      console.log(`${target.name}'s health is now ${target.health}`);
     }
   }
 
@@ -216,8 +219,35 @@ export default class Character {
     }
   }
 
+  physicalAttack(target) {
+    let damage = this.attackPower - target.defense;
+    if (damage < 0) damage = 0; // El daño no puede ser negativo
+
+    console.log(
+      `${this.name} ataca físicamente a ${target.name} por ${damage} de daño.`
+    );
+    target.health -= damage;
+    //vida restante
+  }
+
+  magicalAttack(target) {
+    let damage = this.magicPower - target.magicDefense;
+    if (damage < 0) damage = 0; // El daño no puede ser negativo
+    console.log(
+      `${this.name} ataca mágicamente a ${target.name} por ${damage} de daño.`
+    );
+    target.health -= damage;
+  }
+
+  attack(target) {
+    if (this.attackType === "physical") {
+      this.physicalAttack(target);
+    } else if (this.attackType === "magical") {
+      this.magicalAttack(target);
+    }
+  }
+
   showEquipment() {
-    console.log("\n--- EQUIPAMIENTO ---");
     console.log(this.headgearSlot.getInfo());
     console.log(this.armorSlot.getInfo());
     console.log(this.weaponSlot.getInfo());
@@ -229,24 +259,5 @@ export default class Character {
     console.log(this.upperHelmetSlot.getInfo());
     console.log(this.accessorySlots[0].getInfo());
     console.log(this.accessorySlots[1].getInfo());
-  }
-
-  showStats() {
-    console.log(
-      `${this.name} - Nivel ${this.baseLevel} ${this.job}\n` +
-        `STR: ${this.str}\n` +
-        `AGI: ${this.agi}\n` +
-        `VIT: ${this.vit}\n` +
-        `INT: ${this.int}\n` +
-        `DEX: ${this.dex}\n` +
-        `LUK: ${this.luk}\n` +
-        `EXP: ${this.exp}\n` +
-        `JOB EXP: ${this.jobExp}\n` +
-        `HP: ${this.health}\n` +
-        `ATK: ${this.strength}\n` +
-        `ATK Speed: ${this.attackSpeed}\n` +
-        `Evasion: ${this.evasion}\n` +
-        `Critical Rate: ${this.criticalRate}\n`
-    );
   }
 }

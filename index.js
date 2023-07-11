@@ -40,12 +40,12 @@ console.log("Bienvenido a Ragnarok!");
 let name = readlineSync.question("Ingresa el nombre de tu personaje: ");
 // let { str, agi, vit, int, dex, luk } = allocateStats();
 
-let str = 1;
-let agi = 1;
-let vit = 1;
-let int = 1;
-let dex = 1;
-let luk = 1;
+let str = 7;
+let agi = 2;
+let vit = 4;
+let int = 0;
+let dex = 3;
+let luk = 2;
 
 let character = new Character(name, str, agi, vit, int, dex, luk);
 let inventory = new Inventory();
