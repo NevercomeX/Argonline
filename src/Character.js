@@ -1,10 +1,7 @@
 // src/Character.js
 
-// Efecto de las pociones de HP y SP (talvez )
-// Efecto de ítems consumibles (talvez )
-
 import EquipmentSlot from "./Items/EquipmentSlot.js";
-import Inventory from "./Items/Inventory.js";
+import Inventory from "./Items/Inventary.js";
 
 import Job from "./Job.js";
 
@@ -46,22 +43,32 @@ export default class Character {
     this.job = job;
 
     // Nivel y experiencia
-    this.exp = 0;
+    this.exp = 50;
+    this.jobExp = 0;
+    this.maxExp = 100;
+    this.maxJobExp = 100;
+
     this.baseLevel = 1;
     this.jobLevel = 1;
     this.skillPoints = 0;
     this.passiveSkills = [];
 
     // Estadísticas
-    this.health = vit * 100 + (baseLevel - 1) * 100;
-    this.mana = int * 100 + (baseLevel - 1) * 100;
-    this.strength = str * (baseLevel - 1) * 10;
-    this.attackSpeed = agi * (baseLevel - 1) * 2;
+    // Atributos primarios
+    this.health = 100;
+    this.mana = 100;
+    this.maxHealth = vit * 100 + (this.baseLevel - 1) * 100;
+    this.maxMana = int * 100 + (this.baseLevel - 1) * 100;
+
+    // Atributos secundarios
+    this.attackPower = str * (this.baseLevel - 1) * 10;
+    this.magicPower = int * (this.baseLevel - 1) * 10;
+    this.defense = vit * (this.baseLevel - 1) * 0.5;
+    this.magicDefense = int * 0.5;
+    this.attackSpeed = agi * (this.baseLevel - 1) * 2;
     this.evasion = agi * 0.5;
     this.hitRate = dex * 0.3;
     this.criticalRate = luk * 0.3;
-    this.defense = vit * 0.5;
-    this.magicDefense = int * 0.5;
 
     // Inventario
     this.inventory = new Inventory();
@@ -113,10 +120,6 @@ export default class Character {
     if (this.jobLevel >= 40) {
       this.skillPoints++;
     }
-  }
-
-  addPassiveSkill(skill) {
-    this.passiveSkills.push(skill);
   }
 
   chooseFirstJobClass() {
@@ -213,13 +216,24 @@ export default class Character {
     }
   }
 
-  equipArmor(armor) {
-    this.armorSlot.equip(armor);
+  showEquipment() {
+    console.log("\n--- EQUIPAMIENTO ---");
+    console.log(this.headgearSlot.getInfo());
+    console.log(this.armorSlot.getInfo());
+    console.log(this.weaponSlot.getInfo());
+    console.log(this.footgearSlot.getInfo());
+    console.log(this.garmentSlot.getInfo());
+    console.log(this.shieldSlot.getInfo());
+    console.log(this.lowerHelmetSlot.getInfo());
+    console.log(this.midderHelmetSlot.getInfo());
+    console.log(this.upperHelmetSlot.getInfo());
+    console.log(this.accessorySlots[0].getInfo());
+    console.log(this.accessorySlots[1].getInfo());
   }
 
   showStats() {
     console.log(
-      `${this.name} - Nivel ${this.baseLevel} ${this.type}\n` +
+      `${this.name} - Nivel ${this.baseLevel} ${this.job}\n` +
         `STR: ${this.str}\n` +
         `AGI: ${this.agi}\n` +
         `VIT: ${this.vit}\n` +
@@ -227,6 +241,7 @@ export default class Character {
         `DEX: ${this.dex}\n` +
         `LUK: ${this.luk}\n` +
         `EXP: ${this.exp}\n` +
+        `JOB EXP: ${this.jobExp}\n` +
         `HP: ${this.health}\n` +
         `ATK: ${this.strength}\n` +
         `ATK Speed: ${this.attackSpeed}\n` +

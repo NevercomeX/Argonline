@@ -1,35 +1,29 @@
 class EquipmentSlot {
-  constructor(name, inventory) {
+  constructor(name, character, inventory) {
     this.name = name;
     this.equippedItem = null;
+    this.character = character;
     this.inventory = inventory;
   }
 
-  equip(itemName) {
-    const item = this.inventory.removeItem(itemName);
-
-    if (item) {
-      if (this.equippedItem === null) {
-        this.equippedItem = item;
-        console.log(`Equipped ${item.name} in ${this.name}`);
-      } else {
-        console.log(
-          `${this.name} is already occupied. Unequipping ${this.equippedItem.name}`
-        );
-        this.unequip();
-        this.equippedItem = item;
-        console.log(`Equipped ${item.name} in ${this.name}`);
-      }
+  equip(item) {
+    if (this.equippedItem !== null) {
+      this.unequip();
     }
+
+    this.equippedItem = item;
+    this.character.attackPower += item.attackPower;
+    this.character.defensePower += item.defensePower;
+    console.log(`Equipped ${item.name} in ${this.name}`);
   }
 
   unequip() {
     if (this.equippedItem !== null) {
+      this.character.attackPower -= this.equippedItem.attackPower;
+      this.character.defensePower -= this.equippedItem.defensePower;
       this.inventory.addItem(this.equippedItem);
       console.log(`Unequipped ${this.equippedItem.name} from ${this.name}`);
       this.equippedItem = null;
-    } else {
-      console.log(`${this.name} is already empty.`);
     }
   }
   getInfo() {

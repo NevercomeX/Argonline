@@ -1,9 +1,10 @@
 import Character from "./src/Character.js";
 import Game from "./src/game.js";
 import readlineSync from "readline-sync";
+import Inventory from "./src/Items/Inventary.js";
 
 function allocateStats() {
-  const maxPoints = 100;
+  const maxPoints = 5;
   let remainingPoints = maxPoints;
   const stats = ["str", "agi", "vit", "int", "dex", "luk"];
   const allocatedStats = {};
@@ -16,7 +17,7 @@ function allocateStats() {
     console.log(`\nQuedan ${remainingPoints} puntos.`);
 
     let allocation = readlineSync.questionInt(
-      `¿Cuántos puntos quieres asignar a ${stats[i].toUpperCase()}? `
+      `Cuantos puntos quieres asignar a ${stats[i].toUpperCase()}? `
     );
 
     while (allocation > remainingPoints) {
@@ -24,7 +25,7 @@ function allocateStats() {
         `No puedes asignar más puntos de los que tienes. Actualmente tienes ${remainingPoints} puntos.`
       );
       allocation = readlineSync.questionInt(
-        `¿Cuántos puntos quieres asignar a ${stats[i].toUpperCase()}? `
+        `Cuantos puntos quieres asignar a ${stats[i].toUpperCase()}? `
       );
     }
 
@@ -34,11 +35,20 @@ function allocateStats() {
 
   return allocatedStats;
 }
-
+console.clear();
 console.log("Bienvenido a Ragnarok!");
 let name = readlineSync.question("Ingresa el nombre de tu personaje: ");
-let { str, agi, vit, int, dex, luk } = allocateStats();
+// let { str, agi, vit, int, dex, luk } = allocateStats();
+
+let str = 1;
+let agi = 1;
+let vit = 1;
+let int = 1;
+let dex = 1;
+let luk = 1;
 
 let character = new Character(name, str, agi, vit, int, dex, luk);
-let game = new Game(character);
+let inventory = new Inventory();
+let game = new Game(character, inventory);
+
 game.run();

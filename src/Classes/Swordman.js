@@ -1,4 +1,4 @@
-import Job from "./Job.js";
+import Job from "../Job.js";
 
 class Swordman extends Job {
   constructor(name, str, agi, vit, int, dex, luk, endurance) {
@@ -54,14 +54,6 @@ class Swordman extends Job {
         increment: 10,
       },
     };
-  }
-
-  levelUp() {
-    super.levelUp(); // Llama a la función levelUp original para incrementar el nivel y la experiencia necesaria
-    this.skillPoints += 1; // Añade 1 puntos de habilidad cada vez que el personaje sube de nivel
-    console.log(
-      `${this.name} has gained 1 skill points and now has ${this.skillPoints} skill points.`
-    );
   }
 
   levelUpSkill(skillName) {

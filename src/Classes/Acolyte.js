@@ -1,4 +1,4 @@
-import Job from "./Job.js";
+import Job from "../Job.js";
 
 class Swordman extends Job {
   constructor(name, str, agi, vit, int, dex, luk, endurance) {

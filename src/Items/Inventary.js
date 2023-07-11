@@ -4,9 +4,9 @@ class Inventory {
   }
 
   // Método para añadir un objeto al inventario
-  addItem(item) {
-    this.items.push(item);
-    console.log(`Se ha añadido el objeto: ${item.name} al inventario.`);
+  addItem(itemName) {
+    this.items.push(itemName);
+    console.log(`Se ha añadido el objeto: ${itemName} al inventario.`);
   }
 
   // Método para remover un objeto del inventario
