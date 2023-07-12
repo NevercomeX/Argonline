@@ -126,6 +126,7 @@ export default class Character {
 
     if (this.baseExp >= this.maxBaseExp) {
       this.baseExp = 0; // Restablece la experiencia base
+      this.maxBaseExp += 100; // Incrementa la experiencia base máxima
       this.baseLevel += 1; // Incrementa el nivel
       console.log(
         `${this.name} has leveled up! They are now level ${this.baseLevel}.`
@@ -134,6 +135,7 @@ export default class Character {
 
     if (this.jobExp >= this.maxJobExp) {
       this.jobExp = 0; // Restablece la experiencia de trabajo
+      this.maxJobExp += 100; // Incrementa la experiencia de trabajo máxima
       this.jobLevel += 1; // Incrementa el nivel de trabajo
       console.log(
         `${this.name} has leveled up their job! They are now job level ${this.jobLevel}.`

@@ -79,7 +79,7 @@ export function drawEnemyBar(enemy) {
       " | Level: " +
       enemy.baseLevel +
       " | Type: " +
-      enemy.monsterType
+      enemy.monsterType.name
   );
   drawHealthBar(enemy.health, enemy.maxHealth);
   console.log(

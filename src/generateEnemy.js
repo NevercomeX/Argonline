@@ -12,6 +12,11 @@ export default function generateEnemy() {
     { name: "Mana Potion", dropChance: 0.3 },
     { name: "Sword", dropChance: 0.1 },
   ];
+  const monsterTypes = ["normal", "boss", "mini-boss"];
+  const attackTypes = ["physical", "magical"];
+  const baseExpAmounts = [50, 100, 150];
+  const jobExpAmounts = [10, 20, 30];
+  const baseLevels = [1, 2, 3];
 
   // Elige un nombre, estadísticas y botín aleatorios
   const name = names[Math.floor(Math.random() * names.length)];
@@ -23,6 +28,15 @@ export default function generateEnemy() {
   const magicDefense =
     magicDefenseValues[Math.floor(Math.random() * magicDefenseValues.length)];
   const loot = [lootOptions[Math.floor(Math.random() * lootOptions.length)]];
+  const monsterType =
+    monsterTypes[Math.floor(Math.random() * monsterTypes.length)];
+  const attackType =
+    attackTypes[Math.floor(Math.random() * attackTypes.length)];
+  const baseExpAmount =
+    baseExpAmounts[Math.floor(Math.random() * baseExpAmounts.length)];
+  const jobExpAmount =
+    jobExpAmounts[Math.floor(Math.random() * jobExpAmounts.length)];
+  const baseLevel = baseLevels[Math.floor(Math.random() * baseLevels.length)];
 
   // Crea y devuelve un nuevo enemigo con las estadísticas y botín elegidos
   return new Enemy(
@@ -31,7 +45,11 @@ export default function generateEnemy() {
     attackPower,
     defense,
     magicDefense,
-    "physical",
-    loot
+    attackType,
+    loot,
+    monsterType,
+    baseExpAmount,
+    jobExpAmount,
+    baseLevel
   );
 }

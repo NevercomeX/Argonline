@@ -8,6 +8,7 @@ class Enemy {
     magicPower,
     monsterType,
     attackType,
+    baseLevel,
     baseExpAmount,
     jobExpAmount,
     loot
@@ -19,11 +20,11 @@ class Enemy {
     this.magicPower = magicPower;
     this.defense = defense;
     this.magicDefense = magicDefense;
-    this.baseExpAmount = 50;
-    this.jobExpAmount = 40;
-    this.baseLevel = 10;
-    this.monsterType = "Orc"; // 'normal', 'boss', 'mini-boss'
-    this.attackType = "physical"; // 'physical' or 'magical'
+    this.baseExpAmount = baseExpAmount;
+    this.jobExpAmount = jobExpAmount;
+    this.baseLevel = baseLevel;
+    this.monsterType = monsterType; // 'normal', 'boss', 'mini-boss'
+    this.attackType = attackType; // 'physical' or 'magical'
     this.loot = loot;
   }
   physicalAttack(target) {
