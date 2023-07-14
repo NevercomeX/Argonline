@@ -12,6 +12,8 @@ import Merchant from "./Classes/Merchant.js";
 import Swordman from "./Classes/Swordman.js";
 import Thief from "./Classes/Thief.js";
 
+import Entity from "./Entity.js";
+
 const jobs = {
   Swordman,
   Mage,
@@ -29,8 +31,19 @@ function getJob(name) {
   }
 }
 
-export default class Character {
-  constructor(name, str, agi, vit, int, dex, luk, job = new Job("Novice", {})) {
+export default class Character extends Entity {
+  constructor(
+    name,
+    str,
+    agi,
+    vit,
+    int,
+    dex,
+    luk,
+    job = new Job("Novice", {}),
+    inventory = new Inventory()
+  ) {
+    super(health, mana, attackPower, magicPower, defense, magicDefense);
     // Atributos básicos
     this.name = name;
     this.str = str;
@@ -77,7 +90,7 @@ export default class Character {
     this.criticalRate = luk * 0.3;
 
     // Inventario
-    this.inventory = new Inventory();
+    this.inventory = inventory;
     this.headgearSlot = new EquipmentSlot("Headgear", this.inventory);
     this.armorSlot = new EquipmentSlot("Armor", this.inventory);
     this.weaponSlot = new EquipmentSlot("Weapon", this.inventory);
@@ -226,10 +239,11 @@ export default class Character {
   physicalAttack(target) {
     let damage = this.attackPower - target.defense;
     if (damage < 0) damage = 0; // El daño no puede ser negativo
-
+    console.clear();
     console.log(
       `${this.name} ataca físicamente a ${target.name} por ${damage} de daño.`
     );
+    console.log(" ");
     target.health -= damage;
     //vida restante
   }
@@ -241,6 +255,10 @@ export default class Character {
       `${this.name} ataca mágicamente a ${target.name} por ${damage} de daño.`
     );
     target.health -= damage;
+  }
+
+  defend(target) {
+    this.isDefending = true;
   }
 
   attack(target) {

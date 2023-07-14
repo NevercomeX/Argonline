@@ -1,4 +1,4 @@
-import Enemy from "./Enemy.js";
+import Enemy from "./Entities/Enemy.js";
 
 export default function generateEnemy() {
   // Define los nombres, estadísticas y botín posibles

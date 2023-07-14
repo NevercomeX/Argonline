@@ -35,7 +35,7 @@ export default class Battle {
         this.player.attack(this.enemy);
         break;
       case "2":
-        character.isDefending = true;
+        this.player.defend(this.enemy);
         break;
       case "3":
         this.player.useItem();
@@ -51,6 +51,7 @@ export default class Battle {
   }
 
   enemyTurn() {
+    console.log(" ");
     console.log(`${this.enemy.name} attacks!`);
     this.enemy.attack(this.player);
   }
