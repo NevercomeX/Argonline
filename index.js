@@ -37,7 +37,8 @@ function allocateStats() {
 }
 console.clear();
 console.log("Bienvenido a Ragnarok!");
-let name = readlineSync.question("Ingresa el nombre de tu personaje: ");
+// let name = readlineSync.question("Ingresa el nombre de tu personaje: ");
+let name = "Player"
 // let { str, agi, vit, int, dex, luk } = allocateStats();
 
 let str = 7;

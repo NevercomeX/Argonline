@@ -35,7 +35,7 @@ export default class Battle {
         this.player.attack(this.enemy);
         break;
       case "2":
-        this.player.defend();
+        character.isDefending = true;
         break;
       case "3":
         this.player.useItem();

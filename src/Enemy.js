@@ -28,10 +28,17 @@ class Enemy {
     this.loot = loot;
   }
   physicalAttack(target) {
-    let damage = this.attackPower - target.defense;
-    if (damage < 0) damage = 0; // El daño no puede ser negativo
+    let damage;
+    if (target.isDefending) {
+      damage = this.attackPower - target.defense + target.defense / 2;
+      target.isDefending = false; // The character stops defending after being attacked
+    } else {
+      damage = this.attackPower - target.defense;
+    }
+
+    if (damage < 0) damage = 0; // Damage can't be negative
     console.log(
-      `${this.name} ataca físicamente a ${target.name} por ${damage} de daño.`
+      `${this.name} physically attacks ${target.name} for ${damage} damage.`
     );
     target.health -= damage;
   }

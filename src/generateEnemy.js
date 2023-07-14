@@ -3,7 +3,7 @@ import Enemy from "./Enemy.js";
 export default function generateEnemy() {
   // Define los nombres, estadísticas y botín posibles
   const names = ["Goblin", "Orc", "Troll"];
-  const healthValues = [100, 200, 300];
+  const healthValues = [10000, 20000, 30000];
   const attackPowerValues = [20, 30, 40];
   const defenseValues = [10, 20, 30];
   const magicDefenseValues = [5, 10, 15];

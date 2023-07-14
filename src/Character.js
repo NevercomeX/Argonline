@@ -55,11 +55,13 @@ export default class Character {
     this.skillPoints = 0;
     this.passiveSkills = [];
 
+    this.isDefending = false;
+
     // Estadísticas
     // Atributos primarios
-    this.health = 10000;
+    this.health = 1000000;
     this.mana = 100;
-    this.maxHealth = 10000;
+    this.maxHealth = 1000000;
     this.maxMana = 100;
 
     // Atributos secundarios
