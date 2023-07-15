@@ -18,6 +18,13 @@
   },
   "homepage": "https://github.com/NevercomeX/Argonline#readme",
   "dependencies": {
+    "@prisma/client": "^5.0.0",
     "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "prisma": "^5.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
   }
 }

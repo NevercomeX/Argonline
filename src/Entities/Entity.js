@@ -3,6 +3,7 @@ export default class Entity {
     name,
     health,
     attackPower,
+    magicPower,
     defense,
     magicDefense,
     mana,
@@ -10,38 +11,49 @@ export default class Entity {
     maxMana
   ) {
     this.name = name;
-    this.health = health;
     this.attackPower = attackPower;
+    this.magicPower = magicPower;
+    this.attackType = "physical";
     this.defense = defense;
     this.magicDefense = magicDefense;
-    this.isDefending = false;
-    this.maxHealth = health;
-    this.attackType = "physical";
     this.health = health;
     this.mana = mana;
     this.maxHealth = maxHealth;
     this.maxMana = maxMana;
+
+    this.isDefending = false;
   }
 
-  attack(target) {
-    let damage;
-    if (target.isDefending) {
-      let targetDefense = target.defense * 2; // The target's defense is doubled when defending
-      damage = this.attackPower - targetDefense;
-      target.isDefending = false; // The target stops defending after being attacked
-    } else {
-      damage = this.attackPower - target.defense;
-    }
+  physicalAttack(target) {
+    let damage = this.attackPower - target.defense;
+    if (damage < 0) damage = 0; // El daño no puede ser negativo
+    // console.log(
+    //   `${this.name} ataca físicamente a ${target.name} por ${damage} de daño.`
+    // );
+    console.log(" ");
+    target.health -= damage;
+    //vida restante
+  }
 
-    if (damage < 0) damage = 0; // Damage can't be negative
-
-    console.log(`${this.name} attacks ${target.name} for ${damage} damage.`);
-
+  magicalAttack(target) {
+    let damage = this.magicPower - target.magicDefense;
+    if (damage < 0) damage = 0; // El daño no puede ser negativo
+    console.log(
+      `${this.name} ataca mágicamente a ${target.name} por ${damage} de daño.`
+    );
     target.health -= damage;
   }
 
-  defend() {
+  defend(target) {
     this.isDefending = true;
-    console.log(`${this.name} is defending.`);
+    return;
+  }
+
+  attack(target) {
+    if (this.attackType === "physical") {
+      this.physicalAttack(target);
+    } else if (this.attackType === "magical") {
+      this.magicalAttack(target);
+    }
   }
 }

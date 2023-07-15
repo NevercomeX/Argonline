@@ -1,16 +1,16 @@
 // src/Character.js
 
-import EquipmentSlot from "./Items/EquipmentSlot.js";
-import Inventory from "./Items/Inventary.js";
+import EquipmentSlot from "../Items/EquipmentSlot.js";
+import Inventory from "../Items/Inventary.js";
 
-import Job from "./Job.js";
+import Job from "../Job.js";
 
-import Acolyte from "./Classes/Acolyte.js";
-import Archer from "./Classes/Archer.js";
-import Mage from "./Classes/Mage.js";
-import Merchant from "./Classes/Merchant.js";
-import Swordman from "./Classes/Swordman.js";
-import Thief from "./Classes/Thief.js";
+import Acolyte from "../Classes/Acolyte.js";
+import Archer from "../Classes/Archer.js";
+import Mage from "../Classes/Mage.js";
+import Merchant from "../Classes/Merchant.js";
+import Swordman from "../Classes/Swordman.js";
+import Thief from "../Classes/Thief.js";
 
 import Entity from "./Entity.js";
 
@@ -40,6 +40,22 @@ export default class Character extends Entity {
     int,
     dex,
     luk,
+    attackType,
+    health,
+    mana = 100,
+    maxHealth = 1000,
+    maxMana = 100,
+    attackPower = 100,
+    magicPower = 100,
+    defense = 50,
+    magicDefense = 50,
+    baseExp = 0,
+    jobExp = 0,
+    maxBaseExp = 100,
+    maxJobExp = 100,
+    baseLevel = 1,
+    jobLevel = 1,
+    skillPoints = 0,
     job = new Job("Novice", {}),
     inventory = new Inventory()
   ) {
@@ -55,33 +71,33 @@ export default class Character extends Entity {
 
     this.job = job.name;
 
-    this.attackType = "physical";
+    this.attackType = attackType;
 
     // Nivel y experiencia
-    this.baseExp = 0;
-    this.jobExp = 0;
-    this.maxBaseExp = 100;
-    this.maxJobExp = 100;
+    this.baseExp = baseExp;
+    this.jobExp = jobExp;
+    this.maxBaseExp = maxBaseExp;
+    this.maxJobExp = maxJobExp;
 
-    this.baseLevel = 1;
-    this.jobLevel = 1;
-    this.skillPoints = 0;
+    this.baseLevel = baseLevel;
+    this.jobLevel = jobLevel;
+    this.skillPoints = skillPoints;
     this.passiveSkills = [];
 
     this.isDefending = false;
 
     // Estadísticas
     // Atributos primarios
-    this.health = 1000000;
-    this.mana = 100;
-    this.maxHealth = 1000000;
-    this.maxMana = 100;
+    this.health = 1000;
+    this.mana = mana;
+    this.maxHealth = maxHealth;
+    this.maxMana = maxMana;
 
     // Atributos secundarios
-    this.attackPower = 50;
-    this.magicPower = 10;
-    this.defense = 5;
-    this.magicDefense = 3;
+    this.attackPower = attackPower;
+    this.magicPower = magicPower;
+    this.defense = defense;
+    this.magicDefense = magicDefense;
 
     // Atributos terciarios
     this.attackSpeed = agi * (this.baseLevel - 1) * 2;
@@ -91,6 +107,33 @@ export default class Character extends Entity {
 
     // Inventario
     this.inventory = inventory;
+    this.headgearSlot = new EquipmentSlot("Headgear", this.inventory);
+    this.armorSlot = new EquipmentSlot("Armor", this.inventory);
+    this.weaponSlot = new EquipmentSlot("Weapon", this.inventory);
+    this.footgearSlot = new EquipmentSlot("Boots", this.inventory);
+    this.garmentSlot = new EquipmentSlot("Garment", this.inventory);
+    this.shieldSlot = new EquipmentSlot("Shield", this.inventory);
+    this.lowerHelmetSlot = new EquipmentSlot("LowerHelmet", this.inventory);
+    this.midderHelmetSlot = new EquipmentSlot("MidderHelmet", this.inventory);
+    this.upperHelmetSlot = new EquipmentSlot("UpperHelmet", this.inventory);
+    this.accessorySlots = [
+      new EquipmentSlot("Accessory 1", this.inventory),
+      new EquipmentSlot("Accessory 2", this.inventory),
+    ];
+  }
+
+  death() {
+    console.log(`${this.name} ha muerto!`);
+
+    this.health = this.maxHealth;
+    this.mana = this.maxMana;
+    this.baseExp = 0;
+    this.jobExp = 0;
+    this.baseLevel = 1;
+    this.jobLevel = 1;
+    this.skillPoints = 0;
+    this.passiveSkills = [];
+    this.inventory = new Inventory();
     this.headgearSlot = new EquipmentSlot("Headgear", this.inventory);
     this.armorSlot = new EquipmentSlot("Armor", this.inventory);
     this.weaponSlot = new EquipmentSlot("Weapon", this.inventory);
@@ -140,30 +183,22 @@ export default class Character extends Entity {
     this.luk += 1;
 
     if (this.baseExp >= this.maxBaseExp) {
-      this.baseExp = 0; // Restablece la experiencia base
-      this.maxBaseExp += 100; // Incrementa la experiencia base máxima
-      this.baseLevel += 1; // Incrementa el nivel
+      this.baseExp = 0;
+      this.maxBaseExp += 100;
+      this.baseLevel += 1;
       console.log(
         `${this.name} has leveled up! They are now level ${this.baseLevel}.`
       );
     }
 
     if (this.jobExp >= this.maxJobExp) {
-      this.jobExp = 0; // Restablece la experiencia de trabajo
-      this.maxJobExp += 100; // Incrementa la experiencia de trabajo máxima
-      this.jobLevel += 1; // Incrementa el nivel de trabajo
+      this.jobExp = 0;
+      this.maxJobExp += 100;
+      this.jobLevel += 1;
       console.log(
         `${this.name} has leveled up their job! They are now job level ${this.jobLevel}.`
       );
     }
-
-    // if (this.jobLevel === 10) {
-    //   this.chooseFirstJobClass();
-    // }
-
-    // if (this.jobLevel >= 40) {
-    //   this.skillPoints++;
-    // }
   }
 
   chooseFirstJobClass() {
@@ -233,39 +268,6 @@ export default class Character extends Entity {
       }
     } else {
       console.log(`${this.name} doesn't have ${item.name} in the inventory`);
-    }
-  }
-
-  physicalAttack(target) {
-    let damage = this.attackPower - target.defense;
-    if (damage < 0) damage = 0; // El daño no puede ser negativo
-    console.clear();
-    console.log(
-      `${this.name} ataca físicamente a ${target.name} por ${damage} de daño.`
-    );
-    console.log(" ");
-    target.health -= damage;
-    //vida restante
-  }
-
-  magicalAttack(target) {
-    let damage = this.magicPower - target.magicDefense;
-    if (damage < 0) damage = 0; // El daño no puede ser negativo
-    console.log(
-      `${this.name} ataca mágicamente a ${target.name} por ${damage} de daño.`
-    );
-    target.health -= damage;
-  }
-
-  defend(target) {
-    this.isDefending = true;
-  }
-
-  attack(target) {
-    if (this.attackType === "physical") {
-      this.physicalAttack(target);
-    } else if (this.attackType === "magical") {
-      this.magicalAttack(target);
     }
   }
 

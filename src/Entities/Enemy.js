@@ -1,68 +1,50 @@
-import Entity from "./Entity.js";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import EntityBase from "./EntityBase.js";
 
-class Enemy extends Entity {
-  constructor(
-    name,
-    health,
-    attackPower,
-    defense,
-    magicDefense,
-    magicPower,
-    monsterType,
-    attackType,
-    baseLevel,
-    baseExpAmount,
-    jobExpAmount,
-    loot
-  ) {
-    super(
-      health,
-      mana,
-      attackPower,
-      magicPower,
-      defense,
-      magicDefense,
-      baseLevel
-    );
-    this.name = name;
-    this.health = health;
-    this.maxHealth = health;
-    this.attackPower = attackPower;
-    this.magicPower = magicPower;
-    this.defense = defense;
-    this.magicDefense = magicDefense;
-    this.baseExpAmount = baseExpAmount;
-    this.jobExpAmount = jobExpAmount;
-    this.baseLevel = baseLevel;
-    this.monsterType = monsterType; // 'normal', 'boss', 'mini-boss'
-    this.attackType = attackType; // 'physical' or 'magical'
-    this.loot = loot;
-  }
-  physicalAttack(target) {
-    let damage = this.attackPower - target.defense;
-    if (damage < 0) damage = 0; // El daño no puede ser negativo
-    console.log(
-      `${this.name} ataca físicamente a ${target.name} por ${damage} de daño.`
-    );
-    target.health -= damage;
-  }
+@Entity()
+class Enemy extends EntityBase {
+  @PrimaryGeneratedColumn()
+  id = undefined;
 
-  magicalAttack(target) {
-    let damage = this.magicPower - target.magicDefense;
-    if (damage < 0) damage = 0; // El daño no puede ser negativo
-    console.log(
-      `${this.name} ataca mágicamente a ${target.name} por ${damage} de daño.`
-    );
-    target.health -= damage;
-  }
+  @Column()
+  name = "";
 
-  attack(target) {
-    if (this.attackType === "physical") {
-      this.physicalAttack(target);
-    } else if (this.attackType === "magical") {
-      this.magicalAttack(target);
-    }
-  }
+  @Column()
+  health = 0;
+
+  @Column()
+  maxHealth = 0;
+
+  @Column()
+  attackPower = 0;
+
+  @Column()
+  magicPower = 0;
+
+  @Column()
+  defense = 0;
+
+  @Column()
+  magicDefense = 0;
+
+  @Column()
+  baseExpAmount = 0;
+
+  @Column()
+  jobExpAmount = 0;
+
+  @Column()
+  baseLevel = 0;
+
+  @Column()
+  monsterType = ""; // 'normal', 'boss', 'mini-boss'
+
+  @Column()
+  attackType = ""; // 'physical' or 'magical'
+
+  @Column("simple-array")
+  loot = [];
+
   dropLoot() {
     // Itera sobre cada objeto de botín posible
     for (let i = 0; i < this.loot.length; i++) {

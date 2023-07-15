@@ -102,7 +102,7 @@ export function drawCharacterInfo(character) {
 export function drawEnemyBar(enemy) {
   console.log("╔" + "═".repeat(lineLength - 2) + "╗");
   console.log(
-    `║ Name: ${enemy.name} | Level: ${enemy.baseLevel} | Type: ${enemy.monsterType.name}`.padEnd(
+    `║ Name: ${enemy.name} | Level: ${enemy.baseLevel} | Type: ${enemy.monsterType}`.padEnd(
       lineLength - 1
     ) + "║"
   );
@@ -119,7 +119,6 @@ export function drawMainMenu(character) {
   console.clear();
   drawCharacterInfo(character);
   console.log(" ");
-
   console.log("☠️❌❌❌☠️❌❌❌☠️");
   console.log("❌              ❌");
   console.log("❌ 1. Combat    ❌");

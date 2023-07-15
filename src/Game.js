@@ -10,8 +10,6 @@ import Battle from "./Combat.js";
 
 import readlineSync from "readline-sync";
 
-// Ejemplo de uso
-
 class Game {
   constructor(character, inventory) {
     this.character = character;
@@ -77,7 +75,6 @@ class Game {
 
   showOptionsMenu() {
     console.log("\n--- OPCIONES ---");
-    // Aquí puedes agregar la lógica para mostrar las opciones del juego
     readlineSync.question(
       "Presiona cualquier tecla para volver al menu principal."
     );
@@ -89,19 +86,19 @@ class Game {
       let enemy = generateEnemy();
       console.log(`A wild ${enemy.name} has appeared!`);
       const battle = new Battle(this.character, enemy);
-
-      drawCharacterInfo(this.character);
-      console.log(" ");
-      console.log("⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️🔥 VS 🔥⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️");
-      console.log(" ");
-      drawEnemyBar(enemy);
-
       battle.start();
 
       if (this.character.health > 0) {
+        console.clear();
         console.log("Has derrotado al enemigo. ¿Deseas continuar luchando?");
         const answer = readlineSync.question("Si / No: ");
         continueFighting = answer.toLowerCase() === "si";
+      } else {
+        console.log(
+          "Has sido derrotado. Regresas al menú principal para recuperarte."
+        );
+
+        continueFighting = false;
       }
     }
 
@@ -113,12 +110,6 @@ class Game {
       console.log("Regresas al menú principal.");
     }
   }
-
-  // generateEnemy() {
-  //   // Aquí puedes generar un nuevo enemigo. Por ahora, solo devolveremos un enemigo básico.
-  //   return new Character("Enemigo", 100, 10);
-  // }
-  // ...
 }
 
 export default Game;
