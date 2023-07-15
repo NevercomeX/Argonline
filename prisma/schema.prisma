@@ -10,18 +10,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model Player {
+  id           Int    @id @default(autoincrement())
+  name         String @unique
+  str          Int
+  agi          Int
+  vit          Int
+  int          Int
+  dex          Int
+  luk          Int
+  health       Int
+  maxHealth    Int
+  maxMana      Int
+  mana         Int
+  job          String
+  baseLevel    Int
+  jobLevel     Int
+  baseExp      Int
+  jobExp       Int
+  maxBaseExp   Int
+  maxJobExp    Int
+  skillPoints  Int
+  attackType   String
+  attackPower  Int
+  magicPower   Int
+  defense      Int
+  magicDefense Int
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Enemy {
+  id            Int    @id @default(autoincrement())
+  name          String @unique
+  health        Int
+  maxHealth     Int
+  baseLevel     Int
+  baseExpAmount Int
+  jobExpAmount  Int
+  attackType    String
+  monsterType   String
+  attackPower   Int
+  magicPower    Int
+  defense       Int
+  magicDefense  Int
 }

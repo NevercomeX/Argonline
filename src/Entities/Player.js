@@ -1,10 +1,6 @@
 // src/Character.js
-
-import EquipmentSlot from "../Items/EquipmentSlot.js";
-import Inventory from "../Items/Inventary.js";
-
-import Job from "../Job.js";
-
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 import Acolyte from "../Classes/Acolyte.js";
 import Archer from "../Classes/Archer.js";
 import Mage from "../Classes/Mage.js";
@@ -32,94 +28,55 @@ function getJob(name) {
 }
 
 export default class Character extends Entity {
-  constructor(
-    name,
-    str,
-    agi,
-    vit,
-    int,
-    dex,
-    luk,
-    attackType,
-    health,
-    mana = 100,
-    maxHealth = 1000,
-    maxMana = 100,
-    attackPower = 100,
-    magicPower = 100,
-    defense = 50,
-    magicDefense = 50,
-    baseExp = 0,
-    jobExp = 0,
-    maxBaseExp = 100,
-    maxJobExp = 100,
-    baseLevel = 1,
-    jobLevel = 1,
-    skillPoints = 0,
-    job = new Job("Novice", {}),
-    inventory = new Inventory()
-  ) {
-    super(health, mana, attackPower, magicPower, defense, magicDefense);
-    // Atributos básicos
-    this.name = name;
-    this.str = str;
-    this.agi = agi;
-    this.vit = vit;
-    this.int = int;
-    this.dex = dex;
-    this.luk = luk;
-
-    this.job = job.name;
-
-    this.attackType = attackType;
-
-    // Nivel y experiencia
-    this.baseExp = baseExp;
-    this.jobExp = jobExp;
-    this.maxBaseExp = maxBaseExp;
-    this.maxJobExp = maxJobExp;
-
-    this.baseLevel = baseLevel;
-    this.jobLevel = jobLevel;
-    this.skillPoints = skillPoints;
-    this.passiveSkills = [];
-
+  constructor(character) {
+    super(
+      character.health,
+      character.mana,
+      character.attackPower,
+      character.magicPower,
+      character.defense,
+      character.magicDefense
+    );
+    this.id = character.id;
+    this.name = character.name;
+    this.str = character.str;
+    this.agi = character.agi;
+    this.vit = character.vit;
+    this.int = character.int;
+    this.dex = character.dex;
+    this.luk = character.luk;
+    this.job = character.job;
+    this.attackType = character.attackType;
+    this.baseExp = character.baseExp;
+    this.jobExp = character.jobExp;
+    this.maxBaseExp = character.maxBaseExp;
+    this.maxJobExp = character.maxJobExp;
+    this.baseLevel = character.baseLevel;
+    this.jobLevel = character.jobLevel;
+    this.skillPoints = character.skillPoints;
     this.isDefending = false;
+    this.health = character.health;
+    this.mana = character.mana;
+    this.maxHealth = character.maxHealth;
+    this.maxMana = character.maxMana;
+    this.attackPower = character.attackPower;
+    this.magicPower = character.magicPower;
+    this.defense = character.defense;
+    this.magicDefense = character.magicDefense;
+    this.attackSpeed = character.agi * (character.baseLevel - 1) * 2;
+    this.evasion = character.agi * 0.5;
+    this.hitRate = character.dex * 0.3;
+    this.criticalRate = character.luk * 0.3;
+  }
 
-    // Estadísticas
-    // Atributos primarios
-    this.health = 1000;
-    this.mana = mana;
-    this.maxHealth = maxHealth;
-    this.maxMana = maxMana;
+  static async create(characterData) {
+    const character = await prisma.character.create({ data: characterData });
+    return new Character(character);
+  }
 
-    // Atributos secundarios
-    this.attackPower = attackPower;
-    this.magicPower = magicPower;
-    this.defense = defense;
-    this.magicDefense = magicDefense;
-
-    // Atributos terciarios
-    this.attackSpeed = agi * (this.baseLevel - 1) * 2;
-    this.evasion = agi * 0.5;
-    this.hitRate = dex * 0.3;
-    this.criticalRate = luk * 0.3;
-
-    // Inventario
-    this.inventory = inventory;
-    this.headgearSlot = new EquipmentSlot("Headgear", this.inventory);
-    this.armorSlot = new EquipmentSlot("Armor", this.inventory);
-    this.weaponSlot = new EquipmentSlot("Weapon", this.inventory);
-    this.footgearSlot = new EquipmentSlot("Boots", this.inventory);
-    this.garmentSlot = new EquipmentSlot("Garment", this.inventory);
-    this.shieldSlot = new EquipmentSlot("Shield", this.inventory);
-    this.lowerHelmetSlot = new EquipmentSlot("LowerHelmet", this.inventory);
-    this.midderHelmetSlot = new EquipmentSlot("MidderHelmet", this.inventory);
-    this.upperHelmetSlot = new EquipmentSlot("UpperHelmet", this.inventory);
-    this.accessorySlots = [
-      new EquipmentSlot("Accessory 1", this.inventory),
-      new EquipmentSlot("Accessory 2", this.inventory),
-    ];
+  static async findById(id) {
+    const character = await prisma.character.findUnique({ where: { id } });
+    return new Character(character);
   }
 
   death() {
@@ -132,21 +89,15 @@ export default class Character extends Entity {
     this.baseLevel = 1;
     this.jobLevel = 1;
     this.skillPoints = 0;
-    this.passiveSkills = [];
-    this.inventory = new Inventory();
-    this.headgearSlot = new EquipmentSlot("Headgear", this.inventory);
-    this.armorSlot = new EquipmentSlot("Armor", this.inventory);
-    this.weaponSlot = new EquipmentSlot("Weapon", this.inventory);
-    this.footgearSlot = new EquipmentSlot("Boots", this.inventory);
-    this.garmentSlot = new EquipmentSlot("Garment", this.inventory);
-    this.shieldSlot = new EquipmentSlot("Shield", this.inventory);
-    this.lowerHelmetSlot = new EquipmentSlot("LowerHelmet", this.inventory);
-    this.midderHelmetSlot = new EquipmentSlot("MidderHelmet", this.inventory);
-    this.upperHelmetSlot = new EquipmentSlot("UpperHelmet", this.inventory);
-    this.accessorySlots = [
-      new EquipmentSlot("Accessory 1", this.inventory),
-      new EquipmentSlot("Accessory 2", this.inventory),
-    ];
+  }
+
+  attack(target) {
+    // if (this.attackType === "physical") {
+    //   this.physicalAttack(target);
+    // } else if (this.attackType === "magical") {
+    //   this.magicalAttack(target);
+    // }
+    console.log("something");
   }
   changeJob(newJobName) {
     const newJob = getJob(newJobName);

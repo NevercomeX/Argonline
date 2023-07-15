@@ -1,4 +1,5 @@
 import readlineSync from "readline-sync";
+import select, { Separator } from "@inquirer/select";
 
 const lineLength = 60; // The total length of the line
 
@@ -115,45 +116,101 @@ export function drawEnemyBar(enemy) {
   console.log("╚" + "═".repeat(lineLength - 2) + "╝");
 }
 
-export function drawMainMenu(character) {
+export async function drawMainMenu(character) {
   console.clear();
   drawCharacterInfo(character);
   console.log(" ");
-  console.log("☠️❌❌❌☠️❌❌❌☠️");
-  console.log("❌              ❌");
-  console.log("❌ 1. Combat    ❌");
-  console.log("❌ 2. Stats     ❌");
-  console.log("❌ 3. Equipment ❌");
-  console.log("☠️ 4. Inventory ☠️");
-  console.log("❌ 5. Options   ❌");
-  console.log("❌ 6. Save      ❌");
-  console.log("❌ 7. Quit      ❌");
-  console.log("❌              ❌");
-  console.log("☠️❌❌❌☠️❌❌❌☠️");
-  console.log(" ");
-  const option = readlineSync.question("Select an option: ");
-  return option;
+  const answer = await select({
+    message: "Menu Princial",
+    choices: [
+      new Separator(" "),
+      new Separator(" ╔" + "═".repeat(14) + "╗"),
+
+      {
+        name: "║ Combat       ║",
+        value: 1,
+        description: "Fight against monsters",
+      },
+      {
+        name: "║ Stats        ║",
+        value: 2,
+        description: "View your stats",
+      },
+      {
+        name: "║ Equipment    ║",
+        value: 3,
+        description: "View your equipment",
+      },
+      {
+        name: "║ Inventory    ║",
+        value: 4,
+        description: "View your inventory",
+      },
+
+      {
+        name: "║ Options      ║",
+        value: 5,
+        description: "View the options",
+      },
+      {
+        name: "║ Save         ║",
+        value: 6,
+        description: "Save your progress",
+      },
+      {
+        name: "║ Quit         ║",
+        value: 7,
+        description: "Quit the game",
+      },
+      new Separator(" ╚" + "═".repeat(14) + "╝"),
+      new Separator(" "),
+    ],
+    pageSize: 15,
+  });
+  return answer;
 }
 
-export function drawCombatMenu(character) {
-  console.log(" ");
-  console.log("╔" + "═".repeat(14) + "╗");
-  console.log("║      ⚔️      ║");
-  console.log("║ 1. Attack    ║");
-  console.log("║ 2. Defence   ║");
-  console.log("║ 3. Use Item  ║");
-  console.log("║ 4. Flee      ║");
-  console.log("╚" + "═".repeat(14) + "╝");
-  console.log(" ");
-  const actionc = readlineSync.question("Select an option: ");
-  console.log(" ");
+export async function drawCombatMenu() {
+  const actionc = await select({
+    message: "Menu de Combate",
+    choices: [
+      new Separator(" "),
+      new Separator(" ╔" + "═".repeat(14) + "╗"),
+
+      {
+        name: "║ Attack       ║",
+        value: 1,
+        description: "Attack the enemy",
+      },
+      {
+        name: "║ Skills       ║",
+        value: 2,
+        description: "Use a skill",
+      },
+      {
+        name: "║ Items        ║",
+        value: 3,
+        description: "Use an item",
+      },
+      {
+        name: "║ Run          ║",
+        value: 4,
+        description: "Run away from the enemy",
+      },
+      new Separator(" ╚" + "═".repeat(14) + "╝"),
+      new Separator(" "),
+    ],
+    pageSize: 15,
+  });
+
   return actionc; // Make sure this line is within the function body
 }
 export function drawStatistics(character) {
   console.clear();
   drawCharacterInfo(character);
   console.log(" ");
-  console.log("⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️🔥 VS 🔥⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️");
+  console.log("STATS");
+
   console.log("╔════════════════════════════════════════════════════════╗");
   console.log(
     `║ ${character.name} - Nivel ${character.baseLevel} - Job: ${character.job}\n` +

@@ -1,22 +1,36 @@
-import Character from "./src/Entities/Character.js";
-import Game from "./src/game.js";
-import Inventory from "./src/Items/Inventary.js";
+import { PrismaClient } from "@prisma/client";
+import Player from "./src/Entities/Player.js";
+import { startGame } from "./src/Game.js";
+
+const prisma = new PrismaClient();
 
 console.clear();
 console.log("Bienvenido a Ragnarok!");
 
-let name = "Player";
+export async function getPlayer(prisma) {
+  const playerData = await prisma.player.findUnique({
+    where: { id: 1 },
+  });
+  const player = new Player(playerData);
+  return player;
+}
 
-let attackType = "physical";
-let str = 7;
-let agi = 2;
-let vit = 4;
-let int = 0;
-let dex = 3;
-let luk = 2;
+export async function getEnemies(prisma) {
+  return await prisma.enemy.findMany();
+}
 
-let character = new Character(name, str, agi, vit, int, dex, luk, attackType);
-let inventory = new Inventory();
-let game = new Game(character, inventory);
+async function main() {
+  const prisma = new PrismaClient();
+  const player = await getPlayer(prisma);
+  const enemies = await getEnemies(prisma);
+  startGame(player, enemies);
+  return;
+}
 
-game.run();
+main()
+  .catch((e) => {
+    throw e;
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
