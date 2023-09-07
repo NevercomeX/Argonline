@@ -46,6 +46,7 @@ export default class Character extends Entity {
     this.dex = character.dex;
     this.luk = character.luk;
     this.job = character.job;
+
     this.attackType = character.attackType;
     this.baseExp = character.baseExp;
     this.jobExp = character.jobExp;
@@ -55,6 +56,7 @@ export default class Character extends Entity {
     this.jobLevel = character.jobLevel;
     this.skillPoints = character.skillPoints;
     this.isDefending = false;
+
     this.health = character.health;
     this.mana = character.mana;
     this.maxHealth = character.maxHealth;

@@ -1,71 +1,49 @@
-import { drawMainMenu, drawStatistics, drawCombatMenu } from "./drawer.js";
-import { PrismaClient } from "@prisma/client";
+import {
+  drawMainMenu,
+  drawStatistics,
+  drawEquipment,
+  drawInventory,
+} from "./Drawer.js";
 import CreateBattle from "./CreateBattle.js";
-import readlineSync from "readline-sync";
 
-import select, { Separator } from "@inquirer/select";
+import select from "@inquirer/select";
+import { getCharacter } from "./Controllers/index.js";
 
-const prisma = new PrismaClient();
-
-let character;
-let enemies;
-
-async function test() {
-  console.log(await drawMainMenu(character));
-}
-
-async function runGame() {
+export async function runGame(id) {
   let quit = false;
-  const actions = {
-    1: startCombat,
-    2: showStatsMenu,
-    3: showEquipmentMenu,
-    4: showInventory,
-    5: showOptionsMenu,
-    7: () => {
-      console.log("Hasta pronto!");
-      quit = true;
-    },
-  };
-
   while (!quit) {
-    const option = await drawMainMenu(character);
-    const action = actions[option];
+    const option = await drawMainMenu(await getCharacter(id));
+    switch (option) {
+      case 1:
+        startCombat(id);
+        break;
+      case 2:
+        drawStatistics(id);
+        break;
+      case 3:
+        drawEquipment(id);
+        break;
+      case 4:
+        drawInventory(id);
+        break;
+      case 5:
+        // showOptionsMenu();
+        break;
 
-    if (action) {
-      await action();
-    } else {
-      console.log("Opcion inválida, por favor intenta de nuevo.");
+      case 7:
+        console.clear();
+        console.log("Hasta pronto!");
+        quit = true;
+        break;
+      default:
+        console.log("Opcion inválida, por favor intenta de nuevo.");
+        break;
     }
   }
 }
-function showStatsMenu() {
-  drawStatistics(character);
-  console.log("Presiona cualquier tecla para volver al menu principal.");
-  readlineSync.question("");
-}
 
-function showEquipmentMenu() {
-  console.log("\n--- EQUIPAMIENTO ---");
-  character.showEquipment();
-  readlineSync.question(
-    "Presiona cualquier tecla para volver al menu principal."
-  );
-}
-
-function showInventory() {
-  console.log("\n--- INVENTARIO ---");
-  character.inventory.listItems();
-  readlineSync.question(
-    "Presiona cualquier tecla para volver al menu principal."
-  );
-}
-
-function showOptionsMenu() {
-  console.log("\n--- OPCIONES ---");
-  readlineSync.question(
-    "Presiona cualquier tecla para volver al menu principal."
-  );
+export function startGame(character, enemies) {
+  startCombat(character, enemies);
 }
 
 class CombatStateMachine {
@@ -78,30 +56,36 @@ class CombatStateMachine {
 
   async start() {
     console.clear();
-    while (this.continueFighting && this.character.health > 0) {
-      this.currentEnemy = this.selectEnemy();
-      console.log(`A wild ${this.currentEnemy.name} has appeared!`);
-      const battle = CreateBattle(this.character, this.currentEnemy);
-      battle.start();
+    await this.combatRound();
+  }
 
-      if (this.character.health > 0) {
-        const answer = await this.askContinueFighting();
-        this.continueFighting = answer.toLowerCase() === "si";
-      } else {
+  async combatRound() {
+    if (!this.continueFighting || this.character.health <= 0) {
+      if (this.character.health <= 0) {
         console.log(
           "Has sido derrotado. Regresas al menú principal para recuperarte."
         );
-        this.continueFighting = false;
+      } else {
+        console.log("Regresas al menú principal.");
       }
+      return;
     }
 
-    if (this.character.health <= 0) {
+    this.currentEnemy = this.selectEnemy();
+    console.log(`A wild ${this.currentEnemy.name} has appeared!`);
+    const battle = CreateBattle(this.character, this.currentEnemy);
+    battle.start();
+
+    if (this.character.health > 0) {
+      const answer = await this.askContinueFighting();
+      this.continueFighting = answer.toLowerCase() === "si";
+    } else {
       console.log(
         "Has sido derrotado. Regresas al menú principal para recuperarte."
       );
-    } else {
-      console.log("Regresas al menú principal.");
+      this.continueFighting = false;
     }
+    await this.combatRound();
   }
 
   selectEnemy() {
@@ -128,14 +112,8 @@ class CombatStateMachine {
   }
 }
 
-async function startCombat() {
+async function startCombat(character, enemies) {
   const combatStateMachine = new CombatStateMachine(character, enemies);
-  await combatStateMachine.start();
-}
 
-export async function startGame(player, enemyList) {
-  character = player;
-  enemies = enemyList;
-  // await test();
-  startCombat();
+  await combatStateMachine.start();
 }

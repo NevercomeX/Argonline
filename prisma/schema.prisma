@@ -10,46 +10,154 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Player {
-  id           Int    @id @default(autoincrement())
-  name         String @unique
-  str          Int
-  agi          Int
-  vit          Int
-  int          Int
-  dex          Int
-  luk          Int
-  health       Int
-  maxHealth    Int
-  maxMana      Int
-  mana         Int
-  job          String
-  baseLevel    Int
-  jobLevel     Int
-  baseExp      Int
-  jobExp       Int
-  maxBaseExp   Int
-  maxJobExp    Int
-  skillPoints  Int
-  attackType   String
-  attackPower  Int
-  magicPower   Int
-  defense      Int
-  magicDefense Int
+model User {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  email    String   @unique
+  password String
+  role     String   @default("user")
+  Character Character[]
 }
 
-model Enemy {
+
+
+model Character {
   id            Int    @id @default(autoincrement())
   name          String @unique
+  userId        Int
+  jobclassId    Int
+  str           Int
+  agi           Int
+  vit           Int
+  int           Int
+  dex           Int
+  luk           Int
+  baseLevel     Int
+  jobLevel      Int
+  baseExp       Int
+  jobExp        Int
+  maxBaseExp    Int
+  maxJobExp     Int
+  skillPoints   Int
   health        Int
   maxHealth     Int
-  baseLevel     Int
-  baseExpAmount Int
-  jobExpAmount  Int
-  attackType    String
-  monsterType   String
+  maxMana       Int
+  mana          Int
   attackPower   Int
   magicPower    Int
   defense       Int
   magicDefense  Int
+  Inventarty   Inventory[]
+  Equipment    Equipment[]
+  UserId          User   @relation(fields: [userId], references: [id])
 }
+
+model Inventory {
+  id        Int    @id @default(autoincrement())
+  Character    Character @relation(fields: [characterId], references: [id])
+  name      String
+  characterId  Int
+  item       Item    @relation(fields: [itemId], references: [id])
+  itemId    Int
+  quantity  Int
+ 
+}
+
+model Equipment {
+  id        Int    @id @default(autoincrement())
+  characterId  Int
+  upperHeadSlot    Int?
+  midHeadSlot    Int?
+  lowerHeadSlot    Int?
+  bodySlot     Int?
+  rightHandSlot    Int?
+  leftHandSlot    Int?
+  robeSlot   Int?
+  shoesSlot  Int?
+  accessorySlot01 Int?
+  accessorySlot02 Int?
+  ammoSlot    Int?
+  Character    Character @relation(fields: [characterId], references: [id])
+}
+model Enemy {
+  id            Int    @id @default(autoincrement())
+  name          String @unique
+  attackType    String
+  giveBaseExpAmount     Int
+  giveJobExpAmount Int
+  health        Int
+  maxHealth     Int
+  attackPower   Int
+  magicPower    Int
+  defense       Int
+  magicDefense  Int
+  baseLevel Int
+  monsterType String
+  ItemDrop EnemyDrop[]
+}
+
+model EnemyDrop {
+  id         Int     @id @default(autoincrement())
+  enemy      Enemy   @relation(fields: [enemyId], references: [id])
+  enemyId    Int
+  item       Item    @relation(fields: [itemId], references: [id])
+  itemId     Int
+  dropChance Float   // Add a dropChance field (a float representing the percentage)
+  @@unique([enemyId, itemId]) // Ensure uniqueness for enemy-item pairs
+}
+
+model Item {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  itemType    String   @default("None")
+  itemSubType String   @default("None")
+  equipmentSlot String @default("None")
+  description String
+  price       Int
+  attackPower Int
+  magicPower  Int
+  defense     Int
+  magicDefense Int
+  health      Int
+  mana        Int
+  str         Int
+  agi         Int
+  vit         Int
+  int         Int
+  dex         Int
+  luk         Int
+  slot        Int
+  weaponType  String
+  usable      Boolean  
+  rarity      String   
+  effect      String?  
+  EnemyDrop   EnemyDrop[]
+  Inventory  Inventory[]
+}
+model JobClass {
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  str      Int
+  agi      Int
+  vit      Int
+  int      Int
+  dex      Int
+  luk      Int
+  health   Int
+  mana     Int
+  maxHealth     Int
+  maxMana       Int
+  attackPower Int
+  magicPower  Int
+  defense     Int
+  magicDefense Int
+  baseLevel Int
+  jobLevel  Int
+  baseExp   Int
+  jobExp    Int
+  maxBaseExp Int
+  maxJobExp  Int
+  skillPoints Int
+  // skillTree  Skill[]
+}
+

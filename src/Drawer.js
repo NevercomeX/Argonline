@@ -1,5 +1,14 @@
 import readlineSync from "readline-sync";
 import select, { Separator } from "@inquirer/select";
+import {
+  getInventory,
+  getEnemies,
+  getEnemyDrops,
+  getEquipment,
+  getItems,
+  getJobClasses,
+  getCharacter,
+} from "./Controllers/index.js";
 
 const lineLength = 60; // The total length of the line
 
@@ -82,9 +91,11 @@ export function drawJobExperienceBar(currentJobExp, maxJobExp) {
 
   console.log(jobExpLine);
 }
-export function drawCharacterInfo(character) {
-  const lineLength = 60; // Define la longitud de la línea
-  let infoLine = `║ Name: ${character.name} | BLevel: ${character.baseLevel} | JLevel: ${character.jobLevel} | Job: ${character.job}`;
+
+export async function drawCharacterInfo(id) {
+  const character = await getCharacter(id);
+  const lineLength = 100; // Define la longitud de la línea
+  let infoLine = `║ Name: ${character.Name} | BLevel: ${character.baseLevel} | JLevel: ${character.jobLevel} | Job: ${character.jobclassId}`;
   let paddingLength = lineLength - infoLine.length;
   let padding = " ".repeat(paddingLength);
   infoLine += padding + " ║";
@@ -96,10 +107,10 @@ export function drawCharacterInfo(character) {
   drawExperienceBar(character.baseExp, character.maxBaseExp);
   drawJobExperienceBar(character.jobExp, character.maxJobExp);
   console.log("╚" + "═".repeat(lineLength) + "╝");
+  console.log(" ");
 }
 
 //draw enemy bar
-
 export function drawEnemyBar(enemy) {
   console.log("╔" + "═".repeat(lineLength - 2) + "╗");
   console.log(
@@ -118,7 +129,7 @@ export function drawEnemyBar(enemy) {
 
 export async function drawMainMenu(character) {
   console.clear();
-  drawCharacterInfo(character);
+  await drawCharacterInfo(character);
   console.log(" ");
   const answer = await select({
     message: "Menu Princial",
@@ -203,35 +214,130 @@ export async function drawCombatMenu() {
     pageSize: 15,
   });
 
-  return actionc; // Make sure this line is within the function body
+  return actionc;
 }
-export function drawStatistics(character) {
-  console.clear();
-  drawCharacterInfo(character);
-  console.log(" ");
-  console.log("STATS");
 
+// model Character {
+//   id            Int    @id @default(autoincrement())
+//   name          String @unique
+//   userId        Int
+//   jobclassId    Int
+//   str           Int
+//   agi           Int
+//   vit           Int
+//   int           Int
+//   dex           Int
+//   luk           Int
+//   baseLevel     Int
+//   jobLevel      Int
+//   baseExp       Int
+//   jobExp        Int
+//   maxBaseExp    Int
+//   maxJobExp     Int
+//   skillPoints   Int
+//   health        Int
+//   maxHealth     Int
+//   maxMana       Int
+//   mana          Int
+//   attackPower   Int
+//   magicPower    Int
+//   defense       Int
+//   magicDefense  Int
+//   Inventarty   Inventory[]
+//   Equipment    Equipment[]
+//   UserId          User   @relation(fields: [userId], references: [id])
+// }
+export async function drawStatistics(id) {
+  console.clear();
+  await drawCharacterInfo(id);
+  const character = await getCharacter(id);
+  console.log(" ");
   console.log("╔════════════════════════════════════════════════════════╗");
   console.log(
-    `║ ${character.name} - Nivel ${character.baseLevel} - Job: ${character.job}\n` +
+    `║ ${character.Name} - Nivel ${character.baseLevel} - Job: ${character.jobclassId}\n` +
       `║ STR: ${character.str}\n` +
       `║ AGI: ${character.agi}\n` +
       `║ VIT: ${character.vit}\n` +
       `║ INT: ${character.int}\n` +
       `║ DEX: ${character.dex}\n` +
       `║ LUK: ${character.luk}\n` +
+      `║ JobClassId: ${character.jobclassId}\n` +
+      `║ Max Base EXP: ${character.maxBaseExp}\n` +
       `║ BASE EXP: ${character.baseExp}\n` +
+      `║ Max Job EXP: ${character.maxJobExp}\n` +
       `║ JOB EXP: ${character.jobExp}\n` +
+      `║ Max HP: ${character.maxHealth}\n` +
       `║ HP: ${character.health}\n` +
+      `║ Max MP: ${character.maxMana}\n` +
       `║ MP: ${character.mana}\n` +
       `║ ATK: ${character.attackPower}\n` +
       `║ MATK: ${character.magicPower}\n` +
       `║ DEF: ${character.defense}\n` +
       `║ MDEF: ${character.magicDefense}\n` +
-      `║ ATK Speed: ${character.attackSpeed}\n` +
-      `║ Evasion: ${character.evasion}\n` +
-      `║ Critical Rate: ${character.criticalRate}`
+      `║ Skill Points: ${character.skillPoints}\n` +
+      `║ Job Level: ${character.jobLevel}\n`
   );
   console.log("╚════════════════════════════════════════════════════════╝");
   console.log(" ");
+}
+
+export async function drawEquipment(id) {
+  await drawCharacterInfo(id);
+  const equipment = await getEquipment(id);
+  const lineLength = 10; // Define la longitud de la línea
+  console.clear();
+  console.log("╔═════ EQUIPMENT  ═════╗");
+  console.log(
+    `║ Upper Head: ${equipment.upperHeadSlot}`.padEnd(lineLength - 1) + "║"
+  );
+  console.log(
+    `║ Mid Head: ${equipment.midHeadSlot}`.padEnd(lineLength - 1) + "║"
+  );
+  console.log(
+    `║ Lower Head: ${equipment.lowerHeadSlot}`.padEnd(lineLength - 1) + "║"
+  );
+  console.log(`║ Body: ${equipment.bodySlot}`.padEnd(lineLength - 1) + "║");
+  console.log(
+    `║ Right Hand: ${equipment.rightHandSlot}`.padEnd(lineLength - 1) + "║"
+  );
+  console.log(
+    `║ Left Hand: ${equipment.leftHandSlot}`.padEnd(lineLength - 1) + "║"
+  );
+  console.log(`║ Robe: ${equipment.robeSlot}`.padEnd(lineLength - 1) + "║");
+  console.log(`║ Shoes: ${equipment.shoesSlot}`.padEnd(lineLength - 1) + "║");
+  console.log(
+    `║ Accessory 1: ${equipment.accessorySlot01}`.padEnd(lineLength - 1) + "║"
+  );
+  console.log(
+    `║ Accessory 2: ${equipment.accessorySlot02}`.padEnd(lineLength - 1) + "║"
+  );
+  console.log(`║ Ammo: ${equipment.ammoSlot}`.padEnd(lineLength - 1) + "║");
+  console.log("╚═════════════════════════╝");
+  console.log(" ");
+  readlineSync.question(
+    "Presiona cualquier tecla para volver al menu principal."
+  );
+}
+
+export async function drawInventory(id) {
+  console.clear();
+  await drawCharacterInfo(id);
+  const lineLength = 10; // Define la longitud de la línea
+  const inventory = await getInventory(id);
+
+  console.log(" ");
+  //list of all the items in the inventory
+  console.log("╔══════ INVENTORY  ══════╗");
+  for (let i = 0; i < inventory.length; i++) {
+    console.log(
+      `║ ${inventory[i].name} x ${inventory[i].quantity}`.padEnd(
+        lineLength - 1
+      ) + "║"
+    );
+  }
+  console.log("╚══════ Items: " + inventory.length + " ═══════╝");
+  console.log(" ");
+  readlineSync.question(
+    "Presiona cualquier tecla para volver al menu principal."
+  );
 }

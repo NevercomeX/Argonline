@@ -1,4 +1,4 @@
-import { drawCombatMenu, drawCharacterInfo, drawEnemyBar } from "./drawer.js";
+import { drawCombatMenu, drawCharacterInfo, drawEnemyBar } from "./Drawer.js";
 import { attackPlayer, attackEnemy } from "./Combat/Attack.js";
 import { gainExperience } from "./Combat/ExpGain.js";
 
@@ -29,7 +29,7 @@ function createBattle(player, enemy) {
     while (!validAction) {
       const action = await drawCombatMenu(player);
       switch (action) {
-        case "1":
+        case 1:
           drawCharacterInfo(player);
           let damageMade = attackPlayer(player, enemy);
           addMessage(
@@ -38,15 +38,15 @@ function createBattle(player, enemy) {
           printMessages();
           validAction = true;
           break;
-        case "2":
+        case 2:
           player.defend(enemy);
           validAction = true;
           break;
-        case "3":
+        case 3:
           player.useItem();
           validAction = true;
           break;
-        case "4":
+        case 4:
           player.runAway();
           validAction = true;
           break;

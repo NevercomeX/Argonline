@@ -20,7 +20,6 @@ export default class Entity {
     this.mana = mana;
     this.maxHealth = maxHealth;
     this.maxMana = maxMana;
-
     this.isDefending = false;
   }
 
