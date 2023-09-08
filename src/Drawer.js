@@ -8,6 +8,12 @@ import {
   getItems,
   getJobClasses,
   getCharacter,
+  getEquipmentByCharacterId,
+  getEquipmentByCharacterIdAndSlot,
+  getInventoryById,
+  getCharacterInventoryItems,
+  getCharacterInventory,
+  getItemNameById,
 } from "./Controllers/index.js";
 
 const lineLength = 60; // The total length of the line
@@ -283,42 +289,47 @@ export async function drawStatistics(id) {
 
 export async function drawEquipment(id) {
   await drawCharacterInfo(id);
-  const equipment = await getEquipment(id);
-  const lineLength = 10; // Define la longitud de la línea
-  console.clear();
-  console.log("╔═════ EQUIPMENT  ═════╗");
-  console.log(
-    `║ Upper Head: ${equipment.upperHeadSlot}`.padEnd(lineLength - 1) + "║"
-  );
-  console.log(
-    `║ Mid Head: ${equipment.midHeadSlot}`.padEnd(lineLength - 1) + "║"
-  );
-  console.log(
-    `║ Lower Head: ${equipment.lowerHeadSlot}`.padEnd(lineLength - 1) + "║"
-  );
-  console.log(`║ Body: ${equipment.bodySlot}`.padEnd(lineLength - 1) + "║");
-  console.log(
-    `║ Right Hand: ${equipment.rightHandSlot}`.padEnd(lineLength - 1) + "║"
-  );
-  console.log(
-    `║ Left Hand: ${equipment.leftHandSlot}`.padEnd(lineLength - 1) + "║"
-  );
-  console.log(`║ Robe: ${equipment.robeSlot}`.padEnd(lineLength - 1) + "║");
-  console.log(`║ Shoes: ${equipment.shoesSlot}`.padEnd(lineLength - 1) + "║");
-  console.log(
-    `║ Accessory 1: ${equipment.accessorySlot01}`.padEnd(lineLength - 1) + "║"
-  );
-  console.log(
-    `║ Accessory 2: ${equipment.accessorySlot02}`.padEnd(lineLength - 1) + "║"
-  );
-  console.log(`║ Ammo: ${equipment.ammoSlot}`.padEnd(lineLength - 1) + "║");
-  console.log("╚═════════════════════════╝");
-  console.log(" ");
-  readlineSync.question(
-    "Presiona cualquier tecla para volver al menu principal."
-  );
-}
+  const equipmentData = await getEquipmentByCharacterId(id);
 
+  if (equipmentData.length === 0) {
+    console.log("No equipment found for this character.");
+  } else {
+    // Get the first (and only) equipment object in the array
+    const equipment = equipmentData[0];
+
+    // Define a mapping of equipment slots to slot names
+    const equipmentSlots = {
+      upperHeadSlot: "Upper Head Slot",
+      midHeadSlot: "Mid Head Slot",
+      lowerHeadSlot: "Lower Head Slot",
+      bodySlot: "Body Slot",
+      rightHandSlot: "Right Hand Slot",
+      leftHandSlot: "Left Hand Slot",
+      robeSlot: "Robe Slot",
+      shoesSlot: "Shoes Slot",
+      accessorySlot01: "Accessory Slot 1",
+      accessorySlot02: "Accessory Slot 2",
+      ammoSlot: "Ammo Slot",
+    };
+
+    // Iterate through the equipment slots and fetch item names by ID
+    for (const slot in equipment) {
+      if (equipment[slot] !== null) {
+        const itemId = equipment[slot];
+        const itemName = await getItemNameById(itemId);
+
+        if (itemName !== null) {
+          console.log(`${equipmentSlots[slot]} : [${itemName}]`);
+        } else {
+          console.log(`${equipmentSlots[slot]} : []`);
+        }
+      }
+    }
+  }
+
+  console.log(" ");
+  readlineSync.question("Press any key to return to the main menu.");
+}
 export async function drawInventory(id) {
   console.clear();
   await drawCharacterInfo(id);

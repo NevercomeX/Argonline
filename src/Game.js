@@ -18,13 +18,13 @@ export async function runGame(id) {
         startCombat(id);
         break;
       case 2:
-        drawStatistics(id);
+        await drawStatistics(id);
         break;
       case 3:
-        drawEquipment(id);
+        await drawEquipment(id);
         break;
       case 4:
-        drawInventory(id);
+        await drawInventory(id);
         break;
       case 5:
         // showOptionsMenu();
