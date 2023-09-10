@@ -19,6 +19,7 @@ import {
   getInventoryById,
   getCharacterInventoryItems,
   getCharacterInventory,
+  addItemToInventory,
 } from "./inventary.js";
 import { getEnemyDrops, getEnemyDropById } from "./enemydrop.js";
 
@@ -27,6 +28,7 @@ import {
   getEquipmentByCharacterId,
   getEquipmentByCharacterIdAndSlot,
   getEquipmentById,
+  unequipItem,
 } from "./equipment.js";
 
 export {
@@ -44,11 +46,13 @@ export {
   getJobClassByName,
   getInventory,
   getInventoryById,
+  addItemToInventory,
   getCharacterInventoryItems,
   getCharacterInventory,
   getEnemyDrops,
   getEnemyDropById,
   getEquipment,
+  unequipItem,
   getEquipmentByCharacterId,
   getEquipmentByCharacterIdAndSlot,
   getEquipmentById,

@@ -23,7 +23,7 @@ model User {
 
 model Character {
   id            Int    @id @default(autoincrement())
-  name          String @unique
+  name          String @unique @default("Player")
   userId        Int
   jobclassId    Int
   str           Int
@@ -55,7 +55,6 @@ model Character {
 model Inventory {
   id        Int    @id @default(autoincrement())
   Character    Character @relation(fields: [characterId], references: [id])
-  name      String
   characterId  Int
   item       Item    @relation(fields: [itemId], references: [id])
   itemId    Int

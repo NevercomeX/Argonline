@@ -20,7 +20,7 @@ export async function getItemsByName(name) {
 //get item name by id
 export async function getItemNameById(id) {
   const item = await prisma.item.findUnique({
-    where: { id: 6 },
+    where: { id: id },
   });
   return item.name;
 }

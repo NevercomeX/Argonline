@@ -53,3 +53,15 @@ export async function getCharacterInventoryItems() {
 
   return playerInventory;
 }
+
+export async function addItemToInventory(characterId, itemId, quantity) {
+  const inventory = await prisma.inventory.create({
+    data: {
+      characterId: parseInt(characterId),
+      itemId: parseInt(itemId),
+      quantity: parseInt(quantity),
+    },
+  });
+
+  return inventory;
+}
