@@ -20,6 +20,7 @@ import {
   getCharacterInventoryItems,
   getCharacterInventory,
   addItemToInventory,
+  removeItemFromInventory,
 } from "./inventary.js";
 import { getEnemyDrops, getEnemyDropById } from "./enemydrop.js";
 
@@ -29,6 +30,7 @@ import {
   getEquipmentByCharacterIdAndSlot,
   getEquipmentById,
   unequipItem,
+  equipItem,
 } from "./equipment.js";
 
 export {
@@ -47,12 +49,14 @@ export {
   getInventory,
   getInventoryById,
   addItemToInventory,
+  removeItemFromInventory,
   getCharacterInventoryItems,
   getCharacterInventory,
   getEnemyDrops,
   getEnemyDropById,
   getEquipment,
   unequipItem,
+  equipItem,
   getEquipmentByCharacterId,
   getEquipmentByCharacterIdAndSlot,
   getEquipmentById,

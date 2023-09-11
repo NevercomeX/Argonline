@@ -129,7 +129,8 @@ model Item {
   weaponType  String
   usable      Boolean  
   rarity      String   
-  effect      String?  
+  effect      String?
+  equipable   Boolean
   EnemyDrop   EnemyDrop[]
   Inventory  Inventory[]
 }

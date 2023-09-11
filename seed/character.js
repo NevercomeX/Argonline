@@ -41,7 +41,7 @@
 
 export async function characterSeed(prisma) {
   const character = {
-    Name: "Fulanito",
+    name: "Fulanito",
     userId: 1,
     jobclassId: 1,
     str: 1,
@@ -69,7 +69,7 @@ export async function characterSeed(prisma) {
 
   // Crear jugador
   const existingPlayer = await prisma.character.findUnique({
-    where: { Name: character.Name },
+    where: { name: character.name },
   });
 
   if (!existingPlayer) {
@@ -77,8 +77,8 @@ export async function characterSeed(prisma) {
       data: character,
     });
 
-    console.log(`Jugador ${character.Name} creado.✅`);
+    console.log(`Jugador ${character.name} creado.✅`);
   } else {
-    console.log(`Jugador ${character.Name} ya existe. ✅`);
+    console.log(`Jugador ${character.name} ya existe. ✅`);
   }
 }

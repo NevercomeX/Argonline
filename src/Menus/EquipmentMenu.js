@@ -37,6 +37,8 @@ export async function EquipmentMenu(id) {
     ammoSlot: "Ammo ",
   };
 
+  // add and back to main menu options
+
   const itemIds = Object.values(equipment).filter((value) => value !== null);
   const itemNamesMap = new Map();
   for (const itemId of itemIds) {

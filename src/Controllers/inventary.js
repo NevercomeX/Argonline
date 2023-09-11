@@ -28,9 +28,9 @@ export async function getInventoryByEnemyId(id) {
 
 //get a list of all items from a specific character inventory
 
-export async function getCharacterInventory() {
+export async function getCharacterInventory(id) {
   const playerInventory = await prisma.character.findUnique({
-    where: { id: 1 },
+    where: { id: id },
     include: {
       inventory: true,
     },
@@ -39,9 +39,9 @@ export async function getCharacterInventory() {
   return playerInventory;
 }
 
-export async function getCharacterInventoryItems() {
+export async function getCharacterInventoryItems(id) {
   const playerInventory = await prisma.character.findUnique({
-    where: { id: 1 },
+    where: { id: id },
     include: {
       inventory: {
         include: {
@@ -50,7 +50,6 @@ export async function getCharacterInventoryItems() {
       },
     },
   });
-
   return playerInventory;
 }
 
@@ -64,4 +63,24 @@ export async function addItemToInventory(characterId, itemId, quantity) {
   });
 
   return inventory;
+}
+
+export async function removeItemFromInventory(characterId, itemId, quantity) {
+  const inventory = await prisma.inventory.findFirst({
+    where: {
+      characterId: parseInt(characterId),
+      itemId: parseInt(itemId),
+    },
+  });
+
+  if (inventory.quantity > quantity) {
+    await prisma.inventory.update({
+      where: { id: inventory.id },
+      data: { quantity: inventory.quantity - quantity },
+    });
+  } else {
+    await prisma.inventory.delete({
+      where: { id: inventory.id },
+    });
+  }
 }

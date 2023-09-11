@@ -6,9 +6,6 @@ import {
 } from "./Menus/index.js";
 // import CreateBattle from "./CreateBattle.js";
 
-import select from "@inquirer/select";
-import { getCharacter } from "./Controllers/index.js";
-
 export async function runGame(id) {
   let quit = false;
   while (!quit) {

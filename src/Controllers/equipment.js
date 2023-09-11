@@ -37,3 +37,12 @@ export async function unequipItem(id, slot) {
     data: { [slot]: null },
   });
 }
+
+export async function equipItem(id, slot, itemId) {
+  const equipment = await getEquipmentByCharacterIdAndSlot(id, slot);
+  const equipmentId = equipment.id;
+  await prisma.equipment.update({
+    where: { id: equipmentId },
+    data: { [slot]: parseInt(itemId) },
+  });
+}

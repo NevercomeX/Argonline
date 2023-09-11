@@ -10,7 +10,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Character" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "Name" TEXT NOT NULL,
+    "name" TEXT NOT NULL DEFAULT 'Player',
     "userId" INTEGER NOT NULL,
     "jobclassId" INTEGER NOT NULL,
     "str" INTEGER NOT NULL,
@@ -117,7 +117,8 @@ CREATE TABLE "Item" (
     "weaponType" TEXT NOT NULL,
     "usable" BOOLEAN NOT NULL,
     "rarity" TEXT NOT NULL,
-    "effect" TEXT
+    "effect" TEXT,
+    "equipable" BOOLEAN NOT NULL
 );
 
 -- CreateTable
@@ -154,7 +155,7 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Character_Name_key" ON "Character"("Name");
+CREATE UNIQUE INDEX "Character_name_key" ON "Character"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Enemy_name_key" ON "Enemy"("name");
