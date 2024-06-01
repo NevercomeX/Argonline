@@ -5,12 +5,18 @@ export async function userSeed(prisma) {
       email: "admin@ragnarokonline.com ",
       password: "admin",
       role: "admin",
+      Character: {
+        id: 1,
+      },
     },
     {
       username: "user",
       email: "user@ragnarokonline.com",
       password: "user",
       role: "user",
+      Character: {
+        id: 2,
+      },
     },
   ];
 

@@ -1,6 +1,6 @@
 //seed equipment
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/edge.js";
 
 const prisma = new PrismaClient();
 
