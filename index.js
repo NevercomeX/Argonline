@@ -9,11 +9,11 @@ console.log("Bienvenido a Ragnarok!");
 async function main() {
   //get character id and pass it to runGame
 
-  // const character = await prisma.character.findFirst({
-  //   where: {
-  //     id: 1,
-  //   },
-  // });
+  const character = await prisma.character.findFirst({
+    where: {
+      id: 1,
+    },
+  });
 
   await runGame(1);
 }

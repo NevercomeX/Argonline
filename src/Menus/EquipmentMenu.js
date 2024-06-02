@@ -90,57 +90,63 @@ export async function EquipmentMenu(id) {
     }
   );
 
-  // ask the user if they want to unequip show item info or go back
-  // if they want to unequip, ask them which item they want to unequip
-  // if they want to show item info, show it
-  // if they want to go back, go back
-
-  //   const answer = await select({
-  //     message: "What do you want to do?",
-  //     choices: [
-  //       new Separator(" "),
-  //       new Separator(" ╔" + "═".repeat(35) + "╗"),
-  //       { name: "║ Show item info", value: "showItemInfo" },
-  //       { name: "║ Unequip an item", value: "unequipItem" },
-  //       { name: "║ Go back", value: "goBack" },
-  //       new Separator(" ╚" + "═".repeat(35) + "╝"),
-  //       new Separator(" "),
-  //     ],
-  //     pageSize: 15,
-  //   });
-
-  //   if (answer === "showItemInfo") {
-  //     await showItemInfo(id);
-  //   } else if (answer === "unequipItem") {
-  //     await unequipItemMenu(id);
-  //   } else if (answer === "goBack") {
-  //     return;
-  //   }
-
-  //   await EquipmentMenu(id);
-  // }
-
-  const answer = await select({
-    message: "Which item do you want to unequip?",
+  const answerA = await select({
+    // add a back to main menu option and a show item info which will show the item info and unequip item
+  
+    message: "What do you want to do?",
     choices: [
       new Separator(" "),
       new Separator(" ╔" + "═".repeat(35) + "╗"),
-      ...equipmentSlotsArray,
+      { name: "║ Equip and Unequip", value: "showItemInfo" },
+      { name: "║ Go back", value: "goBack" },
       new Separator(" ╚" + "═".repeat(35) + "╝"),
       new Separator(" "),
     ],
     pageSize: 15,
   });
 
+
+  if (answerA === "showItemInfo") {
+    await showItemInfo(id);
+  }
+  if (answerA === "unequipItem") {
+    await unequipItemMenu(id);
+  }
+  if (answerA === "goBack") {
+    return;
+  }
+
+  // encerrar answer en una funcion async
+  //   async function answer() {
+
+
+  async function showItemInfo(){
+    const answer = await select({
+      // add and back to main menu options
+      message: "Which item do you want to unequip?",
+      choices: [
+        new Separator(" "),
+        new Separator(" ╔" + "═".repeat(35) + "╗"),
+        ...equipmentSlotsArray,
+        new Separator(" ╚" + "═".repeat(35) + "╝"),
+        new Separator(" "),
+      ],
+      pageSize: 15,
+    });
+    return answer;
+  } 
+
+  async function unequipItemMenu(answer){
+
   const itemId = equipment[answer];
   const itemName = itemNamesMap.get(itemId);
   const quantity = 1;
   if (itemId === null) {
     console.log("This slot is empty!");
-    readlineSync.question(
-      "Presiona cualquier tecla para volver al menu principal."
-    );
+    //instead of returning to the main menu, we return to the equipment menu
+    await EquipmentMenu(id);
     return;
+
   } else if (itemId === 0) {
     console.log("You can't unequip this item!");
     readlineSync.question(
@@ -149,6 +155,7 @@ export async function EquipmentMenu(id) {
     return;
   } else if (itemId === -1) {
     console.log("This slot is locked!");
+    //instead of returning to the main menu, we return to the equipment menu
     readlineSync.question(
       "Presiona cualquier tecla para volver al menu principal."
     );
@@ -161,3 +168,4 @@ export async function EquipmentMenu(id) {
     "Presiona cualquier tecla para volver al menu principal."
   );
 }
+} 

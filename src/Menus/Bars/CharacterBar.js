@@ -28,7 +28,7 @@ const lineLength = 60; // The total length of the line
 export async function drawCharacterInfo(id) {
   const character = await getCharacter(id);
   const lineLength = 100; // Define la longitud de la línea
-  let infoLine = `║ Name: ${character.Name} | BLevel: ${character.baseLevel} | JLevel: ${character.jobLevel} | Job: ${character.jobclassId}`;
+  let infoLine = `║ Name: ${character.name} | BLevel: ${character.baseLevel} | JLevel: ${character.jobLevel} | Job: ${character.jobclassId}`;
   let paddingLength = lineLength - infoLine.length;
   let padding = " ".repeat(paddingLength);
   infoLine += padding + " ║";
