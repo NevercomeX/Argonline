@@ -7,7 +7,6 @@ import {
   getEquipmentByCharacterIdAndSlot,
   unequipItem,
   equipItem,
-  removeItemFromInventory,
 } from "../Controllers/index.js";
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 

@@ -90,6 +90,36 @@ export async function EquipmentMenu(id) {
     }
   );
 
+  // ask the user if they want to unequip show item info or go back
+  // if they want to unequip, ask them which item they want to unequip
+  // if they want to show item info, show it
+  // if they want to go back, go back
+
+  //   const answer = await select({
+  //     message: "What do you want to do?",
+  //     choices: [
+  //       new Separator(" "),
+  //       new Separator(" ╔" + "═".repeat(35) + "╗"),
+  //       { name: "║ Show item info", value: "showItemInfo" },
+  //       { name: "║ Unequip an item", value: "unequipItem" },
+  //       { name: "║ Go back", value: "goBack" },
+  //       new Separator(" ╚" + "═".repeat(35) + "╝"),
+  //       new Separator(" "),
+  //     ],
+  //     pageSize: 15,
+  //   });
+
+  //   if (answer === "showItemInfo") {
+  //     await showItemInfo(id);
+  //   } else if (answer === "unequipItem") {
+  //     await unequipItemMenu(id);
+  //   } else if (answer === "goBack") {
+  //     return;
+  //   }
+
+  //   await EquipmentMenu(id);
+  // }
+
   const answer = await select({
     message: "Which item do you want to unequip?",
     choices: [
