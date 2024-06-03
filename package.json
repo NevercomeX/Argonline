@@ -1,6 +1,6 @@
 {
   "name": "ahgonline",
-  "version": "1.0.0",
+  "version": "0.23.5",
   "description": "ragnarok online clone",
   "main": "index.js",
   "type": "module",
@@ -13,6 +13,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --quiet --fix",
     "pre-commit": "lint-staged",
+    "rseed": "npx prisma db push --force-reset &&  node seed/index.js",
     "seed": "node seed/index.js"
   },
   "repository": {

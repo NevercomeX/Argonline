@@ -26,6 +26,9 @@ import {
 const lineLength = 60; // The total length of the line
 
 export async function drawCharacterInfo(id) {
+
+  console.log("Bienvenido a Ragnarok!");
+  console.log(id)
   const character = await getCharacter(id);
   const lineLength = 100; // Define la longitud de la línea
   let infoLine = `║ Name: ${character.name} | BLevel: ${character.baseLevel} | JLevel: ${character.jobLevel} | Job: ${character.jobclassId}`;

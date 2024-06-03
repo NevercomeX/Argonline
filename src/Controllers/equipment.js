@@ -40,9 +40,26 @@ export async function unequipItem(id, slot) {
 
 export async function equipItem(id, slot, itemId) {
   const equipment = await getEquipmentByCharacterIdAndSlot(id, slot);
-  const equipmentId = equipment.id;
-  await prisma.equipment.update({
-    where: { id: equipmentId },
-    data: { [slot]: parseInt(itemId) },
+  if (equipment) {
+    const equipmentId = equipment.id;
+    await prisma.equipment.update({
+      where: { id: equipmentId },
+      data: { [slot]: parseInt(itemId) },
+    });
+  } else {
+    throw new Error("Equipment not found");
+  }
+}
+
+export async function deleteEquipmentById(id) {
+  const equipment = await prisma.equipment.findFirst({
+    where: { id: parseInt(id) },
   });
+  if (equipment) {
+    await prisma.equipment.delete({
+      where: { id: parseInt(id) },
+    });
+  } else {
+    throw new Error("Equipment not found");
+  }
 }

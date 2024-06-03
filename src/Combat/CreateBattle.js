@@ -1,8 +1,15 @@
-import { drawCombatMenu, drawCharacterInfo, drawEnemyBar } from "./Drawer.js";
-import { attackPlayer, attackEnemy } from "./Combat/Attack.js";
-import { gainExperience } from "./Combat/ExpGain.js";
+import { drawCharacterInfo } from "../Menus/Bars/CharacterBar.js";
+import { drawEnemyBar } from "../Menus/Bars/EnemyBar.js";
+import { attackPlayer, attackEnemy } from "./Actions/Attack.js";
+import { gainExperience } from "./Actions/ExpGain.js";
+import { drawCombatMenu } from "../Menus/CombatMenu.js";
 
-function createBattle(player, enemy) {
+import readlineSync from "readline-sync";
+
+async function createBattle(player, enemy) {
+
+  start();
+
   let messages = [];
 
   function addMessage(message) {
@@ -10,16 +17,17 @@ function createBattle(player, enemy) {
   }
 
   function printMessages() {
-    for (let message of messages) {
-      console.log(message);
-    }
+    messages.forEach((message) => console.log(message));
     messages = [];
   }
 
   function drawBattleScene() {
+    console.clear();
     drawCharacterInfo(player);
     console.log(" ");
-    console.log("⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️🔥 VS 🔥⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️");
+    console.log(
+      "⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️🔥 VS 🔥⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️"
+    );
     console.log(" ");
     drawEnemyBar(enemy);
   }
@@ -30,24 +38,19 @@ function createBattle(player, enemy) {
       const action = await drawCombatMenu(player);
       switch (action) {
         case 1:
-          drawCharacterInfo(player);
-          let damageMade = attackPlayer(player, enemy);
-          addMessage(
-            `${player.name} ataca a ${enemy.name} por ${damageMade} de daño.`
-          );
-          printMessages();
+          handlePlayerAttack();
           validAction = true;
           break;
         case 2:
-          player.defend(enemy);
+          handlePlayerDefend();
           validAction = true;
           break;
         case 3:
-          player.useItem();
+          handlePlayerUseItem();
           validAction = true;
           break;
         case 4:
-          player.runAway();
+          handlePlayerRunAway();
           validAction = true;
           break;
         default:
@@ -58,11 +61,37 @@ function createBattle(player, enemy) {
     endTurn("player");
   }
 
+  function handlePlayerAttack() {
+    const damageMade = attackPlayer(player, enemy);
+    addMessage(
+      `${player.name} ataca a ${enemy.name} por ${damageMade} de daño.`
+    );
+    printMessages();
+  }
+
+  function handlePlayerDefend() {
+    player.defend(enemy);
+    addMessage(`${player.name} se defiende.`);
+    printMessages();
+  }
+
+  function handlePlayerUseItem() {
+    player.useItem();
+    addMessage(`${player.name} usa un objeto.`);
+    printMessages();
+  }
+
+  function handlePlayerRunAway() {
+    player.runAway();
+    addMessage(`${player.name} huye del combate.`);
+    printMessages();
+  }
+
   function enemyTurn() {
     if (player.health > 0) {
       try {
         drawEnemyBar(enemy);
-        let damageMade = attackEnemy(player, enemy);
+        const damageMade = attackEnemy(player, enemy);
         console.log(" ");
         addMessage(
           `${enemy.name} ataca a ${player.name} por ${damageMade} de daño.`
@@ -72,7 +101,6 @@ function createBattle(player, enemy) {
         console.error(`Error during enemy attack: ${error}`);
       }
     }
-
     endTurn("enemy");
   }
 
@@ -92,9 +120,9 @@ function createBattle(player, enemy) {
     }
   }
 
-  function start() {
+  async function start() {
     drawBattleScene();
-    playerTurn();
+    await playerTurn();
   }
 
   return { start };

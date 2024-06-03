@@ -16,10 +16,8 @@ model User {
   email    String   @unique
   password String
   role     String   @default("user")
-  Character Character[]
+  characters Character[]
 }
-
-
 
 model Character {
   id            Int    @id @default(autoincrement())
@@ -47,117 +45,131 @@ model Character {
   magicPower    Int
   defense       Int
   magicDefense  Int
-  Inventarty   Inventory[]
-  Equipment    Equipment[]
-  UserId          User   @relation(fields: [userId], references: [id])
+  inventory     Inventory[]
+  equipment     Equipment[]
+  user          User   @relation(fields: [userId], references: [id])
+
+  // Fields to store the calculated total stats
+  totalAttackPower Int @default(0)
+  totalMagicPower  Int @default(0)
+  totalDefense     Int @default(0)
+  totalMagicDefense Int @default(0)
+  totalHealth      Int @default(0)
+  totalMana        Int @default(0)
+  totalStr         Int @default(0)
+  totalAgi         Int @default(0)
+  totalVit         Int @default(0)
+  totalInt         Int @default(0)
+  totalDex         Int @default(0)
+  totalLuk         Int @default(0)
 }
 
 model Inventory {
-  id        Int    @id @default(autoincrement())
-  Character    Character @relation(fields: [characterId], references: [id])
+  id           Int       @id @default(autoincrement())
   characterId  Int
-  item       Item    @relation(fields: [itemId], references: [id])
-  itemId    Int
-  quantity  Int
- 
+  itemId       Int
+  quantity     Int
+  character    Character @relation(fields: [characterId], references: [id])
+  item         Item      @relation(fields: [itemId], references: [id])
 }
 
 model Equipment {
-  id        Int    @id @default(autoincrement())
-  characterId  Int
-  upperHeadSlot    Int?
-  midHeadSlot    Int?
-  lowerHeadSlot    Int?
-  bodySlot     Int?
-  rightHandSlot    Int?
+  id              Int       @id @default(autoincrement())
+  characterId     Int
+  upperHeadSlot   Int?
+  midHeadSlot     Int?
+  lowerHeadSlot   Int?
+  bodySlot        Int?
+  rightHandSlot   Int?
   leftHandSlot    Int?
-  robeSlot   Int?
-  shoesSlot  Int?
+  robeSlot        Int?
+  shoesSlot       Int?
   accessorySlot01 Int?
   accessorySlot02 Int?
-  ammoSlot    Int?
-  Character    Character @relation(fields: [characterId], references: [id])
+  ammoSlot        Int?
+  character       Character @relation(fields: [characterId], references: [id])
 }
+
 model Enemy {
-  id            Int    @id @default(autoincrement())
-  name          String @unique
-  attackType    String
-  giveBaseExpAmount     Int
+  id               Int       @id @default(autoincrement())
+  name             String    @unique
+  attackType       String
+  giveBaseExpAmount Int
   giveJobExpAmount Int
-  health        Int
-  maxHealth     Int
+  health           Int
+  maxHealth        Int
+  attackPower      Int
+  magicPower       Int
+  defense          Int
+  magicDefense     Int
+  baseLevel        Int
+  monsterType      String
+  itemDrops        EnemyDrop[]
+}
+
+model EnemyDrop {
+  id         Int   @id @default(autoincrement())
+  enemyId    Int
+  itemId     Int
+  dropChance Float
+  enemy      Enemy @relation(fields: [enemyId], references: [id])
+  item       Item  @relation(fields: [itemId], references: [id])
+  @@unique([enemyId, itemId])
+}
+
+model Item {
+  id            Int      @id @default(autoincrement())
+  name          String   @unique
+  itemType      String   @default("None")
+  itemSubType   String   @default("None")
+  equipmentSlot String   @default("None")
+  description   String
+  price         Int
   attackPower   Int
   magicPower    Int
   defense       Int
   magicDefense  Int
-  baseLevel Int
-  monsterType String
-  ItemDrop EnemyDrop[]
+  health        Int
+  mana          Int
+  str           Int
+  agi           Int
+  vit           Int
+  int           Int
+  dex           Int
+  luk           Int
+  slot          Int
+  weaponType    String
+  usable        Boolean
+  rarity        String
+  effect        String?
+  equipable     Boolean
+  enemyDrops    EnemyDrop[]
+  inventory     Inventory[]
 }
 
-model EnemyDrop {
-  id         Int     @id @default(autoincrement())
-  enemy      Enemy   @relation(fields: [enemyId], references: [id])
-  enemyId    Int
-  item       Item    @relation(fields: [itemId], references: [id])
-  itemId     Int
-  dropChance Float   // Add a dropChance field (a float representing the percentage)
-  @@unique([enemyId, itemId]) // Ensure uniqueness for enemy-item pairs
-}
-
-model Item {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  itemType    String   @default("None")
-  itemSubType String   @default("None")
-  equipmentSlot String @default("None")
-  description String
-  price       Int
-  attackPower Int
-  magicPower  Int
-  defense     Int
-  magicDefense Int
-  health      Int
-  mana        Int
-  str         Int
-  agi         Int
-  vit         Int
-  int         Int
-  dex         Int
-  luk         Int
-  slot        Int
-  weaponType  String
-  usable      Boolean  
-  rarity      String   
-  effect      String?
-  equipable   Boolean
-  EnemyDrop   EnemyDrop[]
-  Inventory  Inventory[]
-}
 model JobClass {
-  id       Int      @id @default(autoincrement())
-  name     String   @unique
-  str      Int
-  agi      Int
-  vit      Int
-  int      Int
-  dex      Int
-  luk      Int
-  health   Int
-  mana     Int
+  id            Int  @id @default(autoincrement())
+  name          String @unique
+  str           Int
+  agi           Int
+  vit           Int
+  int           Int
+  dex           Int
+  luk           Int
+  health        Int
+  mana          Int
   maxHealth     Int
   maxMana       Int
-  attackPower Int
-  magicPower  Int
-  defense     Int
-  magicDefense Int
-  baseLevel Int
-  jobLevel  Int
-  baseExp   Int
-  jobExp    Int
-  maxBaseExp Int
-  maxJobExp  Int
-  skillPoints Int
-  // skillTree  Skill[]
+  attackPower   Int
+  magicPower    Int
+  defense       Int
+  magicDefense  Int
+  baseLevel     Int
+  jobLevel      Int
+  baseExp       Int
+  jobExp        Int
+  maxBaseExp    Int
+  maxJobExp     Int
+  skillPoints   Int
+  // skillTree   Skill[]
 }
-

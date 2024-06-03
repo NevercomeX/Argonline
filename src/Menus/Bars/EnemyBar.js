@@ -1,4 +1,3 @@
-import readlineSync from "readline-sync";
 import select, { Separator } from "@inquirer/select";
 import {
   getInventory,
@@ -14,11 +13,12 @@ import {
   getCharacterInventoryItems,
   getCharacterInventory,
   getItemNameById,
-} from "./Controllers/index.js";
+} from "../../Controllers/index.js";
 
-import { drawEnemyHealthBar } from "./Bars/helpers/Bars.js";
+import { drawEnemyHealthBar } from "./helpers/Bars.js";
 
 export function drawEnemyBar(enemy) {
+  const lineLength = 60;
   console.log("╔" + "═".repeat(lineLength - 2) + "╗");
   console.log(
     `║ Name: ${enemy.name} | Level: ${enemy.baseLevel} | Type: ${enemy.monsterType}`.padEnd(

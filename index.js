@@ -3,8 +3,7 @@ import { runGame } from "./src/Game.js";
 
 const prisma = new PrismaClient();
 
-console.clear();
-console.log("Bienvenido a Ragnarok!");
+
 
 async function main() {
   //get character id and pass it to runGame
@@ -15,7 +14,13 @@ async function main() {
     },
   });
 
-  await runGame(1);
+  const enemy = await prisma.enemy.findFirst({
+    where: {
+      id: 1,
+    },
+  });
+
+  await runGame(character, enemy);
 }
 
 main()
