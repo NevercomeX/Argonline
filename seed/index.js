@@ -1,7 +1,7 @@
+import { PrismaClient } from "@prisma/client";
 import { characterSeed } from "./character.js";
 import { enemySeed } from "./enemies.js";
 import { itemSeed } from "./items.js";
-import { PrismaClient } from "@prisma/client";
 import { enemyDropSeed } from "./enemydrop.js";
 import { inventarySeed } from "./inventary.js";
 import { jobClassSeed } from "./jobClass.js";
@@ -10,30 +10,45 @@ import { equipmentSeed } from "./equipment.js";
 
 const prisma = new PrismaClient();
 
-async function seed() {
+async function resetDatabase() {
+  console.log("Resetting database...");
+
   try {
-    await userSeed(prisma),
-      console.log("====================================="),
-      await characterSeed(prisma),
-      console.log("====================================="),
-      await enemySeed(prisma),
-      console.log("====================================="),
-      await jobClassSeed(prisma),
-      console.log("====================================="),
-      await itemSeed(prisma),
-      console.log("====================================="),
-      await enemyDropSeed(prisma),
-      console.log("====================================="),
-      await inventarySeed(prisma),
-      console.log("====================================="),
-      await equipmentSeed(prisma),
-      console.log("====================================="),
-      await prisma.$disconnect();
+    await prisma.inventory.deleteMany({});
+    await prisma.equipment.deleteMany({});
+    await prisma.enemyDrop.deleteMany({});
+    await prisma.enemy.deleteMany({});
+    await prisma.item.deleteMany({});
+    await prisma.character.deleteMany({});
+    await prisma.user.deleteMany({});
+    await prisma.jobClass.deleteMany({});
+
+    console.log("Database reset successful! ✅");
+  } catch (error) {
+    console.error("Error resetting database:", error);
+  }
+}
+
+async function seed() {
+  await resetDatabase();
+
+  try {
+    await userSeed(prisma);
+    await jobClassSeed(prisma);
+    await characterSeed(prisma);
+    await itemSeed(prisma);
+    await enemySeed(prisma);
+    await enemyDropSeed(prisma);
+    await inventarySeed(prisma);
+    await equipmentSeed(prisma);
+
+    await prisma.$disconnect();
     console.log("Seed successful! ✅");
-    return true;
+
   } catch (error) {
     console.error("An error occurred during seeding:", error);
-    return false;
+    await prisma.$disconnect();
+    process.exit(1);
   }
 }
 

@@ -34,6 +34,18 @@ CREATE TABLE "Character" (
     "magicPower" INTEGER NOT NULL,
     "defense" INTEGER NOT NULL,
     "magicDefense" INTEGER NOT NULL,
+    "totalAttackPower" INTEGER NOT NULL DEFAULT 0,
+    "totalMagicPower" INTEGER NOT NULL DEFAULT 0,
+    "totalDefense" INTEGER NOT NULL DEFAULT 0,
+    "totalMagicDefense" INTEGER NOT NULL DEFAULT 0,
+    "totalHealth" INTEGER NOT NULL DEFAULT 0,
+    "totalMana" INTEGER NOT NULL DEFAULT 0,
+    "totalStr" INTEGER NOT NULL DEFAULT 0,
+    "totalAgi" INTEGER NOT NULL DEFAULT 0,
+    "totalVit" INTEGER NOT NULL DEFAULT 0,
+    "totalInt" INTEGER NOT NULL DEFAULT 0,
+    "totalDex" INTEGER NOT NULL DEFAULT 0,
+    "totalLuk" INTEGER NOT NULL DEFAULT 0,
     CONSTRAINT "Character_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 

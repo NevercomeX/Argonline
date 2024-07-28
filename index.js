@@ -1,27 +1,30 @@
 import { PrismaClient } from "@prisma/client";
 import { runGame } from "./src/Game.js";
+import { exec } from "child_process";
+import { getRandomEnemy } from "./src/Controllers/enemies.js";
 
 const prisma = new PrismaClient();
 
-console.clear();
-console.log("Bienvenido a Ragnarok!");
-
 async function main() {
-  //get character id and pass it to runGame
+  try {
+    const character = await getCharacterById(1);
+    const enemy = await getRandomEnemy();
 
-  const character = await prisma.character.findFirst({
-    where: {
-      id: 1,
-    },
-  });
+    if (!character || !enemy) {
+      console.error("Character or Enemy not found!");
+      return;
+    }
 
-  await runGame(1);
+    await runGame(character, enemy);
+  } catch (error) {
+    console.error("An error occurred:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
 }
 
-main()
-  .catch((e) => {
-    throw e;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+async function getCharacterById(id) {
+  return await prisma.character.findFirst({ where: { id } });
+}
+
+main();

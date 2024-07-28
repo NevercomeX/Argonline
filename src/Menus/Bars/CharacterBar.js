@@ -7,7 +7,7 @@ import {
   getEquipment,
   getItems,
   getJobClasses,
-  getCharacter,
+  getCharacterById,
   getEquipmentByCharacterId,
   getEquipmentByCharacterIdAndSlot,
   getInventoryById,
@@ -23,10 +23,10 @@ import {
   drawJobExperienceBar,
 } from "./helpers/Bars.js";
 
-const lineLength = 60; // The total length of the line
-
 export async function drawCharacterInfo(id) {
-  const character = await getCharacter(id);
+
+  console.log(id)
+  const character = await getCharacterById(id);
   const lineLength = 100; // Define la longitud de la línea
   let infoLine = `║ Name: ${character.name} | BLevel: ${character.baseLevel} | JLevel: ${character.jobLevel} | Job: ${character.jobclassId}`;
   let paddingLength = lineLength - infoLine.length;

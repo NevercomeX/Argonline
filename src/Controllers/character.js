@@ -2,21 +2,15 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function getCharacter() {
-  const playerData = await prisma.character.findUnique({
-    where: { id: 1 },
+export async function getCharacterById(id) {
+  return await prisma.character.findUnique({
+    where: { id: parseInt(id) },
   });
-
-  return playerData;
 }
 
-export async function updateCharacter(data) {
-  const playerData = await prisma.character.update({
-    where: { id: 1 },
-    data: {
-      ...data,
-    },
+export async function updateCharacter(id, data) {
+  return await prisma.character.update({
+    where: { id: parseInt(id) },
+    data: data,
   });
-
-  return playerData;
 }

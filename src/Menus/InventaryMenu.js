@@ -37,6 +37,7 @@ export async function InventaryMenu(id) {
       ...inventoryItems,
       new Separator(" ╚" + "═".repeat(35) + "╝"),
       new Separator(" "),
+      { name: "Go back", value: "goBack"}
     ],
     pageSize: 100,
     loop: false,
@@ -45,6 +46,10 @@ export async function InventaryMenu(id) {
       return val.toLowerCase();
     },
   });
+
+  if (inventoryMenu === "goBack") {
+    return;
+  }
 
   if (inventoryMenu === undefined) {
     return;

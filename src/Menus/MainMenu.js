@@ -1,14 +1,4 @@
 import select, { Separator } from "@inquirer/select";
-import {
-  getInventory,
-  getEnemies,
-  getEnemyDrops,
-  getEquipment,
-  getItems,
-  getJobClasses,
-  getCharacter,
-} from "../Controllers/index.js";
-
 import { drawCharacterInfo } from "./Bars/CharacterBar.js ";
 export async function MainMenu(character) {
   console.clear();
@@ -40,7 +30,6 @@ export async function MainMenu(character) {
         value: 4,
         description: "View your inventory",
       },
-
       {
         name: "║ Options      ║",
         value: 5,

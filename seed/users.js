@@ -1,31 +1,38 @@
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
 export async function userSeed(prisma) {
-  const user = [
+  const users = [
     {
       username: "admin",
-      email: "admin@ragnarokonline.com ",
-      password: "admin",
+      email: "admin@ragnarokonline.com",
+      password: "admin", // Esta es solo una representación, se debería usar un hash de la contraseña
       role: "admin",
     },
     {
       username: "user",
       email: "user@ragnarokonline.com",
-      password: "user",
+      password: "user", // Esta es solo una representación, se debería usar un hash de la contraseña
       role: "user",
     },
   ];
 
-  for (const u of user) {
-    const existingUser = await prisma.user.findUnique({
-      where: { username: u.username },
-    });
-
-    if (!existingUser) {
-      await prisma.user.create({
-        data: u,
+  for (const user of users) {
+    try {
+      const existingUser = await prisma.user.findUnique({
+        where: { username: user.username },
       });
-      console.log(`User ${u.username} created.✅`);
-    } else {
-      console.log(`User ${u.username} already exists. ✅`);
+
+      if (!existingUser) {
+        await prisma.user.create({
+          data: user,
+        });
+        console.log(`User ${user.username} created.✅`);
+      } else {
+        console.log(`User ${user.username} already exists. ✅`);
+      }
+    } catch (error) {
+      console.error(`Error creating user ${user.username}:`, error);
     }
   }
 }
