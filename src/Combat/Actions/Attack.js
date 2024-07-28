@@ -1,22 +1,22 @@
-export function attackPlayer(player, enemy) {
+import {updateCharacter} from "../../Controllers/character.js";
+
+export async function attackPlayer(player, enemy) {
   let damage = player.attackPower - enemy.defense;
   enemy.health -= damage;
-  updatePlayerHealth(player.id, player.health);
+  // updatePlayerHealth(player, player.id, player.health);
   return damage;
 }
 
-export function attackEnemy(player, enemy) {
+export async function attackEnemy(player, enemy) {
   let damage = enemy.attackPower - player.defense;
   player.health -= damage;
   return damage;
 }
 
-export async function updatePlayerHealth(playerId, newHealth) {
-  const updatedPlayer = await prisma.player.update({
-    where: { id: playerId },
-    data: { health: newHealth },
-  });
-  return updatedPlayer;
+export async function updatePlayerHealth( playerId, newHealth) {
+  const playerData = await updateCharacter(playerId, { health: newHealth });
+  return playerData;
+
 }
 
 export function physicalAttack(target) {

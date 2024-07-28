@@ -1,61 +1,34 @@
 import select, { Separator } from "@inquirer/select";
-import {
-  getInventory,
-  getEnemies,
-  getEnemyDrops,
-  getEquipment,
-  getItems,
-  getJobClasses,
-  getCharacter,
-} from "../Controllers/index.js";
 
-import { drawCharacterInfo } from "./Bars/CharacterBar.js ";
-export async function CombatMenu(character) {
-  console.clear();
-  await drawCharacterInfo(character);
+export async function CombatMenu() {
   console.log(" ");
   const answer = await select({
-    message: "Menu Princial",
+    message: "Combat Menu",
     choices: [
       new Separator(" "),
       new Separator(" ╔" + "═".repeat(14) + "╗"),
 
       {
-        name: "║ Combat       ║",
+        name: "║ Attack       ║",
         value: 1,
         description: "Fight against monsters",
       },
       {
-        name: "║ Stats        ║",
+        name: "║ Defence        ║",
         value: 2,
         description: "View your stats",
       },
       {
-        name: "║ Equipment    ║",
+        name: "║ Items    ║",
         value: 3,
         description: "View your equipment",
       },
       {
-        name: "║ Inventory    ║",
+        name: "║ RunAway    ║",
         value: 4,
         description: "View your inventory",
       },
 
-      {
-        name: "║ Options      ║",
-        value: 5,
-        description: "View the options",
-      },
-      {
-        name: "║ Save         ║",
-        value: 6,
-        description: "Save your progress",
-      },
-      {
-        name: "║ Quit         ║",
-        value: 7,
-        description: "Quit the game",
-      },
       new Separator(" ╚" + "═".repeat(14) + "╝"),
       new Separator(" "),
     ],

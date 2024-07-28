@@ -1,4 +1,4 @@
-export function gainExperience(player, enemyExperience) {
+export async function gainExperience(player, enemyExperience) {
   player.baseExp += enemyExperience.baseExpAmount;
   player.jobExp += enemyExperience.jobExpAmount;
   console.log(`${player.name} ganó ${enemyExperience.baseExpAmount} EXP base!`);

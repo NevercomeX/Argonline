@@ -3,30 +3,30 @@ import { runGame } from "./src/Game.js";
 
 const prisma = new PrismaClient();
 
-
-
 async function main() {
-  //get character id and pass it to runGame
+  try {
+    const character = await getCharacterById(1);
+    const enemy = await getEnemyById(1);
 
-  const character = await prisma.character.findFirst({
-    where: {
-      id: 1,
-    },
-  });
+    if (!character || !enemy) {
+      console.error("Character or Enemy not found!");
+      return;
+    }
 
-  const enemy = await prisma.enemy.findFirst({
-    where: {
-      id: 1,
-    },
-  });
-
-  await runGame(character, enemy);
+    await runGame(character, enemy);
+  } catch (error) {
+    console.error("An error occurred:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
 }
 
-main()
-  .catch((e) => {
-    throw e;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+async function getCharacterById(id) {
+  return await prisma.character.findFirst({ where: { id } });
+}
+
+async function getEnemyById(id) {
+  return await prisma.enemy.findFirst({ where: { id } });
+}
+
+main();
