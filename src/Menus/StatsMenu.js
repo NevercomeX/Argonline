@@ -1,15 +1,15 @@
 import readlineSync from "readline-sync";
-import { getCharacter } from "../Controllers/index.js";
+import { getCharacterById } from "../Controllers/index.js";
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 
 export async function StatsMenu(id) {
   console.clear();
   await drawCharacterInfo(id);
-  const character = await getCharacter(id);
+  const character = await getCharacterById(id);
   console.log(" ");
   console.log("╔════════════════════════════════════════════════════════╗");
   console.log(
-    `║ ${character.Name} - Nivel ${character.baseLevel} - Job: ${character.jobclassId}\n` +
+    `║ ${character.name} - Nivel ${character.baseLevel} - Job: ${character.jobclassId}\n` +
       `║ STR: ${character.str}\n` +
       `║ AGI: ${character.agi}\n` +
       `║ VIT: ${character.vit}\n` +

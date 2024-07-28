@@ -10,7 +10,7 @@ export async function drawEnemyBar(enemy) {
   );
   drawEnemyHealthBar(enemy.health, enemy.maxHealth);
   console.log(
-    `║ Reward Base EXP: ${enemy.baseExpAmount} | Reward Job EXP: ${enemy.jobExpAmount}`.padEnd(
+    `║ Reward Base EXP: ${enemy.giveBaseExpAmount} | Reward Job EXP: ${enemy.giveJobExpAmount}`.padEnd(
       lineLength - 1
     ) + "║"
   );

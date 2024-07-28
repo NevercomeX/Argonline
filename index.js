@@ -1,12 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import { runGame } from "./src/Game.js";
+import { exec } from "child_process";
+import { getRandomEnemy } from "./src/Controllers/enemies.js";
 
 const prisma = new PrismaClient();
 
 async function main() {
   try {
     const character = await getCharacterById(1);
-    const enemy = await getEnemyById(1);
+    const enemy = await getRandomEnemy();
 
     if (!character || !enemy) {
       console.error("Character or Enemy not found!");
@@ -23,10 +25,6 @@ async function main() {
 
 async function getCharacterById(id) {
   return await prisma.character.findFirst({ where: { id } });
-}
-
-async function getEnemyById(id) {
-  return await prisma.enemy.findFirst({ where: { id } });
 }
 
 main();

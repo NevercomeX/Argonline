@@ -78,7 +78,7 @@ class CombatStateMachine {
       console.log(this.continueFighting);
       console.log(this.character.health);
       readlineSync.question(
-        "aRegresas al menú principal."
+        "Regresas al menú principal."
       );
       console.log("Regresas al menú principal.");
     }

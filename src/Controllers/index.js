@@ -1,6 +1,6 @@
 //index of the controllers
 
-import { getCharacter, updateCharacter } from "./character.js";
+import { getCharacterById, updateCharacter } from "./character.js";
 import { getEnemies, getEnemyById } from "./enemies.js";
 import {
   getItems,
@@ -34,7 +34,7 @@ import {
 } from "./equipment.js";
 
 export {
-  getCharacter,
+  getCharacterById,
   updateCharacter,
   getEnemies,
   getEnemyById,

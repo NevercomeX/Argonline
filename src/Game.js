@@ -40,4 +40,9 @@ export async function runGame(character,enemy) {
         break;
     }
   }
+  if (character.health <= 0) {
+    console.log("Player has died. Resetting the database...");
+  }
+
+
 }

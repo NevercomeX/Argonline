@@ -13,3 +13,9 @@ export async function getEnemyById(id) {
     },
   });
 }
+
+export async function getRandomEnemy() {
+  const enemies = await getEnemies();
+  const randomIndex = Math.floor(Math.random() * enemies.length);
+  return enemies[randomIndex];
+}

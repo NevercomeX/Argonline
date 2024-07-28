@@ -44,6 +44,7 @@ async function seed() {
 
     await prisma.$disconnect();
     console.log("Seed successful! ✅");
+
   } catch (error) {
     console.error("An error occurred during seeding:", error);
     await prisma.$disconnect();

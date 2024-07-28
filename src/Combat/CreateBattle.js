@@ -1,17 +1,20 @@
-import { PrismaClient } from "@prisma/client";
 import { drawCharacterInfo } from "../Menus/Bars/CharacterBar.js";
 import { drawEnemyBar } from "../Menus/Bars/EnemyBar.js";
 import { attackPlayer, attackEnemy } from "./Actions/Attack.js";
 import { gainExperience } from "./Actions/ExpGain.js";
 import { CombatMenu } from "../Menus/CombatMenu.js";
-import { getCharacter, updateCharacter } from "../Controllers/character.js"; 
-import { EventEmitter } from 'events';
+import { getRandomEnemy } from "../Controllers/enemies.js";
+import { getCharacterById, updateCharacter } from "../Controllers/character.js";
 
-const prisma = new PrismaClient();
-EventEmitter.defaultMaxListeners = 20;
+async function createBattle(player) {
+  let isBattleOngoing = true;
 
-async function createBattle(player, enemy) {
-  await start(player, enemy);
+  while (isBattleOngoing) {
+    let enemy = await getRandomEnemy();
+    await start(player, enemy);
+
+    isBattleOngoing = await askForRematch();
+  }
 }
 
 async function start(player, enemy) {
@@ -35,8 +38,7 @@ function printMessages() {
 
 async function drawBattleScene(player, enemy) {
   console.clear();
-  await drawCharacterInfo(player);
-  console.log(" ");
+  await drawCharacterInfo(player.id);
   console.log(
     "⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️🔥 VS 🔥⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️"
   );
@@ -77,25 +79,29 @@ async function handlePlayerAttack(player, enemy) {
   const damageMade = await attackPlayer(player, enemy);
   addMessage(`${player.name} ataca a ${enemy.name} por ${damageMade} de daño.`);
   printMessages();
+  await drawCharacterInfo(player.id);
 }
 
-function handlePlayerDefend(player, enemy) {
-  player.defend(enemy);
-  addMessage(`${player.name} se defiende.`);
-  printMessages();
-}
+// async function handlePlayerDefend(player, enemy) {
+//   player.defend(enemy);
+//   addMessage(`${player.name} se defiende.`);
+//   printMessages();
+//   await drawCharacterInfo(player.id);
+// }
 
-function handlePlayerUseItem(player, enemy) {
-  player.useItem();
-  addMessage(`${player.name} usa un objeto.`);
-  printMessages();
-}
+// async function handlePlayerUseItem(player) {
+//   player.useItem();
+//   addMessage(`${player.name} usa un objeto.`);
+//   printMessages();
+//   await drawCharacterInfo(player.id);
+// }
 
-function handlePlayerRunAway(player, enemy) {
-  player.runAway();
-  addMessage(`${player.name} huye del combate.`);
-  printMessages();
-}
+// async function handlePlayerRunAway(player) {
+//   player.runAway();
+//   addMessage(`${player.name} huye del combate.`);
+//   printMessages();
+//   await drawCharacterInfo(player.id);
+// }
 
 async function enemyTurn(player, enemy) {
   if (player.health > 0) {
@@ -104,9 +110,6 @@ async function enemyTurn(player, enemy) {
       const damageMade = await attackEnemy(player, enemy);
       addMessage(`${enemy.name} ataca a ${player.name} por ${damageMade} de daño.`);
       printMessages();
-
-      // Actualizar el estado del jugador en la base de datos
-      await updateCharacter(player.id, { health: player.health });
     } catch (error) {
       console.error(`Error during enemy attack: ${error}`);
     }
@@ -127,14 +130,24 @@ async function mainLoop(player, enemy) {
   } else if (enemy.health <= 0) {
     console.log("Player wins!");
     await gainExperience(player, enemy);
-
-    // Actualizar el estado del jugador en la base de datos al final de la batalla
+    // Guarda el estado del jugador en la base de datos
     await updateCharacter(player.id, {
-      experience: player.experience,
-      level: player.level,
-      health: player.health
+      health: player.health,
+      // otros campos que necesiten actualizarse
     });
   }
+}
+
+async function askForRematch() {
+  console.log("¿Quieres jugar otra vez? (s/n)");
+  process.stdin.resume();
+  return new Promise((resolve) => {
+    process.stdin.once("data", (data) => {
+      const answer = data.toString().trim().toLowerCase();
+      process.stdin.pause();
+      resolve(answer === "s");
+    });
+  });
 }
 
 export default createBattle;
