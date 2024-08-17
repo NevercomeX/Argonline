@@ -69,6 +69,7 @@ model Inventory {
   characterId  Int
   itemId       Int
   quantity     Int
+  location  String @default("inventory")
   character    Character @relation(fields: [characterId], references: [id])
   item         Item      @relation(fields: [itemId], references: [id])
 }

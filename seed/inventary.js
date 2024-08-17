@@ -1,33 +1,34 @@
-// inventary seed
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-
 export async function inventarySeed(prisma) {
   const inventary = [
     {
       characterId: 1,
       itemId: 1,
       quantity: 1,
+      location: "inventory",
     },
     {
       characterId: 1,
       itemId: 2,
       quantity: 10,
+      location: "inventory",
     },
     {
       characterId: 1,
       itemId: 3,
       quantity: 1,
+      location: "inventory",
     },
     {
       characterId: 1,
       itemId: 4,
       quantity: 1,
+      location: "inventory",
     },
     {
       characterId: 1,
       itemId: 5,
       quantity: 1,
+      location: "inventory",
     },
   ];
 

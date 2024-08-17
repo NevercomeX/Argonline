@@ -7,6 +7,8 @@ import {
   getEquipmentByCharacterIdAndSlot,
   unequipItem,
   equipItem,
+  addItemToInventory,
+  removeItemFromInventory,
 } from "../Controllers/index.js";
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 
@@ -14,7 +16,7 @@ export async function InventaryMenu(id) {
   console.clear();
   await drawCharacterInfo(id);
 
-  // use the inquirer select to show the inventory and equip items from there by it equipable bollean value
+
   const inventory = await getInventory(id);
   const inventoryItems = [];
   for (let i = 0; i < inventory.length; i++) {
@@ -55,23 +57,27 @@ export async function InventaryMenu(id) {
     return;
   }
 
-  //equip item if it is equipable and if it is not, show a message
+
   const itemEquipable = await getItemsById(inventoryMenu);
   if (itemEquipable.equipable === true) {
     const equipment = await getEquipmentByCharacterIdAndSlot(
       id,
       itemEquipable.equipmentSlot,
     );
-    if (equipment === null) {
-      await equipItem(id, itemEquipable.equipmentSlot, inventoryMenu);
-      await removeItemFromInventory(id, inventoryMenu);
-    } else {
+    
+    if (equipment) {
+      console.log(`Desequipando ítem del slot: ${itemEquipable.equipmentSlot}`);
       await unequipItem(id, itemEquipable.equipmentSlot);
-      await equipItem(id, itemEquipable.equipmentSlot, inventoryMenu);
-      await removeItemFromInventory(id, inventoryMenu);
+      await addItemToInventory(id, equipment[itemEquipable.equipmentSlot], 1);
     }
+    
+
+    await equipItem(id, itemEquipable.equipmentSlot, inventoryMenu);
+    console.log(`Ítem equipado: ${itemEquipable.name}`);
+    await removeItemFromInventory(id, inventoryMenu, 1);
+    console.log(`Ítem removido del inventario: ${itemEquipable.name}`);
   } else {
-    console.log("This item is not equipable!");
+    console.log("Este ítem no es equipable!");
   }
 
   readlineSync.question(

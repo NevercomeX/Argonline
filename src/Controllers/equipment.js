@@ -39,15 +39,35 @@ export async function unequipItem(id, slot) {
 }
 
 export async function equipItem(id, slot, itemId) {
-  const equipment = await getEquipmentByCharacterIdAndSlot(id, slot);
-  if (equipment) {
-    const equipmentId = equipment.id;
-    await prisma.equipment.update({
-      where: { id: equipmentId },
-      data: { [slot]: parseInt(itemId) },
+  try {
+
+    const existingEquipment = await prisma.equipment.findFirst({
+      where: {
+        characterId: parseInt(id),
+      },
     });
-  } else {
-    throw new Error("Equipment not found");
+
+    if (existingEquipment) {
+
+      await prisma.equipment.update({
+        where: { id: existingEquipment.id },
+        data: { [slot]: parseInt(itemId) },
+      });
+
+      console.log(`Ítem ${itemId} equipado en el slot ${slot}`);
+    } else {
+
+      await prisma.equipment.create({
+        data: {
+          characterId: parseInt(id),
+          [slot]: parseInt(itemId),
+        },
+      });
+
+      console.log(`Nuevo registro creado y ítem ${itemId} equipado en el slot ${slot}`);
+    }
+  } catch (error) {
+    console.error(`Error al equipar ítem: ${error.message}`);
   }
 }
 
