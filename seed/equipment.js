@@ -5,17 +5,17 @@ export async function equipmentSeed(prisma) {
   const equipment = [
     {
       characterId: 1,
-      upperHeadSlot: 6,
-      midHeadSlot: 7,
-      lowerHeadSlot: 8,
-      bodySlot: 10,
-      rightHandSlot: 15,
-      leftHandSlot: 9,
-      robeSlot: 7,
-      shoesSlot: 11,
-      accessorySlot01: 12,
-      accessorySlot02: 13,
-      ammoSlot: 27,
+      upperHeadSlot: null,
+      midHeadSlot: null,
+      lowerHeadSlot: null,
+      bodySlot: null,
+      rightHandSlot: null,
+      leftHandSlot: null,
+      robeSlot: null,
+      shoesSlot: null,
+      accessorySlot01: null,
+      accessorySlot02: null,
+      ammoSlot: null,
     },
   ];
 

@@ -2,7 +2,6 @@ import readlineSync from "readline-sync";
 import select, { Separator } from "@inquirer/select";
 import {
   getEquipmentByCharacterId,
-  addItemToInventory,
   getItemNameById,
   unequipItem,
 } from "../Controllers/index.js";
@@ -107,7 +106,6 @@ export async function EquipmentMenu(id) {
 
   const itemId = equipment[answer];
   const itemName = itemNamesMap.get(itemId);
-  const quantity = 1;
 
   if (itemId === null) {
     console.log("This slot is empty!");
@@ -116,7 +114,7 @@ export async function EquipmentMenu(id) {
   } else if (itemId === -1) {
     console.log("This slot is locked!");
   } else {
-    await addItemToInventory(id, itemId, quantity);
+    // Mueve el ítem de vuelta al inventario
     await unequipItem(id, answer);
     console.log(`You unequipped ${itemName}!`);
   }

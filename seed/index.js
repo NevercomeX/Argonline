@@ -7,7 +7,6 @@ import { inventarySeed } from "./inventary.js";
 import { jobClassSeed } from "./jobClass.js";
 import { userSeed } from "./users.js";
 import { equipmentSeed } from "./equipment.js";
-
 const prisma = new PrismaClient();
 
 async function resetDatabase() {
@@ -47,7 +46,7 @@ async function seed() {
   } catch (error) {
     console.error("An error occurred during seeding:", error);
     await prisma.$disconnect();
-    process.exit(1);
+
   }
 }
 

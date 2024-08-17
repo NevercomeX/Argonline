@@ -7,15 +7,13 @@ import {
   getEquipmentByCharacterIdAndSlot,
   unequipItem,
   equipItem,
-  addItemToInventory,
-  removeItemFromInventory,
+
 } from "../Controllers/index.js";
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 
 export async function InventaryMenu(id) {
   console.clear();
   await drawCharacterInfo(id);
-
 
   const inventory = await getInventory(id);
   const inventoryItems = [];
@@ -42,7 +40,7 @@ export async function InventaryMenu(id) {
       { name: "Go back", value: "goBack" },
     ],
     pageSize: 100,
-    loop: false,
+    loop: true,
     separator: "",
     filter: function (val) {
       return val.toLowerCase();
@@ -57,9 +55,9 @@ export async function InventaryMenu(id) {
     return;
   }
 
-
   const itemEquipable = await getItemsById(inventoryMenu);
   if (itemEquipable.equipable === true) {
+    // Verificar si ya hay un ítem equipado en ese slot
     const equipment = await getEquipmentByCharacterIdAndSlot(
       id,
       itemEquipable.equipmentSlot,
@@ -68,14 +66,11 @@ export async function InventaryMenu(id) {
     if (equipment) {
       console.log(`Desequipando ítem del slot: ${itemEquipable.equipmentSlot}`);
       await unequipItem(id, itemEquipable.equipmentSlot);
-      await addItemToInventory(id, equipment[itemEquipable.equipmentSlot], 1);
     }
-    
 
+    // Equipar el nuevo ítem
     await equipItem(id, itemEquipable.equipmentSlot, inventoryMenu);
     console.log(`Ítem equipado: ${itemEquipable.name}`);
-    await removeItemFromInventory(id, inventoryMenu, 1);
-    console.log(`Ítem removido del inventario: ${itemEquipable.name}`);
   } else {
     console.log("Este ítem no es equipable!");
   }
@@ -84,3 +79,4 @@ export async function InventaryMenu(id) {
     "Presiona cualquier tecla para volver al menu principal.",
   );
 }
+

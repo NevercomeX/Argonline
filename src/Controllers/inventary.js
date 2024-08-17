@@ -2,8 +2,15 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function getInventory() {
-  return await prisma.inventory.findMany();
+export async function getInventory(characterId) {
+  const inventory = await prisma.inventory.findMany({
+    where: {
+      characterId: parseInt(characterId),
+      location: "inventory", 
+    },
+  });
+
+  return inventory;
 }
 
 export async function getInventoryById(id) {
@@ -54,16 +61,35 @@ export async function getCharacterInventoryItems(id) {
 }
 
 export async function addItemToInventory(characterId, itemId, quantity) {
-  const inventory = await prisma.inventory.create({
-    data: {
+  const existingItem = await prisma.inventory.findFirst({
+    where: {
       characterId: parseInt(characterId),
       itemId: parseInt(itemId),
-      quantity: parseInt(quantity),
     },
   });
 
-  return inventory;
+  if (existingItem) {
+    // Si el ítem ya existe en el inventario, actualiza la cantidad y la ubicación
+    await prisma.inventory.update({
+      where: { id: existingItem.id },
+      data: {
+        quantity: existingItem.quantity + parseInt(quantity),
+        location: "inventory", // O el estado que desees utilizar
+      },
+    });
+  } else {
+    // Si no existe, créalo en el inventario
+    await prisma.inventory.create({
+      data: {
+        characterId: parseInt(characterId),
+        itemId: parseInt(itemId),
+        quantity: parseInt(quantity),
+        location: "inventory",
+      },
+    });
+  }
 }
+
 
 export async function removeItemFromInventory(characterId, itemId, quantity) {
   const inventory = await prisma.inventory.findFirst({

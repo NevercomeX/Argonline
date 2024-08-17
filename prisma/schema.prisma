@@ -69,7 +69,7 @@ model Inventory {
   characterId  Int
   itemId       Int
   quantity     Int
-  location  String @default("inventory")
+  location     String    @default("inventory")  // Asegúrate de que este campo está presente
   character    Character @relation(fields: [characterId], references: [id])
   item         Item      @relation(fields: [itemId], references: [id])
 }
