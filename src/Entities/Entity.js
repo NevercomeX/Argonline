@@ -8,7 +8,7 @@ export default class Entity {
     magicDefense,
     mana,
     maxHealth,
-    maxMana
+    maxMana,
   ) {
     this.name = name;
     this.attackPower = attackPower;
@@ -38,7 +38,7 @@ export default class Entity {
     let damage = this.magicPower - target.magicDefense;
     if (damage < 0) damage = 0; // El daño no puede ser negativo
     console.log(
-      `${this.name} ataca mágicamente a ${target.name} por ${damage} de daño.`
+      `${this.name} ataca mágicamente a ${target.name} por ${damage} de daño.`,
     );
     target.health -= damage;
   }

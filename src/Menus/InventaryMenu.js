@@ -23,7 +23,7 @@ export async function InventaryMenu(id) {
     inventoryItems.push({
       name:
         `║ ${item} x ${inventory[i].quantity} ${itemEquipable.equipable}`.padEnd(
-          36
+          36,
         ) + "║",
       value: inventory[i].itemId,
     });
@@ -37,7 +37,7 @@ export async function InventaryMenu(id) {
       ...inventoryItems,
       new Separator(" ╚" + "═".repeat(35) + "╝"),
       new Separator(" "),
-      { name: "Go back", value: "goBack"}
+      { name: "Go back", value: "goBack" },
     ],
     pageSize: 100,
     loop: false,
@@ -60,7 +60,7 @@ export async function InventaryMenu(id) {
   if (itemEquipable.equipable === true) {
     const equipment = await getEquipmentByCharacterIdAndSlot(
       id,
-      itemEquipable.equipmentSlot
+      itemEquipable.equipmentSlot,
     );
     if (equipment === null) {
       await equipItem(id, itemEquipable.equipmentSlot, inventoryMenu);
@@ -75,6 +75,6 @@ export async function InventaryMenu(id) {
   }
 
   readlineSync.question(
-    "Presiona cualquier tecla para volver al menu principal."
+    "Presiona cualquier tecla para volver al menu principal.",
   );
 }

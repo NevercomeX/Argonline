@@ -35,7 +35,7 @@ export default class Character extends Entity {
       character.attackPower,
       character.magicPower,
       character.defense,
-      character.magicDefense
+      character.magicDefense,
     );
     this.id = character.id;
     this.name = character.name;
@@ -120,7 +120,7 @@ export default class Character extends Entity {
     this.jobExp += enemyExperience.jobExpAmount;
     console.log(`${this.name} ganó ${enemyExperience.baseExpAmount} EXP base!`);
     console.log(
-      `${this.name} ganó ${enemyExperience.jobExpAmount} EXP de trabajo!`
+      `${this.name} ganó ${enemyExperience.jobExpAmount} EXP de trabajo!`,
     );
     this.levelUp();
   }
@@ -140,7 +140,7 @@ export default class Character extends Entity {
       this.maxBaseExp += 100;
       this.baseLevel += 1;
       console.log(
-        `${this.name} has leveled up! They are now level ${this.baseLevel}.`
+        `${this.name} has leveled up! They are now level ${this.baseLevel}.`,
       );
     }
 
@@ -149,7 +149,7 @@ export default class Character extends Entity {
       this.maxJobExp += 100;
       this.jobLevel += 1;
       console.log(
-        `${this.name} has leveled up their job! They are now job level ${this.jobLevel}.`
+        `${this.name} has leveled up their job! They are now job level ${this.jobLevel}.`,
       );
     }
   }
@@ -165,7 +165,7 @@ export default class Character extends Entity {
     ];
 
     const selectedJobIndex = prompt(
-      `Choose your first job class:\n\n1. ${jobOptions[0]}\n2. ${jobOptions[1]}\n3. ${jobOptions[2]}\n4. ${jobOptions[3]}\n5. ${jobOptions[4]}\n6. ${jobOptions[5]}\n\nEnter the corresponding number:`
+      `Choose your first job class:\n\n1. ${jobOptions[0]}\n2. ${jobOptions[1]}\n3. ${jobOptions[2]}\n4. ${jobOptions[3]}\n5. ${jobOptions[4]}\n6. ${jobOptions[5]}\n\nEnter the corresponding number:`,
     );
 
     const selectedJob = jobOptions[selectedJobIndex - 1];

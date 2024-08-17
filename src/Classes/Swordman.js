@@ -64,7 +64,7 @@ class Swordman extends Job {
 
     this.skillLevels[skillName]++;
     console.log(
-      `La habilidad ${skillName} ahora está en el nivel ${this.skillLevels[skillName]}.`
+      `La habilidad ${skillName} ahora está en el nivel ${this.skillLevels[skillName]}.`,
     );
   }
 
@@ -78,7 +78,7 @@ class Swordman extends Job {
         this.skills[skillName].level += 1;
         this.skillPoints -= 1; // Resta un punto de habilidad cada vez que una habilidad es aprendida
         console.log(
-          `${this.name} learned ${skillName} level ${this.skills[skillName].level}.`
+          `${this.name} learned ${skillName} level ${this.skills[skillName].level}.`,
         );
       } else if (!this.skills[skillName].passive) {
         console.log(`${skillName} is not a passive skill.`);

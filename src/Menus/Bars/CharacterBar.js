@@ -1,20 +1,4 @@
-import readlineSync from "readline-sync";
-import select, { Separator } from "@inquirer/select";
-import {
-  getInventory,
-  getEnemies,
-  getEnemyDrops,
-  getEquipment,
-  getItems,
-  getJobClasses,
-  getCharacterById,
-  getEquipmentByCharacterId,
-  getEquipmentByCharacterIdAndSlot,
-  getInventoryById,
-  getCharacterInventoryItems,
-  getCharacterInventory,
-  getItemNameById,
-} from "../../Controllers/index.js";
+import { getCharacterById } from "../../Controllers/index.js";
 
 import {
   drawHealthBar,
@@ -24,8 +8,6 @@ import {
 } from "./helpers/Bars.js";
 
 export async function drawCharacterInfo(id) {
-
-  console.log(id)
   const character = await getCharacterById(id);
   const lineLength = 100; // Define la longitud de la línea
   let infoLine = `║ Name: ${character.name} | BLevel: ${character.baseLevel} | JLevel: ${character.jobLevel} | Job: ${character.jobclassId}`;

@@ -1,12 +1,12 @@
 ## HOW TO INSTALL
 
-1. RUN 'npm install'
-2. RUN 'npx prisma migrate dev'
+1. run 'npm install'
+2. run 'npx prisma migrate dev'
 3. run 'npx prisma db push --force-reset'
-4. RUN 'npm run seed'
+4. run 'npm run seed'
 
 ## HOW TO RUN
 
-RUN 
+run
 
 node index.js

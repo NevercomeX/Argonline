@@ -85,7 +85,7 @@ export async function EquipmentMenu(id) {
       const itemId = equipment[slotName];
       const itemName = itemNamesMap.get(itemId);
       return createSlotObject(slotName, displayName, itemId, itemName);
-    }
+    },
   );
 
   const answer = await select({

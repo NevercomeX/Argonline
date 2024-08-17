@@ -8,7 +8,7 @@ class Potion {
     quantity,
     weight,
     price,
-    rarity
+    rarity,
   ) {
     this.name = name;
     this.type = type;
@@ -38,7 +38,7 @@ class HealthPotion extends Potion {
       1,
       0.5,
       10,
-      "Common"
+      "Common",
     );
   }
 }
