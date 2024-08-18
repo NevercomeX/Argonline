@@ -11,7 +11,7 @@ class Enemy extends Entity {
       enemy.magicPower,
       enemy.defense,
       enemy.magicDefense,
-      enemy.baseLevel
+      enemy.baseLevel,
     );
     this.id = enemy.id;
     this.name = enemy.name;

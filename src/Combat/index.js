@@ -3,12 +3,10 @@ import select from "@inquirer/select";
 import readlineSync from "readline-sync";
 
 export async function startGame(character, enemies) {
-  console.log(character)
-  console.log(enemies)
+  console.log(character);
+  console.log(enemies);
 
-  readlineSync.question(
-    "Estas listo?."
-  );
+  readlineSync.question("Estas listo?.");
 
   await startCombat(character, enemies);
 }
@@ -21,15 +19,11 @@ class CombatStateMachine {
     this.currentEnemy = null;
   }
 
-
-
   async start() {
     console.clear();
 
-  
     await this.combatLoop();
   }
-
 
   selectEnemy() {
     if (!this.enemies || this.enemies.length === 0) {
@@ -41,49 +35,38 @@ class CombatStateMachine {
 
   async combatLoop() {
     while (this.continueFighting == true && this.character.health > 0) {
-      readlineSync.question(
-        "A wild"
-      );
-    
+      readlineSync.question("A wild");
+
       this.currentEnemy = this.selectEnemy();
       console.log(`A wild ${this.currentEnemy.name} has appeared!`);
       const battle = createBattle(this.character, this.currentEnemy);
       battle.start();
 
       if (this.character.health > 0) {
-        readlineSync.question(
-          "askContinueFighting"
-        );
-      
+        readlineSync.question("askContinueFighting");
+
         this.continueFighting = await this.askContinueFighting();
       } else {
-        readlineSync.question(
-          "sido derrot"
-        );
+        readlineSync.question("sido derrot");
         console.log(
-          "Has sido derrotado. Regresas al menú principal para recuperarte."
+          "Has sido derrotado. Regresas al menú principal para recuperarte.",
         );
         this.continueFighting = false;
       }
     }
 
     if (this.character.health <= 0) {
-      readlineSync.question(
-        " Regresas al menú principal para recuperart"
-      );
+      readlineSync.question(" Regresas al menú principal para recuperart");
       console.log(
-        "Has sido derrotado. Regresas al menú principal para recuperarte."
+        "Has sido derrotado. Regresas al menú principal para recuperarte.",
       );
     } else {
       console.log(this.continueFighting);
       console.log(this.character.health);
-      readlineSync.question(
-        "Regresas al menú principal."
-      );
+      readlineSync.question("Regresas al menú principal.");
       console.log("Regresas al menú principal.");
     }
   }
-
 
   async askContinueFighting() {
     const answer = await select({
@@ -100,7 +83,7 @@ class CombatStateMachine {
 async function startCombat(character, enemies) {
   const combatStateMachine = new CombatStateMachine(character, enemies);
 
-  console.log(combatStateMachine)
+  console.log(combatStateMachine);
 
   await combatStateMachine.start();
 }

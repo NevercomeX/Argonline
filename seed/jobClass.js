@@ -1,4 +1,3 @@
-//seed jobclass
 export async function jobClassSeed(prisma) {
   const jobClass = [
     {

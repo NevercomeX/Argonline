@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { runGame } from "./src/Game.js";
-import { exec } from "child_process";
 import { getRandomEnemy } from "./src/Controllers/enemies.js";
 
 const prisma = new PrismaClient();

@@ -30,7 +30,7 @@ export async function StatsMenu(id) {
       `║ DEF: ${character.defense}\n` +
       `║ MDEF: ${character.magicDefense}\n` +
       `║ Skill Points: ${character.skillPoints}\n` +
-      `║ Job Level: ${character.jobLevel}\n`
+      `║ Job Level: ${character.jobLevel}\n`,
   );
   console.log("╚════════════════════════════════════════════════════════╝");
   console.log(" ");

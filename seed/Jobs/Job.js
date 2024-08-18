@@ -16,7 +16,7 @@ class Job {
 
     this.skillLevels[skillName] = (this.skillLevels[skillName] || 0) + 1;
     console.log(
-      `La habilidad ${skillName} ahora está en el nivel ${this.skillLevels[skillName]}.`
+      `La habilidad ${skillName} ahora está en el nivel ${this.skillLevels[skillName]}.`,
     );
   }
 
@@ -29,7 +29,7 @@ class Job {
     // Aquí deberías implementar la lógica para usar la habilidad.
     // Esto dependerá de cómo estén implementadas tus habilidades.
     console.log(
-      `${this.name} usa la habilidad ${skillName} en ${target.name}.`
+      `${this.name} usa la habilidad ${skillName} en ${target.name}.`,
     );
   }
 
