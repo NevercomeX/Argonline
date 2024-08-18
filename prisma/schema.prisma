@@ -46,7 +46,8 @@ model Character {
   defense       Int
   magicDefense  Int
   inventory     Inventory[]
-  equipment     Equipment[]
+  equipmentSlot     EquipmentSlot[]
+  items         ItemInstance[]
   user          User   @relation(fields: [userId], references: [id])
 
   // Fields to store the calculated total stats
@@ -65,31 +66,26 @@ model Character {
 }
 
 model Inventory {
-  id           Int       @id @default(autoincrement())
-  characterId  Int
-  itemId       Int
-  quantity     Int
-  location     String    @default("inventory")  // Asegúrate de que este campo está presente
-  character    Character @relation(fields: [characterId], references: [id])
-  item         Item      @relation(fields: [itemId], references: [id])
+  id             Int          @id @default(autoincrement())
+  characterId    Int
+  itemId         Int          // Referencia al ítem base
+  itemInstanceId Int?         // Referencia opcional a la instancia de ítem
+  quantity       Int          @default(1)
+  character      Character    @relation(fields: [characterId], references: [id])
+  item           Item         @relation(fields: [itemId], references: [id])
+  itemInstance   ItemInstance? @relation(fields: [itemInstanceId], references: [id])
+}
+model EquipmentSlot {
+  id          Int       @id @default(autoincrement())
+  characterId Int
+  slotType    String    // Ejemplo: "upperHeadSlot", "bodySlot", etc.
+  itemId      Int
+  character   Character @relation(fields: [characterId], references: [id])
+  item        Item      @relation(fields: [itemId], references: [id])
+  
+  @@unique([characterId, slotType]) // Asegura que un slot solo tenga un ítem.
 }
 
-model Equipment {
-  id              Int       @id @default(autoincrement())
-  characterId     Int
-  upperHeadSlot   Int?
-  midHeadSlot     Int?
-  lowerHeadSlot   Int?
-  bodySlot        Int?
-  rightHandSlot   Int?
-  leftHandSlot    Int?
-  robeSlot        Int?
-  shoesSlot       Int?
-  accessorySlot01 Int?
-  accessorySlot02 Int?
-  ammoSlot        Int?
-  character       Character @relation(fields: [characterId], references: [id])
-}
 
 model Enemy {
   id               Int       @id @default(autoincrement())
@@ -123,7 +119,6 @@ model Item {
   name          String   @unique
   itemType      String   @default("None")
   itemSubType   String   @default("None")
-  equipmentSlot String   @default("None")
   description   String
   price         Int
   attackPower   Int
@@ -144,8 +139,42 @@ model Item {
   rarity        String
   effect        String?
   equipable     Boolean
-  enemyDrops    EnemyDrop[]
   inventory     Inventory[]
+  enemyDrops    EnemyDrop[]
+
+  equipmentSlot     EquipmentSlot[]
+}
+
+model ItemTemplate {
+  id            Int      @id @default(autoincrement())
+  name          String   @unique
+  itemType      String   @default("None")
+  description   String
+  baseAttack    Int
+  baseDefense   Int
+  baseHealth    Int
+  baseMana      Int
+  rarity        String
+  equipable     Boolean  
+  itemInstances ItemInstance[]
+}
+
+model ItemInstance {
+  id           Int       @id @default(autoincrement())
+  itemTemplateId Int
+  characterId  Int
+  currentAttack Int
+  currentDefense Int
+  currentHealth Int
+  currentMana   Int
+  upgradeLevel  Int      @default(0) // Upgrade level or enhancement
+  socketedGems  String?  // JSON or text for any gems or runes
+  enchantments  String?  // JSON or text for additional enchantments
+
+  itemTemplate  ItemTemplate @relation(fields: [itemTemplateId], references: [id])
+  character     Character    @relation(fields: [characterId], references: [id])
+  inventory     Inventory[]
+
 }
 
 model JobClass {

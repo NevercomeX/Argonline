@@ -2,9 +2,10 @@ import readlineSync from "readline-sync";
 import select, { Separator } from "@inquirer/select";
 import {
   getEquipmentByCharacterId,
-  getItemNameById,
+  getItemInstanceNameById, // Nuevo: Obtener nombre de instancia de ítem por ID
   unequipItem,
 } from "../Controllers/index.js";
+
 
 const lineLength = 35; // The total length of the line
 const slotStatus = {
@@ -17,22 +18,22 @@ const slotStatus = {
 
 const equipmentSlots = {
   upperHeadSlot: "Upper Head",
-  midHeadSlot: "Mid Head ",
-  lowerHeadSlot: "Lower Head ",
-  bodySlot: "Body ",
-  rightHandSlot: "Right Hand ",
-  leftHandSlot: "Left Hand ",
-  robeSlot: "Robe ",
-  shoesSlot: "Shoes ",
-  accessorySlot01: "Accessory  1",
-  accessorySlot02: "Accessory  2",
-  ammoSlot: "Ammo ",
+  midHeadSlot: "Mid Head",
+  lowerHeadSlot: "Lower Head",
+  bodySlot: "Body",
+  rightHandSlot: "Right Hand",
+  leftHandSlot: "Left Hand",
+  robeSlot: "Robe",
+  shoesSlot: "Shoes",
+  accessorySlot01: "Accessory 1",
+  accessorySlot02: "Accessory 2",
+  ammoSlot: "Ammo",
 };
 
 async function getItemNames(itemIds) {
   const itemNamesMap = new Map();
   for (const itemId of itemIds) {
-    const itemName = await getItemNameById(itemId);
+    const itemName = await getItemInstanceNameById(itemId);
     itemNamesMap.set(itemId, itemName);
   }
   return itemNamesMap;

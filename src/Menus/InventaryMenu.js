@@ -3,11 +3,10 @@ import select, { Separator } from "@inquirer/select";
 import {
   getInventory,
   getItemNameById,
-  getItemsById,
+  getItemInstanceById,
   getEquipmentByCharacterIdAndSlot,
   unequipItem,
   equipItem,
-
 } from "../Controllers/index.js";
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 
@@ -17,16 +16,41 @@ export async function InventaryMenu(id) {
 
   const inventory = await getInventory(id);
   const inventoryItems = [];
+
   for (let i = 0; i < inventory.length; i++) {
-    const item = await getItemNameById(inventory[i].itemId);
-    const itemEquipable = await getItemsById(inventory[i].itemId);
+    let itemName;
+    let itemInstance = null;
+
+    // Obtener la instancia de ítem si existe
+    if (inventory[i].itemInstanceId) {
+      try {
+        itemInstance = await getItemInstanceById(inventory[i].itemInstanceId);
+      } catch (error) {
+        console.error(`Error al obtener la instancia de ítem: ${error.message}`);
+        continue; // Saltar este ítem si la instancia no se encuentra
+      }
+    }
+
+    // Obtener el nombre del ítem directamente desde la plantilla
+    if (itemInstance && itemInstance.itemTemplate) {
+      itemName = itemInstance.itemTemplate.name;
+    } else {
+      itemName = await getItemNameById(inventory[i].itemId); // Usar el método para ítems regulares
+    }
+
     inventoryItems.push({
-      name:
-        `║ ${item} x ${inventory[i].quantity} ${itemEquipable.equipable}`.padEnd(
-          36,
-        ) + "║",
-      value: inventory[i].itemId,
+      name: `║ ${itemName} x ${inventory[i].quantity} ${itemInstance?.itemTemplate?.equipable ? "(Equipable)" : ""}`.padEnd(36) + "║",
+      value: {
+        id: itemInstance ? itemInstance.id : inventory[i].itemId,
+        equipable: itemInstance?.itemTemplate?.equipable || false,
+        equipmentSlot: itemInstance?.equipmentSlot || null,
+      },
     });
+  }
+
+  if (inventoryItems.length === 0) {
+    console.log("No hay ítems en tu inventario.");
+    return;
   }
 
   const inventoryMenu = await select({
@@ -42,41 +66,39 @@ export async function InventaryMenu(id) {
     pageSize: 100,
     loop: true,
     separator: "",
-    filter: function (val) {
-      return val.toLowerCase();
-    },
   });
 
-  if (inventoryMenu === "goBack") {
+  if (inventoryMenu.value === "goBack" || inventoryMenu === undefined) {
     return;
   }
 
-  if (inventoryMenu === undefined) {
-    return;
-  }
+  const selectedItem = inventoryMenu.value;
 
-  const itemEquipable = await getItemsById(inventoryMenu);
-  if (itemEquipable.equipable === true) {
-    // Verificar si ya hay un ítem equipado en ese slot
-    const equipment = await getEquipmentByCharacterIdAndSlot(
-      id,
-      itemEquipable.equipmentSlot,
-    );
-    
-    if (equipment) {
-      console.log(`Desequipando ítem del slot: ${itemEquipable.equipmentSlot}`);
-      await unequipItem(id, itemEquipable.equipmentSlot);
+  // Verificar si es un ítem equipable
+  if (selectedItem.equipable) {
+    const selectedItemInstance = await getItemInstanceById(selectedItem.id);
+
+    // Verificar que el ítem tiene un slot de equipamiento válido
+    if (!selectedItemInstance.equipmentSlot) {
+      console.log("Este ítem no puede ser equipado debido a la falta de un slot de equipamiento válido.");
+      return;
     }
 
-    // Equipar el nuevo ítem
-    await equipItem(id, itemEquipable.equipmentSlot, inventoryMenu);
-    console.log(`Ítem equipado: ${itemEquipable.name}`);
+    const equipment = await getEquipmentByCharacterIdAndSlot(
+      id,
+      selectedItemInstance.equipmentSlot
+    );
+
+    if (equipment) {
+      console.log(`Desequipando ítem del slot: ${selectedItemInstance.equipmentSlot}`);
+      await unequipItem(id, selectedItemInstance.equipmentSlot);
+    }
+
+    await equipItem(id, selectedItemInstance.equipmentSlot, selectedItemInstance.id);
+    console.log(`Ítem equipado: ${selectedItemInstance.itemTemplate.name}`);
   } else {
     console.log("Este ítem no es equipable!");
   }
 
-  readlineSync.question(
-    "Presiona cualquier tecla para volver al menu principal.",
-  );
+  readlineSync.question("Presiona cualquier tecla para volver al menú principal.");
 }
-

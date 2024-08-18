@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "../Prisma/prismaClient.js";
 
 export async function getEquipment() {
   return await prisma.equipment.findMany();
@@ -13,20 +11,29 @@ export async function getEquipmentById(id) {
 }
 
 export async function getEquipmentByCharacterIdAndSlot(characterId, slot) {
+  if (!slot) {
+    throw new Error("El slot proporcionado no es válido");
+  }
   const equipment = await prisma.equipment.findFirst({
     where: {
       characterId: parseInt(characterId),
       [slot]: { not: null },
     },
   });
+
   return equipment;
 }
 
 export async function getEquipmentByCharacterId(characterId) {
-  const equipment = await prisma.equipment.findMany({
-    where: { characterId: parseInt(characterId) },
-  });
-  return equipment;
+  try {
+    const equipment = await prisma.equipment.findMany({
+      where: { characterId: characterId },
+    });
+    return equipment;
+  } catch (error) {
+    console.error("Error fetching equipment:", error);
+    throw new Error("Failed to fetch equipment");
+  }
 }
 
 export async function unequipItem(characterId, slot) {
@@ -84,12 +91,6 @@ export async function unequipItem(characterId, slot) {
   }
 }
 
-
-
-
-
-
-
 export async function equipItem(characterId, slot, itemId) {
   try {
     // Encuentra el ítem en el inventario
@@ -129,21 +130,5 @@ export async function equipItem(characterId, slot, itemId) {
     }
   } catch (error) {
     console.error(`Error al equipar ítem: ${error.message}`);
-  }
-}
-
-
-
-
-export async function deleteEquipmentById(id) {
-  const equipment = await prisma.equipment.findFirst({
-    where: { id: parseInt(id) },
-  });
-  if (equipment) {
-    await prisma.equipment.delete({
-      where: { id: parseInt(id) },
-    });
-  } else {
-    throw new Error("Equipment not found");
   }
 }

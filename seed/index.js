@@ -6,7 +6,10 @@ import { enemyDropSeed } from "./enemydrop.js";
 import { inventarySeed } from "./inventary.js";
 import { jobClassSeed } from "./jobClass.js";
 import { userSeed } from "./users.js";
-import { equipmentSeed } from "./equipment.js";
+import { seedEquipmentSlot } from "./equipment.js";
+import { createItemInstances } from "./itemInstance.js";
+import { createItemTemplates } from "./itemTemplate.js";
+
 const prisma = new PrismaClient();
 
 async function resetDatabase() {
@@ -14,13 +17,15 @@ async function resetDatabase() {
 
   try {
     await prisma.inventory.deleteMany({});
-    await prisma.equipment.deleteMany({});
+    await prisma.equipmentSlot.deleteMany({});
     await prisma.enemyDrop.deleteMany({});
     await prisma.enemy.deleteMany({});
     await prisma.item.deleteMany({});
     await prisma.character.deleteMany({});
     await prisma.user.deleteMany({});
     await prisma.jobClass.deleteMany({});
+    await prisma.itemInstance.deleteMany({});
+    await prisma.itemTemplate.deleteMany({}); 
 
     console.log("Database reset successful! ✅");
   } catch (error) {
@@ -39,14 +44,19 @@ async function seed() {
     await enemySeed(prisma);
     await enemyDropSeed(prisma);
     await inventarySeed(prisma);
-    await equipmentSeed(prisma);
+    await seedEquipmentSlot(prisma);
+    const itemTemplates = await createItemTemplates(prisma); // Crear el ItemTemplate
+
+    // Obtener los IDs de las plantillas de ítem recién creadas
+    const itemTemplateIds = itemTemplates.map(template => template.id);
+
+    await createItemInstances(prisma, itemTemplateIds, 1); // Usar el id del Character creado
 
     await prisma.$disconnect();
     console.log("Seed successful! ✅");
   } catch (error) {
     console.error("An error occurred during seeding:", error);
     await prisma.$disconnect();
-
   }
 }
 

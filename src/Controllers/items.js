@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "../Prisma/prismaClient.js";
 export async function getItems() {
   return await prisma.item.findMany();
 }
@@ -19,8 +17,24 @@ export async function getItemsByName(name) {
 
 //get item name by id
 export async function getItemNameById(id) {
-  const item = await prisma.item.findUnique({
+  // Primero, intenta buscar en la tabla de Item
+  let item = await prisma.item.findUnique({
     where: { id: id },
   });
-  return item.name;
+
+  // Si no se encuentra el ítem, intenta buscar en la tabla de ItemTemplate
+  if (!item) {
+    const itemInstance = await prisma.itemInstance.findUnique({
+      where: { id: id },
+      include: { itemTemplate: true }, // Incluye la relación con ItemTemplate
+    });
+
+    if (itemInstance) {
+      item = {
+        name: itemInstance.itemTemplate.name,
+      };
+    }
+  }
+
+  return item ? item.name : "Unknown Item";
 }

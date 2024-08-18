@@ -8,6 +8,12 @@ import {
   getItemsByName,
   getItemsById,
 } from "./items.js";
+
+import {  createItemInstance,
+  getItemInstanceById,
+  getItemInstanceNameById,
+  updateItemInstance,
+  deleteItemInstance, } from "./itemInstanceController.js";
 import {
   getJobClasses,
   getJobClassById,
@@ -60,4 +66,9 @@ export {
   getEquipmentByCharacterId,
   getEquipmentByCharacterIdAndSlot,
   getEquipmentById,
+  createItemInstance,
+  getItemInstanceById,
+  getItemInstanceNameById,
+  updateItemInstance,
+  deleteItemInstance,
 };
