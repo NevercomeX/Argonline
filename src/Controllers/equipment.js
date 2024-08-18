@@ -31,7 +31,7 @@ export async function getEquipmentByCharacterId(characterId) {
 
 export async function unequipItem(characterId, slot) {
   try {
-    // Encuentra el registro de equipo para el personaje y verifica que el slot no esté vacío
+    // Encuentra el equipo del personaje en el slot específico
     const equipment = await prisma.equipment.findFirst({
       where: {
         characterId: parseInt(characterId),
@@ -46,29 +46,28 @@ export async function unequipItem(characterId, slot) {
 
     const itemId = equipment[slot];
 
-    // Actualiza el equipo del personaje para vaciar el slot
+    // Vacía el slot en la tabla equipment
     await prisma.equipment.update({
       where: { id: equipment.id },
       data: { [slot]: null },
     });
 
-    // Verifica si el ítem ya está en el inventario
-    const inventoryItem = await prisma.inventory.findFirst({
+    // Busca el ítem en el inventario, sin importar el location
+    const existingInventoryItem = await prisma.inventory.findFirst({
       where: {
         characterId: parseInt(characterId),
         itemId: parseInt(itemId),
-        location: 'inventory',
       },
     });
 
-    if (inventoryItem) {
-      // Si el ítem ya existe en el inventario, actualiza la cantidad
+    if (existingInventoryItem) {
+      // Si el ítem ya existe en el inventario, actualiza el location
       await prisma.inventory.update({
-        where: { id: inventoryItem.id },
-        data: { quantity: { increment: 1 } }, // Aumenta la cantidad en el inventario
+        where: { id: existingInventoryItem.id },
+        data: { location: 'inventory' }, // Actualiza el location a 'inventory'
       });
     } else {
-      // Si el ítem no existe en el inventario, lo crea
+      // Si el ítem no existe en el inventario, crea un nuevo registro
       await prisma.inventory.create({
         data: {
           characterId: parseInt(characterId),
@@ -84,6 +83,9 @@ export async function unequipItem(characterId, slot) {
     console.error(`Error al desequipar ítem: ${error.message}`);
   }
 }
+
+
+
 
 
 
