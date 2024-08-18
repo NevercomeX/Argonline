@@ -49,6 +49,7 @@ export async function MainMenu(character) {
       new Separator(" "),
     ],
     pageSize: 15,
+    loop: true,
   });
   return answer;
 }

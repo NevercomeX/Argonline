@@ -7,6 +7,7 @@ import {
   getEquipmentByCharacterIdAndSlot,
   unequipItem,
   equipItem,
+
 } from "../Controllers/index.js";
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 
@@ -14,7 +15,6 @@ export async function InventaryMenu(id) {
   console.clear();
   await drawCharacterInfo(id);
 
-  // use the inquirer select to show the inventory and equip items from there by it equipable bollean value
   const inventory = await getInventory(id);
   const inventoryItems = [];
   for (let i = 0; i < inventory.length; i++) {
@@ -23,7 +23,7 @@ export async function InventaryMenu(id) {
     inventoryItems.push({
       name:
         `║ ${item} x ${inventory[i].quantity} ${itemEquipable.equipable}`.padEnd(
-          36
+          36,
         ) + "║",
       value: inventory[i].itemId,
     });
@@ -37,10 +37,10 @@ export async function InventaryMenu(id) {
       ...inventoryItems,
       new Separator(" ╚" + "═".repeat(35) + "╝"),
       new Separator(" "),
-      { name: "Go back", value: "goBack"}
+      { name: "Go back", value: "goBack" },
     ],
     pageSize: 100,
-    loop: false,
+    loop: true,
     separator: "",
     filter: function (val) {
       return val.toLowerCase();
@@ -55,26 +55,28 @@ export async function InventaryMenu(id) {
     return;
   }
 
-  //equip item if it is equipable and if it is not, show a message
   const itemEquipable = await getItemsById(inventoryMenu);
   if (itemEquipable.equipable === true) {
+    // Verificar si ya hay un ítem equipado en ese slot
     const equipment = await getEquipmentByCharacterIdAndSlot(
       id,
-      itemEquipable.equipmentSlot
+      itemEquipable.equipmentSlot,
     );
-    if (equipment === null) {
-      await equipItem(id, itemEquipable.equipmentSlot, inventoryMenu);
-      await removeItemFromInventory(id, inventoryMenu);
-    } else {
+    
+    if (equipment) {
+      console.log(`Desequipando ítem del slot: ${itemEquipable.equipmentSlot}`);
       await unequipItem(id, itemEquipable.equipmentSlot);
-      await equipItem(id, itemEquipable.equipmentSlot, inventoryMenu);
-      await removeItemFromInventory(id, inventoryMenu);
     }
+
+    // Equipar el nuevo ítem
+    await equipItem(id, itemEquipable.equipmentSlot, inventoryMenu);
+    console.log(`Ítem equipado: ${itemEquipable.name}`);
   } else {
-    console.log("This item is not equipable!");
+    console.log("Este ítem no es equipable!");
   }
 
   readlineSync.question(
-    "Presiona cualquier tecla para volver al menu principal."
+    "Presiona cualquier tecla para volver al menu principal.",
   );
 }
+

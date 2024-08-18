@@ -5,6 +5,7 @@ import { gainExperience } from "./Actions/ExpGain.js";
 import { CombatMenu } from "../Menus/CombatMenu.js";
 import { getRandomEnemy } from "../Controllers/enemies.js";
 import { getCharacterById, updateCharacter } from "../Controllers/character.js";
+import { TypewriterEffect } from "../Menus/Bars/helpers/Typewriter.js";
 
 async function createBattle(player) {
   let isBattleOngoing = true;
@@ -31,7 +32,7 @@ function addMessage(message) {
 
 function printMessages() {
   if (messages.length > 0) {
-    console.log(messages.join('\n'));
+    console.log(messages.join("\n"));
     messages = [];
   }
 }
@@ -39,9 +40,7 @@ function printMessages() {
 async function drawBattleScene(player, enemy) {
   console.clear();
   await drawCharacterInfo(player.id);
-  console.log(
-    "⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️🔥 VS 🔥⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️"
-  );
+  console.log("⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️🔥 VS 🔥⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️⛓️");
   console.log(" ");
   await drawEnemyBar(enemy);
 }
@@ -108,7 +107,10 @@ async function enemyTurn(player, enemy) {
     try {
       await drawEnemyBar(enemy);
       const damageMade = await attackEnemy(player, enemy);
-      addMessage(`${enemy.name} ataca a ${player.name} por ${damageMade} de daño.`);
+      await TypewriterEffect(
+        `${enemy.name} ataca a ${player.name} por ${damageMade} de daño.`,
+        10,
+      );
       printMessages();
     } catch (error) {
       console.error(`Error during enemy attack: ${error}`);
@@ -125,10 +127,10 @@ async function mainLoop(player, enemy) {
   }
 
   if (player.health <= 0) {
-    console.log("Enemy wins!");
+    await TypewriterEffect("¡El enemigo gana!\n", 50);
     player.death();
   } else if (enemy.health <= 0) {
-    console.log("Player wins!");
+    await TypewriterEffect("¡El jugador gana!\n", 50);
     await gainExperience(player, enemy);
     // Guarda el estado del jugador en la base de datos
     await updateCharacter(player.id, {

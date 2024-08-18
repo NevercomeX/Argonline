@@ -6,9 +6,9 @@ import {
 } from "./Menus/index.js";
 
 import { startGame } from "./Combat/index.js";
-import  createBattle  from "./Combat/CreateBattle.js";
+import createBattle from "./Combat/CreateBattle.js";
 
-export async function runGame(character,enemy) {
+export async function runGame(character, enemy) {
   const characterId = character.id;
   let quit = false;
   while (!quit) {
@@ -43,6 +43,4 @@ export async function runGame(character,enemy) {
   if (character.health <= 0) {
     console.log("Player has died. Resetting the database...");
   }
-
-
 }

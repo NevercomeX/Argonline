@@ -19,7 +19,7 @@ class Inventory {
       return item; // Retornar el objeto removido en caso de que se quiera hacer algo más con él
     } else {
       console.log(
-        "El objeto que intentas remover no se encuentra en el inventario."
+        "El objeto que intentas remover no se encuentra en el inventario.",
       );
       return null;
     }

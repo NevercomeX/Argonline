@@ -60,7 +60,7 @@ class Swordman extends Job {
     super.levelUp(); // Llama a la función levelUp original para incrementar el nivel y la experiencia necesaria
     this.skillPoints += 1; // Añade 1 puntos de habilidad cada vez que el personaje sube de nivel
     console.log(
-      `${this.name} has gained 1 skill points and now has ${this.skillPoints} skill points.`
+      `${this.name} has gained 1 skill points and now has ${this.skillPoints} skill points.`,
     );
   }
 
@@ -74,7 +74,7 @@ class Swordman extends Job {
         this.skills[skillName].level += 1;
         this.skillPoints -= 1; // Resta un punto de habilidad cada vez que una habilidad es aprendida
         console.log(
-          `${this.name} learned ${skillName} level ${this.skills[skillName].level}.`
+          `${this.name} learned ${skillName} level ${this.skills[skillName].level}.`,
         );
       } else if (!this.skills[skillName].passive) {
         console.log(`${skillName} is not a passive skill.`);
