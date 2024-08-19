@@ -96,8 +96,6 @@ export async function addItemToInventory(characterId, itemId, quantity) {
     });
   }
 }
-
-
 export async function removeItemFromInventory(characterId, itemId, quantity) {
   const existingItem = await prisma.inventory.findFirst({
     where: {

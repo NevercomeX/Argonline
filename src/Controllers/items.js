@@ -9,30 +9,38 @@ export async function getItemsById(id) {
   });
 }
 
-export async function getItemsByName(name) {
-  return await prisma.item.findUnique({
-    where: { name: name },
-  });
+export async function getItemsByName(itemIds) {
+  const itemNamesMap = new Map();
+  for (const itemId of itemIds) {
+    if (!itemId) {
+      console.error("getItemNames: Encontrado itemId nulo o indefinido.");
+      continue; // Saltar itemIds inválidos
+    }
+    const itemName = await getItemNameById(itemId);
+    itemNamesMap.set(itemId, itemName);
+  }
+  return itemNamesMap;
 }
 
-//get item name by id
+
 export async function getItemNameById(id) {
-  // Primero, intenta buscar en la tabla de Item
+  if (!id) {
+    console.error("getItemNameById: El ID proporcionado es nulo o indefinido.");
+    return "Unknown Item"; // Devuelve un nombre por defecto para manejar el error
+  }
+
   let item = await prisma.item.findUnique({
-    where: { id: id },
+    where: { id: parseInt(id) },
   });
 
-  // Si no se encuentra el ítem, intenta buscar en la tabla de ItemTemplate
   if (!item) {
     const itemInstance = await prisma.itemInstance.findUnique({
-      where: { id: id },
-      include: { itemTemplate: true }, // Incluye la relación con ItemTemplate
+      where: { id: parseInt(id) },
+      include: { itemTemplate: true },
     });
 
     if (itemInstance) {
-      item = {
-        name: itemInstance.itemTemplate.name,
-      };
+      item = { name: itemInstance.itemTemplate.name };
     }
   }
 

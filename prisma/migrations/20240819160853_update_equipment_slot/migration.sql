@@ -52,50 +52,13 @@ CREATE TABLE "Character" (
 -- CreateTable
 CREATE TABLE "Inventory" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "characterId" INTEGER NOT NULL,
     "itemId" INTEGER NOT NULL,
+    "characterId" INTEGER NOT NULL,
     "itemInstanceId" INTEGER,
     "quantity" INTEGER NOT NULL DEFAULT 1,
     CONSTRAINT "Inventory_characterId_fkey" FOREIGN KEY ("characterId") REFERENCES "Character" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Inventory_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Inventory_itemInstanceId_fkey" FOREIGN KEY ("itemInstanceId") REFERENCES "ItemInstance" ("id") ON DELETE SET NULL ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "EquipmentSlot" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "characterId" INTEGER NOT NULL,
-    "slotType" TEXT NOT NULL,
-    "itemId" INTEGER NOT NULL,
-    CONSTRAINT "EquipmentSlot_characterId_fkey" FOREIGN KEY ("characterId") REFERENCES "Character" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "EquipmentSlot_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "Enemy" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL,
-    "attackType" TEXT NOT NULL,
-    "giveBaseExpAmount" INTEGER NOT NULL,
-    "giveJobExpAmount" INTEGER NOT NULL,
-    "health" INTEGER NOT NULL,
-    "maxHealth" INTEGER NOT NULL,
-    "attackPower" INTEGER NOT NULL,
-    "magicPower" INTEGER NOT NULL,
-    "defense" INTEGER NOT NULL,
-    "magicDefense" INTEGER NOT NULL,
-    "baseLevel" INTEGER NOT NULL,
-    "monsterType" TEXT NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "EnemyDrop" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "enemyId" INTEGER NOT NULL,
-    "itemId" INTEGER NOT NULL,
-    "dropChance" REAL NOT NULL,
-    CONSTRAINT "EnemyDrop_enemyId_fkey" FOREIGN KEY ("enemyId") REFERENCES "Enemy" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "EnemyDrop_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Inventory_itemInstanceId_fkey" FOREIGN KEY ("itemInstanceId") REFERENCES "ItemInstance" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "Inventory_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -157,6 +120,51 @@ CREATE TABLE "ItemInstance" (
 );
 
 -- CreateTable
+CREATE TABLE "EquipmentSlot" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "characterId" INTEGER NOT NULL,
+    "upperHeadSlot" INTEGER,
+    "midHeadSlot" INTEGER,
+    "lowerHeadSlot" INTEGER,
+    "bodySlot" INTEGER,
+    "rightHandSlot" INTEGER,
+    "leftHandSlot" INTEGER,
+    "robeSlot" INTEGER,
+    "shoesSlot" INTEGER,
+    "accessorySlot01" INTEGER,
+    "accessorySlot02" INTEGER,
+    "ammoSlot" INTEGER,
+    CONSTRAINT "EquipmentSlot_characterId_fkey" FOREIGN KEY ("characterId") REFERENCES "Character" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "Enemy" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "attackType" TEXT NOT NULL,
+    "giveBaseExpAmount" INTEGER NOT NULL,
+    "giveJobExpAmount" INTEGER NOT NULL,
+    "health" INTEGER NOT NULL,
+    "maxHealth" INTEGER NOT NULL,
+    "attackPower" INTEGER NOT NULL,
+    "magicPower" INTEGER NOT NULL,
+    "defense" INTEGER NOT NULL,
+    "magicDefense" INTEGER NOT NULL,
+    "baseLevel" INTEGER NOT NULL,
+    "monsterType" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "EnemyDrop" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "enemyId" INTEGER NOT NULL,
+    "itemId" INTEGER NOT NULL,
+    "dropChance" REAL NOT NULL,
+    CONSTRAINT "EnemyDrop_enemyId_fkey" FOREIGN KEY ("enemyId") REFERENCES "Enemy" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "EnemyDrop_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "JobClass" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL,
@@ -193,19 +201,16 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "Character_name_key" ON "Character"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "EquipmentSlot_characterId_slotType_key" ON "EquipmentSlot"("characterId", "slotType");
+CREATE UNIQUE INDEX "Item_name_key" ON "Item"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ItemTemplate_name_key" ON "ItemTemplate"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Enemy_name_key" ON "Enemy"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "EnemyDrop_enemyId_itemId_key" ON "EnemyDrop"("enemyId", "itemId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Item_name_key" ON "Item"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "ItemTemplate_name_key" ON "ItemTemplate"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "JobClass_name_key" ON "JobClass"("name");

@@ -32,8 +32,8 @@ import { getEnemyDrops, getEnemyDropById } from "./enemydrop.js";
 
 import {
   getEquipment,
-  getEquipmentByCharacterId,
-  getEquipmentByCharacterIdAndSlot,
+  getEquipmentSlotsByCharacterId,
+  getEquipmentSlotByCharacterIdAndSlot,
   getEquipmentById,
   unequipItem,
   equipItem,
@@ -63,8 +63,8 @@ export {
   getEquipment,
   unequipItem,
   equipItem,
-  getEquipmentByCharacterId,
-  getEquipmentByCharacterIdAndSlot,
+  getEquipmentSlotsByCharacterId,
+  getEquipmentSlotByCharacterIdAndSlot,
   getEquipmentById,
   createItemInstance,
   getItemInstanceById,

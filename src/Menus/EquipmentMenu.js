@@ -1,13 +1,12 @@
 import readlineSync from "readline-sync";
 import select, { Separator } from "@inquirer/select";
 import {
-  getEquipmentByCharacterId,
-  getItemInstanceNameById, // Nuevo: Obtener nombre de instancia de ítem por ID
+  getEquipmentSlotsByCharacterId,
+  getItemNameById,
   unequipItem,
 } from "../Controllers/index.js";
 
-
-const lineLength = 35; // The total length of the line
+const lineLength = 35;
 const slotStatus = {
   empty: "Empty",
   unequippable: "Unequippable",
@@ -33,7 +32,12 @@ const equipmentSlots = {
 async function getItemNames(itemIds) {
   const itemNamesMap = new Map();
   for (const itemId of itemIds) {
-    const itemName = await getItemInstanceNameById(itemId);
+    if (!itemId) {
+      console.error("getItemNames: Encontrado itemId nulo o indefinido.");
+      itemNamesMap.set(itemId, "Unknown Item");
+      continue; // Saltar itemIds inválidos
+    }
+    const itemName = await getItemNameById(itemId);
     itemNamesMap.set(itemId, itemName);
   }
   return itemNamesMap;
@@ -43,9 +47,12 @@ function createSlotObject(slotName, displayName, itemId, itemName) {
   let description = slotStatus.empty;
   let displayItem = slotStatus.empty;
 
-  if (itemName) {
+  if (itemName && itemName !== "Unknown Item") {
     displayItem = itemName;
     description = itemName;
+  } else if (!itemId || itemName === "Unknown Item") {
+    displayItem = slotStatus.empty;
+    description = slotStatus.empty;
   } else {
     switch (itemId) {
       case 0:
@@ -64,6 +71,10 @@ function createSlotObject(slotName, displayName, itemId, itemName) {
         displayItem = slotStatus.hidden;
         description = slotStatus.hidden;
         break;
+      default:
+        displayItem = "Unknown Item";
+        description = "Unknown Item";
+        break;
     }
   }
 
@@ -75,18 +86,27 @@ function createSlotObject(slotName, displayName, itemId, itemName) {
 }
 
 export async function EquipmentMenu(id) {
-  const equipmentData = await getEquipmentByCharacterId(id);
-  const equipment = equipmentData[0];
-  const itemIds = Object.values(equipment).filter((value) => value !== null);
+  const equipmentSlotsData = await getEquipmentSlotsByCharacterId(id);
+  console.log(equipmentSlotsData);
+  const itemIds = equipmentSlotsData.reduce((acc, slot) => {
+    Object.values(slot).forEach(value => {
+      if (value != null && typeof value === 'number') {
+        acc.push(value);
+      }
+    });
+    return acc;
+  }, []);
+  console.log(itemIds);
   const itemNamesMap = await getItemNames(itemIds);
+  console.log(itemNamesMap);
 
-  const equipmentSlotsArray = Object.entries(equipmentSlots).map(
-    ([slotName, displayName]) => {
-      const itemId = equipment[slotName];
-      const itemName = itemNamesMap.get(itemId);
-      return createSlotObject(slotName, displayName, itemId, itemName);
-    },
-  );
+  const equipmentSlotsArray = Object.keys(equipmentSlots).map((slotName) => {
+    const displayName = equipmentSlots[slotName];
+    const itemId = equipmentSlotsData[0][slotName]; // Accedemos a la propiedad específica por su nombre
+    const itemName = itemNamesMap.get(itemId);
+    console.log(slotName, displayName, itemId, itemName);
+    return createSlotObject(slotName, displayName, itemId, itemName);
+  });
 
   const answer = await select({
     message: "Which item do you want to unequip?",
@@ -105,20 +125,21 @@ export async function EquipmentMenu(id) {
     return;
   }
 
-  const itemId = equipment[answer];
-  const itemName = itemNamesMap.get(itemId);
+// Aquí no necesitas usar 'find', ya que 'answer' contiene el nombre del slot directamente.
+const selectedSlot = equipmentSlotsData[0][answer]; // Accedemos directamente al slot correspondiente
+const itemId = selectedSlot;
+const itemName = itemNamesMap.get(itemId);
 
-  if (itemId === null) {
-    console.log("This slot is empty!");
-  } else if (itemId === 0) {
-    console.log("You can't unequip this item!");
-  } else if (itemId === -1) {
-    console.log("This slot is locked!");
-  } else {
-    // Mueve el ítem de vuelta al inventario
-    await unequipItem(id, answer);
-    console.log(`You unequipped ${itemName}!`);
-  }
+if (itemId === null || itemId === undefined) {
+  console.log("This slot is empty!");
+} else if (itemId === 0) {
+  console.log("You can't unequip this item!");
+} else if (itemId === -1) {
+  console.log("This slot is locked!");
+} else {
+  await unequipItem(id, answer);
+  console.log(`You unequipped ${itemName}!`);
+}
 
-  readlineSync.question("Press any key to return to the main menu.");
+readlineSync.question("Press any key to return to the main menu.");
 }

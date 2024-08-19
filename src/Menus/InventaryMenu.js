@@ -4,7 +4,7 @@ import {
   getInventory,
   getItemNameById,
   getItemInstanceById,
-  getEquipmentByCharacterIdAndSlot,
+  getEquipmentSlotByCharacterIdAndSlot,
   unequipItem,
   equipItem,
 } from "../Controllers/index.js";
@@ -21,7 +21,7 @@ export async function InventaryMenu(id) {
     let itemName;
     let itemInstance = null;
 
-    // Obtener la instancia de ítem si existe
+    // Primero, revisa si hay una instancia de ítem
     if (inventory[i].itemInstanceId) {
       try {
         itemInstance = await getItemInstanceById(inventory[i].itemInstanceId);
@@ -31,13 +31,14 @@ export async function InventaryMenu(id) {
       }
     }
 
-    // Obtener el nombre del ítem directamente desde la plantilla
+    // Si hay una instancia, usa el nombre del template. Si no, usa el nombre del ítem base
     if (itemInstance && itemInstance.itemTemplate) {
       itemName = itemInstance.itemTemplate.name;
     } else {
-      itemName = await getItemNameById(inventory[i].itemId); // Usar el método para ítems regulares
+      itemName = await getItemNameById(inventory[i].itemId);
     }
 
+    // Combina la información del ítem base y la instancia
     inventoryItems.push({
       name: `║ ${itemName} x ${inventory[i].quantity} ${itemInstance?.itemTemplate?.equipable ? "(Equipable)" : ""}`.padEnd(36) + "║",
       value: {
@@ -68,23 +69,23 @@ export async function InventaryMenu(id) {
     separator: "",
   });
 
-  if (inventoryMenu.value === "goBack" || inventoryMenu === undefined) {
+  if (inventoryMenu === undefined || inventoryMenu.value === "goBack") {
     return;
   }
 
   const selectedItem = inventoryMenu.value;
 
   // Verificar si es un ítem equipable
-  if (selectedItem.equipable) {
+  if (selectedItem && selectedItem.equipable) {
     const selectedItemInstance = await getItemInstanceById(selectedItem.id);
 
     // Verificar que el ítem tiene un slot de equipamiento válido
-    if (!selectedItemInstance.equipmentSlot) {
+    if (!selectedItemInstance || !selectedItemInstance.equipmentSlot) {
       console.log("Este ítem no puede ser equipado debido a la falta de un slot de equipamiento válido.");
       return;
     }
 
-    const equipment = await getEquipmentByCharacterIdAndSlot(
+    const equipment = await getEquipmentSlotByCharacterIdAndSlot(
       id,
       selectedItemInstance.equipmentSlot
     );

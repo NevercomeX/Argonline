@@ -1,65 +1,72 @@
 import { prisma } from "../Prisma/prismaClient.js";
 
 export async function getEquipment() {
-  return await prisma.equipment.findMany();
+  return await prisma.equipmentSlot.findMany();
 }
 
 export async function getEquipmentById(id) {
-  return await prisma.equipment.findFirst({
+  return await prisma.equipmentSlot.findFirst({
     where: { id: parseInt(id) },
   });
 }
 
-export async function getEquipmentByCharacterIdAndSlot(characterId, slot) {
-  if (!slot) {
-    throw new Error("El slot proporcionado no es válido");
-  }
-  const equipment = await prisma.equipment.findFirst({
-    where: {
-      characterId: parseInt(characterId),
-      [slot]: { not: null },
-    },
-  });
-
-  return equipment;
-}
-
-export async function getEquipmentByCharacterId(characterId) {
+export async function getEquipmentSlotsByCharacterId(characterId) {
   try {
-    const equipment = await prisma.equipment.findMany({
-      where: { characterId: characterId },
+    const equipmentSlots = await prisma.equipmentSlot.findMany({
+      where: { characterId: parseInt(characterId) },
     });
-    return equipment;
+    return equipmentSlots;
   } catch (error) {
-    console.error("Error fetching equipment:", error);
-    throw new Error("Failed to fetch equipment");
+    console.error("Error fetching equipment slots:", error);
+    throw new Error("Failed to fetch equipment slots");
   }
 }
 
-export async function unequipItem(characterId, slot) {
+export async function getEquipmentSlotByCharacterIdAndSlot(characterId, slotType) {
   try {
-    // Encuentra el equipo del personaje en el slot específico
-    const equipment = await prisma.equipment.findFirst({
+    const equipmentSlot = await prisma.equipmentSlot.findFirst({
       where: {
         characterId: parseInt(characterId),
-        [slot]: { not: null },
+        slotType: slotType,
       },
     });
 
-    if (!equipment || equipment[slot] === null) {
-      console.log(`No se encontró ningún ítem en el slot ${slot}`);
+    return equipmentSlot;
+  } catch (error) {
+    console.error("Error fetching equipment slot:", error);
+    throw new Error("Failed to fetch equipment slot");
+  }
+}
+
+export async function unequipItem(characterId, slotType) {
+  try {
+    // Buscar el registro de EquipmentSlot para el personaje específico
+    const equipmentSlot = await prisma.equipmentSlot.findFirst({
+      where: {
+        characterId: parseInt(characterId),
+      },
+    });
+
+    if (!equipmentSlot) {
+      console.log(`No se encontró ningún equipo para el personaje con ID ${characterId}`);
       return;
     }
 
-    const itemId = equipment[slot];
+    // Obtener el itemId del slot específico (por ejemplo, upperHeadSlot, rightHandSlot, etc.)
+    const itemId = equipmentSlot[slotType];
 
-    // Vacía el slot en la tabla equipment
-    await prisma.equipment.update({
-      where: { id: equipment.id },
-      data: { [slot]: null },
+    if (!itemId) {
+      console.log(`Slot ${slotType} está vacío.`);
+      return;
+    }
+
+    // Desequipar el ítem y moverlo al inventario
+    await prisma.equipmentSlot.update({
+      where: { id: equipmentSlot.id },
+      data: { [slotType]: null },  // Establecer el slot específico a null
     });
 
-    // Busca el ítem en el inventario, sin importar el location
+    // Verificar si ya existe el ítem en el inventario del personaje
     const existingInventoryItem = await prisma.inventory.findFirst({
       where: {
         characterId: parseInt(characterId),
@@ -68,19 +75,18 @@ export async function unequipItem(characterId, slot) {
     });
 
     if (existingInventoryItem) {
-      // Si el ítem ya existe en el inventario, actualiza el location
+      // Si el ítem ya está en el inventario, incrementar la cantidad
       await prisma.inventory.update({
         where: { id: existingInventoryItem.id },
-        data: { location: 'inventory' }, // Actualiza el location a 'inventory'
+        data: { quantity: { increment: 1 } },
       });
     } else {
-      // Si el ítem no existe en el inventario, crea un nuevo registro
+      // Si no está en el inventario, crearlo con cantidad 1
       await prisma.inventory.create({
         data: {
           characterId: parseInt(characterId),
           itemId: parseInt(itemId),
           quantity: 1,
-          location: 'inventory',
         },
       });
     }
@@ -91,43 +97,35 @@ export async function unequipItem(characterId, slot) {
   }
 }
 
-export async function equipItem(characterId, slot, itemId) {
+export async function equipItem(characterId, slotType, itemId) {
   try {
-    // Encuentra el ítem en el inventario
     const inventoryItem = await prisma.inventory.findFirst({
       where: {
         characterId: parseInt(characterId),
         itemId: parseInt(itemId),
-        location: 'inventory', // Asegúrate de que el ítem está en el inventario
       },
     });
 
-    if (inventoryItem) {
-      // Actualiza la ubicación del ítem para indicar que está equipado
-      await prisma.inventory.update({
-        where: { id: inventoryItem.id },
-        data: { location: slot }, // Actualiza `location` al slot donde se equipa
-      });
-
-      // Encuentra el registro de equipment para el characterId
-      const equipment = await prisma.equipment.findFirst({
-        where: { characterId: parseInt(characterId) },
-      });
-
-      if (equipment) {
-        // Actualiza la tabla equipment para reflejar el ítem equipado
-        await prisma.equipment.update({
-          where: { id: equipment.id }, // Usa el id único para actualizar
-          data: { [slot]: parseInt(itemId) }, // Actualiza el slot correspondiente con el id del ítem
-        });
-
-        console.log(`Ítem ${itemId} equipado en el slot ${slot}`);
-      } else {
-        console.error(`No se encontró equipo para el personaje con id ${characterId}`);
-      }
-    } else {
+    if (!inventoryItem || inventoryItem.quantity === 0) {
       console.error(`Ítem ${itemId} no encontrado en el inventario`);
+      return;
     }
+
+    // Asegurarse de que slotType coincida con los campos correctos del modelo
+    const equipmentData = {};
+    equipmentData[slotType] = parseInt(itemId);
+
+    await prisma.equipmentSlot.update({
+      where: { characterId: parseInt(characterId) },
+      data: equipmentData,
+    });
+
+    await prisma.inventory.update({
+      where: { id: inventoryItem.id },
+      data: { quantity: inventoryItem.quantity - 1 },
+    });
+
+    console.log(`Ítem ${itemId} equipado en el slot ${slotType}`);
   } catch (error) {
     console.error(`Error al equipar ítem: ${error.message}`);
   }
