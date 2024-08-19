@@ -6,6 +6,14 @@ export async function getInventory(characterId) {
       where: {
         characterId: characterId,
       },
+      include: {
+        itemInstance: {
+          include: {
+            itemTemplate: true,
+          },
+        },
+        item: true,
+      },
     });
     return inventory;
   } catch (error) {
@@ -13,6 +21,7 @@ export async function getInventory(characterId) {
     throw error;
   }
 }
+
 
 export async function getInventoryById(id) {
   return await prisma.inventory.findUnique({
