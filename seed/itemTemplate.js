@@ -1,4 +1,5 @@
-import {templates} from "./data/itemtemplates.js";
+import {templates} from "./data/items/itemTemplates.js";
+
 export async function createItemTemplates(prisma) {
   try {
     const createdTemplates = await Promise.all(

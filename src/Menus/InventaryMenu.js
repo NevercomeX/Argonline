@@ -25,16 +25,12 @@ export async function InventaryMenu(id) {
       const itemInstance = inventory[i].itemInstance;
       itemName = itemInstance.itemTemplate.name;
       equipable = itemInstance.itemTemplate.equipable;
-
-      // Determina el slot de equipamiento
-      equipmentSlot = determineEquipmentSlot(itemInstance.itemTemplate.itemType);
+      equipmentSlot = determineEquipmentSlot(itemInstance.itemTemplate.itemSubType); // Determinar slot
     } else {
       const item = inventory[i].item;
       itemName = item.name;
       equipable = item.equipable;
-
-      // Determina el slot de equipamiento
-      equipmentSlot = determineEquipmentSlot(item.itemType);
+      equipmentSlot = determineEquipmentSlot(item.itemSubType); // Determinar slot
     }
 
     inventoryItems.push({
@@ -46,8 +42,6 @@ export async function InventaryMenu(id) {
       },
     });
   }
-
-  console.log(inventoryItems);
 
   if (inventoryItems.length === 0) {
     console.log("No hay ítems en tu inventario.");
@@ -69,24 +63,26 @@ export async function InventaryMenu(id) {
     separator: "",
   });
 
-  if (inventoryMenu === undefined || inventoryMenu.value === "goBack") {
+  if (inventoryMenu === undefined || inventoryMenu === "goBack") {
     return;
   }
 
-  const selectedItem = inventoryMenu.value;
+  const selectedItem = inventoryMenu;
 
-  // Verificar si es un ítem equipable
   console.log("Selected item:", selectedItem); // Depuración
+
   if (selectedItem && selectedItem.equipable) {
-    console.log("Este ítem es equipable."); // Depuración
+    let selectedItemInstance = await getItemInstanceById(selectedItem.id);
 
-    const selectedItemInstance = await getItemInstanceById(selectedItem.id);
-    console.log("Selected item instance:", selectedItemInstance); // Depuración
-
-    // Verificar que el ítem tiene un slot de equipamiento válido
-    if (!selectedItemInstance || !selectedItemInstance.equipmentSlot) {
-      console.log("Este ítem no puede ser equipado debido a la falta de un slot de equipamiento válido.");
+    if (!selectedItemInstance) {
+      console.log("Este ítem no tiene una instancia válida.");
       return;
+    }
+
+    if (!selectedItemInstance.equipmentSlot) {
+      // Determinar slot si no está asignado en la instancia
+      selectedItemInstance.equipmentSlot = determineEquipmentSlot(selectedItemInstance.itemTemplate.itemSubType);
+      console.log(`Slot determinado para equipar: ${selectedItemInstance.equipmentSlot}`);
     }
 
     const equipment = await getEquipmentSlotByCharacterIdAndSlot(
@@ -98,51 +94,34 @@ export async function InventaryMenu(id) {
       console.log(`Desequipando ítem del slot: ${selectedItemInstance.equipmentSlot}`);
       await unequipItem(id, selectedItemInstance.equipmentSlot);
     }
+    console.log(id,selectedItemInstance.id,selectedItemInstance.equipmentSlot);
 
+    readlineSync.question();
     await equipItem(id, selectedItemInstance.equipmentSlot, selectedItemInstance.id);
     console.log(`Ítem equipado: ${selectedItemInstance.itemTemplate.name}`);
+
   } else {
-    console.log("Este ítem no es equipable!"); // Depuración
+    console.log("Este ítem no es equipable!");
   }
 
   readlineSync.question("Presiona cualquier tecla para volver al menú principal.");
 }
 
-
-
-// model EquipmentSlot {
-//   id              Int       @id @default(autoincrement())
-//   characterId     Int
-//   upperHeadSlot   Int?
-//   midHeadSlot     Int?
-//   lowerHeadSlot   Int?
-//   bodySlot        Int?
-//   rightHandSlot   Int?
-//   leftHandSlot    Int?
-//   robeSlot        Int?
-//   shoesSlot       Int?
-//   accessorySlot01 Int?
-//   accessorySlot02 Int?
-//   ammoSlot        Int?
-//   character       Character @relation(fields: [characterId], references: [id])
-// }
-
-function determineEquipmentSlot(itemType) {
+function determineEquipmentSlot(itemSubType) {
   // Aquí, dependiendo de tu modelo de datos y lógica, podrías mapear itemTypes a slots específicos
   const slotMap = {
-    "Weapon": "rightHandSlot",
-    "Helmet": "upperHeadSlot",
-    "Shield": "leftHandSlot",
-    "Armor": "bodySlot",
-    "Boots": "shoesSlot",
-    "Accessory": "accessorySlot01", 
-    "Ring": "accessorySlot02",
-    "Ammo": "ammoSlot",
+    "rightHandSlot": "rightHandSlot",
+    "upperHeadSlot": "upperHeadSlot",
+    "leftHandSlot": "leftHandSlot",
+    "bodySlot": "bodySlot",
+    "shoesSlot": "shoesSlot",
+    "accessorySlot01": "accessorySlot01", 
+    "accessorySlot02": "accessorySlot02",
+    "ammoSlot": "ammoSlot",
     "midHeadSlot": "midHeadSlot",
     "lowerHeadSlot": "lowerHeadSlot",
     "robeSlot": "robeSlot",
-    "ammoSlot": "ammoSlot",
   };
 
-  return slotMap[itemType] || null;
+  return slotMap[itemSubType] || null;
 }

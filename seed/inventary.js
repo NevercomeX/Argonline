@@ -1,9 +1,23 @@
 export async function inventarySeed(prisma) {
-  // Obtener los ítems de la base de datos
+  // Función para quitar espacios del nombre
+  function removeSpaces(name) {
+    return name.replace(/\s+/g, '');
+  }
+
+  // Obtener los ítems de la base de datos, quitando espacios en los nombres
+  const itemNames = [
+    "Health Potion",
+    "Mana Potion",
+    "Stamina Elixir",
+    "Iron Sword",
+    "Steel Axe",
+    "Iron Helmet"
+  ];
+
   const items = await prisma.item.findMany({
     where: {
       name: {
-        in: ["Apple", "Orange", "Banana", "Peach", "Pear", "Sword"], // Lista de nombres de ítems que quieres agregar al inventario
+        in: itemNames.map(name => removeSpaces(name)),
       },
     },
   });
@@ -11,12 +25,12 @@ export async function inventarySeed(prisma) {
   // Datos del inventario para un personaje
   const characterId = 1;
   const inventoryData = [
-    { characterId, itemId: items.find(item => item.name === 'Apple').id, quantity: 1 },
-    { characterId, itemId: items.find(item => item.name === 'Orange').id, quantity: 1 },
-    { characterId, itemId: items.find(item => item.name === 'Banana').id, quantity: 1 },
-    { characterId, itemId: items.find(item => item.name === 'Peach').id, quantity: 5 },
-    { characterId, itemId: items.find(item => item.name === 'Pear').id, quantity: 3 },
-    { characterId, itemId: items.find(item => item.name === 'Sword').id, quantity: 1 },
+    { characterId, itemId: items.find(item => removeSpaces(item.name) === removeSpaces('Health Potion')).id, quantity: 4 },
+    { characterId, itemId: items.find(item => removeSpaces(item.name) === removeSpaces('Mana Potion')).id, quantity: 7 },
+    { characterId, itemId: items.find(item => removeSpaces(item.name) === removeSpaces('Stamina Elixir')).id, quantity: 1 },
+    { characterId, itemId: items.find(item => removeSpaces(item.name) === removeSpaces('Iron Sword')).id, quantity: 1 },
+    { characterId, itemId: items.find(item => removeSpaces(item.name) === removeSpaces('Steel Axe')).id, quantity: 1 },
+    { characterId, itemId: items.find(item => removeSpaces(item.name) === removeSpaces('Iron Helmet')).id, quantity: 1 },
   ];
 
   // Poblar la tabla Inventory

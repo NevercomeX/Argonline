@@ -1,4 +1,5 @@
 import { prisma } from "../Prisma/prismaClient.js";
+import readlineSync from "readline-sync";
 
 export async function getEquipment() {
   return await prisma.equipmentSlot.findMany();
@@ -23,12 +24,16 @@ export async function getEquipmentSlotsByCharacterId(characterId) {
 }
 
 export async function getEquipmentSlotByCharacterIdAndSlot(characterId, slotType) {
+  console.log(characterId, slotType);
+  readlineSync.question("Presiona cualquier tecla para volver al menú principal.");
+
   try {
+    // Construir dinámicamente el filtro para la consulta
+    const filter = { characterId: parseInt(characterId) };
+    filter[slotType] = { not: null }; // Aseguramos que el slot no sea nulo
+
     const equipmentSlot = await prisma.equipmentSlot.findFirst({
-      where: {
-        characterId: parseInt(characterId),
-        slotType: slotType,
-      },
+      where: filter,
     });
 
     return equipmentSlot;
@@ -37,6 +42,7 @@ export async function getEquipmentSlotByCharacterIdAndSlot(characterId, slotType
     throw new Error("Failed to fetch equipment slot");
   }
 }
+
 
 export async function unequipItem(characterId, slotType) {
   try {
@@ -99,6 +105,7 @@ export async function unequipItem(characterId, slotType) {
 
 export async function equipItem(characterId, slotType, itemId) {
   try {
+    // Buscar el ítem en el inventario del personaje
     const inventoryItem = await prisma.inventory.findFirst({
       where: {
         characterId: parseInt(characterId),
@@ -106,8 +113,18 @@ export async function equipItem(characterId, slotType, itemId) {
       },
     });
 
-    if (!inventoryItem || inventoryItem.quantity === 0) {
-      console.error(`Ítem ${itemId} no encontrado en el inventario`);
+    if (!inventoryItem || inventoryItem.quantity <= 0) {
+      console.error(`Ítem ${itemId} no encontrado o cantidad insuficiente en el inventario`);
+      return;
+    }
+
+    // Buscar el registro de EquipmentSlot correspondiente al personaje
+    const equipmentSlotRecord = await prisma.equipmentSlot.findFirst({
+      where: { characterId: parseInt(characterId) },
+    });
+
+    if (!equipmentSlotRecord) {
+      console.error(`No se encontró registro de EquipmentSlot para characterId ${characterId}`);
       return;
     }
 
@@ -115,15 +132,23 @@ export async function equipItem(characterId, slotType, itemId) {
     const equipmentData = {};
     equipmentData[slotType] = parseInt(itemId);
 
+    // Actualizar el slot correspondiente con el ítem
     await prisma.equipmentSlot.update({
-      where: { characterId: parseInt(characterId) },
+      where: { id: equipmentSlotRecord.id }, // Usar el ID único del registro
       data: equipmentData,
     });
 
-    await prisma.inventory.update({
-      where: { id: inventoryItem.id },
-      data: { quantity: inventoryItem.quantity - 1 },
-    });
+    // Reducir la cantidad del ítem en el inventario o eliminar si cantidad es 0
+    if (inventoryItem.quantity - 1 <= 0) {
+      await prisma.inventory.delete({
+        where: { id: inventoryItem.id },
+      });
+    } else {
+      await prisma.inventory.update({
+        where: { id: inventoryItem.id },
+        data: { quantity: inventoryItem.quantity - 1 },
+      });
+    }
 
     console.log(`Ítem ${itemId} equipado en el slot ${slotType}`);
   } catch (error) {

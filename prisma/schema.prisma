@@ -81,6 +81,7 @@ model Item {
   name          String   @unique
   itemType      String   @default("None")
   itemSubType   String   @default("None")
+  equipmentSlot String?   @default("None")
   description   String
   price         Int
   attackPower   Int
@@ -109,6 +110,8 @@ model ItemTemplate {
   id            Int      @id @default(autoincrement())
   name          String   @unique
   itemType      String   @default("None")
+  itemSubType   String   @default("None")
+  equipmentSlot String?   @default("None")
   description   String
   baseAttack    Int
   baseDefense   Int
@@ -117,22 +120,6 @@ model ItemTemplate {
   rarity        String
   equipable     Boolean  
   itemInstances ItemInstance[]
-}
-
-model ItemInstance {
-  id             Int          @id @default(autoincrement())
-  itemTemplateId Int
-  characterId    Int
-  currentAttack  Int
-  currentDefense Int
-  currentHealth  Int
-  currentMana    Int
-  upgradeLevel   Int          @default(0) // Nivel de mejora o mejora
-  socketedGems   String?      // JSON o texto para cualquier gema o runa
-  enchantments   String?      // JSON o texto para encantamientos adicionales
-  itemTemplate   ItemTemplate @relation(fields: [itemTemplateId], references: [id])
-  character      Character    @relation(fields: [characterId], references: [id])
-  inventory      Inventory[]
 }
 
 model EquipmentSlot {
@@ -151,6 +138,24 @@ model EquipmentSlot {
   ammoSlot        Int?
   character       Character @relation(fields: [characterId], references: [id])
 }
+
+
+model ItemInstance {
+  id             Int          @id @default(autoincrement())
+  itemTemplateId Int
+  characterId    Int
+  currentAttack  Int
+  currentDefense Int
+  currentHealth  Int
+  currentMana    Int
+  upgradeLevel   Int          @default(0) // Nivel de mejora o mejora
+  socketedGems   String?      // JSON o texto para cualquier gema o runa
+  enchantments   String?      // JSON o texto para encantamientos adicionales
+  itemTemplate   ItemTemplate @relation(fields: [itemTemplateId], references: [id])
+  character      Character    @relation(fields: [characterId], references: [id])
+  inventory      Inventory[]
+}
+
 
 
 model Enemy {
