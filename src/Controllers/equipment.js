@@ -1,5 +1,4 @@
 import { prisma } from "../Prisma/prismaClient.js";
-import readlineSync from "readline-sync";
 
 export async function getEquipment() {
   return await prisma.equipmentSlot.findMany();
@@ -24,16 +23,12 @@ export async function getEquipmentSlotsByCharacterId(characterId) {
 }
 
 export async function getEquipmentSlotByCharacterIdAndSlot(characterId, slotType) {
-  console.log(characterId, slotType);
-  readlineSync.question("Presiona cualquier tecla para volver al menú principal.");
-
   try {
-    // Construir dinámicamente el filtro para la consulta
-    const filter = { characterId: parseInt(characterId) };
-    filter[slotType] = { not: null }; // Aseguramos que el slot no sea nulo
-
     const equipmentSlot = await prisma.equipmentSlot.findFirst({
-      where: filter,
+      where: {
+        characterId: parseInt(characterId),
+        [slotType]: { not: null },
+      },
     });
 
     return equipmentSlot;
@@ -44,54 +39,49 @@ export async function getEquipmentSlotByCharacterIdAndSlot(characterId, slotType
 }
 
 
+// Función para desequipar un ítem de un slot y devolverlo al inventario
 export async function unequipItem(characterId, slotType) {
   try {
-    // Buscar el registro de EquipmentSlot para el personaje específico
     const equipmentSlot = await prisma.equipmentSlot.findFirst({
       where: {
         characterId: parseInt(characterId),
+        [slotType]: { not: null },
       },
     });
 
     if (!equipmentSlot) {
-      console.log(`No se encontró ningún equipo para el personaje con ID ${characterId}`);
+      console.log(`No se encontró ningún ítem en el slot ${slotType}`);
       return;
     }
 
-    // Obtener el itemId del slot específico (por ejemplo, upperHeadSlot, rightHandSlot, etc.)
     const itemId = equipmentSlot[slotType];
 
-    if (!itemId) {
-      console.log(`Slot ${slotType} está vacío.`);
-      return;
-    }
-
-    // Desequipar el ítem y moverlo al inventario
+    // Actualiza el campo del slot a null para "desequipar" el ítem
     await prisma.equipmentSlot.update({
       where: { id: equipmentSlot.id },
-      data: { [slotType]: null },  // Establecer el slot específico a null
+      data: {
+        [slotType]: null,
+      },
     });
 
-    // Verificar si ya existe el ítem en el inventario del personaje
+    // Mueve el ítem de vuelta al inventario
     const existingInventoryItem = await prisma.inventory.findFirst({
       where: {
         characterId: parseInt(characterId),
-        itemId: parseInt(itemId),
+        itemId: itemId,
       },
     });
 
     if (existingInventoryItem) {
-      // Si el ítem ya está en el inventario, incrementar la cantidad
       await prisma.inventory.update({
         where: { id: existingInventoryItem.id },
         data: { quantity: { increment: 1 } },
       });
     } else {
-      // Si no está en el inventario, crearlo con cantidad 1
       await prisma.inventory.create({
         data: {
           characterId: parseInt(characterId),
-          itemId: parseInt(itemId),
+          itemId: itemId,
           quantity: 1,
         },
       });

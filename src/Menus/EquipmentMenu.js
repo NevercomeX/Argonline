@@ -7,8 +7,18 @@ import {
 } from "../Controllers/index.js";
 
 const lineLength = 35;
+
+const RESET = '\x1b[0m';
+const RED = '\x1b[31m';
+const GREEN = '\x1b[32m';
+const YELLOW = '\x1b[33m';
+const BLUE = '\x1b[34m';
+const MAGENTA = '\x1b[35m';
+const CYAN = '\x1b[36m';
+const WHITE = '\x1b[37m';
+
 const slotStatus = {
-  empty: "Empty",
+  empty: `${RED}Empty${RESET}`,
   unequippable: "Unequippable",
   locked: "Locked",
   disabled: "Disabled",
@@ -28,6 +38,8 @@ const equipmentSlots = {
   accessorySlot02: "Accessory 2",
   ammoSlot: "Ammo",
 };
+
+
 
 async function getItemNames(itemIds) {
   const itemNamesMap = new Map();
@@ -79,7 +91,7 @@ function createSlotObject(slotName, displayName, itemId, itemName) {
   }
 
   return {
-    name: `║ ${displayName}: [ ${displayItem} ]`.padEnd(lineLength - 1) + "║",
+    name: `║ ${displayName}: [ ${YELLOW}${displayItem}${RESET} ]`.padEnd(lineLength - 1) + "║",
     value: slotName,
     description: description,
   };

@@ -43,14 +43,12 @@ async function seed() {
     await itemSeed(prisma);
     await enemySeed(prisma);
     await enemyDropSeed(prisma);
-    await inventarySeed(prisma);
     await seedEquipmentSlot(prisma);
-    const itemTemplates = await createItemTemplates(prisma); // Crear el ItemTemplate
-
-    // Obtener los IDs de las plantillas de ítem recién creadas
+    const itemTemplates = await createItemTemplates(prisma); 
     const itemTemplateIds = itemTemplates.map(template => template.id);
+    await inventarySeed(prisma);
+    await createItemInstances(prisma, itemTemplateIds, 1); 
 
-    await createItemInstances(prisma, itemTemplateIds, 1); // Usar el id del Character creado
 
     await prisma.$disconnect();
     console.log("Seed successful! ✅");
