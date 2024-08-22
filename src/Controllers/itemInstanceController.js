@@ -59,7 +59,7 @@ export async function getItemInstanceNameById(itemInstanceId) {
   try {
     const itemInstance = await prisma.itemInstance.findUnique({
       where: { id: itemInstanceId },
-      include: {
+      itemTemplate: {
         item: true, // Incluye el ítem base asociado a la instancia
       },
     });

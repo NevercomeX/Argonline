@@ -93,15 +93,27 @@ export async function unequipItem(characterId, slotType) {
   }
 }
 
-export async function equipItem(characterId, slotType, itemId) {
+export async function equipItem(characterId, slotType, itemId, isInstance ) {
   try {
+    console.log(`Equipando ítem: ${itemId}, Slot: ${slotType}, Es instancia: ${isInstance}`);
+
     // Buscar el ítem en el inventario del personaje
-    const inventoryItem = await prisma.inventory.findFirst({
-      where: {
-        characterId: parseInt(characterId),
-        itemId: parseInt(itemId),
-      },
-    });
+    let inventoryItem;
+    if (isInstance) {
+      inventoryItem = await prisma.inventory.findFirst({
+        where: {
+          characterId: characterId,
+          itemInstanceId: itemId, // Buscar usando itemInstanceId
+        },
+      });
+    } else {
+      inventoryItem = await prisma.inventory.findFirst({
+        where: {
+          characterId: characterId,
+          itemId: itemId, // Buscar usando itemId
+        },
+      });
+    }
 
     if (!inventoryItem || inventoryItem.quantity <= 0) {
       console.error(`Ítem ${itemId} no encontrado o cantidad insuficiente en el inventario`);
@@ -110,7 +122,7 @@ export async function equipItem(characterId, slotType, itemId) {
 
     // Buscar el registro de EquipmentSlot correspondiente al personaje
     const equipmentSlotRecord = await prisma.equipmentSlot.findFirst({
-      where: { characterId: parseInt(characterId) },
+      where: { characterId: characterId },
     });
 
     if (!equipmentSlotRecord) {
@@ -118,9 +130,20 @@ export async function equipItem(characterId, slotType, itemId) {
       return;
     }
 
+    console.log(`Registro de EquipmentSlot encontrado: ${equipmentSlotRecord.id}`);
+
+    // Verificar si hay un ítem equipado en el slot y desequiparlo
+    const currentItemId = equipmentSlotRecord[slotType];
+    if (currentItemId) {
+      console.log(`Desequipando ítem del slot: ${slotType}`);
+      await unequipItem(characterId, slotType);
+    }
+
     // Asegurarse de que slotType coincida con los campos correctos del modelo
     const equipmentData = {};
-    equipmentData[slotType] = parseInt(itemId);
+    equipmentData[slotType] = itemId; // Usar itemId o itemInstanceId dependiendo del caso
+
+    console.log(`Actualizando EquipmentSlot con ${equipmentData[slotType]} en ${slotType}`);
 
     // Actualizar el slot correspondiente con el ítem
     await prisma.equipmentSlot.update({
@@ -128,7 +151,7 @@ export async function equipItem(characterId, slotType, itemId) {
       data: equipmentData,
     });
 
-    // Reducir la cantidad del ítem en el inventario o eliminar si cantidad es 0
+    // Reducir la cantidad del ítem en el inventario o eliminar si la cantidad es 0
     if (inventoryItem.quantity - 1 <= 0) {
       await prisma.inventory.delete({
         where: { id: inventoryItem.id },

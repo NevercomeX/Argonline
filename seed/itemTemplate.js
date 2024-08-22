@@ -6,8 +6,11 @@ export async function createItemTemplates(prisma) {
       templates.map(async (template) => {
         return await prisma.itemTemplate.create({
           data: {
+            id: template.id,
             name: template.name,
             itemType: template.itemType,
+            itemSubType: template.itemSubType,
+            equipmentSlot: template.equipmentSlot,
             description: template.description,
             baseAttack: template.baseAttack,
             baseDefense: template.baseDefense,

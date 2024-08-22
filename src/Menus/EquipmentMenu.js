@@ -4,18 +4,20 @@ import {
   getEquipmentSlotsByCharacterId,
   getItemNameById,
   unequipItem,
+  getItemInstanceNameById
 } from "../Controllers/index.js";
+
 
 const lineLength = 35;
 
 const RESET = '\x1b[0m';
 const RED = '\x1b[31m';
-const GREEN = '\x1b[32m';
+// const GREEN = '\x1b[32m';
 const YELLOW = '\x1b[33m';
-const BLUE = '\x1b[34m';
-const MAGENTA = '\x1b[35m';
-const CYAN = '\x1b[36m';
-const WHITE = '\x1b[37m';
+// const BLUE = '\x1b[34m';
+// const MAGENTA = '\x1b[35m';
+// const CYAN = '\x1b[36m';
+// const WHITE = '\x1b[37m';
 
 const slotStatus = {
   empty: `${RED}Empty${RESET}`,
@@ -39,21 +41,6 @@ const equipmentSlots = {
   ammoSlot: "Ammo",
 };
 
-
-
-async function getItemNames(itemIds) {
-  const itemNamesMap = new Map();
-  for (const itemId of itemIds) {
-    if (!itemId) {
-      console.error("getItemNames: Encontrado itemId nulo o indefinido.");
-      itemNamesMap.set(itemId, "Unknown Item");
-      continue; // Saltar itemIds inválidos
-    }
-    const itemName = await getItemNameById(itemId);
-    itemNamesMap.set(itemId, itemName);
-  }
-  return itemNamesMap;
-}
 
 function createSlotObject(slotName, displayName, itemId, itemName) {
   let description = slotStatus.empty;
@@ -99,26 +86,47 @@ function createSlotObject(slotName, displayName, itemId, itemName) {
 
 export async function EquipmentMenu(id) {
   const equipmentSlotsData = await getEquipmentSlotsByCharacterId(id);
-  console.log(equipmentSlotsData);
-  const itemIds = equipmentSlotsData.reduce((acc, slot) => {
-    Object.values(slot).forEach(value => {
-      if (value != null && typeof value === 'number') {
-        acc.push(value);
-      }
-    });
+  console.log("slots de items", equipmentSlotsData);
+
+  const itemIds = Object.keys(equipmentSlots).reduce((acc, slotName) => {
+    const itemId = equipmentSlotsData[0][slotName];
+    if (itemId != null) {
+      acc.push({ itemId, slotName });
+    }
     return acc;
   }, []);
-  console.log(itemIds);
-  const itemNamesMap = await getItemNames(itemIds);
-  console.log(itemNamesMap);
+
+  console.log("itemIds equipados", itemIds);
+
+  const itemNamesMap = new Map();
+
+  // Iterar sobre los itemIds para determinar si son instancias o ítems normales
+  for (const { itemId, slotName } of itemIds) {
+    // Intentar obtener el nombre como una instancia de ítem
+    const itemInstanceName = await getItemInstanceNameById(itemId).catch(() => null);
+
+    if (itemInstanceName) {
+      itemNamesMap.set(itemId, itemInstanceName);
+    } else {
+      // Si no es una instancia, obtener el nombre del ítem normal
+      const itemName = await getItemNameById(itemId);
+      itemNamesMap.set(itemId, itemName);
+    }
+  }
+
+  console.log("Mapa de nombres de ítems", itemNamesMap);
 
   const equipmentSlotsArray = Object.keys(equipmentSlots).map((slotName) => {
     const displayName = equipmentSlots[slotName];
-    const itemId = equipmentSlotsData[0][slotName]; // Accedemos a la propiedad específica por su nombre
+    const itemId = equipmentSlotsData[0][slotName];
     const itemName = itemNamesMap.get(itemId);
+
     console.log(slotName, displayName, itemId, itemName);
     return createSlotObject(slotName, displayName, itemId, itemName);
   });
+
+
+
 
   const answer = await select({
     message: "Which item do you want to unequip?",

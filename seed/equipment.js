@@ -3,7 +3,7 @@ export async function seedEquipmentSlot(prisma) {
   const items = await prisma.item.findMany({
     where: {
       name: {
-        in: ["Sword", "Shield", "Viking helmet"], // Lista de nombres de ítems que quieres equipar
+        in: ["Iron Sword", "Silk Robe", "Iron Helmet"], // Lista de nombres de ítems que quieres equipar
       },
     },
   });
@@ -13,11 +13,12 @@ export async function seedEquipmentSlot(prisma) {
 
   const equipmentData = {
     characterId,
-    rightHandSlot: items.find(item => item.name === 'Sword')?.id || null,
-    leftHandSlot: items.find(item => item.name === 'Shield')?.id || null,
-    upperHeadSlot: items.find(item => item.name === 'Viking helmet')?.id || null,
+    rightHandSlot: items.find(item => item.name === 'Iron Sword')?.id || null,
+    bodySlot: items.find(item => item.name === 'Silk Robe')?.id || null,
+    upperHeadSlot: items.find(item => item.name === 'Iron Helmet')?.id || null,
   };
 
+  console.log(equipmentData);
   // Poblar la tabla EquipmentSlot
   await prisma.equipmentSlot.create({
     data: equipmentData,

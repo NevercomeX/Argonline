@@ -123,7 +123,7 @@ model ItemTemplate {
 }
 
 model EquipmentSlot {
-  id            Int      @id 
+  id            Int      @id @default(autoincrement())
   characterId     Int
   upperHeadSlot   Int?
   midHeadSlot     Int?
@@ -141,7 +141,7 @@ model EquipmentSlot {
 
 
 model ItemInstance {
-  id            Int      @id 
+  id            Int       @id @default(autoincrement())
   itemTemplateId Int
   characterId    Int
   currentAttack  Int

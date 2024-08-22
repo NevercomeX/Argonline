@@ -1,7 +1,7 @@
 export const templates = [
   // Armaduras
   {
-    id: 1,
+    id: 5001,
     name: "Leather Armor",
     itemType: "Armor",
     itemSubType: "Leather",
@@ -15,7 +15,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 2,
+    id: 5002,
     name: "Chain Mail",
     itemType: "Armor",
     itemSubType: "Chain",
@@ -29,7 +29,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 3,
+    id: 5003,
     name: "Steel Plate",
     itemType: "Armor",
     itemSubType: "Steel",
@@ -43,7 +43,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 4,
+    id: 5004,
     name: "Iron Helmet",
     itemType: "Armor",
     itemSubType: "Helmet",
@@ -57,7 +57,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 5,
+    id: 5005,
     name: "Steel Shield",
     itemType: "Armor",
     itemSubType: "Shield",
@@ -71,7 +71,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 6,
+    id: 5006,
     name: "Mage Robe",
     itemType: "Armor",
     itemSubType: "Robe",
@@ -85,7 +85,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 7,
+    id: 5007,
     name: "Leather Boots",
     itemType: "Armor",
     itemSubType: "Boots",
@@ -99,7 +99,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 8,
+    id: 5008,
     name: "Dragon Scale Armor",
     itemType: "Armor",
     itemSubType: "Scale",
@@ -113,7 +113,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 9,
+    id: 5009,
     name: "Golden Crown",
     itemType: "Armor",
     itemSubType: "Crown",
@@ -127,7 +127,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 10,
+    id: 5010,
     name: "Shadow Cloak",
     itemType: "Armor",
     itemSubType: "Cloak",
@@ -143,7 +143,7 @@ export const templates = [
 
   // Armas
   {
-    id: 11,
+    id: 5011,
     name: "Short Sword",
     itemType: "Weapon",
     itemSubType: "Sword",
@@ -157,7 +157,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 12,
+    id: 5012,
     name: "Longsword",
     itemType: "Weapon",
     itemSubType: "Sword",
@@ -171,7 +171,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 13,
+    id: 5013,
     name: "War Axe",
     itemType: "Weapon",
     itemSubType: "Axe",
@@ -185,7 +185,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 14,
+    id: 5014,
     name: "Magic Staff",
     itemType: "Weapon",
     itemSubType: "Staff",
@@ -199,7 +199,7 @@ export const templates = [
     equipable: true
   },
   {
-    id: 15,
+    id: 5015,
     name: "Crossbow",
     itemType: "Weapon",
     itemSubType: "Crossbow",

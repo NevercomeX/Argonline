@@ -92,18 +92,22 @@ export async function InventaryMenu(id) {
       // Si el ítem es una instancia
       const  selectedItemInstance = await getItemInstanceById(selectedItem.id);
 
+
+      const selectedItemInstanceSlot = selectedItemInstance.itemTemplate.equipmentSlot;
+      const selectedItemIsInstance = selectedItem.isInstance;
+
       if (!selectedItemInstance) {
         console.log("Este ítem no tiene una instancia válida.");
         return;
       }
 
-      if (!selectedItemInstance.equipmentSlot) {
+      if (!selectedItemInstanceSlot) {
         // Determinar slot si no está asignado en la instancia
-        selectedItemInstance.equipmentSlot = determineEquipmentSlot(selectedItemInstance.itemTemplate.itemSubType);
-        console.log(`Slot determinado para equipar: ${selectedItemInstance.equipmentSlot}`);
+        // Return an error message if the item is not equipable
+        console.log("Este ítem no es equipable!");
       }
 
-      await equipItem(id, selectedItemInstance.equipmentSlot, selectedItemInstance.id);
+      await equipItem(id, selectedItemInstanceSlot, selectedItemInstance.id, selectedItemIsInstance);
       console.log(`Ítem equipado: ${selectedItemInstance.itemTemplate.name}`);
 
     } else {
@@ -115,23 +119,4 @@ export async function InventaryMenu(id) {
   }
 
   readlineSync.question("Presiona cualquier tecla para volver al menú principal.");
-}
-
-function determineEquipmentSlot(itemSubType) {
-  // Aquí, dependiendo de tu modelo de datos y lógica, podrías mapear itemTypes a slots específicos
-  const slotMap = {
-    "rightHandSlot": "rightHandSlot",
-    "upperHeadSlot": "upperHeadSlot",
-    "leftHandSlot": "leftHandSlot",
-    "bodySlot": "bodySlot",
-    "shoesSlot": "shoesSlot",
-    "accessorySlot01": "accessorySlot01", 
-    "accessorySlot02": "accessorySlot02",
-    "ammoSlot": "ammoSlot",
-    "midHeadSlot": "midHeadSlot",
-    "lowerHeadSlot": "lowerHeadSlot",
-    "robeSlot": "robeSlot",
-  };
-
-  return slotMap[itemSubType] || null;
 }

@@ -5,6 +5,8 @@ export async function createItemInstances(prisma, itemTemplateIds, characterId) 
       where: { id: characterId },
     });
 
+    console.log(itemTemplateIds, character)
+
     if (!character) {
       throw new Error(`Character with id ${characterId} does not exist`);
     }
@@ -24,7 +26,7 @@ export async function createItemInstances(prisma, itemTemplateIds, characterId) 
       if (itemTemplate.itemType === "Weapon" || itemTemplate.itemType === "Armor") {
         const itemInstance = await prisma.itemInstance.create({
           data: {
-            itemTemplateId,
+            itemTemplateId: itemTemplateId,
             characterId,
             currentAttack: itemTemplate.baseAttack,
             currentDefense: itemTemplate.baseDefense,
