@@ -69,7 +69,7 @@ model Inventory {
   id             Int          @id @default(autoincrement())
   itemId         Int?
   characterId    Int
-  itemInstanceId String?         // Referencia opcional a la instancia de ítem
+  itemInstanceId Int?         // Referencia opcional a la instancia de ítem
   quantity       Int          @default(1)
   character      Character    @relation(fields: [characterId], references: [id])
   itemInstance   ItemInstance? @relation(fields: [itemInstanceId], references: [id])
@@ -77,7 +77,7 @@ model Inventory {
 }
 
 model Item {
-  id            Int      @id @default(autoincrement())
+  id            Int      @id 
   name          String   @unique
   itemType      String   @default("None")
   itemSubType   String   @default("None")
@@ -107,11 +107,11 @@ model Item {
 }
 
 model ItemTemplate {
-  id            String          @id @default(uuid())
+  id            Int      @id 
   name          String   @unique
   itemType      String   @default("None")
   itemSubType   String   @default("None")
-  equipmentSlot String?   @default("None")
+  equipmentSlot String  
   description   String
   baseAttack    Int
   baseDefense   Int
@@ -123,7 +123,7 @@ model ItemTemplate {
 }
 
 model EquipmentSlot {
-  id              String          @id @default(uuid())
+  id            Int      @id 
   characterId     Int
   upperHeadSlot   Int?
   midHeadSlot     Int?
@@ -141,8 +141,8 @@ model EquipmentSlot {
 
 
 model ItemInstance {
-  id                     String          @id @default(uuid())
-  itemTemplateId String
+  id            Int      @id 
+  itemTemplateId Int
   characterId    Int
   currentAttack  Int
   currentDefense Int

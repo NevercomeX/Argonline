@@ -43,11 +43,11 @@ async function seed() {
     await itemSeed(prisma);
     await enemySeed(prisma);
     await enemyDropSeed(prisma);
-    await seedEquipmentSlot(prisma);
     const itemTemplates = await createItemTemplates(prisma); 
     const itemTemplateIds = itemTemplates.map(template => template.id);
     await inventarySeed(prisma);
     await createItemInstances(prisma, itemTemplateIds, 1); 
+    await seedEquipmentSlot(prisma);
 
 
     await prisma.$disconnect();
