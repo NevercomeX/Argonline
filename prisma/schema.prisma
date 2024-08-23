@@ -41,7 +41,7 @@ model Character {
   maxHealth       Int
   maxMana         Int
   mana            Int
-  attackPower     Int
+  attackPower     Int //equip + base
   magicPower      Int
   defense         Int
   magicDefense    Int
@@ -111,15 +111,44 @@ model ItemTemplate {
   name          String   @unique
   itemType      String   @default("None")
   itemSubType   String   @default("None")
-  equipmentSlot String  
+  equipmentSlot String
   description   String
-  baseAttack    Int
-  baseDefense   Int
-  baseHealth    Int
-  baseMana      Int
+  price         Int
+  attackPower   Int
+  magicPower    Int
+  defense       Int
+  magicDefense  Int
+  health        Int
+  mana          Int
+  str           Int
+  agi           Int
+  vit           Int
+  int           Int
+  dex           Int
+  luk           Int
+  slot          Int
+  weaponType    String
+  usable        Boolean
   rarity        String
-  equipable     Boolean  
+  effect        String?
+  equipable     Boolean
   itemInstances ItemInstance[]
+}
+
+model ItemInstance {
+  id            Int       @id
+  itemTemplateId Int
+  characterId    Int
+  currentAttack  Int
+  currentDefense Int
+  currentHealth  Int
+  currentMana    Int
+  upgradeLevel   Int          @default(0) // Nivel de mejora o mejora
+  socketedGems   String?      // JSON o texto para cualquier gema o runa
+  enchantments   String?      // JSON o texto para encantamientos adicionales
+  itemTemplate   ItemTemplate @relation(fields: [itemTemplateId], references: [id])
+  character      Character    @relation(fields: [characterId], references: [id])
+  inventory      Inventory[]
 }
 
 model EquipmentSlot {
@@ -139,22 +168,6 @@ model EquipmentSlot {
   character       Character @relation(fields: [characterId], references: [id])
 }
 
-
-model ItemInstance {
-  id            Int       @id
-  itemTemplateId Int
-  characterId    Int
-  currentAttack  Int
-  currentDefense Int
-  currentHealth  Int
-  currentMana    Int
-  upgradeLevel   Int          @default(0) // Nivel de mejora o mejora
-  socketedGems   String?      // JSON o texto para cualquier gema o runa
-  enchantments   String?      // JSON o texto para encantamientos adicionales
-  itemTemplate   ItemTemplate @relation(fields: [itemTemplateId], references: [id])
-  character      Character    @relation(fields: [characterId], references: [id])
-  inventory      Inventory[]
-}
 
 
 

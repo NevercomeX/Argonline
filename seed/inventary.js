@@ -38,16 +38,18 @@ export async function inventarySeed(prisma) {
 
   // Lista de nombres de ítems que requieren instancias
   const itemTemplateNames = [
-    "Longsword",
-    "Magic Staff",
-    "Dragon Scale Armor",
-    "Leather Boots",
-    "Steel Shield",
-    "Leather Hood",
-    "Silver Necklace",
-    "Ring of Agility",
-    "Steel Arrows",
-    "Mystic Robe",
+    "Helmet of Valor",
+    "Mask of Mystics",
+    "Bandana of Stealth",
+    "Knight's Armor",
+    "Sword of Flames",
+    "Axe of Thunder",
+    "Shield of Fortitude",
+    "Cloak of Shadows",
+    "Boots of Swiftness",
+    "Ring of Fortune",
+    "Amulet of Protection",
+
   ];
 
   // Buscar ítems templates
@@ -73,13 +75,14 @@ export async function inventarySeed(prisma) {
         id: currentId++,  // Asignar manualmente el ID
         itemTemplateId: template.id,
         characterId: characterId,
-        currentAttack: template.baseAttack,
-        currentDefense: template.baseDefense,
-        currentHealth: template.baseHealth,
-        currentMana: template.baseMana,
+        currentAttack: template.attackPower,
+        currentDefense: template.defense,
+        currentHealth: template.health,
+        currentMana: template.mana,
         upgradeLevel: 0,
         socketedGems: null,
         enchantments: null,
+        
       },
     });
 

@@ -37,7 +37,7 @@ export async function InventaryMenu(id) {
     }
 
     inventoryItems.push({
-      name: `║ ${itemName} x ${inventory[i].quantity} ${equipable ? "(Equipable)" : ""}`.padEnd(36) + "║",
+      name: `║ ${itemName} x ${inventory[i].quantity} ${equipable ? equipmentSlot : ""}`.padEnd(36) + "║",
       value: {
         id: inventory[i].itemInstanceId ? inventory[i].itemInstanceId : inventory[i].itemId,
         equipable: equipable,
