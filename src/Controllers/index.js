@@ -8,6 +8,12 @@ import {
   getItemsByName,
   getItemsById,
 } from "./items.js";
+
+import {  createItemInstance,
+  getItemInstanceById,
+  getItemInstanceNameById,
+  updateItemInstance,
+  deleteItemInstance, } from "./itemInstanceController.js";
 import {
   getJobClasses,
   getJobClassById,
@@ -26,8 +32,8 @@ import { getEnemyDrops, getEnemyDropById } from "./enemydrop.js";
 
 import {
   getEquipment,
-  getEquipmentByCharacterId,
-  getEquipmentByCharacterIdAndSlot,
+  getEquipmentSlotsByCharacterId,
+  getEquipmentSlotByCharacterIdAndSlot,
   getEquipmentById,
   unequipItem,
   equipItem,
@@ -57,7 +63,12 @@ export {
   getEquipment,
   unequipItem,
   equipItem,
-  getEquipmentByCharacterId,
-  getEquipmentByCharacterIdAndSlot,
+  getEquipmentSlotsByCharacterId,
+  getEquipmentSlotByCharacterIdAndSlot,
   getEquipmentById,
+  createItemInstance,
+  getItemInstanceById,
+  getItemInstanceNameById,
+  updateItemInstance,
+  deleteItemInstance,
 };

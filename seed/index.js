@@ -6,48 +6,95 @@ import { enemyDropSeed } from "./enemydrop.js";
 import { inventarySeed } from "./inventary.js";
 import { jobClassSeed } from "./jobClass.js";
 import { userSeed } from "./users.js";
-import { equipmentSeed } from "./equipment.js";
+import { seedEquipmentSlot } from "./equipment.js";
+import { seedItemInstances } from "./itemInstance.js";
+import { createItemTemplates } from "./itemTemplate.js";
+import Table from "cli-table3";
+import cliProgress from "cli-progress";
+
 const prisma = new PrismaClient();
 
+// Función para resetear la base de datos
 async function resetDatabase() {
-  console.log("Resetting database...");
 
   try {
     await prisma.inventory.deleteMany({});
-    await prisma.equipment.deleteMany({});
+    await prisma.equipmentSlot.deleteMany({});
     await prisma.enemyDrop.deleteMany({});
     await prisma.enemy.deleteMany({});
     await prisma.item.deleteMany({});
     await prisma.character.deleteMany({});
     await prisma.user.deleteMany({});
     await prisma.jobClass.deleteMany({});
+    await prisma.itemInstance.deleteMany({});
+    await prisma.itemTemplate.deleteMany({});
 
-    console.log("Database reset successful! ✅");
   } catch (error) {
-    console.error("Error resetting database:", error);
+    console.error("Error al resetear la base de datos:", error);
+    throw error; // Lanzar el error para que se capture en el proceso de seeding
   }
 }
 
+// Función principal de seeding
 async function seed() {
-  await resetDatabase();
+  const results = [];
+  const tasks = [
+    { name: "Reset Database", fn: resetDatabase },
+    { name: "User Seed", fn: userSeed },
+    { name: "Job Class Seed", fn: jobClassSeed },
+    { name: "Character Seed", fn: characterSeed },
+    { name: "Item Seed", fn: itemSeed },
+    { name: "Enemy Seed", fn: enemySeed },
+    { name: "Enemy Drop Seed", fn: enemyDropSeed },
+    { name: "Item Template Seed", fn: createItemTemplates },
+    { name: "Item Instances Seed", fn: seedItemInstances },
+    { name: "Inventory Seed", fn: inventarySeed },
+    { name: "Equipment Slot Seed", fn: seedEquipmentSlot },
+  ];
+
+  // Inicializar la barra de progreso
+  const progressBar = new cliProgress.SingleBar({
+    format: 'Progreso de Seeding |{bar}| {percentage}% | {task}',
+    barCompleteChar: '\u2588',
+    barIncompleteChar: '\u2591',
+    hideCursor: true,
+  });
+
+  progressBar.start(tasks.length, 0, { task: "Iniciando..." });
 
   try {
-    await userSeed(prisma);
-    await jobClassSeed(prisma);
-    await characterSeed(prisma);
-    await itemSeed(prisma);
-    await enemySeed(prisma);
-    await enemyDropSeed(prisma);
-    await inventarySeed(prisma);
-    await equipmentSeed(prisma);
+    for (let i = 0; i < tasks.length; i++) {
+      const task = tasks[i];
+      try {
+        await task.fn(prisma);
+        results.push([task.name, "✅ Success"]);
+      } catch (error) {
+        results.push([task.name, `❌ Failed: ${error.message}`]);
+      }
+      progressBar.update(i + 1, { task: task.name });
+    }
 
+    progressBar.stop();
     await prisma.$disconnect();
-    console.log("Seed successful! ✅");
+
+    // Crear la tabla de resultados
+    const table = new Table({
+      head: ["Tarea", "Resultado"],
+      colWidths: [30, 50],
+    });
+
+    // Añadir los resultados a la tabla
+    results.forEach(result => table.push(result));
+
+    // Mostrar la tabla en la consola
+    console.log(table.toString());
+    console.log("Proceso de seeding completado! ✅");
   } catch (error) {
-    console.error("An error occurred during seeding:", error);
+    progressBar.stop();
+    console.error("Ocurrió un error durante el seeding:", error);
     await prisma.$disconnect();
-
   }
 }
 
+// Ejecutar el seeding
 seed();

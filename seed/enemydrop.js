@@ -37,9 +37,9 @@ export async function enemyDropSeed(prisma) {
         data: drop,
       });
 
-      console.log(`Drop ${drop.enemyId} creado.✅`);
     } else {
-      console.log(`Drop ${drop.enemyId} ya existe.✅`);
+      console.log(`Drop ${drop.enemyId} ya existe.`);
     }
   }
+  await prisma.$disconnect();
 }
