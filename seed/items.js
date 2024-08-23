@@ -1,8 +1,13 @@
-import { items } from "./data/items.js";
+import { itemsConsumibles } from "./data/items/itemsConsumibles.js";
+import { itemsWeapons } from "./data/items/itemsWeapons.js";
+import { itemsArmor } from "./data/items/itemsArmor.js";
 
 export async function itemSeed(prisma) {
+  // Combina los datos de los tres archivos
+  const allItems = [...itemsConsumibles, ...itemsWeapons, ...itemsArmor];
+
   // Crear items
-  for (let item of items) {
+  for (let item of allItems) {
     const existingItem = await prisma.item.findUnique({
       where: { name: item.name },
     });
@@ -12,9 +17,11 @@ export async function itemSeed(prisma) {
         data: item,
       });
 
-      console.log(`Item ${item.name} creado.✅`);
     } else {
-      console.log(`Item ${item.name} ya existe. ✅`);
+      console.log(`Item ${item.name} ya existe.`);
     }
   }
+  await prisma.$disconnect();
 }
+
+
