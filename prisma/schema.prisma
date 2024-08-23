@@ -141,7 +141,7 @@ model EquipmentSlot {
 
 
 model ItemInstance {
-  id            Int       @id @default(autoincrement())
+  id            Int       @id
   itemTemplateId Int
   characterId    Int
   currentAttack  Int

@@ -9,7 +9,6 @@ export async function inventarySeed(prisma) {
     "Iron Helmet",
   ];
 
-
   // Buscar los ítems base en la tabla Item
   const items = await prisma.item.findMany({
     where: {
@@ -18,7 +17,6 @@ export async function inventarySeed(prisma) {
       },
     },
   });
-
 
   // Verifica si todos los ítems fueron encontrados
   const missingItems = itemNames.filter(name => !items.find(item => item.name === name));
@@ -42,7 +40,7 @@ export async function inventarySeed(prisma) {
   const itemTemplateNames = [
     "Longsword",
     "Magic Staff",
-    "Crossbow"
+    "Dragon Scale Armor",
   ];
 
   // Buscar ítems templates
@@ -55,37 +53,35 @@ export async function inventarySeed(prisma) {
   });
 
   // Crear instancias de ítems y añadirlas al inventario
+  let currentId = 10000; // ID inicial para ItemInstance
+
   for (const template of itemTemplates) {
-    const baseItem = itemTemplates.find(item => item.name === template.name);
-    console.log(baseItem)
-    if (baseItem) {
-      const newItemInstance = await prisma.itemInstance.create({
-        data: {
-          itemTemplateId: template.id,
-          characterId: characterId,
-          currentAttack: template.baseAttack,  // Usar valores del template o personalizarlos
-          currentDefense: template.baseDefense,
-          currentHealth: template.baseHealth,
-          currentMana: template.baseMana,
-          upgradeLevel: 0,
-          socketedGems: null,
-          enchantments: null,
-        },
-        
-      }
-
-    );
-
-      // Añadir el ítem instanciado al inventario
-      inventoryData.push({
-        characterId,
-        quantity: 1,
-        itemInstanceId: newItemInstance.id, // Asocia la instancia creada
-      });
-      console.log(newItemInstance)
-    } else {
-      console.error(`El ítem base para '${template.name}' no se encontró en la lista de ítems.`);
+    if (currentId > 15000) {
+      console.error("El ID ha superado el rango permitido (10000-15000)");
+      break;
     }
+
+    const newItemInstance = await prisma.itemInstance.create({
+      data: {
+        id: currentId++,  // Asignar manualmente el ID
+        itemTemplateId: template.id,
+        characterId: characterId,
+        currentAttack: template.baseAttack,
+        currentDefense: template.baseDefense,
+        currentHealth: template.baseHealth,
+        currentMana: template.baseMana,
+        upgradeLevel: 0,
+        socketedGems: null,
+        enchantments: null,
+      },
+    });
+
+    // Añadir el ítem instanciado al inventario
+    inventoryData.push({
+      characterId,
+      quantity: 1,
+      itemInstanceId: newItemInstance.id, // Asocia la instancia creada
+    });
   }
 
   // Poblar la tabla Inventory
@@ -93,13 +89,12 @@ export async function inventarySeed(prisma) {
     await prisma.inventory.create({
       data: {
         characterId: inv.characterId,
-        itemId: inv.itemId,
+        itemId: inv.itemId || null, // Agregar itemId si está presente
         quantity: inv.quantity,
         itemInstanceId: inv.itemInstanceId || null, // Agregar itemInstanceId si está presente
       },
     });
   }
-
-  console.log('Inventory seeding completed successfully!');
   await prisma.$disconnect();
 }
+

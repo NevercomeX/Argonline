@@ -23,8 +23,9 @@ export async function createItemTemplates(prisma) {
       })
     );
 
-    createdTemplates.forEach(template => console.log(`Item Template ${template.name} creado. ✅` ));
+    await prisma.$disconnect();
     return createdTemplates;
+
   } catch (error) {
     console.error("Error al crear los ItemTemplates:", error);
     throw error;

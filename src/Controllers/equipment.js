@@ -42,6 +42,7 @@ export async function getEquipmentSlotByCharacterIdAndSlot(characterId, slotType
 // Función para desequipar un ítem de un slot y devolverlo al inventario
 export async function unequipItem(characterId, slotType) {
   try {
+    // Buscar el slot de equipamiento específico
     const equipmentSlot = await prisma.equipmentSlot.findFirst({
       where: {
         characterId: parseInt(characterId),
@@ -54,44 +55,73 @@ export async function unequipItem(characterId, slotType) {
       return;
     }
 
-    const itemId = equipmentSlot[slotType];
+    const itemIdOrInstanceId = equipmentSlot[slotType];
 
-    // Actualiza el campo del slot a null para "desequipar" el ítem
+    // Actualizar el campo del slot a null para "desequipar" el ítem
     await prisma.equipmentSlot.update({
       where: { id: equipmentSlot.id },
-      data: {
-        [slotType]: null,
-      },
+      data: { [slotType]: null },
     });
 
-    // Mueve el ítem de vuelta al inventario
-    const existingInventoryItem = await prisma.inventory.findFirst({
-      where: {
-        characterId: parseInt(characterId),
-        itemId: itemId,
-      },
+    // Verificar si el ítem es un item normal o una instancia
+    const isInstance = await prisma.itemInstance.findUnique({
+      where: { id: itemIdOrInstanceId },
     });
 
-    if (existingInventoryItem) {
-      await prisma.inventory.update({
-        where: { id: existingInventoryItem.id },
-        data: { quantity: { increment: 1 } },
-      });
-    } else {
-      await prisma.inventory.create({
-        data: {
+    if (isInstance) {
+      // Es una instancia de ítem
+      const existingInventoryItem = await prisma.inventory.findFirst({
+        where: {
           characterId: parseInt(characterId),
-          itemId: itemId,
-          quantity: 1,
+          itemInstanceId: itemIdOrInstanceId,
         },
       });
+
+      if (existingInventoryItem) {
+        await prisma.inventory.update({
+          where: { id: existingInventoryItem.id },
+          data: { quantity: { increment: 1 } },
+        });
+      } else {
+        await prisma.inventory.create({
+          data: {
+            characterId: parseInt(characterId),
+            itemInstanceId: itemIdOrInstanceId,
+            quantity: 1,
+          },
+        });
+      }
+    } else {
+      // Es un ítem normal
+      const existingInventoryItem = await prisma.inventory.findFirst({
+        where: {
+          characterId: parseInt(characterId),
+          itemId: itemIdOrInstanceId,
+        },
+      });
+
+      if (existingInventoryItem) {
+        await prisma.inventory.update({
+          where: { id: existingInventoryItem.id },
+          data: { quantity: { increment: 1 } },
+        });
+      } else {
+        await prisma.inventory.create({
+          data: {
+            characterId: parseInt(characterId),
+            itemId: itemIdOrInstanceId,
+            quantity: 1,
+          },
+        });
+      }
     }
 
-    console.log(`Ítem ${itemId} ha sido desequipado y devuelto al inventario.`);
+    console.log(`Ítem ${itemIdOrInstanceId} ha sido desequipado y devuelto al inventario.`);
   } catch (error) {
     console.error(`Error al desequipar ítem: ${error.message}`);
   }
 }
+
 
 export async function equipItem(characterId, slotType, itemId, isInstance ) {
   try {

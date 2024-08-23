@@ -17,13 +17,9 @@ export async function seedEquipmentSlot(prisma) {
     bodySlot: items.find(item => item.name === 'Silk Robe')?.id || null,
     upperHeadSlot: items.find(item => item.name === 'Iron Helmet')?.id || null,
   };
-
-  console.log(equipmentData);
   // Poblar la tabla EquipmentSlot
   await prisma.equipmentSlot.create({
     data: equipmentData,
   });
-
-  console.log('EquipmentSlot seeding completed successfully!');
   await prisma.$disconnect();
 }

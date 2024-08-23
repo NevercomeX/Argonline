@@ -83,9 +83,11 @@ export async function enemySeed(prisma) {
         data: enemy,
       });
 
-      console.log(`Enemigo ${enemy.name} creado.✅`);
+
     } else {
-      console.log(`Enemigo ${enemy.name} ya existe.✅`);
+      console.log(`Enemy ${enemy.name} already exist.`);
     }
   }
+
+  await prisma.$disconnect();
 }

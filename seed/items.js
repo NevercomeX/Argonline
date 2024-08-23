@@ -17,10 +17,11 @@ export async function itemSeed(prisma) {
         data: item,
       });
 
-      console.log(`Item ${item.name} creado. ✅`);
     } else {
-      console.log(`Item ${item.name} ya existe. ✅`);
+      console.log(`Item ${item.name} ya existe.`);
     }
   }
+  await prisma.$disconnect();
 }
+
 

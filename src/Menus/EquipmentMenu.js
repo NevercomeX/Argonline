@@ -4,9 +4,7 @@ import {
   getEquipmentSlotsByCharacterId,
   getItemNameById,
   unequipItem,
-  getItemInstanceNameById
 } from "../Controllers/index.js";
-
 
 const lineLength = 35;
 
@@ -41,6 +39,21 @@ const equipmentSlots = {
   ammoSlot: "Ammo",
 };
 
+
+
+async function getItemNames(itemIds) {
+  const itemNamesMap = new Map();
+  for (const itemId of itemIds) {
+    if (!itemId) {
+      console.error("getItemNames: Encontrado itemId nulo o indefinido.");
+      itemNamesMap.set(itemId, "Unknown Item");
+      continue; // Saltar itemIds inválidos
+    }
+    const itemName = await getItemNameById(itemId);
+    itemNamesMap.set(itemId, itemName);
+  }
+  return itemNamesMap;
+}
 
 function createSlotObject(slotName, displayName, itemId, itemName) {
   let description = slotStatus.empty;
@@ -88,34 +101,22 @@ export async function EquipmentMenu(id) {
   const equipmentSlotsData = await getEquipmentSlotsByCharacterId(id);
   console.log("slots de items", equipmentSlotsData);
 
+  // Obtener todos los IDs de ítems equipados, ignorando el characterId
   const itemIds = Object.keys(equipmentSlots).reduce((acc, slotName) => {
     const itemId = equipmentSlotsData[0][slotName];
-    if (itemId != null) {
-      acc.push({ itemId, slotName });
+    if (itemId != null && typeof itemId === 'number') {
+      acc.push(itemId);
     }
     return acc;
   }, []);
 
   console.log("itemIds equipados", itemIds);
 
-  const itemNamesMap = new Map();
-
-  // Iterar sobre los itemIds para determinar si son instancias o ítems normales
-  for (const { itemId, slotName } of itemIds) {
-    // Intentar obtener el nombre como una instancia de ítem
-    const itemInstanceName = await getItemInstanceNameById(itemId).catch(() => null);
-
-    if (itemInstanceName) {
-      itemNamesMap.set(itemId, itemInstanceName);
-    } else {
-      // Si no es una instancia, obtener el nombre del ítem normal
-      const itemName = await getItemNameById(itemId);
-      itemNamesMap.set(itemId, itemName);
-    }
-  }
-
+  // Obtener nombres de los ítems, manejando ítems normales e instanciados
+  const itemNamesMap = await getItemNames(itemIds);
   console.log("Mapa de nombres de ítems", itemNamesMap);
 
+  // Crear un array de objetos para cada slot
   const equipmentSlotsArray = Object.keys(equipmentSlots).map((slotName) => {
     const displayName = equipmentSlots[slotName];
     const itemId = equipmentSlotsData[0][slotName];
@@ -124,9 +125,6 @@ export async function EquipmentMenu(id) {
     console.log(slotName, displayName, itemId, itemName);
     return createSlotObject(slotName, displayName, itemId, itemName);
   });
-
-
-
 
   const answer = await select({
     message: "Which item do you want to unequip?",
