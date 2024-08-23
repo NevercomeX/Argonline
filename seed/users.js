@@ -24,7 +24,7 @@ export async function userSeed(prisma) {
         await prisma.user.create({
           data: user,
         });
-        console.log(`User ${user.username} created.✅`);
+
       } else {
         console.log(`User ${user.username} already exists. ✅`);
       }
@@ -32,4 +32,6 @@ export async function userSeed(prisma) {
       console.error(`Error creating user ${user.username}:`, error);
     }
   }
+
+  await prisma.$disconnect();
 }

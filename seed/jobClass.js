@@ -179,9 +179,11 @@ export async function jobClassSeed(prisma) {
       await prisma.jobClass.create({
         data: jobClass[i],
       });
-      console.log(`JobClass ${jobClass[i].name} creado.✅`);
+
     } else {
-      console.log(`JobClass ${jobClass[i].name} ya existe. ✅`);
+      console.log(`JobClass ${jobClass[i].name} ya existe.`);
     }
   }
+
+  await prisma.$disconnect();
 }

@@ -36,8 +36,8 @@ export async function characterSeed(prisma) {
       data: character,
     });
 
-    console.log(`Jugador ${character.name} creado.✅`);
   } else {
-    console.log(`Jugador ${character.name} ya existe. ✅`);
+    console.log(`Player ${character.name} already exist.`);
   }
+  await prisma.$disconnect();
 }
