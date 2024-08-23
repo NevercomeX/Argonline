@@ -41,6 +41,13 @@ export async function inventarySeed(prisma) {
     "Longsword",
     "Magic Staff",
     "Dragon Scale Armor",
+    "Leather Boots",
+    "Steel Shield",
+    "Leather Hood",
+    "Silver Necklace",
+    "Ring of Agility",
+    "Steel Arrows",
+    "Mystic Robe",
   ];
 
   // Buscar ítems templates

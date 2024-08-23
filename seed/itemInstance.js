@@ -2,7 +2,7 @@
 export async function seedItemInstances( prisma) {
   const itemTemplateIds = [5001, 5002, 5003]; // IDs de las plantillas de ítems que deseas usar
   const characterId = 1; // ID del personaje al que se asignarán las instancias
-  const startId = 1000; // ID inicial
+  const startId = 11000; // ID inicial
   const numberOfInstances = 5; // Número de instancias por cada plantilla de ítem
   try {
     let currentId = startId;
@@ -18,7 +18,7 @@ export async function seedItemInstances( prisma) {
     const itemInstances = [];
     for (const itemTemplateId of itemTemplateIds) {
       for (let i = 0; i < numberOfInstances; i++) {
-        if (currentId >= 5000) {
+        if (currentId >= 50000) {
           throw new Error("ID fuera del rango permitido (1000-4999)");
         }
 
@@ -33,7 +33,7 @@ export async function seedItemInstances( prisma) {
 
         const itemInstance = await prisma.itemInstance.create({
           data: {
-            id: currentId++, // Asignar manualmente el ID
+            id: currentId++, 
             itemTemplateId: itemTemplateId,
             characterId: characterId,
             currentAttack: itemTemplate.baseAttack,
