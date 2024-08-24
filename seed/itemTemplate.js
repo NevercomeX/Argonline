@@ -1,4 +1,4 @@
-import {templates} from "./data/items/itemTemplates.js";
+import { templates } from "./data/items/itemTemplates.js";
 
 export async function createItemTemplates(prisma) {
   try {

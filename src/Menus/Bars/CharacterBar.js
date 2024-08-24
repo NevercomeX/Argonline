@@ -21,6 +21,7 @@ export async function drawCharacterInfo(id) {
   drawManaBar(character.mana, character.maxMana);
   drawExperienceBar(character.baseExp, character.maxBaseExp);
   drawJobExperienceBar(character.jobExp, character.maxJobExp);
+  console.log(character.attackPower);
   console.log("╚" + "═".repeat(lineLength) + "╝");
   console.log(" ");
 }

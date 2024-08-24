@@ -49,8 +49,6 @@ model Character {
   equipmentSlot   EquipmentSlot[]
   items           ItemInstance[]
   user            User            @relation(fields: [userId], references: [id])
-
-  // Totales derivados
   totalAttackPower    Int @default(0)
   totalMagicPower     Int @default(0)
   totalDefense        Int @default(0)
