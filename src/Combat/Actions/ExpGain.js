@@ -1,4 +1,4 @@
-import { updateCharacter } from "../../Controllers/character.js";
+import { updateCharacter } from "../../Controllers/Character/character.js";
 
 export async function gainExperience(player, enemyExperience) {
   player.baseExp += enemyExperience.giveBaseExpAmount;

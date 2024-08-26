@@ -1,5 +1,5 @@
 // Mejorar un ítem
-import { prisma } from "../Prisma/prismaClient.js";
+import { prisma } from "../../Prisma/prismaClient.js";
 
 export default async function upgradeItem(itemInstanceId, enhancementValue) {
   const itemInstance = await prisma.itemInstance.findUnique({

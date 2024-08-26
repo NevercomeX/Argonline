@@ -1,25 +1,25 @@
 //index of the controllers
 
-import { getCharacterById, updateCharacter } from "./character.js";
+import { getCharacterById, updateCharacter } from "./Character/character.js";
 import { getEnemies, getEnemyById } from "./enemies.js";
 import {
   getItems,
   getItemNameById,
   getItemsByName,
   getItemsById,
-} from "./items.js";
+} from "./Item/items.js";
 
 import {  createItemInstance,
   getItemInstanceById,
   getItemInstanceNameById,
   updateItemInstance,
-  deleteItemInstance, } from "./itemInstanceController.js";
+  deleteItemInstance, } from "./Item/itemInstanceController.js";
 import {
   getJobClasses,
   getJobClassById,
   getJobClassNameById,
   getJobClassByName,
-} from "./jobClass.js";
+} from "./Character/jobClass.js";
 import {
   getInventory,
   getInventoryById,
@@ -27,8 +27,8 @@ import {
   getCharacterInventory,
   addItemToInventory,
   removeItemFromInventory,
-} from "./inventory.js";
-import { getEnemyDrops, getEnemyDropById } from "./enemydrop.js";
+} from "./Inventory/inventory.js";
+import { getEnemyDrops, getEnemyDropById } from "./Enemy/enemydrop.js";
 
 import {
   getEquipment,
@@ -37,7 +37,7 @@ import {
   getEquipmentById,
   unequipItem,
   equipItem,
-} from "./equipment.js";
+} from "./Equipment/equipment.js";
 
 export {
   getCharacterById,

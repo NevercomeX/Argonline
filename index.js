@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { runGame } from "./src/Game.js";
 import { getRandomEnemy } from "./src/Controllers/enemies.js";
 import { updateCharacterStatsInRedis } from "./src/Controllers/statsController.js";
-import { getCharacterStats } from "./src/Controllers/character.js";
+import { getCharacterStats } from "./src/Controllers/Character/character.js";
 
 const prisma = new PrismaClient();
 

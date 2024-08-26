@@ -1,4 +1,4 @@
-import { prisma } from "../Prisma/prismaClient.js";
+import { prisma } from "../../Prisma/prismaClient.js";
 // Crear una nueva instancia de ítem
 export async function createItemInstance(itemData) {
   try {
