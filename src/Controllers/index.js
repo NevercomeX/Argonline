@@ -27,7 +27,7 @@ import {
   getCharacterInventory,
   addItemToInventory,
   removeItemFromInventory,
-} from "./inventary.js";
+} from "./inventory.js";
 import { getEnemyDrops, getEnemyDropById } from "./enemydrop.js";
 
 import {

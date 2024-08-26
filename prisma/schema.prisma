@@ -41,7 +41,7 @@ model Character {
   maxHealth       Int
   maxMana         Int
   mana            Int
-  attackPower     Int //equip + base
+  attackPower     Int 
   magicPower      Int
   defense         Int
   magicDefense    Int
@@ -49,18 +49,6 @@ model Character {
   equipmentSlot   EquipmentSlot[]
   items           ItemInstance[]
   user            User            @relation(fields: [userId], references: [id])
-  totalAttackPower    Int @default(0)
-  totalMagicPower     Int @default(0)
-  totalDefense        Int @default(0)
-  totalMagicDefense   Int @default(0)
-  totalHealth         Int @default(0)
-  totalMana           Int @default(0)
-  totalStr            Int @default(0)
-  totalAgi            Int @default(0)
-  totalVit            Int @default(0)
-  totalInt            Int @default(0)
-  totalDex            Int @default(0)
-  totalLuk            Int @default(0)
 }
 
 model Inventory {
