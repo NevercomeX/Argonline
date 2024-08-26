@@ -3,7 +3,6 @@ import { getCharacterById } from "../Controllers/index.js";
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 
 export async function StatsMenu(id) {
-
   const cachedStats = await redisClient.get(`character:stats:${id}`);
   if (cachedStats) {
     return JSON.parse(cachedStats);

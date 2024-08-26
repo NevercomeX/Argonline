@@ -1,18 +1,17 @@
 import { PrismaClient } from "@prisma/client";
 import { runGame } from "./src/Game.js";
-import { getRandomEnemy } from "./src/Controllers/enemies.js";
-import { updateCharacterStatsInRedis } from "./src/Controllers/statsController.js";
-import { getCharacterStats } from "./src/Controllers/Character/character.js";
+import { getRandomEnemy,updateCharacterStatsInRedis,getCharacterStats } from "./src/Controllers/index.js";
 
 const prisma = new PrismaClient();
 
 async function main() {
   const chracterid = 1;
+  console.log("aqui")
   try {
     const character = await getCharacterById(chracterid);
     const stats = await getCharacterStats(chracterid);
     const enemy = await getRandomEnemy();
-    await updateCharacterStatsInRedis(chracterid,stats);
+    // await updateCharacterStatsInRedis(chracterid,stats);
     
 
     if (!character || !enemy) {

@@ -10,7 +10,7 @@
     "prisma": "npx prisma generate",
     "migrate": "npx prisma migrate dev --name init",
     "studio": "npx prisma studio",
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.js\"",
     "lint": "eslint \"src/**/*.ts\" --quiet --fix",
     "pre-commit": "lint-staged",
     "rseed": "npx prisma db push --force-reset &&  node seed/index.js",

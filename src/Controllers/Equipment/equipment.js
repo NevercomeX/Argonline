@@ -1,6 +1,6 @@
-import { prisma } from "../Prisma/prismaClient.js";
-import redisClient from '../cache/rediscClient.js';
-import { calculateTotalStats } from "./statsController.js";
+import { prisma } from "../../Prisma/prismaClient.js";
+import redisClient from "../../cache/rediscClient.js";
+import { calculateTotalStats } from "../Stats/statsController.js";
 
 export async function getEquipment() {
   return await prisma.equipmentSlot.findMany();
@@ -24,7 +24,10 @@ export async function getEquipmentSlotsByCharacterId(characterId) {
   }
 }
 
-export async function getEquipmentSlotByCharacterIdAndSlot(characterId, slotType) {
+export async function getEquipmentSlotByCharacterIdAndSlot(
+  characterId,
+  slotType,
+) {
   try {
     const equipmentSlot = await prisma.equipmentSlot.findFirst({
       where: {
@@ -39,7 +42,6 @@ export async function getEquipmentSlotByCharacterIdAndSlot(characterId, slotType
     throw new Error("Failed to fetch equipment slot");
   }
 }
-
 
 // Función para desequipar un ítem de un slot y devolverlo al inventario
 export async function unequipItem(characterId, slotType) {
@@ -120,16 +122,19 @@ export async function unequipItem(characterId, slotType) {
     }
     const updatedStats = await calculateTotalStats(characterId);
     console.log(`Nuevas estadísticas:`, updatedStats);
-    console.log(`Ítem ${itemIdOrInstanceId} ha sido desequipado y devuelto al inventario.`);
+    console.log(
+      `Ítem ${itemIdOrInstanceId} ha sido desequipado y devuelto al inventario.`,
+    );
   } catch (error) {
     console.error(`Error al desequipar ítem: ${error.message}`);
   }
 }
 
-
-export async function equipItem(characterId, slotType, itemId, isInstance ) {
+export async function equipItem(characterId, slotType, itemId, isInstance) {
   try {
-    console.log(`Equipando ítem: ${itemId}, Slot: ${slotType}, Es instancia: ${isInstance}`);
+    console.log(
+      `Equipando ítem: ${itemId}, Slot: ${slotType}, Es instancia: ${isInstance}`,
+    );
 
     // Buscar el ítem en el inventario del personaje
     let inventoryItem;
@@ -150,7 +155,9 @@ export async function equipItem(characterId, slotType, itemId, isInstance ) {
     }
 
     if (!inventoryItem || inventoryItem.quantity <= 0) {
-      console.error(`Ítem ${itemId} no encontrado o cantidad insuficiente en el inventario`);
+      console.error(
+        `Ítem ${itemId} no encontrado o cantidad insuficiente en el inventario`,
+      );
       return;
     }
 
@@ -160,11 +167,15 @@ export async function equipItem(characterId, slotType, itemId, isInstance ) {
     });
 
     if (!equipmentSlotRecord) {
-      console.error(`No se encontró registro de EquipmentSlot para characterId ${characterId}`);
+      console.error(
+        `No se encontró registro de EquipmentSlot para characterId ${characterId}`,
+      );
       return;
     }
 
-    console.log(`Registro de EquipmentSlot encontrado: ${equipmentSlotRecord.id}`);
+    console.log(
+      `Registro de EquipmentSlot encontrado: ${equipmentSlotRecord.id}`,
+    );
 
     // Verificar si hay un ítem equipado en el slot y desequiparlo
     const currentItemId = equipmentSlotRecord[slotType];
@@ -177,7 +188,9 @@ export async function equipItem(characterId, slotType, itemId, isInstance ) {
     const equipmentData = {};
     equipmentData[slotType] = itemId; // Usar itemId o itemInstanceId dependiendo del caso
 
-    console.log(`Actualizando EquipmentSlot con ${equipmentData[slotType]} en ${slotType}`);
+    console.log(
+      `Actualizando EquipmentSlot con ${equipmentData[slotType]} en ${slotType}`,
+    );
 
     // Actualizar el slot correspondiente con el ítem
     await prisma.equipmentSlot.update({

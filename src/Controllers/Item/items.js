@@ -1,4 +1,4 @@
-import { prisma } from "../Prisma/prismaClient.js";
+import { prisma } from "../../Prisma/prismaClient.js";
 export async function getItems() {
   return await prisma.item.findMany();
 }
@@ -21,7 +21,6 @@ export async function getItemsByName(itemIds) {
   }
   return itemNamesMap;
 }
-
 
 export async function getItemNameById(id) {
   if (!id) {

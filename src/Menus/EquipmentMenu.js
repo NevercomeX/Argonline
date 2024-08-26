@@ -8,10 +8,10 @@ import {
 
 const lineLength = 35;
 
-const RESET = '\x1b[0m';
-const RED = '\x1b[31m';
+const RESET = "\x1b[0m";
+const RED = "\x1b[31m";
 // const GREEN = '\x1b[32m';
-const YELLOW = '\x1b[33m';
+const YELLOW = "\x1b[33m";
 // const BLUE = '\x1b[34m';
 // const MAGENTA = '\x1b[35m';
 // const CYAN = '\x1b[36m';
@@ -38,8 +38,6 @@ const equipmentSlots = {
   accessorySlot02: "Accessory 2",
   ammoSlot: "Ammo",
 };
-
-
 
 async function getItemNames(itemIds) {
   const itemNamesMap = new Map();
@@ -91,7 +89,10 @@ function createSlotObject(slotName, displayName, itemId, itemName) {
   }
 
   return {
-    name: `║ ${displayName}: [ ${YELLOW}${displayItem}${RESET} ]`.padEnd(lineLength - 1) + "║",
+    name:
+      `║ ${displayName}: [ ${YELLOW}${displayItem}${RESET} ]`.padEnd(
+        lineLength - 1,
+      ) + "║",
     value: slotName,
     description: description,
   };
@@ -104,7 +105,7 @@ export async function EquipmentMenu(id) {
   // Obtener todos los IDs de ítems equipados, ignorando el characterId
   const itemIds = Object.keys(equipmentSlots).reduce((acc, slotName) => {
     const itemId = equipmentSlotsData[0][slotName];
-    if (itemId != null && typeof itemId === 'number') {
+    if (itemId != null && typeof itemId === "number") {
       acc.push(itemId);
     }
     return acc;
@@ -143,21 +144,21 @@ export async function EquipmentMenu(id) {
     return;
   }
 
-// Aquí no necesitas usar 'find', ya que 'answer' contiene el nombre del slot directamente.
-const selectedSlot = equipmentSlotsData[0][answer]; // Accedemos directamente al slot correspondiente
-const itemId = selectedSlot;
-const itemName = itemNamesMap.get(itemId);
+  // Aquí no necesitas usar 'find', ya que 'answer' contiene el nombre del slot directamente.
+  const selectedSlot = equipmentSlotsData[0][answer]; // Accedemos directamente al slot correspondiente
+  const itemId = selectedSlot;
+  const itemName = itemNamesMap.get(itemId);
 
-if (itemId === null || itemId === undefined) {
-  console.log("This slot is empty!");
-} else if (itemId === 0) {
-  console.log("You can't unequip this item!");
-} else if (itemId === -1) {
-  console.log("This slot is locked!");
-} else {
-  await unequipItem(id, answer);
-  console.log(`You unequipped ${itemName}!`);
-}
+  if (itemId === null || itemId === undefined) {
+    console.log("This slot is empty!");
+  } else if (itemId === 0) {
+    console.log("You can't unequip this item!");
+  } else if (itemId === -1) {
+    console.log("This slot is locked!");
+  } else {
+    await unequipItem(id, answer);
+    console.log(`You unequipped ${itemName}!`);
+  }
 
-readlineSync.question("Press any key to return to the main menu.");
+  readlineSync.question("Press any key to return to the main menu.");
 }

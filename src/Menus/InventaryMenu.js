@@ -10,7 +10,6 @@ import {
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 
 export async function InventaryMenu(id) {
-
   console.clear();
   await drawCharacterInfo(id);
 
@@ -37,9 +36,14 @@ export async function InventaryMenu(id) {
     }
 
     inventoryItems.push({
-      name: `║ ${itemName} x ${inventory[i].quantity} ${equipable ? equipmentSlot : ""}`.padEnd(36) + "║",
+      name:
+        `║ ${itemName} x ${inventory[i].quantity} ${equipable ? equipmentSlot : ""}`.padEnd(
+          36,
+        ) + "║",
       value: {
-        id: inventory[i].itemInstanceId ? inventory[i].itemInstanceId : inventory[i].itemId,
+        id: inventory[i].itemInstanceId
+          ? inventory[i].itemInstanceId
+          : inventory[i].itemId,
         equipable: equipable,
         equipmentSlot: equipmentSlot,
         isInstance: !!inventory[i].itemInstanceId, // Indica si es una instancia
@@ -80,20 +84,22 @@ export async function InventaryMenu(id) {
     let equipmentSlot = selectedItem.equipmentSlot;
     let itemIdToEquip = selectedItem.id;
 
-    
-    const currentEquipment = await getEquipmentSlotByCharacterIdAndSlot(id, equipmentSlot);
+    const currentEquipment = await getEquipmentSlotByCharacterIdAndSlot(
+      id,
+      equipmentSlot,
+    );
 
     if (currentEquipment) {
       console.log(`Desequipando ítem del slot: ${equipmentSlot}`);
       await unequipItem(id, equipmentSlot);
     }
-    
+
     if (selectedItem.isInstance) {
       // Si el ítem es una instancia
-      const  selectedItemInstance = await getItemInstanceById(selectedItem.id);
+      const selectedItemInstance = await getItemInstanceById(selectedItem.id);
 
-
-      const selectedItemInstanceSlot = selectedItemInstance.itemTemplate.equipmentSlot;
+      const selectedItemInstanceSlot =
+        selectedItemInstance.itemTemplate.equipmentSlot;
       const selectedItemIsInstance = selectedItem.isInstance;
 
       if (!selectedItemInstance) {
@@ -107,9 +113,13 @@ export async function InventaryMenu(id) {
         console.log("Este ítem no es equipable!");
       }
 
-      await equipItem(id, selectedItemInstanceSlot, selectedItemInstance.id, selectedItemIsInstance);
+      await equipItem(
+        id,
+        selectedItemInstanceSlot,
+        selectedItemInstance.id,
+        selectedItemIsInstance,
+      );
       console.log(`Ítem equipado: ${selectedItemInstance.itemTemplate.name}`);
-
     } else {
       // Si el ítem es un ítem regular
       await equipItem(id, equipmentSlot, itemIdToEquip);
@@ -118,5 +128,7 @@ export async function InventaryMenu(id) {
     console.log("Este ítem no es equipable!");
   }
 
-  readlineSync.question("Presiona cualquier tecla para volver al menú principal.");
+  readlineSync.question(
+    "Presiona cualquier tecla para volver al menú principal.",
+  );
 }

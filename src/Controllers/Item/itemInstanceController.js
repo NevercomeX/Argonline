@@ -40,7 +40,6 @@ export async function getItemInstanceById(id) {
   }
 }
 
-
 // Obtener todas las instancias de ítems de un personaje por su ID
 export async function getItemInstancesByCharacterId(characterId) {
   try {

@@ -1,7 +1,11 @@
 //index of the controllers
 
-import { getCharacterById, updateCharacter } from "./Character/character.js";
-import { getEnemies, getEnemyById } from "./enemies.js";
+import {
+  getCharacterById,
+  updateCharacter,
+  getCharacterStats,
+} from "./Character/character.js";
+import { getEnemies, getEnemyById, getRandomEnemy } from "./Enemy/enemies.js";
 import {
   getItems,
   getItemNameById,
@@ -9,11 +13,19 @@ import {
   getItemsById,
 } from "./Item/items.js";
 
-import {  createItemInstance,
+import {
+  updateCharacterStatsInRedis,
+  calculateTotalStats,
+  syncStatsToDatabase,
+} from "./Stats/statsController.js";
+
+import {
+  createItemInstance,
   getItemInstanceById,
   getItemInstanceNameById,
   updateItemInstance,
-  deleteItemInstance, } from "./Item/itemInstanceController.js";
+  deleteItemInstance,
+} from "./Item/itemInstanceController.js";
 import {
   getJobClasses,
   getJobClassById,
@@ -71,4 +83,9 @@ export {
   getItemInstanceNameById,
   updateItemInstance,
   deleteItemInstance,
+  getRandomEnemy,
+  getCharacterStats,
+  updateCharacterStatsInRedis,
+  calculateTotalStats,
+  syncStatsToDatabase,
 };

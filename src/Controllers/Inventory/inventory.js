@@ -22,7 +22,6 @@ export async function getInventory(characterId) {
   }
 }
 
-
 export async function getInventoryById(id) {
   return await prisma.inventory.findUnique({
     where: { id: parseInt(id) },

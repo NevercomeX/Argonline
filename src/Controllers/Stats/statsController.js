@@ -1,6 +1,6 @@
 // statsController.js
-import redisClient from '../cache/rediscClient.js';
-import { prisma } from '../Prisma/prismaClient.js';
+import redisClient from "../../cache/rediscClient.js";
+import { prisma } from "../../Prisma/prismaClient.js";
 
 export async function calculateTotalStats(characterId) {
   // Intenta obtener las estadísticas desde Redis
@@ -26,7 +26,7 @@ export async function calculateTotalStats(characterId) {
       },
     },
   });
-  
+
   // Inicializar stats totales con los valores base del personaje
   let totalAttackPower = character.attackPower;
   let totalDefense = character.defense;
@@ -42,7 +42,9 @@ export async function calculateTotalStats(characterId) {
 
     // Si el slot tiene un ítem normal
     if (slot.itemId) {
-      const item = character.inventory.find((inv) => inv.itemId === slot.itemId)?.item;
+      const item = character.inventory.find(
+        (inv) => inv.itemId === slot.itemId,
+      )?.item;
       if (item && item.equipable) {
         itemStats = item;
       }
@@ -50,7 +52,9 @@ export async function calculateTotalStats(characterId) {
 
     // Si el slot tiene un ítem instanciado
     if (slot.itemInstanceId) {
-      const itemInstance = character.inventory.find((inv) => inv.itemInstanceId === slot.itemInstanceId)?.itemInstance;
+      const itemInstance = character.inventory.find(
+        (inv) => inv.itemInstanceId === slot.itemInstanceId,
+      )?.itemInstance;
       if (itemInstance && itemInstance.itemTemplate.equipable) {
         itemStats = itemInstance; // Usar directamente itemInstance para sumar sus estadísticas
       }
@@ -64,7 +68,9 @@ export async function calculateTotalStats(characterId) {
       totalMana += itemStats.mana || 0;
 
       // Agregar otros stats si es necesario (STR, AGI, etc.)
-      console.log(`Sumando item: ${itemStats.name} - Attack Power: ${itemStats.attackPower}, Defense: ${itemStats.defense}`);
+      console.log(
+        `Sumando item: ${itemStats.name} - Attack Power: ${itemStats.attackPower}, Defense: ${itemStats.defense}`,
+      );
     }
   }
 
@@ -77,16 +83,22 @@ export async function calculateTotalStats(characterId) {
   };
 
   // Almacena las estadísticas en Redis con una expiración de 10 minutos
-  await redisClient.set(`character:stats:${characterId}`, JSON.stringify(totalStats), {
-    EX: 600, // 600 segundos = 10 minutos
-  });
+  await redisClient.set(
+    `character:stats:${characterId}`,
+    JSON.stringify(totalStats),
+    {
+      EX: 600, // 600 segundos = 10 minutos
+    },
+  );
 
   return totalStats;
 }
 
 export async function getCharacterStats(characterId) {
   // Intenta obtener las estadísticas desde Redis
-  const cachedStats = await redisClient.hGetAll(`character:stats:${characterId}`);
+  const cachedStats = await redisClient.hGetAll(
+    `character:stats:${characterId}`,
+  );
   if (cachedStats && Object.keys(cachedStats).length > 0) {
     // Convierte los valores de Redis a números, si es necesario
     return {

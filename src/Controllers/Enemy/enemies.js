@@ -1,4 +1,4 @@
-import { prisma } from "../Prisma/prismaClient.js";
+import { prisma } from "../../Prisma/prismaClient.js";
 export async function getEnemies() {
   return await prisma.enemy.findMany();
 }

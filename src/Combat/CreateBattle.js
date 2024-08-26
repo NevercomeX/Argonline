@@ -3,8 +3,11 @@ import { drawEnemyBar } from "../Menus/Bars/EnemyBar.js";
 import { attackPlayer, attackEnemy } from "./Actions/Attack.js";
 import { gainExperience } from "./Actions/ExpGain.js";
 import { CombatMenu } from "../Menus/CombatMenu.js";
-import { getRandomEnemy } from "../Controllers/enemies.js";
-import { getCharacterById, updateCharacter } from "../Controllers/Character/character.js";
+import {
+  getRandomEnemy,
+  getCharacterById,
+  updateCharacter,
+} from "../Controllers/index.js";
 import { TypewriterEffect } from "../Menus/Bars/helpers/Typewriter.js";
 
 async function createBattle(player) {

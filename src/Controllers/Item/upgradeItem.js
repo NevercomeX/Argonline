@@ -6,7 +6,7 @@ export default async function upgradeItem(itemInstanceId, enhancementValue) {
     where: { id: itemInstanceId },
   });
 
-  if (!itemInstance) throw new Error('Item not found');
+  if (!itemInstance) throw new Error("Item not found");
 
   const upgradedItem = await prisma.itemInstance.update({
     where: { id: itemInstanceId },
@@ -17,6 +17,8 @@ export default async function upgradeItem(itemInstanceId, enhancementValue) {
     },
   });
 
-  console.log(`Item ${itemInstanceId} upgraded to level ${upgradedItem.upgradeLevel}`);
+  console.log(
+    `Item ${itemInstanceId} upgraded to level ${upgradedItem.upgradeLevel}`,
+  );
   return upgradedItem;
 }
