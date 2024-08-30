@@ -1,10 +1,6 @@
 //index of the controllers
 
-import {
-  getCharacterById,
-  updateCharacter,
-  getCharacterStats,
-} from "./Character/character.js";
+import { getCharacterById, updateCharacter } from "./Character/character.js";
 import { getEnemies, getEnemyById, getRandomEnemy } from "./Enemy/enemies.js";
 import {
   getItems,
@@ -17,6 +13,7 @@ import {
   updateCharacterStatsInRedis,
   calculateTotalStats,
   syncStatsToDatabase,
+  getCharacterStatsFromRedis,
 } from "./Stats/statsController.js";
 
 import {
@@ -84,8 +81,8 @@ export {
   updateItemInstance,
   deleteItemInstance,
   getRandomEnemy,
-  getCharacterStats,
   updateCharacterStatsInRedis,
   calculateTotalStats,
   syncStatsToDatabase,
+  getCharacterStatsFromRedis,
 };
