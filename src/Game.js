@@ -5,11 +5,10 @@ import {
   InventaryMenu,
 } from "./Menus/index.js";
 
-import { startGame } from "./Combat/index.js";
 import createBattle from "./Combat/CreateBattle.js";
 
 export async function runGame(character, enemy) {
-  const characterId = character.id;
+  const characterId = character;
   let quit = false;
   while (!quit) {
     const option = await MainMenu(characterId);

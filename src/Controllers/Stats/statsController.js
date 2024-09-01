@@ -63,6 +63,7 @@ export async function calculateTotalStats(characterId) {
 
     if (itemStats) {
       // Sumar todos los atributos relevantes del ítem equipado
+
       totalAttackPower += itemStats.attackPower || 0;
       totalDefense += itemStats.defense || 0;
       totalHealth += itemStats.health || 0;
@@ -151,12 +152,14 @@ export async function getCharacterStatsFromRedis(characterId) {
   // Extraer y calcular los atributos necesarios
   const stats = {
     id: character.id,
+    name: character.name,
     str: character.str,
     agi: character.agi,
     int: character.int,
     vit: character.vit,
     dex: character.dex,
     luk: character.luk,
+    jobclassId: character.jobclassId,
     baseLevel: character.baseLevel,
     jobLevel: character.jobLevel,
     baseExp: character.baseExp,
@@ -170,6 +173,8 @@ export async function getCharacterStatsFromRedis(characterId) {
     defense: character.defense,
     magicPower: character.magicPower,
     magicDefense: character.magicDefense,
+    health: character.health,
+    mana: character.mana,
     // Puedes sumar aquí las estadísticas adicionales de los ítems equipados, como lo hiciste antes.
   };
 
@@ -254,6 +259,7 @@ export async function updateCharacterStatsInRedis(characterId, stats) {
 // Función para sincronizar Redis con la base de datos
 export async function syncStatsToDatabase(characterId) {
   const stats = await getCharacterById(characterId);
+  console.log(stats);
 
   // Actualizar la base de datos con los stats desde Redis
   try {
@@ -267,6 +273,7 @@ export async function syncStatsToDatabase(characterId) {
         vit: stats.vit,
         dex: stats.dex,
         luk: stats.luk,
+        jobclassId: stats.jobclassId,
         baseLevel: stats.baseLevel,
         jobLevel: stats.jobLevel,
         baseExp: stats.baseExp,

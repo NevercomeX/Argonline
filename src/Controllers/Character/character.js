@@ -1,7 +1,6 @@
 import { prisma } from "../../Prisma/prismaClient.js";
 
 export async function getCharacterById(id) {
-  console.log("Getting character by id", id);
   return await prisma.character.findUnique({
     where: { id: parseInt(id) },
   });

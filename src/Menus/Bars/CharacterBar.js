@@ -1,4 +1,4 @@
-import { getCharacterById } from "../../Controllers/index.js";
+import { getCharacterStatsFromRedis } from "../../Controllers/index.js";
 
 import {
   drawHealthBar,
@@ -8,8 +8,7 @@ import {
 } from "./helpers/Bars.js";
 
 export async function drawCharacterInfo(id) {
-  console.log("bar", id);
-  const character = await getCharacterById(id);
+  const character = await getCharacterStatsFromRedis(id);
   const lineLength = 100; // Define la longitud de la línea
   let infoLine = `║ Name: ${character.name} | BLevel: ${character.baseLevel} | JLevel: ${character.jobLevel} | Job: ${character.jobclassId}`;
   let paddingLength = lineLength - infoLine.length;

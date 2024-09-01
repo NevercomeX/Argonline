@@ -1,16 +1,16 @@
 import readlineSync from "readline-sync";
-import { getCharacterById } from "../Controllers/index.js";
+import {
+  getCharacterStatsFromRedis,
+  getJobClassNameById,
+} from "../Controllers/index.js";
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 
 export async function StatsMenu(id) {
-  const cachedStats = await redisClient.get(`character:stats:${id}`);
-  if (cachedStats) {
-    return JSON.parse(cachedStats);
-  }
-
   console.clear();
   await drawCharacterInfo(id);
-  const character = await getCharacterById(id);
+  const character = await getCharacterStatsFromRedis(id);
+  console.log(character);
+  // const JobclassName = await getJobClassNameById(character.jobclassId);
   console.log(" ");
   console.log("╔════════════════════════════════════════════════════════╗");
   console.log(
@@ -21,15 +21,15 @@ export async function StatsMenu(id) {
       `║ INT: ${character.int}\n` +
       `║ DEX: ${character.dex}\n` +
       `║ LUK: ${character.luk}\n` +
-      `║ JobClassId: ${character.jobclassId}\n` +
-      `║ Max Base EXP: ${character.maxBaseExp}\n` +
-      `║ BASE EXP: ${character.baseExp}\n` +
-      `║ Max Job EXP: ${character.maxJobExp}\n` +
-      `║ JOB EXP: ${character.jobExp}\n` +
+      `║ JobName: ${character.jobclassId}\n` +
       `║ Max HP: ${character.maxHealth}\n` +
       `║ HP: ${character.health}\n` +
       `║ Max MP: ${character.maxMana}\n` +
       `║ MP: ${character.mana}\n` +
+      `║ Max Base EXP: ${character.maxBaseExp}\n` +
+      `║ BASE EXP: ${character.baseExp}\n` +
+      `║ Max Job EXP: ${character.maxJobExp}\n` +
+      `║ JOB EXP: ${character.jobExp}\n` +
       `║ ATK: ${character.attackPower}\n` +
       `║ MATK: ${character.magicPower}\n` +
       `║ DEF: ${character.defense}\n` +
