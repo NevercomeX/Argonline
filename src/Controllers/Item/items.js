@@ -1,7 +1,4 @@
 import { prisma } from "../../Prisma/prismaClient.js";
-export async function getItems() {
-  return await prisma.item.findMany();
-}
 
 export async function getAllItems(){
   return await prisma.item.findMany();
