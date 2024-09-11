@@ -1,6 +1,6 @@
 {
   "name": "ahgonline",
-  "version": "0.24.1",
+  "version": "0.26.8",
   "description": "ragnarok online clone",
   "main": "index.ts",
   "type": "module",
