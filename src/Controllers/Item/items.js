@@ -3,6 +3,10 @@ export async function getItems() {
   return await prisma.item.findMany();
 }
 
+import async function getAllItems(){
+  return await prisma.item.findMany();
+}
+
 export async function getItemsById(id) {
   return await prisma.item.findUnique({
     where: { id: parseInt(id) },
