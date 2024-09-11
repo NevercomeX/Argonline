@@ -3,7 +3,7 @@ export async function getItems() {
   return await prisma.item.findMany();
 }
 
-import async function getAllItems(){
+export async function getAllItems(){
   return await prisma.item.findMany();
 }
 
