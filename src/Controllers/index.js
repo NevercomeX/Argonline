@@ -1,9 +1,13 @@
 //index of the controllers
 
-import { getCharacterById, updateCharacter } from "./Character/character.js";
+import {
+  getCharacterById,
+  updateCharacter,
+  getAllCharacters,
+} from "./Character/character.js";
 import { getEnemies, getEnemyById, getRandomEnemy } from "./Enemy/enemies.js";
 import {
-  getItems,
+  getAllItems,
   getItemNameById,
   getItemsByName,
   getItemsById,
@@ -22,6 +26,7 @@ import {
   getItemInstanceNameById,
   updateItemInstance,
   deleteItemInstance,
+  getItemInstancesByCharacterId,
 } from "./Item/itemInstanceController.js";
 import {
   getJobClasses,
@@ -51,9 +56,10 @@ import {
 export {
   getCharacterById,
   updateCharacter,
+  getAllCharacters,
   getEnemies,
   getEnemyById,
-  getItems,
+  getAllItems,
   getItemNameById,
   getItemsByName,
   getItemsById,
@@ -67,6 +73,7 @@ export {
   removeItemFromInventory,
   getCharacterInventoryItems,
   getCharacterInventory,
+  getItemInstancesByCharacterId,
   getEnemyDrops,
   getEnemyDropById,
   getEquipment,

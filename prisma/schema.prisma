@@ -90,7 +90,7 @@ model Item {
   equipable     Boolean
   inventory     Inventory[]
   enemyDrops    EnemyDrop[]
-  itemIcon      String @default(null)
+  itemIcon      String @default("")
 }
 
 model ItemTemplate {

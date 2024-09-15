@@ -24,7 +24,8 @@ export const itemsArmor = [
     equipable: true,
     rarity: "common",
     effect: "none",
-    equipmentSlot: "upperHeadSlot"
+    equipmentSlot: "upperHeadSlot",
+    itemIcon: "leather_cap.png",
   },
   {
     id: 2,
@@ -51,7 +52,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "uncommon",
     effect: "none",
-    equipmentSlot: "upperHeadSlot"
+    equipmentSlot: "upperHeadSlot",
   },
   {
     id: 3,
@@ -78,7 +79,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "none",
-    equipmentSlot: "bodySlot"
+    equipmentSlot: "bodySlot",
   },
   {
     id: 4,
@@ -105,7 +106,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "common",
     effect: "none",
-    equipmentSlot: "shoesSlot"
+    equipmentSlot: "shoesSlot",
   },
   {
     id: 5,
@@ -132,7 +133,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "uncommon",
     effect: "none",
-    equipmentSlot: "accessorySlot01"
+    equipmentSlot: "accessorySlot01",
   },
   {
     id: 6,
@@ -159,7 +160,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "none",
-    equipmentSlot: "bodySlot"
+    equipmentSlot: "bodySlot",
   },
   {
     id: 7,
@@ -186,14 +187,15 @@ export const itemsArmor = [
     equipable: true,
     rarity: "epic",
     effect: "none",
-    equipmentSlot: "upperHeadSlot"
+    equipmentSlot: "upperHeadSlot",
   },
   {
     id: 8,
     name: "Dragon Scale Armor",
     itemType: "Armor",
     itemSubType: "Chest",
-    description: "An armor made from dragon scales offering exceptional defense.",
+    description:
+      "An armor made from dragon scales offering exceptional defense.",
     price: 500,
     attackPower: 0,
     magicPower: 0,
@@ -213,7 +215,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "legendary",
     effect: "none",
-    equipmentSlot: "bodySlot"
+    equipmentSlot: "bodySlot",
   },
   {
     id: 9,
@@ -240,7 +242,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "increases_magic_defense",
-    equipmentSlot: "bodySlot"
+    equipmentSlot: "bodySlot",
   },
   {
     id: 10,
@@ -267,7 +269,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "common",
     effect: "none",
-    equipmentSlot: "accessorySlot01"
+    equipmentSlot: "accessorySlot01",
   },
   {
     id: 11,
@@ -294,7 +296,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "increase_magic_power",
-    equipmentSlot: "bodySlot"
+    equipmentSlot: "bodySlot",
   },
   {
     id: 12,
@@ -321,14 +323,15 @@ export const itemsArmor = [
     equipable: true,
     rarity: "uncommon",
     effect: "none",
-    equipmentSlot: "bodySlot"
+    equipmentSlot: "bodySlot",
   },
   {
     id: 13,
     name: "Silk Gloves",
     itemType: "Armor",
     itemSubType: "Hands",
-    description: "Delicate silk gloves providing minimal physical protection but boosting magic abilities.",
+    description:
+      "Delicate silk gloves providing minimal physical protection but boosting magic abilities.",
     price: 90,
     attackPower: 0,
     magicPower: 5,
@@ -348,7 +351,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "uncommon",
     effect: "increase_magic_power",
-    equipmentSlot: "accessorySlot01"
+    equipmentSlot: "accessorySlot01",
   },
   {
     id: 14,
@@ -375,7 +378,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "uncommon",
     effect: "none",
-    equipmentSlot: "shoesSlot"
+    equipmentSlot: "shoesSlot",
   },
   {
     id: 15,
@@ -402,14 +405,15 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "increase_agility",
-    equipmentSlot: "bodySlot"
+    equipmentSlot: "bodySlot",
   },
   {
     id: 16,
     name: "Emerald Ring",
     itemType: "Armor",
     itemSubType: "Accessory",
-    description: "A beautiful ring encrusted with emeralds, providing a small boost to magic power.",
+    description:
+      "A beautiful ring encrusted with emeralds, providing a small boost to magic power.",
     price: 120,
     attackPower: 0,
     magicPower: 5,
@@ -429,7 +433,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "uncommon",
     effect: "increase_magic_power",
-    equipmentSlot: "accessorySlot02"
+    equipmentSlot: "accessorySlot02",
   },
   {
     id: 17,
@@ -456,14 +460,15 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "increase_defense",
-    equipmentSlot: "accessorySlot02"
+    equipmentSlot: "accessorySlot02",
   },
   {
     id: 18,
     name: "Mystic Bracelet",
     itemType: "Armor",
     itemSubType: "Accessory",
-    description: "A bracelet with mystical runes that boosts mana regeneration.",
+    description:
+      "A bracelet with mystical runes that boosts mana regeneration.",
     price: 180,
     attackPower: 0,
     magicPower: 0,
@@ -483,7 +488,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "increase_mana_regeneration",
-    equipmentSlot: "accessorySlot02"
+    equipmentSlot: "accessorySlot02",
   },
   {
     id: 19,
@@ -510,7 +515,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "epic",
     effect: "increase_agility",
-    equipmentSlot: "accessorySlot02"
+    equipmentSlot: "accessorySlot02",
   },
   {
     id: 20,
@@ -537,6 +542,6 @@ export const itemsArmor = [
     equipable: true,
     rarity: "legendary",
     effect: "lifesteal",
-    equipmentSlot: "accessorySlot02"
-  }
+    equipmentSlot: "accessorySlot02",
+  },
 ];
