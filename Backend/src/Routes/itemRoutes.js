@@ -10,12 +10,15 @@ const router = express.Router();
 // Ruta para obtener todos los ítems
 router.get("/", async (req, res) => {
   try {
-    const items = await getAllItems();
-    res.status(200).json(items);
+    const page = parseInt(req.query.page) || 1; // Obtener el número de página desde query params
+    const limit = parseInt(req.query.limit) || 10; // Limitar ítems por página
+    const data = await getAllItems(page, limit);
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener los ítems" });
   }
 });
+
 
 // Ruta para obtener un ítem por su ID
 router.get("/:id", async (req, res) => {

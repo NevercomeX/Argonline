@@ -1,7 +1,19 @@
 import { prisma } from "../../Prisma/prismaClient.js";
 
-export async function getAllCharacters(){
-  return await prisma.character.findMany();
+export async function getAllCharacters(page = 1, limit = 10) {
+  const skip = (page - 1) * limit; // Calcular el salto de registros
+  const totalCharacters = await prisma.character.count(); // Contar todos los personajes
+  const characters = await prisma.character.findMany({
+    skip: skip,
+    take: limit, // Limitar la cantidad de registros a tomar
+  });
+
+  return {
+    characters,
+    totalCharacters,
+    totalPages: Math.ceil(totalCharacters / limit), // Calcular total de páginas
+    currentPage: page,
+  };
 }
 
 export async function getCharacterById(id) {

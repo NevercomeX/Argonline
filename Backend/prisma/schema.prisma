@@ -155,9 +155,6 @@ model EquipmentSlot {
   character       Character @relation(fields: [characterId], references: [id])
 }
 
-
-
-
 model Enemy {
   id               Int       @id @default(autoincrement())
   name             String    @unique
@@ -173,7 +170,9 @@ model Enemy {
   baseLevel        Int
   monsterType      String
   itemDrops        EnemyDrop[]
+  mobIcon          String    @default("")
 }
+
 model EnemyDrop {
   id         Int   @id @default(autoincrement())
   enemyId    Int

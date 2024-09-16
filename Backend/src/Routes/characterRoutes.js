@@ -10,13 +10,14 @@ const router = express.Router();
 // Endpoint para obtener todos los personajes
 router.get("/", async (req, res) => {
   try {
-    const characters = await getAllCharacters();
-    res.status(200).json(characters);
+    const page = parseInt(req.query.page) || 1; // Obtener el número de página desde query params
+    const limit = parseInt(req.query.limit) || 10; // Limitar personajes por página
+    const data = await getAllCharacters(page, limit);
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener personajes" });
   }
 });
-
 // Endpoint para obtener un personaje por ID
 router.get("/:id", async (req, res) => {
   const id = req.params.id;

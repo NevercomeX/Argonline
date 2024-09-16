@@ -3,7 +3,7 @@ import routes from "./src/Routes/index.js";
 import { requestLogger } from "./src/Middleware/logger.js";
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
 // Lee el valor del flag desde variables de entorno o configuración
 const logRequests = process.env.LOG_REQUESTS === "true";
@@ -15,9 +15,9 @@ app.use(requestLogger(logRequests));
 app.use(express.json());
 
 // Usar todas las rutas
-app.use("/api", routes);
+app.use("/Logins", routes);
 
 // Iniciar el servidor
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server [LOGIN] is running on http://localhost:${port}`);
 });

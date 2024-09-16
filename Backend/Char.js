@@ -1,13 +1,34 @@
-// HTTP para carga inicial de datos del personaje
-app.get("/character/:id", async (req, res) => {
-  const character = await getCharacterById(req.params.id);
-  res.json(character);
-});
+import express from "express";
+import routes from "./src/Routes/index.js";
+import { requestLogger } from "./src/Middleware/logger.js";
+import cors from "cors";
 
-// WebSocket para actualizaciones en tiempo real
-ws.on("message", (message) => {
-  const data = JSON.parse(message);
-  if (data.type === "updateStat") {
-    updateCharacterStat(data.characterId, data.stat, data.value);
-  }
+const app = express();
+const port = 4001;
+
+// Lee el valor del flag desde variables de entorno o configuración
+const logRequests = process.env.LOG_REQUESTS === "true";
+
+// Configuración de CORS
+const corsOptions = {
+  origin: "http://localhost:5173", // Dominios permitidos (Remix app)
+  methods: ["GET", "POST", "PUT", "DELETE"], // Métodos HTTP permitidos
+  credentials: true, // Permitir credenciales (si necesitas cookies)
+};
+
+// Middleware de CORS
+app.use(cors(corsOptions));
+
+// Middleware de registro
+app.use(requestLogger(logRequests));
+
+// Configuración para recibir datos JSON
+app.use(express.json());
+
+// Usar todas las rutas
+app.use("/api", routes);
+
+// Iniciar el servidor
+app.listen(port, () => {
+  console.log(`Server [CHAR] is running on http://localhost:${port}`);
 });

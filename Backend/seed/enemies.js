@@ -11,8 +11,9 @@ export async function enemySeed(prisma) {
       giveBaseExpAmount: 10,
       giveJobExpAmount: 10,
       baseLevel: 1,
-      monsterType: "normal",
+      monsterType: "Animal",
       attackType: "pyshical",
+      mobIcon: "poring.gif",
     },
     {
       name: "Fabre",
@@ -27,6 +28,7 @@ export async function enemySeed(prisma) {
       baseLevel: 1,
       monsterType: "normal",
       attackType: "pyshical",
+      mobIcon: "fabre.gif",
     },
     {
       name: "Lunatic",
@@ -41,6 +43,7 @@ export async function enemySeed(prisma) {
       baseLevel: 1,
       monsterType: "normal",
       attackType: "pyshical",
+      mobIcon: "lunatic.gif",
     },
     {
       name: "Pupa",
@@ -55,6 +58,7 @@ export async function enemySeed(prisma) {
       baseLevel: 1,
       monsterType: "normal",
       attackType: "magical",
+      mobIcon: "pupa.gif",
     },
     {
       name: "Condor",
@@ -69,7 +73,9 @@ export async function enemySeed(prisma) {
       baseLevel: 1,
       monsterType: "normal",
       attackType: "pyshical",
+      mobIcon: "condor.gif",
     },
+    
   ];
 
   // Crear enemigos

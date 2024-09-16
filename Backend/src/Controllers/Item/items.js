@@ -1,9 +1,20 @@
 import { prisma } from "../../Prisma/prismaClient.js";
 
-export async function getAllItems(){
-  return await prisma.item.findMany();
-}
+export async function getAllItems(page = 1, limit = 10) {
+  const skip = (page - 1) * limit; // Calcular el salto de registros
+  const totalItems = await prisma.item.count(); // Contar todos los ítems
+  const items = await prisma.item.findMany({
+    skip: skip,
+    take: limit, // Limitar la cantidad de registros a tomar
+  });
 
+  return {
+    items,
+    totalItems,
+    totalPages: Math.ceil(totalItems / limit), // Calcular total de páginas
+    currentPage: page,
+  };
+}
 export async function getItemsById(id) {
   return await prisma.item.findUnique({
     where: { id: parseInt(id) },
