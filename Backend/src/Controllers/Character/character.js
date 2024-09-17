@@ -28,3 +28,25 @@ export async function updateCharacter(id, data) {
     data: data,
   });
 }
+
+// Crear un nuevo personaje para el usuario
+export async function createCharacter(userId, name, jobClass) {
+  try {
+    const newCharacter = await prisma.character.create({
+      data: {
+        name: name,
+        jobclassId: parseInt(jobClass), // Asume que tienes un campo "jobclassId" para identificar la clase
+        userId: parseInt(userId),
+        baseLevel: 1,
+        jobLevel: 1,
+        health: 100,
+        mana: 50,
+        attackPower: 10,
+        defense: 5,
+      },
+    });
+    return newCharacter;
+  } catch (error) {
+    throw new Error("Error al crear el personaje");
+  }
+}

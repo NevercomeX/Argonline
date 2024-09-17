@@ -6,7 +6,7 @@ const router = express.Router();
 // Ruta para obtener todos los enemigos con paginación
 router.get('/', async (req, res) => {
   const page = parseInt(req.query.page) || 1; // Página actual, por defecto es 1
-  const pageSize = parseInt(req.query.pageSize) || 10; // Tamaño de página, por defecto es 10
+  const pageSize = parseInt(req.query.pageSize) || 9; // Tamaño de página, por defecto es 10
 
   try {
     const { enemies, totalEnemies } = await getEnemies(page, pageSize);

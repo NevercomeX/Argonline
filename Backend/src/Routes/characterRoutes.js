@@ -3,6 +3,7 @@ import {
   getAllCharacters,
   getCharacterById,
   updateCharacter,
+  createCharacter,
 } from "../Controllers/index.js";
 
 const router = express.Router();
@@ -11,7 +12,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Obtener el número de página desde query params
-    const limit = parseInt(req.query.limit) || 10; // Limitar personajes por página
+    const limit = parseInt(req.query.limit) || 9; // Limitar personajes por página
     const data = await getAllCharacters(page, limit);
     res.status(200).json(data);
   } catch (error) {
@@ -42,6 +43,18 @@ router.put("/:id", async (req, res) => {
     res.status(200).json(updatedCharacter);
   } catch (error) {
     res.status(500).json({ error: "Error al actualizar el personaje" });
+  }
+});
+
+router.post("/users/:userId/characters", async (req, res) => {
+  const { userId } = req.params;
+  const { name, jobClass } = req.body;
+
+  try {
+    const newCharacter = await createCharacter(userId, name, jobClass);
+    res.status(201).json(newCharacter);
+  } catch (error) {
+    res.status(500).json({ error: "Error al crear el personaje" });
   }
 });
 

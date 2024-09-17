@@ -11,7 +11,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Obtener el número de página desde query params
-    const limit = parseInt(req.query.limit) || 10; // Limitar ítems por página
+    const limit = parseInt(req.query.limit) || 9; // Limitar ítems por página
     const data = await getAllItems(page, limit);
     res.status(200).json(data);
   } catch (error) {

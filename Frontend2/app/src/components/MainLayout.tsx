@@ -23,7 +23,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, isAuthenticated }) =>
             {isAuthenticated ? (
               <>
                 <li><Link to="/mobs" className="hover:text-gray-300">Combat</Link></li>
-                <li><Link to="/items" className="hover:text-gray-300">Stats</Link></li>
+                <li><Link to="/" className="hover:text-gray-300">Stats</Link></li>
                 <li><Link to="/characters" className="hover:text-gray-300">Characters</Link></li>
                 <li><Link to="/characters/new" className="hover:text-gray-300">Create Character</Link></li>
               </>

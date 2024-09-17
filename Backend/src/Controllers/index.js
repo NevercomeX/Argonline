@@ -4,7 +4,16 @@ import {
   getCharacterById,
   updateCharacter,
   getAllCharacters,
+  createCharacter 
 } from "./Character/character.js";
+
+import {
+  getAllUsers,
+  getAllCharactersFromUser,
+} from "./user/users.js";
+
+import { loginUser, registerUser } from "./user/authController.js";
+
 import { getEnemies, getEnemyById, getRandomEnemy } from "./Enemy/enemies.js";
 import {
   getAllItems,
@@ -54,6 +63,11 @@ import {
 } from "./Equipment/equipment.js";
 
 export {
+  getAllUsers,
+  getAllCharactersFromUser,
+  registerUser,
+  createCharacter,
+  loginUser,
   getCharacterById,
   updateCharacter,
   getAllCharacters,

@@ -34,6 +34,7 @@ const CharacterList = () => {
                 <h3 className="text-lg font-semibold">{character.name}</h3>
                 <span className="text-gray-500">Character-ID#{character.id}</span>
               </div>
+              <img src={`/characters/${character.id}.gif`} alt="asdas" className="w-36 h-38 mx-auto mb-4" />
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div>
                   <span className="font-medium">Base Level:</span> {character.baseLevel}
