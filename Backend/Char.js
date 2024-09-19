@@ -11,7 +11,7 @@ const logRequests = process.env.LOG_REQUESTS === "true";
 
 // Configuración de CORS
 const corsOptions = {
-  origin: "http://localhost:5173", // Dominios permitidos (Remix app)
+  origin: "http://localhost:3000", // Dominios permitidos (Remix app)
   methods: ["GET", "POST", "PUT", "DELETE"], // Métodos HTTP permitidos
   credentials: true, // Permitir credenciales (si necesitas cookies)
 };

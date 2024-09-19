@@ -14,7 +14,9 @@
     "lint": "eslint \"src/**/*.ts\" --quiet --fix",
     "pre-commit": "lint-staged",
     "rseed": "npx prisma db push --force-reset &&  node seed/index.js",
-    "seed": "node seed/index.js"
+    "seed": "node seed/index.js",
+    "server": "nodemon Char.js \" nodemon Map.js \" nodemon Login.js"
+
   },
   "repository": {
     "type": "git",

@@ -1,40 +1,39 @@
-# Welcome to Remix!
+# TraversyPress UI
 
-- 📖 [Remix docs](https://remix.run/docs)
+<img src="img/screen.png" alt="" />
 
-## Development
+This is a admin dashboard UI built with Next.js. It is only the front-end interface so we are just using files for the data. Feel free to add on to it and make it a full stack project.
 
-Run the dev server:
+### Packages Used
 
-```shellscript
+- Next.js/React
+- TypeScript
+- Shadcn/ui
+- Tailwind CSS
+- Recharts
+- Lucide React
+- React Hook Form
+- Zod
+- Next Themes
+
+## Getting Started
+
+Install dependencies:
+
+```bash
+npm Install
+```
+
+Run the development server:
+
+```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
