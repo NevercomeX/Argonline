@@ -34,12 +34,14 @@ export async function registerUser(username, password, email) {
 
 
 // Iniciar sesión (Login)
-export async function loginUser(username, password) {
+export async function loginUser(email, password) {
+
   try {
     // Buscar el usuario por nombre de usuario
     const user = await prisma.user.findUnique({
-      where: { username },
+      where: { email },
     });
+
 
     if (!user) {
       throw new Error('Usuario no encontrado');
@@ -47,6 +49,7 @@ export async function loginUser(username, password) {
 
     // Verificar la contraseña con Argon2
     const isValidPassword = await argon2.verify(user.password, password);
+    console.log("Contraseña válida:", isValidPassword);
     if (!isValidPassword) {
       throw new Error('Contraseña incorrecta');
     }
@@ -55,6 +58,9 @@ export async function loginUser(username, password) {
     const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, {
       expiresIn: '1h', // Token válido por 1 hora
     });
+
+    console.log("Token generado:", token);
+    
 
     return { token, user };
   } catch (error) {

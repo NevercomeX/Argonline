@@ -1,27 +1,20 @@
-// src/Middleware/authMiddleware.js
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'somethingsomething';
 
-// Middleware para verificar token JWT
 export function authMiddleware(req, res, next) {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader) {
-    return res.status(401).json({ error: 'Acceso no autorizado: No se proporcionó el token' });
-  }
-
-  const token = authHeader.split(' ')[1]; // Obtener el token del encabezado Authorization
+  const token = req.cookies.token; // Obtener el token de las cookies
 
   if (!token) {
-    return res.status(401).json({ error: 'Acceso no autorizado: Token faltante' });
+    return res.status(401).json({ message: 'No token, authorization denied' });
   }
 
   try {
+    // Verificar el token
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded; // Guardar la información decodificada del usuario en `req.user`
+    req.user = decoded; // Adjuntar los datos del usuario al objeto de la solicitud
     next();
   } catch (error) {
-    return res.status(401).json({ error: 'Token inválido o expirado' });
+    return res.status(401).json({ message: 'Token is not valid' });
   }
 }

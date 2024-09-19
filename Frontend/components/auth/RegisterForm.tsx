@@ -22,7 +22,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
+// Definir esquema de validación con Zod
 const formSchema = z.object({
   name: z.string().min(1, {
     message: 'Name is required',
@@ -35,17 +37,22 @@ const formSchema = z.object({
     .email({
       message: 'Please enter a valid email',
     }),
-  password: z.string().min(1, {
-    message: 'Password is required',
+  password: z.string().min(6, {
+    message: 'Password must be at least 6 characters long',
   }),
-  confirmPassword: z.string().min(1, {
+  confirmPassword: z.string().min(6, {
     message: 'Confirm Password is required',
   }),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'Passwords do not match',
+  path: ['confirmPassword'],
 });
 
 const RegisterForm = () => {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para manejar el botón de registro
 
+  // Configuración del formulario con React Hook Form y Zod
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,8 +63,40 @@ const RegisterForm = () => {
     },
   });
 
-  const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    router.push('/');
+  // Lógica para conectar a la API de registro
+  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true); // Deshabilitar botón durante la solicitud
+    try {
+      const response = await fetch('http://localhost:4001/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: data.name,
+          password: data.password,
+          email: data.email,
+        }),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        const userId = responseData?.user?.id;
+        if (userId) {
+          localStorage.setItem('token', responseData.token); // Guardar token en el localStorage
+          router.push(`/users/${userId}/characters`); // Redirigir a la lista de personajes
+        } else {
+          throw new Error('User ID not found in response');
+        }
+      } else {
+        alert('Error during registration');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('An error occurred during registration.');
+    } finally {
+      setIsSubmitting(false); // Habilitar botón después de la solicitud
+    }
   };
 
   return (
@@ -72,6 +111,7 @@ const RegisterForm = () => {
             onSubmit={form.handleSubmit(handleSubmit)}
             className='space-y-6'
           >
+            {/* Campo: Nombre */}
             <FormField
               control={form.control}
               name='name'
@@ -92,6 +132,7 @@ const RegisterForm = () => {
               )}
             />
 
+            {/* Campo: Email */}
             <FormField
               control={form.control}
               name='email'
@@ -112,6 +153,7 @@ const RegisterForm = () => {
               )}
             />
 
+            {/* Campo: Contraseña */}
             <FormField
               control={form.control}
               name='password'
@@ -133,6 +175,7 @@ const RegisterForm = () => {
               )}
             />
 
+            {/* Campo: Confirmar contraseña */}
             <FormField
               control={form.control}
               name='confirmPassword'
@@ -143,7 +186,7 @@ const RegisterForm = () => {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type='confirmPassword'
+                      type='password'
                       className='bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible: ring-offset-0'
                       placeholder='Enter Confirm Password'
                       {...field}
@@ -153,7 +196,9 @@ const RegisterForm = () => {
                 </FormItem>
               )}
             />
-            <Button className='w-full'>Sign In</Button>
+            <Button type='submit' className='w-full' disabled={isSubmitting}>
+              {isSubmitting ? 'Registering...' : 'Sign Up'}
+            </Button>
           </form>
         </Form>
       </CardContent>
