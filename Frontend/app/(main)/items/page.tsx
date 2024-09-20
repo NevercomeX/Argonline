@@ -38,7 +38,7 @@ const ItemsPage = () => {
                 <h3 className="text-lg font-semibold">{item.name}</h3>
                 <span className="text-gray-500">Item-ID#{item.id}</span>
               </div>
-              <img src={`/items/${item.itemIcon}`} alt={item.name} className="w-12 h-12 mx-auto mb-4" />
+              <img src={`/items/${item.id}.gif`} alt={item.name} className="w-12 h-12 mx-auto mb-4" />
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div>
                   <span className="font-medium">HP:</span> {item.health}
