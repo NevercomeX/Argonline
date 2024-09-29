@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 
 // Obtener equipamiento por ID
 router.get("/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   try {
     const equipment = await getEquipmentById(id);
     if (equipment) {
@@ -36,7 +36,7 @@ router.get("/:id", async (req, res) => {
 
 // Obtener los slots de equipamiento por ID de personaje
 router.get("/character/:characterId", async (req, res) => {
-  const characterId = req.params.characterId;
+  const characterId = parseInt(req.params.characterId);
   try {
     const equipmentSlots = await getEquipmentSlotsByCharacterId(characterId);
     res.status(200).json(equipmentSlots);
@@ -49,7 +49,10 @@ router.get("/character/:characterId", async (req, res) => {
 
 // Desequipar ítem
 router.put("/:characterId/unequip/:slotType", async (req, res) => {
-  const { characterId, slotType } = req.params;
+
+  // const { characterId, slotType } = parseInt(req.params);
+  const characterId = parseInt(req.params.characterId)
+  const slotType = req.params.slotType
   try {
     await unequipItem(characterId, slotType);
     res.status(200).json({ message: `Ítem en slot ${slotType} desequipado` });
@@ -62,7 +65,7 @@ router.put("/:characterId/unequip/:slotType", async (req, res) => {
 
 // Equipar ítem
 router.put("/:characterId/equip", async (req, res) => {
-  const { characterId } = req.params;
+  const { characterId } = parseInt(req.params);
   const { slotType, itemId, isInstance } = req.body;
   try {
     await equipItem(characterId, slotType, itemId, isInstance);

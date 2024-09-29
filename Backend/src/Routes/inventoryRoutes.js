@@ -11,7 +11,7 @@ const router = express.Router();
 
 // Obtener inventario completo de un personaje
 router.get("/:characterId", async (req, res) => {
-  const characterId = req.params.characterId;
+  const characterId = parseInt(req.params.characterId);
   try {
     const inventory = await getInventory(characterId);
     res.status(200).json(inventory);
@@ -22,7 +22,7 @@ router.get("/:characterId", async (req, res) => {
 
 // Obtener ítem específico del inventario por ID
 router.get("/item/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   try {
     const inventoryItem = await getInventoryById(id);
     if (inventoryItem) {
@@ -38,7 +38,7 @@ router.get("/item/:id", async (req, res) => {
 // Añadir un ítem al inventario
 router.post("/:characterId/add", async (req, res) => {
   const { itemId, quantity } = req.body;
-  const characterId = req.params.characterId;
+  const characterId = parseInt(req.params.characterId);
   try {
     await addItemToInventory(characterId, itemId, quantity);
     res.status(200).json({
@@ -54,7 +54,7 @@ router.post("/:characterId/add", async (req, res) => {
 // Remover un ítem del inventario
 router.post("/:characterId/remove", async (req, res) => {
   const { itemId, quantity } = req.body;
-  const characterId = req.params.characterId;
+  const characterId = parseInt(req.params.characterId);
   try {
     await removeItemFromInventory(characterId, itemId, quantity);
     res.status(200).json({
@@ -69,7 +69,7 @@ router.post("/:characterId/remove", async (req, res) => {
 
 // Obtener el inventario completo de un personaje por ID
 router.get("/character/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   try {
     const characterInventory = await getCharacterInventory(id);
     res.status(200).json(characterInventory);

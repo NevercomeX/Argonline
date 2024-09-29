@@ -12,7 +12,7 @@ const router = express.Router();
 // Ruta para crear una nueva instancia de ítem
 router.post("/", async (req, res) => {
   try {
-    const itemData = req.body;
+    const itemData = parseInt(req.body);
     const newItemInstance = await createItemInstance(itemData);
     res.status(201).json(newItemInstance);
   } catch (error) {
@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
 
 // Ruta para obtener una instancia de ítem por su ID
 router.get("/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   try {
     const itemInstance = await getItemInstanceById(id);
     res.status(200).json(itemInstance);
@@ -35,7 +35,7 @@ router.get("/:id", async (req, res) => {
 
 // Ruta para obtener todas las instancias de ítems de un personaje
 router.get("/character/:characterId", async (req, res) => {
-  const characterId = req.params.characterId;
+  const characterId = parseInt(req.params.characterId);
   try {
     const itemInstances = await getItemInstancesByCharacterId(characterId);
     res.status(200).json(itemInstances);
@@ -46,8 +46,8 @@ router.get("/character/:characterId", async (req, res) => {
 
 // Ruta para actualizar una instancia de ítem
 router.put("/:id", async (req, res) => {
-  const id = req.params.id;
-  const updateData = req.body;
+  const id = parseInt(req.params.id);
+  const updateData = parseInt(req.body);
   try {
     const updatedItemInstance = await updateItemInstance(id, updateData);
     res.status(200).json(updatedItemInstance);
@@ -60,7 +60,7 @@ router.put("/:id", async (req, res) => {
 
 // Ruta para eliminar una instancia de ítem
 router.delete("/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   try {
     await deleteItemInstance(id);
     res

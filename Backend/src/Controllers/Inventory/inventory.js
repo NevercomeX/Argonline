@@ -45,13 +45,15 @@ export async function getInventoryByEnemyId(id) {
 //get a list of all items from a specific character inventory
 
 export async function getCharacterInventory(id) {
+
+
   const playerInventory = await prisma.character.findUnique({
     where: { id: id },
     include: {
       inventory: true,
     },
   });
-
+console.log(playerInventory)
   return playerInventory;
 }
 
