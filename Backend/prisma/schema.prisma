@@ -1,0 +1,210 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int         @id @default(autoincrement())
+  username   String      @unique
+  email      String      @unique
+  password   String
+  role       String      @default("user")
+  characters Character[]
+}
+
+model Character {
+  id              Int             @id @default(autoincrement())
+  name            String          @unique @default("Player")
+  userId          Int
+  jobclassId      Int
+  str             Int
+  agi             Int
+  vit             Int
+  int             Int
+  dex             Int
+  luk             Int
+  baseLevel       Int
+  jobLevel        Int
+  baseExp         Int
+  jobExp          Int
+  maxBaseExp      Int
+  maxJobExp       Int
+  skillPoints     Int
+  health          Int
+  maxHealth       Int
+  maxMana         Int
+  mana            Int
+  attackPower     Int 
+  magicPower      Int
+  defense         Int
+  magicDefense    Int
+  inventory       Inventory[]
+  equipmentSlot   EquipmentSlot[]
+  items           ItemInstance[]
+  user            User            @relation(fields: [userId], references: [id])
+}
+
+model Inventory {
+  id             Int          @id @default(autoincrement())
+  itemId         Int?
+  characterId    Int
+  itemInstanceId Int?         // Referencia opcional a la instancia de ítem
+  quantity       Int          @default(1)
+  character      Character    @relation(fields: [characterId], references: [id])
+  itemInstance   ItemInstance? @relation(fields: [itemInstanceId], references: [id])
+  item           Item?         @relation(fields: [itemId], references: [id])
+}
+
+model Item {
+  id            Int      @id 
+  name          String   @unique
+  itemType      String   @default("None")
+  itemSubType   String   @default("None")
+  equipmentSlot String?   @default("None")
+  description   String
+  price         Int
+  attackPower   Int
+  magicPower    Int
+  defense       Int
+  magicDefense  Int
+  health        Int
+  mana          Int
+  str           Int
+  agi           Int
+  vit           Int
+  int           Int
+  dex           Int
+  luk           Int
+  slot          Int
+  weaponType    String
+  usable        Boolean
+  rarity        String
+  effect        String?
+  equipable     Boolean
+  inventory     Inventory[]
+  enemyDrops    EnemyDrop[]
+  itemIcon      String @default("")
+}
+
+model ItemTemplate {
+  id            Int      @id 
+  name          String   @unique
+  itemType      String   @default("None")
+  itemSubType   String   @default("None")
+  equipmentSlot String
+  description   String
+  price         Int
+  attackPower   Int
+  magicPower    Int
+  defense       Int
+  magicDefense  Int
+  health        Int
+  mana          Int
+  str           Int
+  agi           Int
+  vit           Int
+  int           Int
+  dex           Int
+  luk           Int
+  slot          Int
+  weaponType    String
+  usable        Boolean
+  rarity        String
+  effect        String?
+  equipable     Boolean
+  itemInstances ItemInstance[]
+}
+
+model ItemInstance {
+  id            Int       @id
+  itemTemplateId Int
+  characterId    Int
+  currentAttack  Int
+  currentDefense Int
+  currentHealth  Int
+  currentMana    Int
+  upgradeLevel   Int          @default(0) // Nivel de mejora o mejora
+  socketedGems   String?      // JSON o texto para cualquier gema o runa
+  enchantments   String?      // JSON o texto para encantamientos adicionales
+  itemTemplate   ItemTemplate @relation(fields: [itemTemplateId], references: [id])
+  character      Character    @relation(fields: [characterId], references: [id])
+  inventory      Inventory[]
+}
+
+model EquipmentSlot {
+  id            Int      @id @default(autoincrement())
+  characterId     Int
+  upperHeadSlot   Int?
+  midHeadSlot     Int?
+  lowerHeadSlot   Int?
+  bodySlot        Int?
+  rightHandSlot   Int?
+  leftHandSlot    Int?
+  robeSlot        Int?
+  shoesSlot       Int?
+  accessorySlot01 Int?
+  accessorySlot02 Int?
+  ammoSlot        Int?
+  character       Character @relation(fields: [characterId], references: [id])
+}
+
+model Enemy {
+  id               Int       @id @default(autoincrement())
+  name             String    @unique
+  attackType       String
+  giveBaseExpAmount Int
+  giveJobExpAmount Int
+  health           Int
+  maxHealth        Int
+  attackPower      Int
+  magicPower       Int
+  defense          Int
+  magicDefense     Int
+  baseLevel        Int
+  monsterType      String
+  itemDrops        EnemyDrop[]
+  mobIcon          String    @default("")
+}
+
+model EnemyDrop {
+  id         Int   @id @default(autoincrement())
+  enemyId    Int
+  itemId     Int
+  dropChance Float
+  enemy      Enemy @relation(fields: [enemyId], references: [id])
+  item       Item  @relation(fields: [itemId], references: [id])
+  @@unique([enemyId, itemId])
+}
+model JobClass {
+  id            Int  @id @default(autoincrement())
+  name          String @unique
+  str           Int
+  agi           Int
+  vit           Int
+  int           Int
+  dex           Int
+  luk           Int
+  health        Int
+  mana          Int
+  maxHealth     Int
+  maxMana       Int
+  attackPower   Int
+  magicPower    Int
+  defense       Int
+  magicDefense  Int
+  baseLevel     Int
+  jobLevel      Int
+  baseExp       Int
+  jobExp        Int
+  maxBaseExp    Int
+  maxJobExp     Int
+  skillPoints   Int
+  // skillTree   Skill[]
+}
