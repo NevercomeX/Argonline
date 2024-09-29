@@ -1,47 +1,57 @@
-import { getEquipmentSlotsByCharacterId, getItemNameById } from '../../utils/equipmentApi';
 import EquipmentPageClient from '../../../components/mainMenus/equipment/EquipmentMenu';
+import InventoryGrid from '../../../components/mainMenus/inventory/Inventory';
+import { getEquipmentSlotsByCharacterId } from '../../utils/equipmentApi';
+import { getInventory } from '../../utils/inventoryApi';
 
-// Leer la variable de entorno para el modo debug
-const DEBUG_MODE = process.env.NEXT_PUBLIC_DEBUG_MODE === 'true';  // Si la variable es 'true', está activado
+export default async function EquipmentAndInventoryPage({
+  searchParams,
+}: {
+  searchParams: { characterId?: string };
+}) {
+  const characterId = parseInt(searchParams.characterId || '1', 10);
 
-export default async function EquipmentPage({ searchParams }: { searchParams: { characterId?: string } }) {
-  // Convertir `characterId` a un número, ya que Prisma espera un Int
-  const characterId = DEBUG_MODE ? 1 : parseInt(searchParams.characterId || '1', 10);  // Convertimos a número
-
-  // Obtener datos de slots de equipo desde el backend
+  // Obtener datos de equipo e inventario
   const equipmentSlotsData = await getEquipmentSlotsByCharacterId(characterId);
+  const inventory = await getInventory(characterId);
 
-  // Obtener nombres de los ítems, ignorando slots con `null` (vacíos) y excluyendo campos como `id` y `characterId`
-  const itemIds = Object.keys(equipmentSlotsData)
-    .filter((slotName) => equipmentSlotsData[slotName] !== null && slotName !== 'id' && slotName !== 'characterId')
-    .map((slotName) => equipmentSlotsData[slotName]);
-
-  const itemNamesMap = await Promise.all(
-    itemIds.map(async (itemId) => ({
-      itemId,
-      itemName: await getItemNameById(itemId),
-    }))
-  );
-
-  // Crear un array de objetos para cada slot, asegurándose de excluir `id` y `characterId`
+  // Formatear los datos del equipo e inventario
   const equipmentSlots = Object.keys(equipmentSlotsData)
-    .filter((slotName) => slotName !== 'id' && slotName !== 'characterId') // Excluir campos no equipables
+    .filter((slotName) => slotName !== 'id' && slotName !== 'characterId')
     .map((slotName) => {
-      const displayName = slotName;  // Puedes hacer un mapeo si tienes nombres personalizados
       const itemId = equipmentSlotsData[slotName];
-      const itemName = itemId === null ? 'Vacío' : itemNamesMap.find((item) => item.itemId === itemId)?.itemName || 'Unknown Item';
-
+      const itemName = itemId ? 'Some Item Name' : 'Vacío';  // Obtén el nombre real desde tu lógica
       return {
         slotName,
-        displayName,
+        displayName: slotName,
         itemId,
         itemName,
       };
     });
 
+  const inventoryItems = inventory.map((inventoryItem: any) => ({
+    id: inventoryItem.itemInstanceId || inventoryItem.itemId,
+    name: inventoryItem.itemInstance?.itemTemplate?.name || inventoryItem.item?.name || 'Unknown Item',
+    quantity: inventoryItem.quantity,
+    equipable: inventoryItem.itemInstance?.itemTemplate?.equipable || inventoryItem.item?.equipable || false,
+    equipmentSlot: inventoryItem.itemInstance?.itemTemplate?.equipmentSlot || inventoryItem.item?.equipmentSlot || 'Unknown Slot',
+    isInstance: !!inventoryItem.itemInstanceId,
+    iconUrl: inventoryItem.itemInstance?.itemTemplate?.iconUrl || inventoryItem.item?.iconUrl || '/default-icon.png',
+  }));
+
   return (
-    <div>
-      <EquipmentPageClient characterId={characterId} equipmentSlots={equipmentSlots} />
+    <div className="flex min-h-screen p-4 bg-gray-800 text-white">
+      {/* Equipamiento a la izquierda */}
+      <div className="w-1/2">
+        <h1 className="text-2xl font-bold mb-4">Equipamiento</h1>
+        {/* Pasamos los datos como props a los componentes de cliente */}
+        <EquipmentPageClient characterId={characterId} equipmentSlots={equipmentSlots} />
+      </div>
+
+      {/* Inventario a la derecha */}
+      <div className="w-1/2 pl-4">
+        <h1 className="text-2xl font-bold mb-4">Inventario</h1>
+        <InventoryGrid characterId={characterId} inventoryItems={inventoryItems} />
+      </div>
     </div>
   );
 }

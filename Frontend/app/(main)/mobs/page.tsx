@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect} from "react";
-import { Monster } from "../../../types";
+import { Enemy } from "../../../types";
 
 const MonsterList: React.FC = () => {
-  const [monsters, setMonsters] = useState<Monster[]>([]);
+  const [monsters, setMonsters] = useState<Enemy[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
 

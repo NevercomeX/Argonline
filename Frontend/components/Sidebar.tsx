@@ -31,6 +31,14 @@ const Sidebar = () => {
             <Link href='/characters'>Character</Link>
           </CommandItem>
           <CommandItem>
+            <Folders className='mr-2 h-4 w-4' />
+            <Link href='/equipment'>Equipment</Link>
+          </CommandItem>
+          <CommandItem>
+            <Folders className='mr-2 h-4 w-4' />
+            <Link href='/inventory'>Inventory</Link>
+          </CommandItem>
+          <CommandItem>
             <Newspaper className='mr-2 h-4 w-4' />
             <Link href='/items'>Items</Link>
           </CommandItem>
@@ -38,6 +46,7 @@ const Sidebar = () => {
             <Folders className='mr-2 h-4 w-4' />
             <Link href='/mobs'>Monsters</Link>
           </CommandItem>
+
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading='Settings'>
