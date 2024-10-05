@@ -1,7 +1,7 @@
 @echo off
 
 REM Iniciar WSL y arrancar el servicio de Redis primero
-wsl -d ubuntu -e sh -c "echo Iniciando Redis... && echo 'laura99945@@' | sudo -S service redis-server start"
+wsl -d ubuntu -e sh -c "echo Iniciando Redis... && echo 'password' | sudo -S service redis-server start"
 
 REM Esperar 5 segundos antes de continuar
 timeout /t 2 /nobreak
