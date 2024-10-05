@@ -7,8 +7,11 @@ import Image from 'next/image';
 interface EquipmentSlot {
   slotName: string;
   displayName: string;
-  itemId: number | null;
+  itemId: number | null;  // El ID del ítem o instancia
   itemName: string;
+  isInstance: boolean;    // Si es una instancia de un ítem
+  itemIcon: string;       // El directorio del ítem (e.g., "armor/")
+  templateId?: number | null;    // ID del template en caso de instancia
 }
 
 interface EquipmentPageClientProps {
@@ -54,7 +57,12 @@ const EquipmentPageClient: React.FC<EquipmentPageClientProps> = ({
             <div className="w-16 h-16 border-2 border-gray-600 rounded-lg flex items-center justify-center">
               {slot.itemId ? (
                 <Image
-                  src={`/images/items/${slot.itemId}.png`}
+                  // Condicional para mostrar la imagen correcta según sea ítem normal o instancia
+                  src={
+                    slot.isInstance
+                      ? `/items/template/${slot.templateId}.gif`   // Para instancias de ítems
+                      : `/items/${slot.itemIcon}/${slot.itemId}.gif`  // Para ítems normales
+                  }
                   alt={slot.itemName}
                   width={64}
                   height={64}

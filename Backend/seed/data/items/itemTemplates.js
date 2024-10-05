@@ -25,7 +25,8 @@ export const templates = [
     usable: false,
     rarity: "Rare",
     effect: "Reduces incoming physical damage by 5%.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/"
   },
   {
     id: 5001,
@@ -52,7 +53,8 @@ export const templates = [
     usable: false,
     rarity: "Uncommon",
     effect: "Increases spell casting speed by 10%.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/"
   },
   {
     id: 5002,
@@ -79,7 +81,8 @@ export const templates = [
     usable: false,
     rarity: "Common",
     effect: "Increases evasion rate by 5%.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/"
   },
   {
     id: 5003,
@@ -106,7 +109,8 @@ export const templates = [
     usable: false,
     rarity: "Epic",
     effect: "Reduces physical damage taken by 10%.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/"
   },
   {
     id: 5004,
@@ -133,7 +137,8 @@ export const templates = [
     usable: false,
     rarity: "Rare",
     effect: "Adds fire damage to attacks.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/"
   },
   {
     id: 5005,
@@ -160,7 +165,8 @@ export const templates = [
     usable: false,
     rarity: "Epic",
     effect: "Has a chance to stun enemies on hit.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/"
   },
   {
     id: 5006,
@@ -187,7 +193,8 @@ export const templates = [
     usable: false,
     rarity: "Rare",
     effect: "Increases block rate by 10%.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/"
   },
   {
     id: 5007,
@@ -214,7 +221,8 @@ export const templates = [
     usable: false,
     rarity: "Uncommon",
     effect: "Reduces chance of being detected by enemies.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/"
   },
   {
     id: 5008,
@@ -241,7 +249,8 @@ export const templates = [
     usable: false,
     rarity: "Common",
     effect: "Increases movement speed by 15%.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/"
   },
   {
     id: 5009,
@@ -268,7 +277,8 @@ export const templates = [
     usable: false,
     rarity: "Uncommon",
     effect: "Increases item drop rate by 5%.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/",
   },
   {
     id: 5010,
@@ -295,7 +305,8 @@ export const templates = [
     usable: false,
     rarity: "Medium",
     effect: "Increases physical damage taken by 5%.",
-    equipable: true
+    equipable: true,
+    itemIcon: "/template/",
   },
 
 ];

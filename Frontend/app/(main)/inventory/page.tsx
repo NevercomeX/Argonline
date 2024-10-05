@@ -17,15 +17,15 @@ export default async function InventoryPage({
   const inventoryItems = inventory.map((inventoryItem: any) => {
     const itemInstance = inventoryItem.itemInstance;
     const item = inventoryItem.item;
-
     return {
       id: inventoryItem.itemInstanceId || inventoryItem.itemId,
+      templateId: itemInstance?.itemTemplate?.id || item?.id, 
       name: itemInstance?.itemTemplate?.name || item?.name || 'Unknown Item',
       quantity: inventoryItem.quantity,
       equipable: itemInstance?.itemTemplate?.equipable || item?.equipable || false,
       equipmentSlot: itemInstance?.itemTemplate?.equipmentSlot || item?.equipmentSlot || 'Unknown Slot',
       isInstance: !!inventoryItem.itemInstanceId,
-      iconUrl: itemInstance?.itemTemplate?.iconUrl || item?.iconUrl || '/default-icon.png', // Verificar que el ícono exista
+      itemIcon: itemInstance?.itemTemplate?.itemIcon || item?.itemIcon, // Verificar que el ícono exista
     };
   });
 

@@ -120,6 +120,7 @@ model ItemTemplate {
   effect        String?
   equipable     Boolean
   itemInstances ItemInstance[]
+  itemIcon      String @default("")
 }
 
 model ItemInstance {

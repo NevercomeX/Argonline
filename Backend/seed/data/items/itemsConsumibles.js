@@ -23,6 +23,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "common",
+    itemIcon: "/consumible/",
     effect: "none"
   },
   {
@@ -49,6 +50,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "common",
+    itemIcon: "/consumible/",
     effect: "none"
   },
   {
@@ -75,6 +77,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "uncommon",
+    itemIcon: "/consumible/",
     effect: "none"
   },
   {
@@ -101,6 +104,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "rare",
+    itemIcon: "/consumible/",
     effect: "none"
   },
   {
@@ -127,6 +131,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "rare",
+    itemIcon: "/consumible/",
     effect: "increase_movement_speed"
   },
   {
@@ -153,6 +158,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "rare",
+    itemIcon: "/consumible/",
     effect: "none"
   },
   {
@@ -179,6 +185,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "epic",
+    itemIcon: "/consumible/",
     effect: "none"
   },
   {
@@ -205,6 +212,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "legendary",
+    itemIcon: "/consumible/",
     effect: "temporary_invisibility"
   },
   {
@@ -231,6 +239,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "uncommon",
+    itemIcon: "/consumible/",
     effect: "cure_poison"
   },
   {
@@ -257,6 +266,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "epic",
+    itemIcon: "/consumible/",
     effect: "revive"
   },
   {
@@ -283,6 +293,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "rare",
+    itemIcon: "/consumible/",
     effect: "none"
   },
   {
@@ -309,6 +320,7 @@ export const itemsConsumibles = [
     usable: true,
     equipable: false,
     rarity: "legendary",
+    itemIcon: "/consumible/",
     effect: "protection_from_dark_magic"
   }
 ];

@@ -19,24 +19,39 @@ export default async function EquipmentAndInventoryPage({
     .filter((slotName) => slotName !== 'id' && slotName !== 'characterId')
     .map((slotName) => {
       const itemId = equipmentSlotsData[slotName];
-      const itemName = itemId ? 'Some Item Name' : 'Vacío';  // Obtén el nombre real desde tu lógica
+
+      // Obtén el nombre real desde tu lógica, por ejemplo, desde `getItemNameById` si es necesario
+      const itemName = itemId ? 'Some Item Name' : 'Vacío';  
+
+      // Aquí deberías implementar tu lógica para manejar ítems instanciados
       return {
         slotName,
-        displayName: slotName,
+        displayName: slotName,  // Puedes personalizar estos nombres según la ranura de equipo
         itemId,
         itemName,
+        isInstance: false,  // Modifica esto si manejas instancias en el equipo
+        itemIcon: '',  // Actualiza con la lógica real para obtener el ícono
+        templateId: null,  // Si es instancia, puedes asignar el `templateId`
       };
     });
 
-  const inventoryItems = inventory.map((inventoryItem: any) => ({
-    id: inventoryItem.itemInstanceId || inventoryItem.itemId,
-    name: inventoryItem.itemInstance?.itemTemplate?.name || inventoryItem.item?.name || 'Unknown Item',
-    quantity: inventoryItem.quantity,
-    equipable: inventoryItem.itemInstance?.itemTemplate?.equipable || inventoryItem.item?.equipable || false,
-    equipmentSlot: inventoryItem.itemInstance?.itemTemplate?.equipmentSlot || inventoryItem.item?.equipmentSlot || 'Unknown Slot',
-    isInstance: !!inventoryItem.itemInstanceId,
-    iconUrl: inventoryItem.itemInstance?.itemTemplate?.iconUrl || inventoryItem.item?.iconUrl || '/default-icon.png',
-  }));
+  // Procesar los datos del inventario
+  const inventoryItems = inventory.map((inventoryItem: any) => {
+    const itemInstance = inventoryItem.itemInstance;  // Instancia de ítem, si existe
+    const item = inventoryItem.item;  // Ítem normal, si existe
+
+    // Formateamos los datos para manejar tanto ítems normales como instancias
+    return {
+      id: inventoryItem.itemInstanceId || inventoryItem.itemId,  // ID del ítem o de la instancia
+      templateId: itemInstance?.itemTemplate?.id || item?.id,    // ID del template si es instancia
+      name: itemInstance?.itemTemplate?.name || item?.name || 'Unknown Item',
+      quantity: inventoryItem.quantity,
+      equipable: itemInstance?.itemTemplate?.equipable || item?.equipable || false,
+      equipmentSlot: itemInstance?.itemTemplate?.equipmentSlot || item?.equipmentSlot || 'Unknown Slot',
+      isInstance: !!inventoryItem.itemInstanceId,  // Si es una instancia de un ítem
+      itemIcon: itemInstance?.itemTemplate?.itemIcon || item?.itemIcon,  // Icono del ítem o de la instancia
+    };
+  });
 
   return (
     <div className="flex min-h-screen p-4 bg-gray-800 text-white">
