@@ -23,23 +23,27 @@ const InventoryGrid: React.FC<InventoryGridProps> = ({ characterId, inventoryIte
   const [items, setItems] = useState(inventoryItems); // Manejamos el estado del inventario
 
   const handleEquipItem = async (item: InventoryItem) => {
-  
+    console.log("Attempting to equip item:", item);  // <-- Verifica que el ítem es correcto
+    
     if (item.equipable) {
-
       try {
         // Verificar si ya hay un ítem equipado en el mismo slot y desequiparlo
         const currentEquipment = await getEquipmentSlotByCharacterIdAndSlot(
           characterId,
           item.equipmentSlot!
         );
-
+        console.log(item.equipmentSlot, characterId)
+        console.log("Current equipment in slot:", currentEquipment);  // <-- Depura el equipo actual
+  
         if (currentEquipment) {
-          await unequipItem(characterId, item.equipmentSlot!);
+          console.log(await unequipItem(characterId, item.equipmentSlot!));
         }
+  
         // Equipar el ítem seleccionado
         if (item.isInstance) {
           const selectedItemInstance = await getItemInstanceById(item.id);
-
+          console.log("Selected item instance:", selectedItemInstance);  // <-- Verifica la instancia
+  
           if (selectedItemInstance) {
             await equipItem(
               characterId,
@@ -49,23 +53,25 @@ const InventoryGrid: React.FC<InventoryGridProps> = ({ characterId, inventoryIte
             );
           }
         } else {
-          console.log ("aquui",characterId,item.equipmentSlot,item.id)
+          console.log("Equipping normal item:", characterId, item.equipmentSlot, item.id);
           await equipItem(characterId, item.equipmentSlot!, item.id, false);
         }
-        // Actualizamos el inventario localmente (restando la cantidad o eliminando el ítem)
+  
+        // Actualizar inventario localmente
         const updatedItems = items
-          .map((i) =>
-            i.id === item.id ? { ...i, quantity: i.quantity - 1 } : i
-          )
+          .map((i) => (i.id === item.id ? { ...i, quantity: i.quantity - 1 } : i))
           .filter((i) => i.quantity > 0);
+  
         setItems(updatedItems);
+        console.log("Updated inventory after equip:", updatedItems);  // <-- Depura el inventario después del equipamiento
       } catch (error) {
-        console.error('Error equipping item:', error);
+        console.error("Error equipping item:", error);
       }
     } else {
-      alert('Este ítem no es equipable!');
+      alert("Este ítem no es equipable!");
     }
   };
+  
 
   return (
     <div className="grid grid-cols-6 gap-4">

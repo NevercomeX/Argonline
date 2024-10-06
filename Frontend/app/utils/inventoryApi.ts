@@ -22,23 +22,33 @@ export const getInventory = async (characterId: number) => {
 };
 
   
-  export const getEquipmentSlotByCharacterIdAndSlot = async (
-    characterId: number,
-    equipmentSlot: string
-  ) => {
-    try {
-      const response = await fetch(`http://localhost:4001/api/equipment/${characterId}/${equipmentSlot}`);
-      if (response.ok) {
-        return response.json();
-      } else {
-        return null;
+export const getEquipmentSlotByCharacterIdAndSlot = async (
+  characterId: number,
+  slotType: string
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/equipment/${characterId}/${slotType}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }
-    } catch (error) {
-      console.error("Error fetching equipment slot:", error);
-      return null;
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error fetching equipment slot: ${response.statusText}`);
     }
-  };
-  
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching equipment slot:`, error);
+    return null;
+  }
+};
+
   export const unequipItem = async (characterId: number, slotType: string) => {
     try {
       const response = await fetch(
@@ -54,7 +64,7 @@ export const getInventory = async (characterId: number) => {
       );
       if (response.ok) {
         // Invalida la caché del slot de equipo en particular
-        revalidateTag(`equipment-${characterId}`);
+
       } else {
         throw new Error("Error unequipping item");
       }
@@ -65,7 +75,7 @@ export const getInventory = async (characterId: number) => {
   
   export const getItemInstanceById = async (itemId: number) => {
     try {
-      const response = await fetch(`http://localhost:4001/api/item-instance/${itemId}`,{
+      const response = await fetch(`http://localhost:4001/api/item-instances/${itemId}`,{
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +101,9 @@ export const getInventory = async (characterId: number) => {
     isInstance: boolean
   ) => {
     try {
-      await fetch(`http://localhost:4001/api/equipment/${characterId}/equip`, {
+      console.log("Calling equipItem API with:", { characterId, equipmentSlot, itemId, isInstance });
+  
+      const response = await fetch(`http://localhost:4001/api/equipment/${characterId}/equip`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -104,8 +116,16 @@ export const getInventory = async (characterId: number) => {
           isInstance,
         }),
       });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to equip item: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      console.log("Equip item response:", data);  // <-- Verifica la respuesta de la API
+      return data;
+  
     } catch (error) {
       console.error("Error equipping item:", error);
     }
   };
-  
