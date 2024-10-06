@@ -24,8 +24,8 @@ export const itemsArmor = [
     equipable: true,
     rarity: "common",
     effect: "none",
+    itemIcon: "/armor/",
     equipmentSlot: "upperHeadSlot",
-    itemIcon: "leather_cap.png",
   },
   {
     id: 2,
@@ -52,7 +52,9 @@ export const itemsArmor = [
     equipable: true,
     rarity: "uncommon",
     effect: "none",
+    itemIcon: "/armor/",
     equipmentSlot: "upperHeadSlot",
+    
   },
   {
     id: 3,
@@ -79,6 +81,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "none",
+    itemIcon: "/armor/",
     equipmentSlot: "bodySlot",
   },
   {
@@ -106,6 +109,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "common",
     effect: "none",
+    itemIcon: "/armor/",
     equipmentSlot: "shoesSlot",
   },
   {
@@ -133,6 +137,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "uncommon",
     effect: "none",
+    itemIcon: "/armor/",
     equipmentSlot: "accessorySlot01",
   },
   {
@@ -160,6 +165,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "none",
+    itemIcon: "/armor/",
     equipmentSlot: "bodySlot",
   },
   {
@@ -187,6 +193,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "epic",
     effect: "none",
+    itemIcon: "/armor/",
     equipmentSlot: "upperHeadSlot",
   },
   {
@@ -215,6 +222,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "legendary",
     effect: "none",
+    itemIcon: "/armor/",
     equipmentSlot: "bodySlot",
   },
   {
@@ -243,6 +251,7 @@ export const itemsArmor = [
     rarity: "rare",
     effect: "increases_magic_defense",
     equipmentSlot: "bodySlot",
+    itemIcon: "/armor/",
   },
   {
     id: 10,
@@ -270,6 +279,7 @@ export const itemsArmor = [
     rarity: "common",
     effect: "none",
     equipmentSlot: "accessorySlot01",
+    itemIcon: "/armor/",
   },
   {
     id: 11,
@@ -297,6 +307,7 @@ export const itemsArmor = [
     rarity: "rare",
     effect: "increase_magic_power",
     equipmentSlot: "bodySlot",
+    itemIcon: "/armor/",
   },
   {
     id: 12,
@@ -324,6 +335,7 @@ export const itemsArmor = [
     rarity: "uncommon",
     effect: "none",
     equipmentSlot: "bodySlot",
+    itemIcon: "/armor/",
   },
   {
     id: 13,
@@ -352,6 +364,7 @@ export const itemsArmor = [
     rarity: "uncommon",
     effect: "increase_magic_power",
     equipmentSlot: "accessorySlot01",
+    itemIcon: "/armor/",
   },
   {
     id: 14,
@@ -379,6 +392,7 @@ export const itemsArmor = [
     rarity: "uncommon",
     effect: "none",
     equipmentSlot: "shoesSlot",
+    itemIcon: "/armor/",
   },
   {
     id: 15,
@@ -406,6 +420,7 @@ export const itemsArmor = [
     rarity: "rare",
     effect: "increase_agility",
     equipmentSlot: "bodySlot",
+    itemIcon: "/armor/",
   },
   {
     id: 16,
@@ -434,6 +449,7 @@ export const itemsArmor = [
     rarity: "uncommon",
     effect: "increase_magic_power",
     equipmentSlot: "accessorySlot02",
+    itemIcon: "/armor/",
   },
   {
     id: 17,
@@ -460,6 +476,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "increase_defense",
+    itemIcon: "/armor/",
     equipmentSlot: "accessorySlot02",
   },
   {
@@ -488,6 +505,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "rare",
     effect: "increase_mana_regeneration",
+    itemIcon: "/armor/",
     equipmentSlot: "accessorySlot02",
   },
   {
@@ -515,6 +533,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "epic",
     effect: "increase_agility",
+    itemIcon: "/armor/",
     equipmentSlot: "accessorySlot02",
   },
   {
@@ -542,6 +561,7 @@ export const itemsArmor = [
     equipable: true,
     rarity: "legendary",
     effect: "lifesteal",
+    itemIcon: "/armor/",
     equipmentSlot: "accessorySlot02",
   },
 ];

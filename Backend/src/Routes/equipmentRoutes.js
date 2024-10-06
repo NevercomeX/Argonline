@@ -67,6 +67,7 @@ router.put("/:characterId/unequip/:slotType", async (req, res) => {
 router.put("/:characterId/equip", async (req, res) => {
   const { characterId } = parseInt(req.params);
   const { slotType, itemId, isInstance } = req.body;
+  console.log(characterId, slotType, itemId, isInstance)
   try {
     await equipItem(characterId, slotType, itemId, isInstance);
     res

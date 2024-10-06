@@ -31,6 +31,7 @@ export async function createItemTemplates(prisma) {
             baseMana: template.baseMana,
             rarity: template.rarity,
             equipable: template.equipable,
+            itemIcon: template.itemIcon,
           },
         });
       })

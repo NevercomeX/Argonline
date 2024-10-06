@@ -10,6 +10,7 @@ export const getEquipmentSlotsByCharacterId = async (characterId: number) => {
             headers: {
               'Cache-Control': 'no-cache',  // Deshabilitar el cache en el request
             },
+            cache: 'no-store',
         });
       if (response.ok) {
         const equipmentSlots = await response.json();
@@ -27,7 +28,7 @@ export const getEquipmentSlotsByCharacterId = async (characterId: number) => {
   // Desequipar un ítem del personaje
 
 
-  export const unequipItem = async (characterId: number, slotType: number) => {
+  export const unequipItem = async (characterId: number, slotType: string) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/equipment/${characterId}/unequip/${slotType}`,

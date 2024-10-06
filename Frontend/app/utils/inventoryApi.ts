@@ -1,22 +1,30 @@
-// app/utils/inventoryApi.ts
+import { revalidateTag } from 'next/cache';
 
+// app/utils/inventoryApi.ts
 export const getInventory = async (characterId: number) => {
-    try {
-      const response = await fetch(`http://localhost:4001/api/inventory/${characterId}`);
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("Error fetching inventory");
-      }
-    } catch (error) {
-      console.error("Error fetching inventory:", error);
-      return [];
+  try {
+    const response = await fetch(`http://localhost:4001/api/inventory/${characterId}`, {
+      method: 'GET',
+      headers: {
+        'Cache-Control': 'no-store',
+      },
+      cache: 'no-store', // Deshabilitar la caché
+    });
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Error fetching inventory");
     }
-  };
+  } catch (error) {
+    console.error("Error fetching inventory:", error);
+    return [];
+  }
+};
+
   
   export const getEquipmentSlotByCharacterIdAndSlot = async (
     characterId: number,
-    equipmentSlot: number
+    equipmentSlot: string
   ) => {
     try {
       const response = await fetch(`http://localhost:4001/api/equipment/${characterId}/${equipmentSlot}`);
@@ -31,11 +39,25 @@ export const getInventory = async (characterId: number) => {
     }
   };
   
-  export const unequipItem = async (characterId: number, equipmentSlot: number) => {
+  export const unequipItem = async (characterId: number, slotType: string) => {
     try {
-      await fetch(`http://localhost:4001/api/equipment/${characterId}/${equipmentSlot}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/equipment/${characterId}/unequip/${slotType}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            'Cache-Control': 'no-cache',
+          },
+          cache: 'no-store',
+        }
+      );
+      if (response.ok) {
+        // Invalida la caché del slot de equipo en particular
+        revalidateTag(`equipment-${characterId}`);
+      } else {
+        throw new Error("Error unequipping item");
+      }
     } catch (error) {
       console.error("Error unequipping item:", error);
     }
@@ -43,7 +65,14 @@ export const getInventory = async (characterId: number) => {
   
   export const getItemInstanceById = async (itemId: number) => {
     try {
-      const response = await fetch(`http://localhost:4001/api/item-instance/${itemId}`);
+      const response = await fetch(`http://localhost:4001/api/item-instance/${itemId}`,{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          'Cache-Control': 'no-cache',
+        },
+        cache: 'no-store',
+      });
       if (response.ok) {
         return response.json();
       } else {
@@ -57,16 +86,18 @@ export const getInventory = async (characterId: number) => {
   
   export const equipItem = async (
     characterId: number,
-    equipmentSlot: number,
+    equipmentSlot: string,
     itemId: number,
     isInstance: boolean
   ) => {
     try {
-      await fetch(`http://localhost:4001/api/equipment/${characterId}`, {
-        method: "POST",
+      await fetch(`http://localhost:4001/api/equipment/${characterId}/equip`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          'Cache-Control': 'no-cache',
         },
+        cache: 'no-store',
         body: JSON.stringify({
           equipmentSlot,
           itemId,

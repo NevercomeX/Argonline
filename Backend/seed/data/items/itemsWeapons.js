@@ -24,6 +24,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "common",
     effect: "none",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -51,6 +52,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "uncommon",
     effect: "none",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -78,6 +80,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "common",
     effect: "none",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -105,6 +108,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "uncommon",
     effect: "none",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -132,6 +136,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "rare",
     effect: "fire_damage",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -159,6 +164,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "epic",
     effect: "none",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -186,6 +192,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "epic",
     effect: "none",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -213,6 +220,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "uncommon",
     effect: "none",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -240,6 +248,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "rare",
     effect: "lightning_damage",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -267,6 +276,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "rare",
     effect: "increase_magic_power",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -294,6 +304,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "legendary",
     effect: "increase_magic_power_and_mana",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -321,6 +332,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "legendary",
     effect: "none",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -348,6 +360,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "rare",
     effect: "fire_damage",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -375,6 +388,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "rare",
     effect: "increase_spell_power",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -402,6 +416,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "epic",
     effect: "increase_accuracy",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -429,6 +444,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "uncommon",
     effect: "increase_attack_speed",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -456,6 +472,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "rare",
     effect: "ice_damage",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -483,6 +500,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "epic",
     effect: "lightning_damage",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -510,6 +528,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "legendary",
     effect: "increase_magic_power",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -537,6 +556,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "epic",
     effect: "increase_strength",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -564,6 +584,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "legendary",
     effect: "increase_attack_speed",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   },
   {
@@ -591,6 +612,7 @@ export const itemsWeapons = [
     equipable: true,
     rarity: "legendary",
     effect: "increase_critical_hit_chance",
+    itemIcon: "/weapons/",
     equipmentSlot: "rightHandSlot"
   }
 ];
