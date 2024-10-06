@@ -29,7 +29,7 @@ const EquipmentPageClient: React.FC<EquipmentPageClientProps> = ({
     const slot = slots.find((s) => s.slotName === slotName);
 
     // Validaciones para asegurarnos de que el slot es válido
-    if (!slot || slot.itemId === null) {
+    if (!slot || slot.templateId === null) {
       console.log("This slot is empty!");
       return;
     }
@@ -39,7 +39,7 @@ const EquipmentPageClient: React.FC<EquipmentPageClientProps> = ({
 
     // Actualizamos el estado de los slots para reflejar el cambio
     const updatedSlots = slots.map((s) =>
-      s.slotName === slotName ? { ...s, itemId: null, itemName: 'Vacío' } : s
+      s.slotName === slotName ? { ...s, templateId: null, itemName: 'Vacío' } : s
     );
     setSlots(updatedSlots);
   };
@@ -55,13 +55,13 @@ const EquipmentPageClient: React.FC<EquipmentPageClientProps> = ({
         {slots.map((slot) => (
           <div key={slot.slotName} className="relative group">
             <div className="w-16 h-16 border-2 border-gray-600 rounded-lg flex items-center justify-center">
-              {slot.itemId ? (
-                <Image
+              {slot.templateId ? (
+                <img
                   // Condicional para mostrar la imagen correcta según sea ítem normal o instancia
                   src={
                     slot.isInstance
                       ? `/items/template/${slot.templateId}.gif`   // Para instancias de ítems
-                      : `/items/${slot.itemIcon}/${slot.itemId}.gif`  // Para ítems normales
+                      : `/items/${slot.itemIcon}/${slot.templateId}.gif`  // Para ítems normales
                   }
                   alt={slot.itemName}
                   width={64}
@@ -72,12 +72,12 @@ const EquipmentPageClient: React.FC<EquipmentPageClientProps> = ({
               )}
             </div>
 
-            {slot.itemId && (
+            {slot.templateId && (
               <button
                 onClick={() => handleUnequip(slot.slotName)}
                 className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-700"
               >
-                Desequipar
+                unequip
               </button>
             )}
           </div>

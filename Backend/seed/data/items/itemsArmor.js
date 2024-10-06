@@ -24,8 +24,8 @@ export const itemsArmor = [
     equipable: true,
     rarity: "common",
     effect: "none",
-    equipmentSlot: "upperHeadSlot",
     itemIcon: "/armor/",
+    equipmentSlot: "upperHeadSlot",
   },
   {
     id: 2,

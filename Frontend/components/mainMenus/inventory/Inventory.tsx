@@ -49,6 +49,7 @@ const InventoryGrid: React.FC<InventoryGridProps> = ({ characterId, inventoryIte
             );
           }
         } else {
+          console.log ("aquui",characterId,item.equipmentSlot,item.id)
           await equipItem(characterId, item.equipmentSlot!, item.id, false);
         }
         // Actualizamos el inventario localmente (restando la cantidad o eliminando el ítem)

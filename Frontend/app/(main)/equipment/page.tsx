@@ -2,6 +2,7 @@ import EquipmentPageClient from '../../../components/mainMenus/equipment/Equipme
 import InventoryGrid from '../../../components/mainMenus/inventory/Inventory';
 import { getEquipmentSlotsByCharacterId } from '../../utils/equipmentApi';
 import { getInventory } from '../../utils/inventoryApi';
+import { getItemsById } from '../../utils/itemsApi';  // <-- Nueva función para obtener detalles del ítem o instancia
 
 export default async function EquipmentAndInventoryPage({
   searchParams,
@@ -14,33 +15,57 @@ export default async function EquipmentAndInventoryPage({
   const equipmentSlotsData = await getEquipmentSlotsByCharacterId(characterId);
   const inventory = await getInventory(characterId);
 
-  // Formatear los datos del equipo e inventario
-  const equipmentSlots = Object.keys(equipmentSlotsData)
-    .filter((slotName) => slotName !== 'id' && slotName !== 'characterId')
-    .map((slotName) => {
-      const itemId = equipmentSlotsData[slotName];
+  // Función para obtener detalles del ítem si solo tenemos el ID
+  const getItemDetails = async (id: number | null) => {
+    if (id === null) return null;  // Si no hay ID, devolvemos null
+    const itemDetails = await getItemsById(id);  // <-- Llamada a tu API para obtener detalles
+    return itemDetails;
+  };
 
-      // Obtén el nombre real desde tu lógica, por ejemplo, desde `getItemNameById` si es necesario
-      const itemName = itemId ? 'Some Item Name' : 'Vacío';  
+  // Formatear los datos del equipo
+  const equipmentSlots = await Promise.all(
+    Object.keys(equipmentSlotsData)
+      .filter((slotName) => slotName !== 'id' && slotName !== 'characterId') // Excluir campos no relevantes
+      .map(async (slotName) => {
+        const slotData = equipmentSlotsData[slotName];  // Datos completos del slot
 
-      // Aquí deberías implementar tu lógica para manejar ítems instanciados
-      return {
-        slotName,
-        displayName: slotName,  // Puedes personalizar estos nombres según la ranura de equipo
-        itemId,
-        itemName,
-        isInstance: false,  // Modifica esto si manejas instancias en el equipo
-        itemIcon: '',  // Actualiza con la lógica real para obtener el ícono
-        templateId: null,  // Si es instancia, puedes asignar el `templateId`
-      };
-    });
+        // Si `slotData` es solo un ID, necesitamos obtener los detalles del ítem o instancia
+        let itemInstance = null;
+        let item = null;
 
-  // Procesar los datos del inventario
+        // Verificamos si es un ID y obtenemos los detalles
+        if (typeof slotData === 'number') {
+          const itemDetails = await getItemDetails(slotData); 
+          item = itemDetails;
+          itemInstance = itemDetails.itemTemplate ;
+        } 
+
+        const isInstance = !!itemInstance;  // Verifica si es instancia
+
+
+        // Definir el ícono, dependiendo si es una instancia o ítem normal
+        const itemIcon = isInstance
+          ? itemInstance.itemIcon // Para ítems instanciados
+          : item?.itemIcon; // Para ítems normales
+
+        // Formatear los datos del slot para enviar al cliente
+        return {
+          slotName,
+          displayName: slotName,
+          itemId: itemInstance?.itemId || item?.itemId || null,  // Obtener el ID del ítem o instancia
+          itemName: itemInstance?.name || item?.name || 'Vacío',  // Obtener el nombre del ítem
+          isInstance,
+          itemIcon: itemIcon,  // Icono del ítem
+          templateId: isInstance ? itemInstance?.id : item?.id,  // ID del template si es una instancia
+        };
+      })
+  );
+
+  // Formatear los datos del inventario
   const inventoryItems = inventory.map((inventoryItem: any) => {
     const itemInstance = inventoryItem.itemInstance;  // Instancia de ítem, si existe
     const item = inventoryItem.item;  // Ítem normal, si existe
 
-    // Formateamos los datos para manejar tanto ítems normales como instancias
     return {
       id: inventoryItem.itemInstanceId || inventoryItem.itemId,  // ID del ítem o de la instancia
       templateId: itemInstance?.itemTemplate?.id || item?.id,    // ID del template si es instancia
@@ -58,7 +83,6 @@ export default async function EquipmentAndInventoryPage({
       {/* Equipamiento a la izquierda */}
       <div className="w-1/2">
         <h1 className="text-2xl font-bold mb-4">Equipamiento</h1>
-        {/* Pasamos los datos como props a los componentes de cliente */}
         <EquipmentPageClient characterId={characterId} equipmentSlots={equipmentSlots} />
       </div>
 
