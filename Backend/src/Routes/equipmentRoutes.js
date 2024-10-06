@@ -3,6 +3,7 @@ import {
   getEquipment,
   getEquipmentById,
   getEquipmentSlotsByCharacterId,
+  getEquipmentSlotByCharacterIdAndSlot,
   unequipItem,
   equipItem,
 } from "../Controllers/index.js";
@@ -65,16 +66,34 @@ router.put("/:characterId/unequip/:slotType", async (req, res) => {
 
 // Equipar ítem
 router.put("/:characterId/equip", async (req, res) => {
-  const { characterId } = parseInt(req.params);
-  const { slotType, itemId, isInstance } = req.body;
-  console.log(characterId, slotType, itemId, isInstance)
+  const { characterId } = req.params;
+  const { equipmentSlot, itemId, isInstance } = req.body;  // Asegúrate de usar el nombre correcto aquí (antes era slotType)
+
+  console.log("Equip request:", { characterId, equipmentSlot, itemId, isInstance });  // <-- Verifica que los datos lleguen correctamente al backend
+
   try {
-    await equipItem(characterId, slotType, itemId, isInstance);
-    res
-      .status(200)
-      .json({ message: `Ítem ${itemId} equipado en slot ${slotType}` });
+    await equipItem(parseInt(characterId), equipmentSlot, itemId, isInstance);
+    res.status(200).json({ message: `Ítem ${itemId} equipado en slot ${equipmentSlot}` });
   } catch (error) {
     res.status(500).json({ error: `Error al equipar ítem: ${error.message}` });
+  }
+});
+
+// Ruta para obtener el equipo en un slot específico para un personaje
+router.get('/:characterId/:slotType', async (req, res) => {
+  const { characterId, slotType } = req.params;
+
+  try {
+    const equipmentSlot = await getEquipmentSlotByCharacterIdAndSlot(characterId, slotType);
+
+    if (!equipmentSlot) {
+      return res.status(404).json({ error: `No equipment found for character ${characterId} in slot ${slotType}` });
+    }
+
+    res.status(200).json(equipmentSlot);
+  } catch (error) {
+    console.error(`Error fetching equipment slot for character ${characterId} in slot ${slotType}:`, error);
+    res.status(500).json({ error: `Error fetching equipment slot: ${error.message}` });
   }
 });
 

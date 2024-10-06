@@ -23,8 +23,10 @@ router.post("/", async (req, res) => {
 // Ruta para obtener una instancia de ítem por su ID
 router.get("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
+
   try {
     const itemInstance = await getItemInstanceById(id);
+    console.log("router id", id)
     res.status(200).json(itemInstance);
   } catch (error) {
     res

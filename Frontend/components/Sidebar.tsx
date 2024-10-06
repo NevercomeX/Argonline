@@ -10,12 +10,16 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import {
-  LayoutDashboard,
+  CircleUser,
   Newspaper,
   Folders,
   CreditCard,
   Settings,
+  Package,
+  NotebookText,
   User,
+  PawPrint,
+  Axe,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -27,23 +31,27 @@ const Sidebar = () => {
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading='Suggestions'>
           <CommandItem>
-            <LayoutDashboard className='mr-2 h-4 w-4' />
+            <CircleUser className='mr-2 h-4 w-4' />
             <Link href='/characters'>Character</Link>
           </CommandItem>
           <CommandItem>
-            <Folders className='mr-2 h-4 w-4' />
+            <Axe className='mr-2 h-4 w-4' />
             <Link href='/equipment'>Equipment</Link>
           </CommandItem>
           <CommandItem>
-            <Folders className='mr-2 h-4 w-4' />
+            <Package className='mr-2 h-4 w-4' />
             <Link href='/inventory'>Inventory</Link>
+          </CommandItem>
+          <CommandItem>
+            <NotebookText className='mr-2 h-4 w-4' />
+            <Link href='/mobs'>Stats</Link>
           </CommandItem>
           <CommandItem>
             <Newspaper className='mr-2 h-4 w-4' />
             <Link href='/items'>Items</Link>
           </CommandItem>
           <CommandItem>
-            <Folders className='mr-2 h-4 w-4' />
+            <PawPrint className='mr-2 h-4 w-4' />
             <Link href='/mobs'>Monsters</Link>
           </CommandItem>
 

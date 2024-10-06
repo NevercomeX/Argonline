@@ -131,11 +131,17 @@ export async function unequipItem(characterId, slotType) {
   }
 }
 
+// backend/controllers/equipmentController.js
+
+// backend/controllers/equipmentController.js
+
 export async function equipItem(characterId, slotType, itemId, isInstance) {
   try {
-    console.log(
-      `Equipando ítem: ${itemId}, Slot: ${slotType}, Es instancia: ${isInstance}`,
-    );
+    console.log(`Equipando ítem: ${itemId}, Slot: ${slotType}, Es instancia: ${isInstance}`);
+
+    if (!slotType) {
+      throw new Error("slotType no está definido");  // <-- Verifica si el slotType está presente
+    }
 
     // Buscar el ítem en el inventario del personaje
     let inventoryItem;
@@ -143,22 +149,20 @@ export async function equipItem(characterId, slotType, itemId, isInstance) {
       inventoryItem = await prisma.inventory.findFirst({
         where: {
           characterId: characterId,
-          itemInstanceId: itemId, // Buscar usando itemInstanceId
+          itemInstanceId: itemId,
         },
       });
     } else {
       inventoryItem = await prisma.inventory.findFirst({
         where: {
           characterId: characterId,
-          itemId: itemId, // Buscar usando itemId
+          itemId: itemId,
         },
       });
     }
 
     if (!inventoryItem || inventoryItem.quantity <= 0) {
-      console.error(
-        `Ítem ${itemId} no encontrado o cantidad insuficiente en el inventario`,
-      );
+      console.error(`Ítem ${itemId} no encontrado o cantidad insuficiente en el inventario`);
       return;
     }
 
@@ -168,15 +172,11 @@ export async function equipItem(characterId, slotType, itemId, isInstance) {
     });
 
     if (!equipmentSlotRecord) {
-      console.error(
-        `No se encontró registro de EquipmentSlot para characterId ${characterId}`,
-      );
+      console.error(`No se encontró registro de EquipmentSlot para characterId ${characterId}`);
       return;
     }
 
-    console.log(
-      `Registro de EquipmentSlot encontrado: ${equipmentSlotRecord.id}`,
-    );
+    console.log(`Registro de EquipmentSlot encontrado: ${equipmentSlotRecord.id}`);
 
     // Verificar si hay un ítem equipado en el slot y desequiparlo
     const currentItemId = equipmentSlotRecord[slotType];
@@ -187,15 +187,13 @@ export async function equipItem(characterId, slotType, itemId, isInstance) {
 
     // Asegurarse de que slotType coincida con los campos correctos del modelo
     const equipmentData = {};
-    equipmentData[slotType] = itemId; // Usar itemId o itemInstanceId dependiendo del caso
+    equipmentData[slotType] = itemId;
 
-    console.log(
-      `Actualizando EquipmentSlot con ${equipmentData[slotType]} en ${slotType}`,
-    );
+    console.log(`Actualizando EquipmentSlot con ${equipmentData[slotType]} en ${slotType}`);
 
     // Actualizar el slot correspondiente con el ítem
     await prisma.equipmentSlot.update({
-      where: { id: equipmentSlotRecord.id }, // Usar el ID único del registro
+      where: { id: equipmentSlotRecord.id },
       data: equipmentData,
     });
 
@@ -210,8 +208,11 @@ export async function equipItem(characterId, slotType, itemId, isInstance) {
         data: { quantity: inventoryItem.quantity - 1 },
       });
     }
+
     console.log(`Ítem ${itemId} equipado en el slot ${slotType}`);
   } catch (error) {
     console.error(`Error al equipar ítem: ${error.message}`);
   }
 }
+
+
