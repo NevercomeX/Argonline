@@ -1,6 +1,4 @@
 import { prisma } from "../../Prisma/prismaClient.js";
-import redisClient from "../../cache/rediscClient.js";
-import { calculateTotalStats } from "../Stats/statsController.js";
 
 export async function getEquipment() {
   return await prisma.equipmentSlot.findMany();
@@ -48,7 +46,6 @@ export async function unequipItem(characterId, slotType) {
   console.log("controller",characterId,slotType)
   try {
     // Buscar el slot de equipamiento específico
-    await redisClient.del(`character:stats:${characterId}`);
     const equipmentSlot = await prisma.equipmentSlot.findFirst({
       where: {
         characterId: parseInt(characterId),
@@ -121,8 +118,6 @@ export async function unequipItem(characterId, slotType) {
         });
       }
     }
-    const updatedStats = await calculateTotalStats(characterId);
-    console.log(`Nuevas estadísticas:`, updatedStats);
     console.log(
       `Ítem ${itemIdOrInstanceId} ha sido desequipado y devuelto al inventario.`,
     );

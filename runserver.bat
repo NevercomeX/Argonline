@@ -1,11 +1,5 @@
 @echo off
 
-REM Iniciar WSL y arrancar el servicio de Redis primero
-wsl -d ubuntu -e sh -c "echo Iniciando Redis... && echo 'password' | sudo -S service redis-server start"
-
-REM Esperar 5 segundos antes de continuar
-timeout /t 2 /nobreak
-
 REM Comprobar si ya existen ventanas con los procesos ejecutándose
 tasklist /FI "WINDOWTITLE eq ArgOnline Backend" | find /I "cmd.exe" >nul
 if errorlevel 1 (
@@ -27,7 +21,3 @@ if errorlevel 1 (
     cd /d "C:\Users\Chipi Chapa\Desktop\ArgOnline\backend"
     start "ArgOnline Prisma Studio" cmd /k "npx prisma studio"
 )
-
-REM Finaliza el script
-echo Todos los procesos han sido iniciados.
-pause

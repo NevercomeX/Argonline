@@ -23,13 +23,6 @@ import {
 } from "./Item/items.js";
 
 import {
-  updateCharacterStatsInRedis,
-  calculateTotalStats,
-  syncStatsToDatabase,
-  getCharacterStatsFromRedis,
-} from "./Stats/statsController.js";
-
-import {
   createItemInstance,
   getItemInstanceById,
   getItemInstanceNameById,
@@ -101,9 +94,5 @@ export {
   getItemInstanceNameById,
   updateItemInstance,
   deleteItemInstance,
-  getRandomEnemy,
-  updateCharacterStatsInRedis,
-  calculateTotalStats,
-  syncStatsToDatabase,
-  getCharacterStatsFromRedis,
+  getRandomEnemy
 };

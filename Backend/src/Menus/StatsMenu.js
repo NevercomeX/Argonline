@@ -1,6 +1,6 @@
 import readlineSync from "readline-sync";
 import {
-  getCharacterStatsFromRedis,
+  getCharacterById,
   getJobClassNameById,
 } from "../Controllers/index.js";
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
@@ -8,7 +8,7 @@ import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 export async function StatsMenu(id) {
   console.clear();
   await drawCharacterInfo(id);
-  const character = await getCharacterStatsFromRedis(id);
+  const character = await getCharacterById(id);
   console.log(character);
   // const JobclassName = await getJobClassNameById(character.jobclassId);
   console.log(" ");
