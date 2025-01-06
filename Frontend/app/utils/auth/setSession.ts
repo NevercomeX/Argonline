@@ -3,7 +3,29 @@
 import { post } from "../api/api";
 import { cookies } from "next/headers";
 
-const setSession = async (request) => {
+// Tipos para los datos de entrada y salida
+interface LoginRequest {
+    email: string;
+    password: string;
+}
+
+interface SessionResponse {
+    success: boolean;
+    message: string;
+    cookies?: {
+        accessCookie: {
+            value: string;
+            maxAge: number;
+        };
+        refreshCookie: {
+            value: string;
+            maxAge: number;
+        };
+    };
+}
+
+// Función para establecer la sesión
+const setSession = async (request: LoginRequest): Promise<SessionResponse> => {
     const { email, password } = request;
 
     if (!email) {
@@ -16,13 +38,13 @@ const setSession = async (request) => {
     if (!password) {
         return {
             success: false,
-            message: "No code provided.",
+            message: "No password provided.",
         };
     }
 
     try {
-        // get the session
-        const response = await post(`/login`, { email, password });
+        // Obtén la sesión desde el servidor
+        const response = await post<SessionResponse>(`/login`, { email, password });
 
         if (!response.success) {
             return {
@@ -31,17 +53,16 @@ const setSession = async (request) => {
             };
         }
 
-        // if success is true, set the cookies
+        // Si la sesión es válida, establece las cookies
         if (response.success && response.cookies) {
-            const { accessCookie } = response.cookies;
-            const { refreshCookie } = response.cookies;
+            const { accessCookie, refreshCookie } = response.cookies;
 
             cookies().set("accessToken", accessCookie.value, {
                 maxAge: accessCookie.maxAge,
                 path: "/",
                 httpOnly: true,
                 sameSite: "lax",
-                // secure: true, // set to true if using https
+                // secure: true, // Activa esto si usas HTTPS
             });
 
             cookies().set("refreshToken", refreshCookie.value, {
@@ -49,7 +70,7 @@ const setSession = async (request) => {
                 path: "/",
                 httpOnly: true,
                 sameSite: "lax",
-                // secure: true, // set to true if using https
+                // secure: true, // Activa esto si usas HTTPS
             });
         }
 
@@ -58,7 +79,11 @@ const setSession = async (request) => {
             message: response.message,
         };
     } catch (error) {
-        console.log(error);
+        console.error("Error in setSession:", error);
+        return {
+            success: false,
+            message: "An error occurred while setting the session.",
+        };
     }
 };
 

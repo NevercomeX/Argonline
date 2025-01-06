@@ -4,13 +4,10 @@ import {
   getCharacterById,
   updateCharacter,
   getAllCharacters,
-  createCharacter 
+  createCharacter,
 } from "./Character/character.js";
 
-import {
-  getAllUsers,
-  getAllCharactersFromUser,
-} from "./user/users.js";
+import { getAllUsers, getAllCharactersFromUser } from "./user/users.js";
 
 import { loginUser, registerUser } from "./user/authController.js";
 
@@ -94,5 +91,5 @@ export {
   getItemInstanceNameById,
   updateItemInstance,
   deleteItemInstance,
-  getRandomEnemy
+  getRandomEnemy,
 };

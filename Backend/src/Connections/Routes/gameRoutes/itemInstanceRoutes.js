@@ -26,7 +26,7 @@ router.get("/:id", async (req, res) => {
 
   try {
     const itemInstance = await getItemInstanceById(id);
-    console.log("router id", id)
+    console.log("router id", id);
     res.status(200).json(itemInstance);
   } catch (error) {
     res

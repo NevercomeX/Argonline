@@ -59,7 +59,7 @@ const LoginForm = () => {
     setErrorMessage(null); // Reiniciar el mensaje de error
 
     try {
-      const response = await fetch('http://localhost:4001/api/auth/login', {
+      const response = await fetch('http://localhost:4001/api/authV2/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,16 +72,33 @@ const LoginForm = () => {
 
       if (response.ok) {
         const responseData = await response.json();
-
-        // Guardar el token y el usuario en las cookies
-        Cookies.set('token', responseData.token, { expires: 7 });
-        Cookies.set('user', JSON.stringify(responseData.user), { expires: 7 });
-
-        // Redirigir al usuario después del login exitoso
+        console.log('Login response:', responseData);
+      
+        // Guardar las cookies de acceso y de refresco en el navegador
+        const { accessCookie, refreshCookie } = responseData.cookies;
+      
+        // Configurar las cookies con los valores y el tiempo de expiración correspondiente
+        if (accessCookie) {
+          Cookies.set('accessToken', accessCookie.value, {
+            expires: accessCookie.maxAge / 86400, // Convertir segundos a días
+            secure: true, // Asegurarse de que se envíen solo a través de HTTPS
+            sameSite: 'Strict', // Opcional, ajustar según tu configuración
+          });
+        }
+      
+        if (refreshCookie) {
+          Cookies.set('refreshToken', refreshCookie.value, {
+            expires: refreshCookie.maxAge / 86400, // Convertir segundos a días
+            secure: true,
+            sameSite: 'Strict',
+          });
+        }
         router.push(`/characters`);
+        console.log('Cookies guardadas exitosamente.');
       } else {
-        setErrorMessage('Invalid email or password');
+        console.error('Error en el inicio de sesión:', response.statusText);
       }
+
     } catch (error) {
       console.error('Login error:', error);
       setErrorMessage('An error occurred during login.');

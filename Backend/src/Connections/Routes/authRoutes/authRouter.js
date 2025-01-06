@@ -1,22 +1,21 @@
-import express from 'express';
-import { loginUser, registerUser } from '../../Controllers/index.js';
+import express from "express";
+import { loginUser, registerUser } from "../../Controllers/index.js";
 
 const router = express.Router();
 
 // Ruta para iniciar sesión
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log("Datos recibidos:",  email, password);
+  console.log("Datos recibidos:", email, password);
 
   try {
-
     const { token, user } = await loginUser(email, password);
 
     // Configurar la cookie HTTP-only con el token
-    res.cookie('token', token, {
+    res.cookie("token", token, {
       httpOnly: true, // Evita que el token sea accesible desde JavaScript
-      secure: process.env.NODE_ENV === 'production', // Solo enviar sobre HTTPS en producción
-      sameSite: 'strict', // Solo enviar la cookie en el mismo dominio
+      secure: process.env.NODE_ENV === "production", // Solo enviar sobre HTTPS en producción
+      sameSite: "strict", // Solo enviar la cookie en el mismo dominio
       maxAge: 60 * 60 * 1000, // 1 hora
     });
 
@@ -27,7 +26,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Ruta para registrar un usuario
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
   const { username, password, email } = req.body;
   try {
     const newUser = await registerUser(username, password, email);

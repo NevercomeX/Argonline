@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dayjs from 'dayjs';
+import {prisma} from '../../../../Prisma/prismaClient.js';
+import { v4 as uuid } from 'uuid';
 
 const JWT_EXPIRES = 60 * 5; // 5 minutes
 const JWT_REFRESH_EXPIRES = 900 * 60 * 60; // 30 days
@@ -33,23 +35,26 @@ const generateAccessToken = async ({ payload }) => {
 const generateRefreshToken = async ({ tokenId, userId }) => {
     try {
         // If the user has a refresh token, delete it
-        // if (tokenId) {
-        //     await prisma.sessions.delete({ where: { id: tokenId } });
-        // }
+        if (tokenId) {
+            await prisma.userSession.delete({ where: { id: tokenId } });
+        }
 
         // get the session
-        // const createToken = await prisma.sessions.create({
-        //     data: {
-        //         id: uuid(),
-        //         expires: calculateMaxAge(JWT_REFRESH_EXPIRES),
-        //         userId: userId,
-        //     },
-        // });
+        const createToken = await prisma.userSession.create({
+            data: {
+                id: uuid(),
+                expiresAt: calculateMaxAge(JWT_REFRESH_EXPIRES),
+                userId: userId,
+                token: jwt.sign({ userId }, SECRET, { expiresIn: JWT_REFRESH_EXPIRES }),
+            },
+        });
 
-        // const token = createToken.id;
+        console.log(createToken);
+
+        const token = createToken.id;
 
         // SWAP THIS WITH A DATABASE QUERY TO ROTATE THE REFRESH TOKENS
-        const token = 'replace-with-db-token-id';
+        // const token = 'replace-with-db-token-id';
         const maxAge = JWT_REFRESH_EXPIRES;
 
         return { token, maxAge };

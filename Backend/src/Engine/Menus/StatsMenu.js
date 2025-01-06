@@ -1,8 +1,5 @@
 import readlineSync from "readline-sync";
-import {
-  getCharacterById,
-  getJobClassNameById,
-} from "../Controllers/index.js";
+import { getCharacterById, getJobClassNameById } from "../Controllers/index.js";
 import { drawCharacterInfo } from "./Bars/CharacterBar.js";
 
 export async function StatsMenu(id) {

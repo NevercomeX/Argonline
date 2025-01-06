@@ -1,9 +1,9 @@
 // src/Controllers/authController.js
-import { prisma } from '../../../Prisma/prismaClient.js';
-import argon2 from 'argon2';
-import jwt from 'jsonwebtoken';
+import { prisma } from "../../../Prisma/prismaClient.js";
+import argon2 from "argon2";
+import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || 'somethingsomething';
+const JWT_SECRET = process.env.JWT_SECRET || "somethingsomething";
 
 // Registrar usuario (con cifrado de contraseña)
 export async function registerUser(username, password, email) {
@@ -22,20 +22,18 @@ export async function registerUser(username, password, email) {
         email,
       },
     });
-    
+
     console.log("Nuevo usuario creado:", newUser);
 
-    return newUser;  // Retorna el nuevo usuario creado
+    return newUser; // Retorna el nuevo usuario creado
   } catch (error) {
     console.error("Error en la base de datos o hash:", error.message);
     throw new Error("Error registrando usuario");
   }
 }
 
-
 // Iniciar sesión (Login)
 export async function loginUser(email, password) {
-
   console.log("Datos recibidos:", email, password);
 
   try {
@@ -44,25 +42,27 @@ export async function loginUser(email, password) {
       where: { email },
     });
 
-
     if (!user) {
-      throw new Error('Usuario no encontrado');
+      throw new Error("Usuario no encontrado");
     }
 
     // Verificar la contraseña con Argon2
     const isValidPassword = await argon2.verify(user.password, password);
     console.log("Contraseña válida:", isValidPassword);
     if (!isValidPassword) {
-      throw new Error('Contraseña incorrecta');
+      throw new Error("Contraseña incorrecta");
     }
 
     // Crear un token JWT
-    const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, {
-      expiresIn: '1h', // Token válido por 1 hora
-    });
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      JWT_SECRET,
+      {
+        expiresIn: "1h", // Token válido por 1 hora
+      },
+    );
 
     console.log("Token generado:", token);
-    
 
     return { token, user };
   } catch (error) {

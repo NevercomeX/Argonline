@@ -17,6 +17,15 @@ model User {
   password   String
   role       String      @default("user")
   characters Character[]
+  userSession UserSession[]
+}
+
+model UserSession {
+  id         String     @id @default(uuid())
+  userId     Int
+  token      String
+  expiresAt  Int
+  user       User    @relation(fields: [userId], references: [id])
 }
 
 model Character {

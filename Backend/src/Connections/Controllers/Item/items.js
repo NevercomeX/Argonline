@@ -19,7 +19,7 @@ export async function getAllItems(page = 1, limit = 10) {
 export async function getItemsById(id) {
   if (!id) {
     console.error("getItemNameById: El ID proporcionado es nulo o indefinido.");
-    return "Unknown Item";  // Devuelve un nombre por defecto para manejar el error
+    return "Unknown Item"; // Devuelve un nombre por defecto para manejar el error
   }
 
   try {
@@ -31,26 +31,23 @@ export async function getItemsById(id) {
     // Si no encontramos un ítem normal, buscamos en la tabla de instancias de ítems
     if (!item) {
       const itemInstance = await prisma.itemInstance.findUnique({
-        where: { id: parseInt(id) },  // Buscamos por el mismo ID
-        include: { itemTemplate: true },  // Incluimos el template del ítem
+        where: { id: parseInt(id) }, // Buscamos por el mismo ID
+        include: { itemTemplate: true }, // Incluimos el template del ítem
       });
 
       // Si encontramos una instancia, usamos el nombre del template del ítem
       if (itemInstance) {
-        item = itemInstance ;
+        item = itemInstance;
       }
     }
 
     // Si encontramos un ítem o una instancia, devolvemos el nombre
-    return item ;  // Devuelve un nombre o "Unknown Item" si no se encuentra nada
-
+    return item; // Devuelve un nombre o "Unknown Item" si no se encuentra nada
   } catch (error) {
     console.error(`Error al obtener el ítem con ID ${id}:`, error);
-    return "Unknown Item";  // En caso de error, devolvemos un nombre por defecto
+    return "Unknown Item"; // En caso de error, devolvemos un nombre por defecto
   }
 }
-
-
 
 export async function getItemsByName(itemIds) {
   const itemNamesMap = new Map();

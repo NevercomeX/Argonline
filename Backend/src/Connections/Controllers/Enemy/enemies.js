@@ -8,7 +8,7 @@ export async function getEnemies(page = 1, pageSize = 10) {
   // Obtener enemigos con paginación
   const enemies = await prisma.enemy.findMany({
     skip,
-    take
+    take,
   });
 
   // Obtener el número total de enemigos para calcular las páginas
@@ -16,7 +16,7 @@ export async function getEnemies(page = 1, pageSize = 10) {
 
   return {
     enemies,
-    totalEnemies
+    totalEnemies,
   };
 }
 

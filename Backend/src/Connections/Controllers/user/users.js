@@ -1,5 +1,5 @@
 // src/Controllers/userController.js
-import { prisma } from '../../../Prisma/prismaClient.js';
+import { prisma } from "../../../Prisma/prismaClient.js";
 
 // Obtener todos los usuarios
 export async function getAllUsers() {
@@ -27,7 +27,7 @@ export async function createCharacter(userId, characterData) {
     });
     return newCharacter;
   } catch (error) {
-    console.error('Error creando personaje:', error);
+    console.error("Error creando personaje:", error);
     throw error;
   }
 }
