@@ -1,6 +1,6 @@
 import express from "express";
-import routes from "./src/Routes/index.js";
-import { requestLogger } from "./src/Middleware/logger.js";
+import routes from "./src/Connections/Routes/index.js";
+import { requestLogger } from "./src/Connections/Middleware/logger.js";
 import cors from "cors";
 
 const app = express();

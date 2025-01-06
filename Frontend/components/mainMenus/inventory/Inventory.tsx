@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { equipItem, getEquipmentSlotByCharacterIdAndSlot, getItemInstanceById, unequipItem } from '../../../app/utils/inventoryApi';
+import { equipItem, getEquipmentSlotByCharacterIdAndSlot, getItemInstanceById, unequipItem } from '../../../app/utils/gameApi/inventoryApi';
 
 interface InventoryItem {
   id: number;

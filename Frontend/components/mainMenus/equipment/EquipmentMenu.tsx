@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { unequipItem } from '../../../app/utils/equipmentApi';
+import { unequipItem } from '../../../app/utils/gameApi/equipmentApi';
 import Image from 'next/image';
 
 interface EquipmentSlot {

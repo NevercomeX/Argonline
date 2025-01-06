@@ -1,8 +1,8 @@
 import EquipmentPageClient from '../../../components/mainMenus/equipment/EquipmentMenu';
 import InventoryGrid from '../../../components/mainMenus/inventory/Inventory';
-import { getEquipmentSlotsByCharacterId } from '../../utils/equipmentApi';
-import { getInventory } from '../../utils/inventoryApi';
-import { getItemsById } from '../../utils/itemsApi';  // <-- Nueva función para obtener detalles del ítem o instancia
+import { getEquipmentSlotsByCharacterId } from '../../utils/gameApi/equipmentApi';
+import { getInventory } from '../../utils/gameApi/inventoryApi';
+import { getItemsById } from '../../utils/gameApi/itemsApi';  // <-- Nueva función para obtener detalles del ítem o instancia
 
 export default async function EquipmentAndInventoryPage({
   searchParams,

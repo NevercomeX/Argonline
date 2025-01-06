@@ -65,7 +65,7 @@ const LoginForm = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: data.email, // Asumiendo que "email" actúa como el "username"
+          email: data.email, // Asumiendo que "email" actúa como el "username"
           password: data.password,
         }),
       });
