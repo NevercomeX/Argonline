@@ -1,5 +1,6 @@
 import express from "express";
 import { authProtect } from "../utils/auth.js";
+import {prisma} from "../../../../Prisma/prismaClient.js";
 
 const router = express.Router();
 
@@ -14,41 +15,35 @@ const router = express.Router();
 
 router.get("/", authProtect(), async (req, res) => {
   try {
-    // DB QUERY
-    const { id } = req.user;
-    const client = await prisma.user.findUnique({
-        where: { id: id },
-        select: {
-            id: true,
-            email: true,
-        },
-    });
+    const userId = req.user.id;
 
-    // if the user is not found return false
-    if (!client) {
-        return res.json({ success: false });
+    if (!userId) {
+      return res.status(401).json({ success: false, error: "No user ID found in token" });
     }
 
-    return res.json({
-      success: true,
-      user: client
+    const client = await prisma.user.findUnique({
+      where: { id: parseInt(userId) },
+      select: {
+        id: true,
+        email: true,
+      },
     });
 
-    // return res.json({
-    //   success: true,
-    //   user: {
-    //     id: USER.id,
-    //     email: USER.email,
-    //     firstName: USER.fistName,
-    //     lastName: USER.lastName,
-    //     bio: USER.bio,
-    //   },
-    // });
-  } catch (err) {
+    if (!client) {
+      return res.json({ success: false, error: "User not found" });
+    }
+    console.log("===========get-session.js=============");
+    console.log("User found:", client);
+    console.log("success:", client);
     return res.json({
-      success: false,
+      success: true,
+      user: client,
     });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ success: false, error: "Server error" });
   }
 });
+
 
 export default router;

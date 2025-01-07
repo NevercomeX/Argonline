@@ -61,8 +61,9 @@ export async function loginUser(email, password) {
         expiresIn: "1h", // Token válido por 1 hora
       },
     );
-
+    console.log("===================final de authcontroller.js====================");
     console.log("Token generado:", token);
+    console.log("Usuario validado:", user);
 
     return { token, user };
   } catch (error) {

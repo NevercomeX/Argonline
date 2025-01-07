@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import validateSession from "./utils/auth/validateSession";
+import validateSession from "./utils/authUtils/validateSession";
 
 export async function middleware(req) {
     // get the login path

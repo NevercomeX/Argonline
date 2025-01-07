@@ -1,6 +1,6 @@
 "use server";
 
-import { get } from "../api/api";
+import { get } from "./api/api";
 import { cookies } from "next/headers";
 
 // Tipos para las cookies

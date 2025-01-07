@@ -1,6 +1,6 @@
 "use server";
 
-import { get } from "../api/api";
+import { get } from "./api/api";
 import { decodeJwt } from "jose";
 import { cookies } from "next/headers";
 
@@ -12,12 +12,19 @@ import { cookies } from "next/headers";
  */
 
 const getSession = async () => {
-    const response = await get(`/auth/get-session`);
+    try {
+        const response = await get<{ user: { id: number; email: string } }>("/api/authV2/get-session");
 
-    if (!response.success) return;
+        // Acceder al token desde los headers
 
-    return response;
+        // Retornar los datos del usuario directamente
+        return response;
+    } catch (error) {
+        console.error("Error en getSession:", error);
+        return null;
+    }
 };
+
 
 /**
  * @description Get the session data from cookie
@@ -37,8 +44,6 @@ const getLocalSession = async () => {
             user: {
                 id: decoded.id,
                 email: decoded.email,
-                firstName: decoded.firstName,
-                lastName: decoded.lastName,
             },
         };
     } catch (err) {

@@ -1,4 +1,4 @@
-import { getInventory } from '../../utils/gameApi/inventoryApi';
+import { getInventory } from '../../utils/gameUtils/inventoryApi';
 import InventoryGrid from '../../../components/mainMenus/inventory/Inventory';
 
 // Componente de servidor (Server Component)

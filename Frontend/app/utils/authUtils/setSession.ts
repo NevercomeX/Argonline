@@ -1,6 +1,6 @@
 "use server";
 
-import { post } from "../api/api";
+import { post } from "./api/api";
 import { cookies } from "next/headers";
 
 // Tipos para los datos de entrada y salida
@@ -44,7 +44,7 @@ const setSession = async (request: LoginRequest): Promise<SessionResponse> => {
 
     try {
         // Obtén la sesión desde el servidor
-        const response = await post<SessionResponse>(`/login`, { email, password });
+        const response = await post<SessionResponse>(`/api/login`, { email, password });
 
         if (!response.success) {
             return {

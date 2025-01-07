@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import {prisma} from '../../../../Prisma/prismaClient.js';
 import { v4 as uuid } from 'uuid';
 
-const JWT_EXPIRES = 60 * 5; // 5 minutes
+const JWT_EXPIRES = 8000 * 5; // 5 minutes
 const JWT_REFRESH_EXPIRES = 900 * 60 * 60; // 30 days
 const SECRET = process.env.JWT_SECRET; // Secret for JWT
 
@@ -25,6 +25,7 @@ const calculateMaxAge = (exp) => {
 
 // Generate access token
 const generateAccessToken = async ({ payload }) => {
+
     const token = jwt.sign(payload, SECRET, { expiresIn: JWT_EXPIRES });
     const maxAge = JWT_EXPIRES;
 
@@ -33,6 +34,7 @@ const generateAccessToken = async ({ payload }) => {
 
 // Generate refresh token
 const generateRefreshToken = async ({ tokenId, userId }) => {
+
     try {
         // If the user has a refresh token, delete it
         if (tokenId) {

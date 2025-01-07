@@ -4,12 +4,6 @@ import { generateAccessToken, generateRefreshToken } from "../utils/auth.js";
 
 const router = express.Router();
 
-// SWAP THIS DATA WITH A DATABASE QUERY
-const USER = {
-  id: 1,
-  email: "test@demo.ltd",
-  password: "123456",
-};
 
 router.get("/", async (req, res) => {
   const refreshToken = req.headers["x-refresh-token"];
