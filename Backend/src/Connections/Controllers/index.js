@@ -5,9 +5,10 @@ import {
   updateCharacter,
   getAllCharacters,
   createCharacter,
+  getCharactersByUserId,
 } from "./Character/character.js";
 
-import { getAllUsers, getAllCharactersFromUser } from "./user/users.js";
+import { getAllUsers, getAllCharactersFromUser, getUserById } from "./user/users.js";
 
 import { loginUser, registerUser } from "./user/authController.js";
 
@@ -54,6 +55,7 @@ import {
 
 export {
   getAllUsers,
+  getUserById,
   getAllCharactersFromUser,
   registerUser,
   createCharacter,
@@ -92,4 +94,5 @@ export {
   updateItemInstance,
   deleteItemInstance,
   getRandomEnemy,
+  getCharactersByUserId
 };

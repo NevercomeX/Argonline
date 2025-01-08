@@ -1,34 +1,23 @@
-import axios from 'axios';
+//obtener los characters de los usuarios
 
-const API_URL = 'https://api.example.com/auth';
+// Función para obtener los detalles de un usuario por su ID
+export const getUsersById = async (userId: number) => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-export const login = async (username: string, password: string) => {
-    try {
-        const response = await axios.post(`${API_URL}/login`, { username, password });
-        return response.data;
-    } catch (error) {
-        throw new Error('Error logging in');
+    if (!response.ok) {
+      throw new Error(`Error fetching user with ID ${userId}: ${response.statusText}`);
     }
-};
 
-export const register = async (username: string, password: string, email: string) => {
-    try {
-        const response = await axios.post(`${API_URL}/register`, { username, password, email });
-        return response.data;
-    } catch (error) {
-        throw new Error('Error registering');
-    }
-};
-
-export const getUserData = async (token: string) => {
-    try {
-        const response = await axios.get(`${API_URL}/user`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        return response.data;
-    } catch (error) {
-        throw new Error('Error retrieving user data');
-    }
+    const userDetails = await response.json();
+    return userDetails;
+  } catch (error) {
+    console.error(`Error fetching user with ID ${userId}:`, error);
+    return null;
+  }
 };

@@ -6,6 +6,12 @@ export async function getAllUsers() {
   return await prisma.user.findMany();
 }
 
+export async function getUserById(id) {
+  return await prisma.user.findUnique({
+    where: { id: parseInt(id) },
+  });
+}
+
 // Obtener personajes de un usuario específico
 export async function getAllCharactersFromUser(id) {
   return await prisma.user.findMany({

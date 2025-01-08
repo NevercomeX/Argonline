@@ -31,12 +31,22 @@ router.use("/authV2/get-session", getSession);
 router.use("/authV2/refresh-session", refreshSession);
 router.use("/authV2/verify-session", verifySession);
 
-// Rutas para los diferentes recursos de juegos
+// Character routes
 router.use("/characters", characterRoutes);
+
+// Items routes
 router.use("/items", itemRoutes);
-router.use("/item-instances", itemInstanceRoutes);
+
+// Equipment routes
 router.use("/equipment", equipmentRoutes);
+
+// Item instances routes
+router.use("/item-instances", itemInstanceRoutes);
+
+// Inventory routes
 router.use("/inventory", inventoryRoutes);
+
+// Enemies routes
 router.use("/mobs", enemiesRoutes);
 
 router.get("/routes", (req, res) => {

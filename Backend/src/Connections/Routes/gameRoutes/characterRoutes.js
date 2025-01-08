@@ -4,9 +4,22 @@ import {
   getCharacterById,
   updateCharacter,
   createCharacter,
+  getCharactersByUserId,
 } from "../../Controllers/index.js";
 
 const router = express.Router();
+
+// get all characters of user id
+router.get("/:userId/characters", async (req, res) => {
+  const { userId } = req.params;
+  console.log(userId);
+  try {
+    const characters = await getCharactersByUserId(userId);
+    res.status(200).json(characters);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener los personajes" });
+  }
+});
 
 // Endpoint para obtener todos los personajes
 router.get("/", async (req, res) => {

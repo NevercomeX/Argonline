@@ -14,10 +14,6 @@ import { cookies } from "next/headers";
 const getSession = async () => {
     try {
         const response = await get<{ user: { id: number; email: string } }>("/api/authV2/get-session");
-
-        // Acceder al token desde los headers
-
-        // Retornar los datos del usuario directamente
         return response;
     } catch (error) {
         console.error("Error en getSession:", error);

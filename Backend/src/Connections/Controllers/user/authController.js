@@ -34,7 +34,6 @@ export async function registerUser(username, password, email) {
 
 // Iniciar sesión (Login)
 export async function loginUser(email, password) {
-  console.log("Datos recibidos:", email, password);
 
   try {
     // Buscar el usuario por nombre de usuario
