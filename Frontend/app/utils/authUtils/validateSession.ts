@@ -29,7 +29,7 @@ interface ServerResponse {
 const validateSession = async (): Promise<ServerResponse> => {
     try {
         // Verificar la sesión
-        let response = await get<ServerResponse>(`/auth/verify-session`);
+        let response = await get<ServerResponse>(`/api/authV2/auth/verify-session`);
 
         // Si la sesión no es válida, intenta refrescarla
         if (!response.success) {
@@ -41,7 +41,7 @@ const validateSession = async (): Promise<ServerResponse> => {
                 ? { "x-refresh-token": refreshToken }
                 : {};
 
-            response = await get<ServerResponse>(`/auth/refresh-session`, { headers });
+            response = await get<ServerResponse>(`/api/authV2/refresh-session`, { headers });
 
             if (response.success && response.cookies) {
                 const { accessCookie, refreshCookie } = response.cookies;

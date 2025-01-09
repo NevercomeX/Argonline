@@ -1,35 +1,26 @@
+// src/middleware.ts
 import { NextResponse } from "next/server";
-import validateSession from "./utils/authUtils/validateSession";
+import type { NextRequest } from "next/server";
 
-export async function middleware(req) {
-    // get the login path
-    const isLoginPath = req.nextUrl.pathname === "/auth";
+const publicRoutes = ["/auth"];
 
-    // validate the session
-    const session = await validateSession();
+export function middleware(req: NextRequest) {
+  const token = req.cookies.get("accessToken")?.value;
+  const url = req.nextUrl.pathname;
 
-    // if the session was refreshed, set the cookies
-    if (session.success && session.cookies) {
-        let response = NextResponse.redirect(req.nextUrl);
-        response.cookies.set(session.cookies.accessCookie);
-        response.cookies.set(session.cookies.refreshCookie);
-        return response;
-    }
+  // Permitir el acceso a rutas públicas
+  if (publicRoutes.includes(url)) {
+    return NextResponse.next();
+  }
 
-    // if the session is valid, and the page is the login page, redirect to dashboard
-    if (session.success && isLoginPath) {
-        return NextResponse.redirect(new URL("/admin", req.url));
-    }
+  // Redirigir al login si no hay token
+  if (!token) {
+    return NextResponse.redirect(new URL("/auth", req.url));
+  }
 
-    // if the session is invalid, and the page is not the login page, redirect to login
-    if (!session.success && !isLoginPath) {
-        let response = NextResponse.redirect(new URL("/auth", req.url));
-        response.cookies.delete("refreshToken");
-        response.cookies.delete("accessToken");
-        return response;
-    }
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/admin/:path*"],
+  matcher: ["/characters/:path*", "/equipment/:path*", "/:path*"], // Rutas protegidas
 };

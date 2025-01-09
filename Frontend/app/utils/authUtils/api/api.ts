@@ -10,6 +10,8 @@ interface FetcherResponse<T> {
     error?: string;
     success?: boolean; // Opcional para mapear correctamente
     data?: T;          // Los datos específicos de la respuesta
+    message?: string;  // Mensaje de éxito o error
+    cookies?: string;   // Cookie de la respuesta
 }
 
 // Define common config type

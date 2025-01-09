@@ -49,7 +49,7 @@ const setSession = async (request: LoginRequest): Promise<SessionResponse> => {
         if (!response.success) {
             return {
                 success: false,
-                message: response.message,
+                message: response.message || "An error occurred while setting the session.",
             };
         }
 
@@ -76,7 +76,7 @@ const setSession = async (request: LoginRequest): Promise<SessionResponse> => {
 
         return {
             success: true,
-            message: response.message,
+            message: response.message || "Session set successfully.",
         };
     } catch (error) {
         console.error("Error in setSession:", error);

@@ -1,24 +1,10 @@
 'use client';
 import { useState, useEffect } from "react";
 import { Character } from "../../../types";
+import ProtectedRoute from "../../../components/auth/ProtectedRoute";
 
 
-// const CharacterList = () => {
-//   const [characters, setCharacters] = useState<Character[]>([]); // Inicializar como un array vacío
-//   const [page, setPage] = useState<number>(1);
-//   const [totalPages, setTotalPages] = useState<number>(0);
 
-//   useEffect(() => {
-//     fetchCharacters(page); // Cambiar a fetchCharacters
-//   }, [page]);
-
-//   // Función para cargar personajes según la página
-//   const fetchCharacters = async (pageNumber: number) => {
-//     const response = await fetch(`http://localhost:4001/api/characters?page=${pageNumber}`);
-//     const data = await response.json();
-
-//     setCharacters(data.characters || []); // Asegurarse de que characters sea un array
-//     setTotalPages(data.totalPages || 1); // Manejar el total de páginas
 //   };
 const CharacterList = () => {
   //recreate all code but with the new fetch api and the new api http://localhost:4001/api/characters/1/characters
@@ -42,7 +28,8 @@ const CharacterList = () => {
 
 
   return (
-    <>
+
+<ProtectedRoute>
       <h2 className="text-2xl font-semibold mb-4">Characters</h2>
       
       {/* Cuadros de personajes */}
@@ -128,7 +115,8 @@ const CharacterList = () => {
           Next
         </button>
       </div>
-    </>
+      </ProtectedRoute>
+
   );
 };
 
