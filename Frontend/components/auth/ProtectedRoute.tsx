@@ -4,21 +4,21 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
-  console.log(isAuthenticated);
   useEffect(() => {
-    if (!isAuthenticated) {
-
-      // Si el usuario no está autenticado, redirigir al login
-      router.push("/auth");
+    if (!isLoading && !isAuthenticated) {
+      router.push('/auth');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, isLoading, router]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   if (!isAuthenticated) {
-
-    return null; // Mostrar nada o un loader mientras redirige
+    return null;
   }
 
   return <>{children}</>;

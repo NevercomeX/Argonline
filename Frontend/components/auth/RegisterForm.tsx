@@ -84,7 +84,7 @@ const RegisterForm = () => {
         const userId = responseData?.user?.id;
         if (userId) {
           localStorage.setItem('token', responseData.token); // Guardar token en el localStorage
-          router.push(`/users/${userId}/characters`); // Redirigir a la lista de personajes
+          router.push(`/characters`); // Redirigir a la lista de personajes
         } else {
           throw new Error('User ID not found in response');
         }

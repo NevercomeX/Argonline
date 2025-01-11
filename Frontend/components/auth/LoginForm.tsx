@@ -86,7 +86,7 @@ const LoginForm = () => {
           });
         }
 
-        router.push('/characters'); // Redirigir al usuario autenticado
+        router.push('/'); // Redirigir al usuario autenticado
       } else {
         const errorData = await response.json();
         setErrorMessage(errorData.message || 'Login failed. Please try again.');

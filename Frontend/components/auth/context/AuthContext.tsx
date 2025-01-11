@@ -16,13 +16,13 @@ interface AuthContextProps {
   login: (token: string, user: User) => void;
   logout: () => void;
   isAuthenticated: boolean;
+  isLoading: boolean; // Nuevo estado para el proceso de carga
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
-  console.log(context);
 
   if (!context) {
     throw new Error('useAuth debe estar dentro de AuthProvider');
@@ -33,22 +33,49 @@ export const useAuth = (): AuthContextProps => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Nuevo estado
   const router = useRouter();
 
-
   useEffect(() => {
-    const savedToken = Cookies.get('accessToken');
-    if (savedToken) {
-      fetch('/api/auth/validate-token', { headers: { Authorization: `Bearer ${savedToken}` } })
-        .then((res) => res.ok ? setToken(savedToken) : logout());
-    }
+    let isMounted = true; // Bandera para evitar actualizaciones en componentes desmontados
+  
+    const verifyToken = async () => {
+      const savedToken = Cookies.get('accessToken');
+      if (!savedToken) {
+        setIsLoading(false);
+        return;
+      }
+  
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authV2/verify-session`, {
+          headers: { Authorization: `Bearer ${savedToken}` },
+        });
+  
+        if (isMounted && res.ok) {
+          setToken(savedToken);
+          setIsAuthenticated(true);
+        } else if (isMounted) {
+          logout();
+        }
+      } catch (err) {
+        console.error('Error verifying session:', err);
+        if (isMounted) logout();
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    };
+  
+    verifyToken();
+  
+    return () => {
+      isMounted = false; // Evita actualizaciones si el componente se desmonta
+    };
   }, []);
-
+  
   const login = (token: string, user: User) => {
     setToken(token);
     Cookies.set('accessToken', token, { expires: 7, secure: true, sameSite: 'Strict' });
     setIsAuthenticated(true);
-    // Opcional: guardar el usuario en un estado separado si es necesario
   };
 
   const logout = () => {
@@ -59,7 +86,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, isAuthenticated: !!token }}>
+    <AuthContext.Provider value={{ token, login, logout, isAuthenticated, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,6 +1,7 @@
 import express from "express";
 import { generateRefreshToken, generateAccessToken } from "../utils/generateTokens.js";
 import { loginUser } from "../../../Controllers/index.js";
+import { prisma } from "../../../../Prisma/prismaClient.js";
 
 const router = express.Router();
 
@@ -8,25 +9,33 @@ router.post("/", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Validate user credentials
+    // Validar credenciales del usuario
     const { user } = await loginUser(email, password);
 
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials." });
     }
 
-    // Create token payload
+    // Obtener el tokenId del refresh token anterior (si existe)
+    const existingSession = await prisma.userSession.findFirst({
+      where: { userId: user.id },
+      orderBy: { expiresAt: "desc" }, // Obtener el token más reciente
+    });
+
+    const tokenId = existingSession?.id;
+
+    // Crear payload para el access token
     const payload = {
       id: user.id,
       email: user.email,
       role: user.role,
     };
 
-    // Generate tokens
-    const refreshToken = await generateRefreshToken({ userId: user.id });
-    const accessToken = generateAccessToken({ payload });
+    // Generar tokens
+    const refreshToken = await generateRefreshToken({ tokenId, userId: user.id });
+    const accessToken = await generateAccessToken({ payload });
 
-    // Prepare cookies for client
+    // Preparar cookies para el cliente
     const cookies = {
       accessCookie: {
         value: accessToken.token,
@@ -38,7 +47,7 @@ router.post("/", async (req, res) => {
       },
     };
 
-    // Send response
+    // Enviar respuesta
     return res.status(200).json({
       success: true,
       cookies,

@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import {prisma} from '../../../../Prisma/prismaClient.js';
 import { v4 as uuid } from 'uuid';
 
-const JWT_EXPIRES = 8000 * 5; // 5 minutes
+const JWT_EXPIRES = 80 * 5; // 5 minutes
 const JWT_REFRESH_EXPIRES = 900 * 60 * 60; // 30 days
 const SECRET = process.env.JWT_SECRET; // Secret for JWT
 
@@ -34,31 +34,34 @@ const generateAccessToken = async ({ payload }) => {
 
 // Generate refresh token
 const generateRefreshToken = async ({ tokenId, userId }) => {
-
     try {
-        // If the user has a refresh token, delete it
-        if (tokenId) {
-            await prisma.userSession.delete({ where: { id: tokenId } });
-        }
-
-        // get the session
-
-        const createToken = await prisma.userSession.create({
-            data: {
-                id: uuid(),
-                expiresAt: calculateMaxAge(JWT_REFRESH_EXPIRES),
-                userId: userId,
-                token: jwt.sign({ userId }, SECRET, { expiresIn: JWT_REFRESH_EXPIRES }),
-            },
+      // Elimina el token anterior si existe
+      if (tokenId) {
+        const deletedToken = await prisma.userSession.delete({
+          where: { id: tokenId },
         });
-        const token = createToken.id;
-        const maxAge = JWT_REFRESH_EXPIRES;
-
-        return { token, maxAge };
+        console.log("Deleted previous token:", deletedToken);
+      }
+  
+      // Crea un nuevo token en la base de datos
+      const newSession = await prisma.userSession.create({
+        data: {
+          id: uuid(),
+          expiresAt: calculateMaxAge(JWT_REFRESH_EXPIRES),
+          userId: userId,
+          token: jwt.sign({ userId }, SECRET, { expiresIn: JWT_REFRESH_EXPIRES }),
+        },
+      });
+  
+      return {
+        token: newSession.id, // ID del refresh token
+        maxAge: JWT_REFRESH_EXPIRES,
+      };
     } catch (err) {
-        console.error(err);
+      console.error("Error generating refresh token:", err.message);
+      throw new Error("Could not generate refresh token");
     }
-};
+  };
 
 export {
     verifyToken,
