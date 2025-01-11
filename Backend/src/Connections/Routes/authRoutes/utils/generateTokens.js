@@ -42,6 +42,7 @@ const generateRefreshToken = async ({ tokenId, userId }) => {
         }
 
         // get the session
+
         const createToken = await prisma.userSession.create({
             data: {
                 id: uuid(),
@@ -50,13 +51,7 @@ const generateRefreshToken = async ({ tokenId, userId }) => {
                 token: jwt.sign({ userId }, SECRET, { expiresIn: JWT_REFRESH_EXPIRES }),
             },
         });
-
-        console.log(createToken);
-
         const token = createToken.id;
-
-        // SWAP THIS WITH A DATABASE QUERY TO ROTATE THE REFRESH TOKENS
-        // const token = 'replace-with-db-token-id';
         const maxAge = JWT_REFRESH_EXPIRES;
 
         return { token, maxAge };
@@ -65,48 +60,8 @@ const generateRefreshToken = async ({ tokenId, userId }) => {
     }
 };
 
-// Auth protect middleware
-const authProtect = () => {
-    return async (req, res, next) => {
-        const authHeader = req.headers.authorization;
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return res.status(401).json({
-                success: false,
-                message: 'Unauthorized!',
-            });
-        }
-
-        const accessToken = authHeader.split(' ')[1];
-
-        if (!accessToken) {
-            return res.json({
-                success: false,
-                message: 'Unauthorized!',
-            });
-        }
-
-        // Verify the accessToken
-        jwt.verify(accessToken, SECRET, (err, decoded) => {
-            if (!err && decoded) {
-                req.user = {
-                    id: decoded.id,
-                    email: decoded.email,
-                };
-
-                next();
-            } else {
-                return res.json({
-                    success: false,
-                    message: 'Unauthorized!',
-                });
-            }
-        });
-    };
-};
-
 export {
     verifyToken,
     generateAccessToken,
-    generateRefreshToken,
-    authProtect,
+    generateRefreshToken
 };

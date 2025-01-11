@@ -1,9 +1,9 @@
 import express from "express";
-import { authProtect } from "../utils/auth.js";
+import authMiddleware from "../../../Middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", authProtect(), (req, res) => {
+router.get("/", authMiddleware(), (req, res) => {
   res.send("This route is protected");
 });
 

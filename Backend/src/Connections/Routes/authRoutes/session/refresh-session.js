@@ -1,6 +1,6 @@
 import express from "express";
 import dayjs from "dayjs";
-import { generateAccessToken, generateRefreshToken } from "../utils/auth.js";
+import { generateAccessToken, generateRefreshToken } from "../utils/generateTokens.js";
 
 const router = express.Router();
 
@@ -33,18 +33,8 @@ router.get("/", async (req, res) => {
 
     // if the token is not found in the db do not refresh the session
     if (!decoded) {
-        return res.json({ success: false });
+      return res.status(401).json({ success: false, message: "Invalid token" });
     }
-
-    // SWAP THIS WITH THE DB SESSIONS DATA
-    // const decoded = {
-    //   id: 1,
-    //   expires: dayjs().add(1, "day").unix(),
-    //   user: {
-    //     id: USER.id,
-    //     email: USER.email,
-    //   },
-    // };
 
     // check if the token is expired
     const now = dayjs().unix();
@@ -52,9 +42,7 @@ router.get("/", async (req, res) => {
 
     // if the token is expired do not refresh the session
     if (isExpired) {
-      return res.json({
-        success: false,
-      });
+      return res.status(401).json({ success: false, message: "Token expired" });
     }
 
     // If refresh token is valid create the payload

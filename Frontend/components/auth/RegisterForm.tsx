@@ -67,7 +67,7 @@ const RegisterForm = () => {
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsSubmitting(true); // Deshabilitar botón durante la solicitud
     try {
-      const response = await fetch('http://localhost:4001/api/auth/register', {
+      const response = await fetch('http://localhost:4001/api/authV2/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

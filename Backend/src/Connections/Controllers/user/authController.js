@@ -47,24 +47,12 @@ export async function loginUser(email, password) {
 
     // Verificar la contraseña con Argon2
     const isValidPassword = await argon2.verify(user.password, password);
-    console.log("Contraseña válida:", isValidPassword);
+
     if (!isValidPassword) {
       throw new Error("Contraseña incorrecta");
     }
 
-    // Crear un token JWT
-    const token = jwt.sign(
-      { id: user.id, username: user.username },
-      JWT_SECRET,
-      {
-        expiresIn: "1h", // Token válido por 1 hora
-      },
-    );
-    console.log("===================final de authcontroller.js====================");
-    console.log("Token generado:", token);
-    console.log("Usuario validado:", user);
-
-    return { token, user };
+    return { user };
   } catch (error) {
     throw new Error(error.message);
   }

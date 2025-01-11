@@ -7,7 +7,7 @@ import {
   createCharacter,
 } from "../../Controllers/index.js";
 
-import { authMiddleware } from "../../Middleware/authMiddleware.js";
+import authMiddleware  from "../../Middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -44,7 +44,7 @@ router.post("/register", async (req, res) => {
 });
 
 // Ruta para crear un personaje asociado a un usuario
-router.post("/:id/characters", authMiddleware, async (req, res) => {
+router.post("/:id/characters", authMiddleware(), async (req, res) => {
   const { id } = req.params;
   const characterData = req.body;
   try {

@@ -1,5 +1,5 @@
 import express from "express";
-import { authProtect } from "../utils/auth.js";
+import authMiddleware from "../../../Middleware/authMiddleware.js";
 import {prisma} from "../../../../Prisma/prismaClient.js";
 
 const router = express.Router();
@@ -13,7 +13,7 @@ const router = express.Router();
 //   password: "123456",
 // };
 
-router.get("/", authProtect(), async (req, res) => {
+router.get("/", authMiddleware(), async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -26,15 +26,16 @@ router.get("/", authProtect(), async (req, res) => {
       select: {
         id: true,
         email: true,
+        role: true,
+        characters: true,
       },
     });
+
+    console.log("User found:", client);
 
     if (!client) {
       return res.json({ success: false, error: "User not found" });
     }
-    console.log("===========get-session.js=============");
-    console.log("User found:", client);
-    console.log("success:", client);
     return res.json({
       success: true,
       user: client,

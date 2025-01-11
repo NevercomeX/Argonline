@@ -1,11 +1,12 @@
 // verify-session.js
 import express from "express";
-import { authProtect } from "../utils/auth.js";
+import authMiddleware from "../../../Middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", authProtect(), (req, res) => {
-  return res.json({ success: true });
+router.get("/", authMiddleware(), async (req, res) => {
+  const { id, email } = req.user;
+  res.json({ success: true, user: { id, email } });
 });
 
 export default router;
