@@ -29,7 +29,7 @@ router.get("/", authMiddleware(), (req, res) => {
 
 //get user id using token from UserSession table argumento: token
 
-router.post("/getUserIdFromToken", async (req, res) => {
+router.post("/getUserIdFromToken", authMiddleware(), async (req, res) => {
   const { token } = req.body;
   try {
     const userId = await getUserIdFromToken(token);

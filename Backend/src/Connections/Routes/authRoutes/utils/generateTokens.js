@@ -32,36 +32,37 @@ const generateAccessToken = async ({ payload }) => {
     return { token, maxAge };
 };
 
-// Generate refresh token
+// Generar un refresh token
 const generateRefreshToken = async ({ tokenId, userId }) => {
-    try {
-      // Elimina el token anterior si existe
-      if (tokenId) {
-        const deletedToken = await prisma.userSession.delete({
-          where: { id: tokenId },
-        });
-        console.log("Deleted previous token:", deletedToken);
-      }
-  
-      // Crea un nuevo token en la base de datos
-      const newSession = await prisma.userSession.create({
-        data: {
-          id: uuid(),
-          expiresAt: calculateMaxAge(JWT_REFRESH_EXPIRES),
-          userId: userId,
-          token: jwt.sign({ userId }, SECRET, { expiresIn: JWT_REFRESH_EXPIRES }),
-        },
+  try {
+    // Elimina el token anterior si existe
+    if (tokenId) {
+      await prisma.userSession.deleteMany({
+        where: { id: tokenId },
       });
-  
-      return {
-        token: newSession.id, // ID del refresh token
-        maxAge: JWT_REFRESH_EXPIRES,
-      };
-    } catch (err) {
-      console.error("Error generating refresh token:", err.message);
-      throw new Error("Could not generate refresh token");
     }
-  };
+
+    // Crea un nuevo token en la base de datos
+    const refreshToken = jwt.sign({ userId }, SECRET, { expiresIn: JWT_REFRESH_EXPIRES });
+
+    await prisma.userSession.create({
+      data: {
+        id: uuid(),
+        expiresAt: calculateMaxAge(JWT_REFRESH_EXPIRES),
+        userId: userId,
+        token: refreshToken, // Guarda el token firmado
+      },
+    });
+
+    return {
+      token: refreshToken, // Devuelve el token firmado
+      maxAge: JWT_REFRESH_EXPIRES,
+    };
+  } catch (err) {
+    console.error("Error generating refresh token:", err.message);
+    throw new Error("Could not generate refresh token");
+  }
+};
 
 export {
     verifyToken,

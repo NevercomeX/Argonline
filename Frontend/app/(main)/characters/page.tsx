@@ -19,7 +19,7 @@ const CharacterList = () => {
 
     const userid = await getUserId();
     console.log(userid);
-    const response = await fetch(`http://localhost:4001/api/characters/${userid}/characters?page=${pageNumber}`);
+    const response = await fetch(`http://localhost:4001/api/characters/${userid}/characters?page=${pageNumber}`); /* fix note: tengo que agregar los authprotect a la ruta */
     const data = await response.json();
 
     setCharacters(data.characters || []);

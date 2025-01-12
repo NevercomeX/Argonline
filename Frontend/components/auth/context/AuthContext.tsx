@@ -88,9 +88,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   
   const getUserId = async () => {
-    const token = Cookies.get('refreshToken');
-    console.log("token", token);
-  
+    const token = Cookies.get('refreshToken'); // Cambiar por el nombre correcto de la cookie
+
+    console.log(" authcontext ============",token);
+
     if (!token) {
       return;
     }
