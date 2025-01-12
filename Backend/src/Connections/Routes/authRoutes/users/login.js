@@ -46,7 +46,6 @@ router.post("/", async (req, res) => {
         maxAge: refreshToken.maxAge,
       },
     };
-
     // Enviar respuesta
     return res.status(200).json({
       success: true,

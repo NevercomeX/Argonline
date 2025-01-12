@@ -8,7 +8,7 @@ import {
   getCharactersByUserId,
 } from "./Character/character.js";
 
-import { getAllUsers, getAllCharactersFromUser, getUserById } from "./user/users.js";
+import { getAllUsers, getAllCharactersFromUser, getUserById, getUserIdFromToken } from "./user/usersController.js";
 
 import { loginUser, registerUser } from "./user/authController.js";
 
@@ -60,6 +60,7 @@ export {
   registerUser,
   createCharacter,
   loginUser,
+  getUserIdFromToken,
   getCharacterById,
   updateCharacter,
   getAllCharacters,

@@ -2,23 +2,23 @@
 import { useState, useEffect } from "react";
 import { Character } from "../../../types";
 import ProtectedRoute from "../../../components/auth/ProtectedRoute";
+import { useAuth } from '../../../components/auth/context/AuthContext';
 
-
-
-//   };
 const CharacterList = () => {
-  //recreate all code but with the new fetch api and the new api http://localhost:4001/api/characters/1/characters
+
   const [characters, setCharacters] = useState<Character[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const { getUserId } = useAuth();
 
   useEffect(() => {
     fetchCharacters(page);
   }, [page]);
 
-
   const fetchCharacters = async (pageNumber: number) => {
-    const userid = 1;
+
+    const userid = await getUserId();
+    console.log(userid);
     const response = await fetch(`http://localhost:4001/api/characters/${userid}/characters?page=${pageNumber}`);
     const data = await response.json();
 
@@ -26,13 +26,10 @@ const CharacterList = () => {
     setTotalPages(data.totalPages || 1);
   };
 
-
   return (
 
 <ProtectedRoute>
       <h2 className="text-2xl font-semibold mb-4">Characters</h2>
-      
-      {/* Cuadros de personajes */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {characters.length > 0 ? (
           characters.map((character) => (

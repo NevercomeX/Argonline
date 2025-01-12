@@ -12,8 +12,8 @@ interface User {
 }
 
 interface AuthContextProps {
+  getUserId: () => void;
   token: string | null;
-  login: (token: string, user: User) => void;
   logout: () => void;
   isAuthenticated: boolean;
   isLoading: boolean; // Nuevo estado para el proceso de carga
@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Nuevo estado
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -72,11 +73,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
   
-  const login = (token: string, user: User) => {
-    setToken(token);
-    Cookies.set('accessToken', token, { expires: 7, secure: true, sameSite: 'Strict' });
-    setIsAuthenticated(true);
-  };
 
   const logout = () => {
     setToken(null);
@@ -85,8 +81,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     router.push('/auth');
   };
 
+  // get user ID from token in UserSession table in DB
+  // fetch user data from User table in DB
+  // set user state with user data
+  // return user data
+
+  
+  const getUserId = async () => {
+    const token = Cookies.get('refreshToken');
+    console.log("token", token);
+  
+    if (!token) {
+      return;
+    }
+  
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authV2/users/getUserIdFromToken`, {
+        method: 'POST', // Cambiamos el método a POST
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Enviar el token también en los headers si es necesario
+        },
+        body: JSON.stringify({ token }), // Enviamos el token en el cuerpo
+      });
+  
+      const data = await response.json();
+      return data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+ 
+
   return (
-    <AuthContext.Provider value={{ token, login, logout, isAuthenticated, isLoading }}>
+    <AuthContext.Provider value={{ token, logout, isAuthenticated, isLoading, getUserId }}>
       {children}
     </AuthContext.Provider>
   );

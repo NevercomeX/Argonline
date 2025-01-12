@@ -21,3 +21,6 @@ if errorlevel 1 (
     cd /d "C:\Users\Chipi Chapa\Desktop\DASHBOARD\backend"
     start "ArgOnline Prisma Studio" cmd /k "npx prisma studio"
 )
+
+REM Abrir Brave con la URL especificada
+start "" "C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe" "http://localhost:3000/"

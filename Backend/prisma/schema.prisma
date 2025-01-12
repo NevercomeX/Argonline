@@ -23,7 +23,7 @@ model User {
 model UserSession {
   id         String     @id @default(uuid())
   userId     Int
-  token      String
+  token      String @unique 
   expiresAt  Int
   user       User    @relation(fields: [userId], references: [id])
 }
