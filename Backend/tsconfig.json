@@ -33,13 +33,13 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@/Classes/*": ["./src/Classes/*"],
+      "@/Classes/*": ["src/Engine/Classes/*"],
       "@/Combat/*": ["./src/Combat/*"],
-      "@/Controllers/*": ["./src/Controllers/*"],
-      "@/Effects/*": ["./src/Effects/*"],
-      "@/Entities/*": ["./src/Entities/*"],
+      "@/Controllers/*": ["src/Connections/Controllers/*"],
+      "@/Effects/*": ["src/Engine/Effects/*"],
+      "@/Entities/*": ["src/Engine/Entities/*"],
       "@/MenuFunction/*": ["./src/MenuFunction/*"],
-      "@/Menus/*": ["./src/Menus/*"],
+      "@/Menus/*": ["src/Engine/Menus/*"],
       "@/Monsters/*": ["./src/Monsters/*"],
       "@/Stats/*": ["./src/Stats/*"]
     },

@@ -15,7 +15,7 @@ app.use(requestLogger(logRequests));
 app.use(express.json());
 
 // Usar todas las rutas
-app.use("/Logins", routes);
+app.use("/logins", routes);
 
 // Iniciar el servidor
 app.listen(port, () => {

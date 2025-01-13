@@ -1,5 +1,7 @@
+'use client';
+
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 
 interface User {
@@ -10,54 +12,111 @@ interface User {
 }
 
 interface AuthContextProps {
-  user: User | null;
+  getUserId: () => void;
   token: string | null;
-  login: (token: string, user: User) => void;
   logout: () => void;
   isAuthenticated: boolean;
+  isLoading: boolean; // Nuevo estado para el proceso de carga
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
+
   if (!context) {
-    throw new Error("useAuth debe estar dentro de AuthProvider");
+    throw new Error('useAuth debe estar dentro de AuthProvider');
   }
   return context;
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Nuevo estado
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const savedToken = Cookies.get('token');
-    const savedUser = Cookies.get('user');
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
-    }
+    let isMounted = true; // Bandera para evitar actualizaciones en componentes desmontados
+  
+    const verifyToken = async () => {
+      const savedToken = Cookies.get('accessToken');
+      if (!savedToken) {
+        setIsLoading(false);
+        return;
+      }
+  
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authV2/verify-session`, {
+          headers: { Authorization: `Bearer ${savedToken}` },
+        });
+  
+        if (isMounted && res.ok) {
+          setToken(savedToken);
+          setIsAuthenticated(true);
+        } else if (isMounted) {
+          logout();
+        }
+      } catch (err) {
+        console.error('Error verifying session:', err);
+        if (isMounted) logout();
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    };
+  
+    verifyToken();
+  
+    return () => {
+      isMounted = false; // Evita actualizaciones si el componente se desmonta
+    };
   }, []);
-
-  const login = (token: string, user: User) => {
-    setToken(token);
-    setUser(user);
-    Cookies.set('token', token, { expires: 7 }); // Token en cookies (expira en 7 días)
-    Cookies.set('user', JSON.stringify(user), { expires: 7 });
-  };
+  
 
   const logout = () => {
     setToken(null);
-    setUser(null);
-    Cookies.remove('token');
-    Cookies.remove('user');
-    router.push('/login');
+    setIsAuthenticated(false);
+    Cookies.remove('accessToken');
+    router.push('/auth');
   };
 
+  // get user ID from token in UserSession table in DB
+  // fetch user data from User table in DB
+  // set user state with user data
+  // return user data
+
+  
+  const getUserId = async () => {
+    const token = Cookies.get('refreshToken'); // Cambiar por el nombre correcto de la cookie
+
+    console.log(" authcontext ============",token);
+
+    if (!token) {
+      return;
+    }
+  
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authV2/users/getUserIdFromToken`, {
+        method: 'POST', // Cambiamos el método a POST
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Enviar el token también en los headers si es necesario
+        },
+        body: JSON.stringify({ token }), // Enviamos el token en el cuerpo
+      });
+  
+      const data = await response.json();
+      return data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+ 
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated: !!token }}>
+    <AuthContext.Provider value={{ token, logout, isAuthenticated, isLoading, getUserId }}>
       {children}
     </AuthContext.Provider>
   );

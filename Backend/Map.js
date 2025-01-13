@@ -15,7 +15,7 @@ app.use(requestLogger(logRequests));
 app.use(express.json());
 
 // Usar todas las rutas
-app.use("/Map", routes);
+app.use("/map", routes);
 
 // Iniciar el servidor
 app.listen(port, () => {

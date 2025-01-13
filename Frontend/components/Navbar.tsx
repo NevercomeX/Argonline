@@ -1,3 +1,7 @@
+'use client';
+
+import destroySession from "../app/utils/authUtils/destroySession";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -34,7 +38,7 @@ const Navbar = () => {
               <Link href='/profile'>Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href='/auth'>Logout</Link>
+              <Link onClick={() => destroySession()} href='/auth'>Logout</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

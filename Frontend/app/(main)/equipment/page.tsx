@@ -1,8 +1,8 @@
 import EquipmentPageClient from '../../../components/mainMenus/equipment/EquipmentMenu';
 import InventoryGrid from '../../../components/mainMenus/inventory/Inventory';
-import { getEquipmentSlotsByCharacterId } from '../../utils/equipmentApi';
-import { getInventory } from '../../utils/inventoryApi';
-import { getItemsById } from '../../utils/itemsApi';  // <-- Nueva función para obtener detalles del ítem o instancia
+import { getEquipmentSlotsByCharacterId } from '../../utils/gameUtils/equipmentApi';
+import { getInventory } from '../../utils/gameUtils/inventoryApi';
+import { getItemsById } from '../../utils/gameUtils/itemsApi';  // <-- Nueva función para obtener detalles del ítem o instancia
 
 export default async function EquipmentAndInventoryPage({
   searchParams,
@@ -79,16 +79,16 @@ export default async function EquipmentAndInventoryPage({
   });
 
   return (
-    <div className="flex min-h-screen p-4 bg-gray-800 text-white">
+    <div className="flex min-h-screen p-4  text-white">
       {/* Equipamiento a la izquierda */}
       <div className="w-1/2">
-        <h1 className="text-2xl font-bold mb-4">Equipamiento</h1>
+        <h1 className="text-2xl font-bold mb-4 text-gray-700">Equipamiento</h1>
         <EquipmentPageClient characterId={characterId} equipmentSlots={equipmentSlots} />
       </div>
 
       {/* Inventario a la derecha */}
       <div className="w-1/2 pl-4">
-        <h1 className="text-2xl font-bold mb-4">Inventario</h1>
+        <h1 className="text-2xl font-bold mb-4 text-gray-700">Inventario</h1>
         <InventoryGrid characterId={characterId} inventoryItems={inventoryItems} />
       </div>
     </div>

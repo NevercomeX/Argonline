@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { unequipItem } from '../../../app/utils/equipmentApi';
+import { unequipItem } from '../../../app/utils/gameUtils/equipmentApi';
 import Image from 'next/image';
 
 interface EquipmentSlot {
@@ -45,13 +45,12 @@ const EquipmentPageClient: React.FC<EquipmentPageClientProps> = ({
   };
 
   return (
-    <div className="relative bg-gray-900 p-6 rounded-lg shadow-lg">
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2">
-        <Image src="/characters/1.gif" alt="Character" width={200} height={400} />
+    <div className="flex">
+      <div className='grid justify-items-center items-center'>
+      <Image src="/characters/1.gif" alt="Character" width={200} height={400} />
       </div>
-
       {/* Equipamiento - Mapa de los slots */}
-      <div className="grid grid-cols-3 gap-4 mt-8">
+      <div className="grid grid-cols-3 gap-8 mt-2">
         {slots.map((slot) => (
           <div key={slot.slotName} className="relative group">
             <div className="w-16 h-16 border-2 border-gray-600 rounded-lg flex items-center justify-center">
@@ -68,14 +67,14 @@ const EquipmentPageClient: React.FC<EquipmentPageClientProps> = ({
                   height={64}
                 />
               ) : (
-                <div className="text-gray-400">Vacío</div>
+                <div className="text-gray-400"></div>
               )}
             </div>
 
             {slot.templateId && (
               <button
                 onClick={() => handleUnequip(slot.slotName)}
-                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-700"
+                className="mt-2 px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-700"
               >
                 unequip
               </button>
@@ -83,6 +82,7 @@ const EquipmentPageClient: React.FC<EquipmentPageClientProps> = ({
           </div>
         ))}
       </div>
+
     </div>
   );
 };
