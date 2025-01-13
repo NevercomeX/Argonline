@@ -67,7 +67,7 @@ const RegisterForm = () => {
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsSubmitting(true); // Deshabilitar botón durante la solicitud
     try {
-      const response = await fetch('http://localhost:4001/api/auth/register', {
+      const response = await fetch('http://localhost:4001/api/authV2/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const RegisterForm = () => {
         const userId = responseData?.user?.id;
         if (userId) {
           localStorage.setItem('token', responseData.token); // Guardar token en el localStorage
-          router.push(`/users/${userId}/characters`); // Redirigir a la lista de personajes
+          router.push(`/characters`); // Redirigir a la lista de personajes
         } else {
           throw new Error('User ID not found in response');
         }

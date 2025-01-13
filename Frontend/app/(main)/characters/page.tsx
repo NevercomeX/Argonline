@@ -1,31 +1,35 @@
 'use client';
 import { useState, useEffect } from "react";
 import { Character } from "../../../types";
-
+import ProtectedRoute from "../../../components/auth/ProtectedRoute";
+import { useAuth } from '../../../components/auth/context/AuthContext';
 
 const CharacterList = () => {
-  const [characters, setCharacters] = useState<Character[]>([]); // Inicializar como un array vacío
+
+  const [characters, setCharacters] = useState<Character[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const { getUserId } = useAuth();
 
   useEffect(() => {
-    fetchCharacters(page); // Cambiar a fetchCharacters
+    fetchCharacters(page);
   }, [page]);
 
-  // Función para cargar personajes según la página
   const fetchCharacters = async (pageNumber: number) => {
-    const response = await fetch(`http://localhost:4001/api/characters?page=${pageNumber}`);
+
+    const userid = await getUserId();
+    console.log(userid);
+    const response = await fetch(`http://localhost:4001/api/characters/${userid}/characters?page=${pageNumber}`); /* fix note: tengo que agregar los authprotect a la ruta */
     const data = await response.json();
 
-    setCharacters(data.characters || []); // Asegurarse de que characters sea un array
-    setTotalPages(data.totalPages || 1); // Manejar el total de páginas
+    setCharacters(data.characters || []);
+    setTotalPages(data.totalPages || 1);
   };
 
   return (
-    <>
+
+<ProtectedRoute>
       <h2 className="text-2xl font-semibold mb-4">Characters</h2>
-      
-      {/* Cuadros de personajes */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {characters.length > 0 ? (
           characters.map((character) => (
@@ -108,7 +112,8 @@ const CharacterList = () => {
           Next
         </button>
       </div>
-    </>
+      </ProtectedRoute>
+
   );
 };
 
