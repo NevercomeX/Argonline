@@ -75,3 +75,57 @@ export async function createCharacter(userId, name, jobClass) {
     throw new Error("Error al crear el personaje");
   }
 }
+
+export async function createCharacterWithAttributes(userId, name, jobClass, attributes) {
+  try {
+    // Validar atributos
+    if (!attributes || typeof attributes !== "object") {
+      throw new Error("Invalid attributes provided.");
+    }
+
+    const { str, agi, vit, int, dex, luk } = attributes;
+
+    // Calcular estadísticas iniciales basadas en los atributos
+    const baseHealth = 100 + vit * 10; // Cada punto de VIT añade 10 HP
+    const baseMana = 50 + int * 5; // Cada punto de INT añade 5 MP
+    const attackPower = str * 2 + dex; // STR multiplica más el ataque físico, DEX contribuye menos
+    const magicPower = int * 2; // INT influye en el poder mágico
+    const defense = vit + agi; // VIT contribuye al aguante físico y AGI a la evasión
+    const magicDefense = int + luk; // INT para resistencia mágica y LUK para suerte general
+
+    // Crear el nuevo personaje en la base de datos
+    const newCharacter = await prisma.character.create({
+      data: {
+        name: name,
+        jobclassId: parseInt(jobClass), // ID de la clase del personaje
+        userId: parseInt(userId),
+        baseLevel: 1,
+        jobLevel: 1,
+        baseExp: 0,
+        jobExp: 0,
+        maxBaseExp: 100,
+        maxJobExp: 100,
+        health: baseHealth,
+        maxHealth: baseHealth,
+        mana: baseMana,
+        maxMana: baseMana,
+        attackPower: attackPower,
+        magicPower: magicPower,
+        defense: defense,
+        magicDefense: magicDefense,
+        str: str,
+        agi: agi,
+        vit: vit,
+        int: int,
+        dex: dex,
+        luk: luk,
+        skillPoints: 0, // Inicialmente el jugador no tiene puntos de habilidad
+      },
+    });
+
+    return newCharacter;
+  } catch (error) {
+    console.error("Error al crear el personaje:", error.message);
+    throw new Error("Error al crear el personaje. Por favor, inténtalo de nuevo.");
+  }
+}

@@ -5,6 +5,7 @@ import {
   updateCharacter,
   createCharacter,
   getCharactersByUserId,
+  createCharacterWithAttributes,
 } from "../../Controllers/index.js";
 
 const router = express.Router();
@@ -59,12 +60,13 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.post("/users/:userId/characters", async (req, res) => {
-  const { userId } = req.params;
-  const { name, jobClass } = req.body;
+//create character with attributes
 
+router.post("/:userId/characters", async (req, res) => {
+  const { userId } = req.params;
+  const { name, jobClass, attributes } = req.body;
   try {
-    const newCharacter = await createCharacter(userId, name, jobClass);
+    const newCharacter = await createCharacterWithAttributes(userId, name, jobClass, attributes);
     res.status(201).json(newCharacter);
   } catch (error) {
     res.status(500).json({ error: "Error al crear el personaje" });

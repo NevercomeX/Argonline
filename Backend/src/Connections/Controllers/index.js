@@ -6,6 +6,7 @@ import {
   getAllCharacters,
   createCharacter,
   getCharactersByUserId,
+  createCharacterWithAttributes,
 } from "./Character/character.js";
 
 import { getAllUsers, getAllCharactersFromUser, getUserById, getUserIdFromToken } from "./user/usersController.js";
@@ -80,6 +81,7 @@ export {
   removeItemFromInventory,
   getCharacterInventoryItems,
   getCharacterInventory,
+  createCharacterWithAttributes,
   getItemInstancesByCharacterId,
   getEnemyDrops,
   getEnemyDropById,
