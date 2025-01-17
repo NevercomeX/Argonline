@@ -21,14 +21,13 @@ const CharacterList = () => {
     console.log(userid);
     const response = await fetch(`http://localhost:4001/api/characters/${userid}/characters?page=${pageNumber}`); /* fix note: tengo que agregar los authprotect a la ruta */
     const data = await response.json();
-
     setCharacters(data.characters || []);
     setTotalPages(data.totalPages || 1);
   };
 
   return (
 
-<ProtectedRoute>
+<>
       <h2 className="text-2xl font-semibold mb-4">Characters</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {characters.length > 0 ? (
@@ -112,7 +111,7 @@ const CharacterList = () => {
           Next
         </button>
       </div>
-      </ProtectedRoute>
+      </>
 
   );
 };
