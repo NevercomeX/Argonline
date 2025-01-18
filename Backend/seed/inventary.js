@@ -1,4 +1,8 @@
-export async function inventarySeed(prisma) {
+export async function inventorySeed(prisma) {
+  // **Lista de IDs de los personajes** para poblar su inventario
+  const characterIds = [1]; // Puedes agregar aquí los IDs de los personajes
+  const userId = 1; // ID del usuario para el inventario general
+
   // Lista de nombres de ítems base para buscar en la tabla Item
   const itemNames = [
     "Health Potion",
@@ -25,15 +29,21 @@ export async function inventarySeed(prisma) {
     return;
   }
 
-  // Datos del inventario para un personaje
-  const characterId = 1;
-  const inventoryData = [
+  // **Inventario para personajes**
+  const characterInventoryData = characterIds.map(characterId => [
     { characterId, itemId: items.find(item => item.name === 'Health Potion').id, quantity: 4 },
     { characterId, itemId: items.find(item => item.name === 'Mana Potion').id, quantity: 7 },
     { characterId, itemId: items.find(item => item.name === 'Stamina Elixir').id, quantity: 1 },
     { characterId, itemId: items.find(item => item.name === 'Iron Sword').id, quantity: 1 },
     { characterId, itemId: items.find(item => item.name === 'Steel Axe').id, quantity: 1 },
     { characterId, itemId: items.find(item => item.name === 'Iron Helmet').id, quantity: 1 },
+  ]).flat();
+
+  // **Inventario general para el usuario**
+  const generalInventoryData = [
+    { userId, itemId: items.find(item => item.name === 'Health Potion').id, quantity: 10 },
+    { userId, itemId: items.find(item => item.name === 'Mana Potion').id, quantity: 15 },
+    { userId, itemId: items.find(item => item.name === 'Iron Sword').id, quantity: 2 },
   ];
 
   // Lista de nombres de ítems que requieren instancias
@@ -49,7 +59,6 @@ export async function inventarySeed(prisma) {
     "Boots of Swiftness",
     "Ring of Fortune",
     "Amulet of Protection",
-
   ];
 
   // Buscar ítems templates
@@ -61,7 +70,7 @@ export async function inventarySeed(prisma) {
     },
   });
 
-  // Crear instancias de ítems y añadirlas al inventario
+  // Crear instancias de ítems y añadirlas al inventario de personajes
   let currentId = 10000; // ID inicial para ItemInstance
 
   for (const template of itemTemplates) {
@@ -74,7 +83,7 @@ export async function inventarySeed(prisma) {
       data: {
         id: currentId++,  // Asignar manualmente el ID
         itemTemplateId: template.id,
-        characterId: characterId,
+        characterId: characterIds[0], // Relacionarlo con el primer personaje como ejemplo
         currentAttack: template.attackPower,
         currentDefense: template.defense,
         currentHealth: template.health,
@@ -82,20 +91,19 @@ export async function inventarySeed(prisma) {
         upgradeLevel: 0,
         socketedGems: null,
         enchantments: null,
-        
       },
     });
 
-    // Añadir el ítem instanciado al inventario
-    inventoryData.push({
-      characterId,
+    // Añadir el ítem instanciado al inventario del primer personaje
+    characterInventoryData.push({
+      characterId: characterIds[0],
       quantity: 1,
       itemInstanceId: newItemInstance.id, // Asocia la instancia creada
     });
   }
 
-  // Poblar la tabla Inventory
-  for (const inv of inventoryData) {
+  // **Poblar la tabla Inventory (Inventario de personajes)**
+  for (const inv of characterInventoryData) {
     await prisma.inventory.create({
       data: {
         characterId: inv.characterId,
@@ -105,6 +113,17 @@ export async function inventarySeed(prisma) {
       },
     });
   }
+
+  // **Poblar la tabla GeneralInventory (Inventario general del usuario)**
+  for (const inv of generalInventoryData) {
+    await prisma.generalInventory.create({
+      data: {
+        userId: inv.userId,
+        itemId: inv.itemId,
+        quantity: inv.quantity,
+      },
+    });
+  }
+
   await prisma.$disconnect();
 }
-

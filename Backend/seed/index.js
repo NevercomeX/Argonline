@@ -3,7 +3,7 @@ import { characterSeed } from "./character.js";
 import { enemySeed } from "./enemies.js";
 import { itemSeed } from "./items.js";
 import { enemyDropSeed } from "./enemydrop.js";
-import { inventarySeed } from "./inventary.js";
+import { inventorySeed } from "./inventary.js";
 import { jobClassSeed } from "./jobClass.js";
 import { userSeed } from "./users.js";
 import { seedEquipmentSlot } from "./equipment.js";
@@ -48,7 +48,7 @@ async function seed() {
     { name: "Enemy Drop Seed", fn: enemyDropSeed },
     { name: "Item Template Seed", fn: createItemTemplates },
     { name: "Item Instances Seed", fn: seedItemInstances },
-    { name: "Inventory Seed", fn: inventarySeed },
+    { name: "Inventory Seed", fn: inventorySeed },
     { name: "Equipment Slot Seed", fn: seedEquipmentSlot },
   ];
 

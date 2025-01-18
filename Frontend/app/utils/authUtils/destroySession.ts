@@ -1,30 +1,30 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const destroySession = async () => {
-  try {
-    const refreshToken = cookies().get("refreshToken")?.value; // Usa refreshToken, no token ni accessToken
+  const cookieStore = cookies();
+  const refreshToken = cookieStore.get("refreshToken")?.value;
 
+  try {
     if (refreshToken) {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authV2/logout`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${refreshToken}`, // Envía el refreshToken al servidor
+          Authorization: `Bearer ${refreshToken}`,
         },
       });
     }
 
-    // Limpia todas las cookies relacionadas
-    cookies().delete("accessToken");
-    cookies().delete("refreshToken");
+    // Elimina cookies
+    cookieStore.delete("accessToken");
+    cookieStore.delete("refreshToken");
 
-    // Redirige al usuario al login
-    return redirect("/auth");
+    // Devuelve un estado de redirección
+    return { redirect: "/auth" };
   } catch (error) {
     console.error("Error during destroySession:", error);
-    return redirect("/auth");
+    return { redirect: "/auth", error: true };
   }
 };
 

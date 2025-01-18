@@ -29,7 +29,7 @@ interface ServerResponse {
 const validateSession = async (): Promise<ServerResponse> => {
     try {
         // Verificar la sesión
-        let response = await get<ServerResponse>(`/api/authV2/auth/verify-session`);
+        let response = await get<ServerResponse>(`/api/authV2/verify-session`);
 
         // Si la sesión no es válida, intenta refrescarla
         if (!response.success) {

@@ -11,15 +11,15 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  username   String      @unique
-  email      String      @unique
-  password   String
-  role       String      @default("user")
-  characters Character[]
-  userSession UserSession[]
+  id              Int               @id @default(autoincrement())
+  username        String            @unique
+  email           String            @unique
+  password        String
+  role            String            @default("user")
+  characters      Character[]
+  userSession     UserSession[]
+  generalInventory GeneralInventory[] // Relación con el inventario general
 }
-
 model UserSession {
   id         String     @id @default(uuid())
   userId     Int
@@ -54,21 +54,32 @@ model Character {
   magicPower      Int
   defense         Int
   magicDefense    Int
-  inventory       Inventory[]
+  inventory       Inventory[]     // Relación con el inventario del personaje
   equipmentSlot   EquipmentSlot[]
   items           ItemInstance[]
   user            User            @relation(fields: [userId], references: [id])
 }
 
+
 model Inventory {
   id             Int          @id @default(autoincrement())
   itemId         Int?
-  characterId    Int
+  characterId    Int?
   itemInstanceId Int?         // Referencia opcional a la instancia de ítem
   quantity       Int          @default(1)
-  character      Character    @relation(fields: [characterId], references: [id])
+  character      Character?   @relation(fields: [characterId], references: [id])
   itemInstance   ItemInstance? @relation(fields: [itemInstanceId], references: [id])
   item           Item?         @relation(fields: [itemId], references: [id])
+}
+
+model GeneralInventory {
+  id         Int     @id @default(autoincrement())
+  userId     Int
+  itemId     Int
+  quantity   Int      @default(1)
+  user       User     @relation(fields: [userId], references: [id])
+  item       Item     @relation(fields: [itemId], references: [id])
+  @@unique([userId, itemId]) // Garantizar que un usuario no tenga duplicados del mismo ítem en el inventario general
 }
 
 model Item {
@@ -100,6 +111,7 @@ model Item {
   inventory     Inventory[]
   enemyDrops    EnemyDrop[]
   itemIcon      String @default("")
+  GeneralInventory GeneralInventory[]
 }
 
 model ItemTemplate {

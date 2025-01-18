@@ -12,10 +12,10 @@ interface JobClassSelectorProps {
         onChange={onChange}
         className="w-full p-2 border border-gray-300 rounded"
       >
-        <option value="">Select a class</option>
-        <option value="1">Swordsman</option>
-        <option value="2">Archer</option>
-        <option value="3">Mage</option>
+        <option value="1">Novice</option>
+        <option value="2">Swordsman</option>
+        <option value="3">Archer</option>
+        <option value="4">Mage</option>
       </select>
     </div>
   );
