@@ -20,6 +20,7 @@ model User {
   userSession     UserSession[]
   generalInventory GeneralInventory[] // Relación con el inventario general
 }
+
 model UserSession {
   id         String     @id @default(uuid())
   userId     Int
@@ -54,12 +55,13 @@ model Character {
   magicPower      Int
   defense         Int
   magicDefense    Int
+  gender          String  @default("M")
   inventory       Inventory[]     // Relación con el inventario del personaje
   equipmentSlot   EquipmentSlot[]
   items           ItemInstance[]
+  jobclass        JobClass  @relation(fields: [jobclassId], references: [id])
   user            User            @relation(fields: [userId], references: [id])
 }
-
 
 model Inventory {
   id             Int          @id @default(autoincrement())
@@ -205,7 +207,7 @@ model EnemyDrop {
   @@unique([enemyId, itemId])
 }
 model JobClass {
-  id            Int  @id @default(autoincrement())
+  id            Int  @id
   name          String @unique
   str           Int
   agi           Int
@@ -228,5 +230,6 @@ model JobClass {
   maxBaseExp    Int
   maxJobExp     Int
   skillPoints   Int
+  characters      Character[]
   // skillTree   Skill[]
 }

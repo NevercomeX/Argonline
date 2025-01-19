@@ -29,6 +29,7 @@ export interface Character {
   magicPower: number;
   defense: number;
   magicDefense: number;
+  gender: "M" | "F";
   inventory: Inventory[];
   equipmentSlot: EquipmentSlot[];
   items: ItemInstance[];

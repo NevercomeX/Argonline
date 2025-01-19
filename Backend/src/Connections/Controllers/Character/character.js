@@ -1,6 +1,6 @@
 import { prisma } from "../../../Prisma/prismaClient.js";
 
-export async function getAllCharacters(page = 1, limit = 10) {
+export async function getAllCharacters(page = 1, limit = 3) {
   const skip = (page - 1) * limit; // Calcular el salto de registros
   const totalCharacters = await prisma.character.count(); // Contar todos los personajes
   const characters = await prisma.character.findMany({
@@ -18,22 +18,37 @@ export async function getAllCharacters(page = 1, limit = 10) {
 
 //get all characters of user id with pagination
 
-export async function getCharactersByUserId(userId, page = 1, limit = 10) {
-  const skip = (page - 1) * limit; // Calcular el salto de registros
-  const totalCharacters = await prisma.character.count(); // Contar todos los personajes
+export async function getCharactersByUserId(userId, page = 1, limit = 3) {
+  // Validar userId
+  if (!userId || isNaN(parseInt(userId))) {
+    throw new Error("Invalid user ID");
+  }
+
+  // Validar que la página sea válida
+  page = Math.max(1, parseInt(page)); // Asegurarse de que la página sea al menos 1
+  const skip = (page - 1) * limit;
+
+  // Contar personajes filtrados por el usuario
+  const totalCharacters = await prisma.character.count({
+    where: { userId: parseInt(userId) },
+  });
+
+  // Obtener los personajes paginados
   const characters = await prisma.character.findMany({
     where: { userId: parseInt(userId) },
     skip: skip,
-    take: limit, // Limitar la cantidad de registros a tomar
+    take: limit,
   });
 
+  // Retornar los datos con una estructura consistente
   return {
-    characters,
+    characters: characters || [], // Asegurarse de que siempre se devuelva un array
     totalCharacters,
     totalPages: Math.ceil(totalCharacters / limit), // Calcular total de páginas
     currentPage: page,
   };
 }
+
 
 // export async function getCharactersByUserId(userId) {
 //   return await prisma.character.findMany({
@@ -55,7 +70,7 @@ export async function updateCharacter(id, data) {
 }
 
 // Crear un nuevo personaje para el usuario
-export async function createCharacter(userId, name, jobClass) {
+export async function createCharacter(userId, name, jobClass, gender) {
   try {
     const newCharacter = await prisma.character.create({
       data: {
@@ -68,6 +83,7 @@ export async function createCharacter(userId, name, jobClass) {
         mana: 50,
         attackPower: 10,
         defense: 5,
+        gender: gender
       },
     });
     return newCharacter;
@@ -76,7 +92,7 @@ export async function createCharacter(userId, name, jobClass) {
   }
 }
 
-export async function createCharacterWithAttributes(userId, name, jobClass, attributes) {
+export async function createCharacterWithAttributes(userId, name, jobClass, attributes, gender) {
   try {
     // Validar atributos
     if (!attributes || typeof attributes !== "object") {
@@ -120,6 +136,7 @@ export async function createCharacterWithAttributes(userId, name, jobClass, attr
         dex: dex,
         luk: luk,
         skillPoints: 0, // Inicialmente el jugador no tiene puntos de habilidad
+        gender: gender
       },
     });
 

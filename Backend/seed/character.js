@@ -24,6 +24,7 @@ export async function characterSeed(prisma) {
     magicPower: 0,
     defense: 2,
     magicDefense: 1,
+    gender: "M",
   };
 
   // Crear jugador
