@@ -1,11 +1,18 @@
 import { jobSprites } from '../jobs/jobSpritesMap'; // Importa el mapa o función de las rutas
 import { jobGenderSprites } from '../jobs/jobSpritesMap';
 import { Character } from '../../types/character';
+import { useRouter } from 'next/navigation';
 
 const CharacterCard = ({ character }: { character: Character }) => {
   const spritePath = jobSprites[character.jobclassId] || '/default/path.gif'; // Obtén la ruta del sprite
   const spriteGender = jobGenderSprites[character.jobclassId] || '/default/path.gif'; // Obtén la ruta del sprite
   const gender = character.gender;
+
+  const router = useRouter();
+
+    const handleClick = () => {
+    router.push(`/characters/${character.id}`); // Redirige a la página de detalles del personaje
+  };
 
   return (
     <>
@@ -16,7 +23,7 @@ const CharacterCard = ({ character }: { character: Character }) => {
       </div>
       
       {/* Contenedor para la imagen */}
-      <div className="flex flex-col items-center">
+      <div onClick={handleClick} className="flex flex-col items-center" >
         <img
           src={`${spriteGender}_${gender}.gif`} // Usa la ruta obtenida del mapa
           alt={character.name}
