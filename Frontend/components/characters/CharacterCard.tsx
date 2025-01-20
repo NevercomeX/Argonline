@@ -1,5 +1,5 @@
-import { jobSprites } from '../jobs/jobSpritesMap'; // Importa el mapa o función de las rutas
-import { jobGenderSprites } from '../jobs/jobSpritesMap';
+import { jobSprites } from '../Jobs/JobSpritesMap'; // Importa el mapa o función de las rutas
+import { jobGenderSprites } from '../Jobs/JobSpritesMap';
 import { Character } from '../../types/character';
 import { useRouter } from 'next/navigation';
 
@@ -19,7 +19,7 @@ const CharacterCard = ({ character }: { character: Character }) => {
     <div className="border border-gray-300 bg-white p-4 rounded-lg shadow hover:shadow-md hover:bg-gray-100">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">{character.name}</h3>
-        <span className="text-gray-500">Character-ID# {character.id}</span>
+
       </div>
       
       {/* Contenedor para la imagen */}

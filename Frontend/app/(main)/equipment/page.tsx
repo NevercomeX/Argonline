@@ -1,5 +1,5 @@
-import EquipmentPageClient from '../../../components/mainMenus/equipment/EquipmentMenu';
-import InventoryGrid from '../../../components/mainMenus/inventory/Inventory';
+import EquipmentPageClient from '../../../components/MainMenus/Equipment/EquipmentMenu';
+import InventoryGrid from '../../../components/MainMenus/Inventory/Inventory';
 import { getEquipmentSlotsByCharacterId } from '../../utils/gameUtils/equipmentApi';
 import { getInventory } from '../../utils/gameUtils/inventoryApi';
 import { getItemsById } from '../../utils/gameUtils/itemsApi';  // <-- Nueva función para obtener detalles del ítem o instancia

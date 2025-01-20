@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Character } from "../../../../types";
-import { jobGenderSprites } from "../../../../components/jobs/jobSpritesMap";
+import { jobGenderSprites } from "../../../../components/Jobs/JobSpritesMap";
 import { Radar } from "react-chartjs-2"; // Importamos Radar de react-chartjs-2
 import {
   Chart as ChartJS,

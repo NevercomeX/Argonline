@@ -1,5 +1,5 @@
 import { getInventory } from '../../utils/gameUtils/inventoryApi';
-import InventoryGrid from '../../../components/mainMenus/inventory/Inventory';
+import InventoryGrid from '../../../components/MainMenus/Inventory/Inventory';
 
 // Componente de servidor (Server Component)
 export default async function InventoryPage({

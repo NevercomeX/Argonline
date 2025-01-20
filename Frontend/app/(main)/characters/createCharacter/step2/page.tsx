@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCharacterCreation } from "../context/CharacterCreationContext";
-import { useAuth } from "../../../../../components/auth/context/AuthContext";
+import { useAuth } from "../../../../../components/Auth/context/AuthContext";
 
 const Step2 = () => {
   const router = useRouter();

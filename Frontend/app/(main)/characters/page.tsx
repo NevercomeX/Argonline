@@ -1,10 +1,10 @@
 'use client';
 import { useState, useEffect } from "react";
 import { Character } from "../../../types";
-import { useAuth } from '../../../components/auth/context/AuthContext';
-import CharacterCard from "../../../components/characters/CharacterCard";
-import CreateCharacterButton from "../../../components/characters/CreateCharacterButton";
-import Pagination from "../../../components/characters/Pagination";
+import { useAuth } from '../../../components/Auth/context/AuthContext';
+import CharacterCard from "../../../components/Characters/CharacterCard";
+import CreateCharacterButton from "../../../components/Characters/CreateCharacterButton";
+import Pagination from "../../../components/Characters/Pagination";
 
 const CharacterList = () => {
   const [characters, setCharacters] = useState<Character[]>([]);

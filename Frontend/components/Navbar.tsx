@@ -4,7 +4,7 @@ import destroySession from "../app/utils/authUtils/destroySession";
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/Ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +12,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/Ui/dropdown-menu';
 import ThemeToggler from '@/components/ThemeToggler';
 
 const Navbar = () => {

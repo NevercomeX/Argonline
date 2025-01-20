@@ -11,16 +11,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from '@/components/Ui/form';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from '@/components/Ui/card';
+import { Input } from '@/components/Ui/input';
+import { Button } from '@/components/Ui/button';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
