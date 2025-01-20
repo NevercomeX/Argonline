@@ -50,12 +50,6 @@ export async function getCharactersByUserId(userId, page = 1, limit = 3) {
 }
 
 
-// export async function getCharactersByUserId(userId) {
-//   return await prisma.character.findMany({
-//     where: { userId: parseInt(userId) },
-//   });
-// }
-
 export async function getCharacterById(id) {
   return await prisma.character.findUnique({
     where: { id: parseInt(id) },

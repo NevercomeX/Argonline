@@ -65,17 +65,17 @@ const CharacterDetailsPage = ({ params }: { params: { id: string } }) => {
 
   // Datos para el gráfico de radar
   const radarData = {
-    labels: ["STR", "AGI", "VIT", "INT", "DEX", "LUK"],
+    labels: ["Atk", "mAtk", "def", "mdef", "maxHealth", "maxMana"],
     datasets: [
       {
         label: "Character Stats",
         data: [
-          character.str,
-          character.agi,
-          character.vit,
-          character.int,
-          character.dex,
-              character.luk,
+          character.attackPower*character.str*character.agi,
+          character.magicPower*character.int,
+          character.defense*character.vit,
+         character.magicDefense*character.int,
+         character.maxHealth*character.vit,
+         character.maxMana*character.int
 
         ],
         backgroundColor: "rgba(54, 162, 235, 0.2)",
@@ -93,7 +93,7 @@ console.log(character.str)
     responsive: true,
     scales: {
         r: {
-           max: 10, // Máximo valor en la escala
+           max: 300, // Máximo valor en la escala
         min: 0, // Mínimo valor en la escala
             angleLines: {
              stepSize: 50, // Intervalo entre las marcas
@@ -129,30 +129,9 @@ console.log(character.str)
         src={`${jobSpritePath}_${spriteGender}.gif`} // Usa la ruta generada dinámicamente
         alt={character.name}
         className="mx-auto mb-4"
-        style={{ width: 100, height: 100, objectFit: "contain" }} // Tamaño fijo
-      />
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <span className="font-medium">Base Level:</span> {character.baseLevel}
-        </div>
-        <div>
-          <span className="font-medium">Job Level:</span> {character.jobLevel}
-        </div>
-        <div>
-          <span className="font-medium">HP:</span> {character.health}
-        </div>
-        <div>
-          <span className="font-medium">Mana:</span> {character.mana}
-        </div>
-        <div>
-          <span className="font-medium">Attack Power:</span> {character.attackPower}
-        </div>
-        <div>
-          <span className="font-medium">Defense:</span> {character.defense}
-        </div>
-          </div>
-          
-          <div className="w-full space-y-2">
+        style={{ width: 100, height: 150, objectFit: "contain" }} // Tamaño fijo
+          />
+                    <div className="w-full space-y-8 pt-">
           {/* Barra de vida */}
           <div className=''>
           <div>
@@ -213,13 +192,38 @@ console.log(character.str)
           </div>
         </div>
       </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <span className="font-medium">Base Level:</span> {character.baseLevel}
+        </div>
+        <div>
+          <span className="font-medium">Job Level:</span> {character.jobLevel}
+        </div>
+        <div>
+          <span className="font-medium">HP:</span> {character.health}
+        </div>
+        <div>
+          <span className="font-medium">Mana:</span> {character.mana}
+        </div>
+        <div>
+          <span className="font-medium">Attack Power:</span> {character.attackPower}
+        </div>
+        <div>
+          <span className="font-medium">Defense:</span> {character.defense}
+        </div>
+          </div>
+          
+
 
       {/* Contenedor del gráfico de radar */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4">Stats Overview</h2>
-        <Radar data={radarData} options={radarOptions} />
-      </div>
-    </div>
+<div className="mt-8">
+  <h2 className="text-2xl font-semibold mb-4">Stats Overview</h2>
+  {/* Contenedor ajustando el tamaño del radar */}
+  <div className="w-72 h-72 mx-auto">
+    <Radar data={radarData} options={radarOptions} />
+  </div>
+</div>
+          </div>
   );
 };
 
