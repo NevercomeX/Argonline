@@ -31,8 +31,6 @@ router.get("/", authMiddleware(), async (req, res) => {
       },
     });
 
-    console.log("User found:", client);
-
     if (!client) {
       return res.json({ success: false, error: "User not found" });
     }

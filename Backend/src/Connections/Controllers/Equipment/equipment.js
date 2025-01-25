@@ -43,7 +43,6 @@ export async function getEquipmentSlotByCharacterIdAndSlot(
 
 // Función para desequipar un ítem de un slot y devolverlo al inventario
 export async function unequipItem(characterId, slotType) {
-  console.log("controller", characterId, slotType);
   try {
     // Buscar el slot de equipamiento específico
     const equipmentSlot = await prisma.equipmentSlot.findFirst({

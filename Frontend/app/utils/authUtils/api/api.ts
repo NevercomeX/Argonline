@@ -74,7 +74,7 @@ export const get = async <T>(
 
     const response = await fetcher<T>(url, requestOptions);
 
-    console.log("Response:", response);
+
 
     // Verificar si hay errores
     if (response.statusCode >= 400 || response.error) {
@@ -83,7 +83,7 @@ export const get = async <T>(
 
     // Si la respuesta contiene `user`, retórnalo directamente
     if ('user' in response) {
-        console.log("User response:", response.user);
+
         return (response as any).user; // Retorna solo la propiedad user
     }
 

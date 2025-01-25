@@ -7,12 +7,11 @@ const JWT_SECRET = process.env.JWT_SECRET || "somethingsomething";
 
 // Registrar usuario (con cifrado de contraseña)
 export async function registerUser(username, password, email) {
-  console.log("Datos recibidos:", username, password, email);
+
 
   try {
     // Hashear la contraseña con Argon2
     const hashedPassword = await argon2.hash(password);
-    console.log("Contraseña hasheada:", hashedPassword);
 
     // Crear nuevo usuario en la base de datos
     const newUser = await prisma.user.create({
@@ -22,8 +21,6 @@ export async function registerUser(username, password, email) {
         email,
       },
     });
-
-    console.log("Nuevo usuario creado:", newUser);
 
     return newUser; // Retorna el nuevo usuario creado
   } catch (error) {

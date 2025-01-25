@@ -51,7 +51,6 @@ export async function getCharacterInventory(id) {
       inventory: true,
     },
   });
-  console.log(playerInventory);
   return playerInventory;
 }
 

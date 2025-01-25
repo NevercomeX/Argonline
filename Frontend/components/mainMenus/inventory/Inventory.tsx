@@ -23,7 +23,7 @@ const InventoryGrid: React.FC<InventoryGridProps> = ({ characterId, inventoryIte
   const [items, setItems] = useState(inventoryItems); // Manejamos el estado del inventario
 
   const handleEquipItem = async (item: InventoryItem) => {
-    console.log("Attempting to equip item:", item);  // <-- Verifica que el ítem es correcto
+
     
     if (item.equipable) {
       try {

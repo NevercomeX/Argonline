@@ -101,7 +101,6 @@ export const getEquipmentSlotByCharacterIdAndSlot = async (
     isInstance: boolean
   ) => {
     try {
-      console.log("Calling equipItem API with:", { characterId, equipmentSlot, itemId, isInstance });
   
       const response = await fetch(`http://localhost:4001/api/equipment/${characterId}/equip`, {
         method: "PUT",
@@ -122,7 +121,6 @@ export const getEquipmentSlotByCharacterIdAndSlot = async (
       }
   
       const data = await response.json();
-      console.log("Equip item response:", data);  // <-- Verifica la respuesta de la API
       return data;
   
     } catch (error) {

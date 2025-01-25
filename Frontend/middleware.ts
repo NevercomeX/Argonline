@@ -15,8 +15,6 @@ export async function middleware(req: NextRequest) {
   // Obtener la sesión desde las cookies
   const session = await getSession();
 
-  console.log("Session in middleware:", session);
-
   // Redirigir al login si no hay sesión
   if (!session) {
     return NextResponse.redirect(new URL("/auth", req.url));

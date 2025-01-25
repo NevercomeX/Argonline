@@ -80,8 +80,6 @@ const Step2 = () => {
   const selectedstep2Sprite =
     genderSprites[jobClass]?.[gender as "Male" | "Female"] || "/jobgender/novice/NOVICE_M.gif";
   
-  console.log(gender);
-
   return (
     <div className="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6">
       <h2 className="text-2xl font-semibold mb-4">Step 2: Select Gender</h2>

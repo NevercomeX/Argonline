@@ -45,7 +45,6 @@ const menuGroups = [
             { label: "Character", route: "/characters" },
             { label: "Equipment", route: "/equipment" },
             { label: "Inventory", route: "/inventory" },
-            { label: "Mobs", route: "/mobs" },
             { label: "Stats", route: "/items" },
             { label: "Monsters", route: "/mobs" },
 
@@ -103,7 +102,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <Image
               width={176}
               height={32}
-              src={"/favicon/apple-touch-icon.png"}
+              src={"/favicon/logo500x500.svg"}
               alt="Logo"
               priority
               className="dark:hidden"
@@ -112,7 +111,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <Image
               width={176}
               height={32}
-              src={"/favicon/apple-touch-icon.png"}
+              src={"/favicon/logo500x500.svg"}
               alt="Logo"
               priority
               className="hidden dark:block"

@@ -12,8 +12,6 @@ router.post("/", async (req, res) => {
   
     const refreshToken = authHeader.split(" ")[1];
 
-    console.log("Refresh token:", refreshToken);
-  
     try {
       // Elimina la sesión basada en el refreshToken
       const deletedSession = await prisma.userSession.deleteMany({
@@ -21,8 +19,6 @@ router.post("/", async (req, res) => {
          }, // Asegúrate de que `token` en la base de datos almacene el refreshToken
       });
 
-      console.log("Deleted session:", deletedSession);
-  
       if (deletedSession.count === 0) {
         return res.status(404).json({ success: false, message: "Session not found" });
       }
