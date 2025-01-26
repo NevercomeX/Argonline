@@ -1,4 +1,4 @@
-import { EnemyDrop } from './enemyDrop';
+import { EnemyDrop } from "./enemyDrop";
 
 export interface Enemy {
   id: number;

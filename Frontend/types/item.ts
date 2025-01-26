@@ -1,5 +1,5 @@
-import { Inventory } from './inventory';
-import { EnemyDrop } from './enemyDrop';
+import { Inventory } from "./inventory";
+import { EnemyDrop } from "./enemyDrop";
 
 export interface Item {
   id: number;

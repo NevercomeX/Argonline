@@ -1,7 +1,7 @@
-import { Inventory } from './inventory';
-import { EquipmentSlot } from './equipmentSlot';
-import { ItemInstance } from './itemInstance';
-import { User } from './user';
+import { Inventory } from "./inventory";
+import { EquipmentSlot } from "./equipmentSlot";
+import { ItemInstance } from "./itemInstance";
+import { User } from "./user";
 
 export interface Character {
   id: number;

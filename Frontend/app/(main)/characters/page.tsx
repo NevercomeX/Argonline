@@ -1,10 +1,10 @@
-'use client';
+"use client";
 import { useState, useEffect } from "react";
 import { Character } from "../../../types";
-import { useAuth } from '../../../components/Auth/context/AuthContext';
-import CharacterCard from "../../../components/Characters/CharacterCard";
-import CreateCharacterButton from "../../../components/Characters/CreateCharacterButton";
-import Pagination from "../../../components/Characters/Pagination";
+import { useAuth } from "../../../components/Auth/context/AuthContext";
+import CharacterCard from "../../../components/GameComponents/Characters/CharacterCard";
+import CreateCharacterButton from "../../../components/GameComponents/Characters/CreateCharacterButton";
+import Pagination from "../../../components/GameComponents/Characters/Pagination";
 
 const CharacterList = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -19,7 +19,7 @@ const CharacterList = () => {
   const fetchCharacters = async (pageNumber: number) => {
     const userId = await getUserId();
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${userId}/characters?page=${pageNumber}`
+      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${userId}/characters?page=${pageNumber}`,
     );
     const data = await response.json();
     setCharacters(data.characters || []); // Solo se reciben 3 personajes por página

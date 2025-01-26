@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import BackButton from '@/components/BackButton';
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import BackButton from "@/components/DashboardComponents/BackButton";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -11,42 +11,44 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/Ui/form';
+} from "@/components/Ui/form";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/Ui/card';
-import { Input } from '@/components/Ui/input';
-import { Button } from '@/components/Ui/button';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+} from "@/components/Ui/card";
+import { Input } from "@/components/Ui/input";
+import { Button } from "@/components/Ui/button";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 // Definir esquema de validación con Zod
-const formSchema = z.object({
-  name: z.string().min(1, {
-    message: 'Name is required',
-  }),
-  email: z
-    .string()
-    .min(1, {
-      message: 'Email is required',
-    })
-    .email({
-      message: 'Please enter a valid email',
+const formSchema = z
+  .object({
+    name: z.string().min(1, {
+      message: "Name is required",
     }),
-  password: z.string().min(6, {
-    message: 'Password must be at least 6 characters long',
-  }),
-  confirmPassword: z.string().min(6, {
-    message: 'Confirm Password is required',
-  }),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword'],
-});
+    email: z
+      .string()
+      .min(1, {
+        message: "Email is required",
+      })
+      .email({
+        message: "Please enter a valid email",
+      }),
+    password: z.string().min(6, {
+      message: "Password must be at least 6 characters long",
+    }),
+    confirmPassword: z.string().min(6, {
+      message: "Confirm Password is required",
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -56,10 +58,10 @@ const RegisterForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -67,33 +69,36 @@ const RegisterForm = () => {
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsSubmitting(true); // Deshabilitar botón durante la solicitud
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_LOGIN_URL}/authV2/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_LOGIN_URL}/authV2/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: data.name,
+            password: data.password,
+            email: data.email,
+          }),
         },
-        body: JSON.stringify({
-          username: data.name,
-          password: data.password,
-          email: data.email,
-        }),
-      });
+      );
 
       if (response.ok) {
         const responseData = await response.json();
         const userId = responseData?.user?.id;
         if (userId) {
-          localStorage.setItem('token', responseData.token); // Guardar token en el localStorage
+          localStorage.setItem("token", responseData.token); // Guardar token en el localStorage
           router.push(`/characters`); // Redirigir a la lista de personajes
         } else {
-          throw new Error('User ID not found in response');
+          throw new Error("User ID not found in response");
         }
       } else {
-        alert('Error during registration');
+        alert("Error during registration");
       }
     } catch (error) {
-      console.error('Registration error:', error);
-      alert('An error occurred during registration.');
+      console.error("Registration error:", error);
+      alert("An error occurred during registration.");
     } finally {
       setIsSubmitting(false); // Habilitar botón después de la solicitud
     }
@@ -105,25 +110,25 @@ const RegisterForm = () => {
         <CardTitle>Register</CardTitle>
         <CardDescription>Sign up by adding the info below</CardDescription>
       </CardHeader>
-      <CardContent className='space-y-2'>
+      <CardContent className="space-y-2">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className='space-y-6'
+            className="space-y-6"
           >
             {/* Campo: Nombre */}
             <FormField
               control={form.control}
-              name='name'
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='uppercase text-xs font-bold text-zinc-500 dark:text-white'>
+                  <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                     Name
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className='bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible: ring-offset-0'
-                      placeholder='Enter Name'
+                      className="bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible: ring-offset-0"
+                      placeholder="Enter Name"
                       {...field}
                     />
                   </FormControl>
@@ -135,16 +140,16 @@ const RegisterForm = () => {
             {/* Campo: Email */}
             <FormField
               control={form.control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='uppercase text-xs font-bold text-zinc-500 dark:text-white'>
+                  <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                     Email
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className='bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible: ring-offset-0'
-                      placeholder='Enter Email'
+                      className="bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible: ring-offset-0"
+                      placeholder="Enter Email"
                       {...field}
                     />
                   </FormControl>
@@ -156,17 +161,17 @@ const RegisterForm = () => {
             {/* Campo: Contraseña */}
             <FormField
               control={form.control}
-              name='password'
+              name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='uppercase text-xs font-bold text-zinc-500 dark:text-white'>
+                  <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                     Password
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type='password'
-                      className='bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible: ring-offset-0'
-                      placeholder='Enter Password'
+                      type="password"
+                      className="bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible: ring-offset-0"
+                      placeholder="Enter Password"
                       {...field}
                     />
                   </FormControl>
@@ -178,17 +183,17 @@ const RegisterForm = () => {
             {/* Campo: Confirmar contraseña */}
             <FormField
               control={form.control}
-              name='confirmPassword'
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='uppercase text-xs font-bold text-zinc-500 dark:text-white'>
+                  <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                     Confirm Password
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type='password'
-                      className='bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible: ring-offset-0'
-                      placeholder='Enter Confirm Password'
+                      type="password"
+                      className="bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible: ring-offset-0"
+                      placeholder="Enter Confirm Password"
                       {...field}
                     />
                   </FormControl>
@@ -196,8 +201,8 @@ const RegisterForm = () => {
                 </FormItem>
               )}
             />
-            <Button type='submit' className='w-full' disabled={isSubmitting}>
-              {isSubmitting ? 'Registering...' : 'Sign Up'}
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Registering..." : "Sign Up"}
             </Button>
           </form>
         </Form>

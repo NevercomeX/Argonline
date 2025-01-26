@@ -7,42 +7,50 @@ import { useAuth } from "../../../../../components/Auth/context/AuthContext";
 const Step2 = () => {
   const router = useRouter();
   const { getUserId } = useAuth();
-  const { name, jobClass, attributes, gender, setGender, selectedSprite } = useCharacterCreation();
+  const { name, jobClass, attributes, gender, setGender, selectedSprite } =
+    useCharacterCreation();
 
   const handleSubmit = async () => {
-  if (!name || !jobClass || !gender) {
-    alert("Please fill out all required fields before submitting.");
-    return;
-  }
-
-  try {
-    const userId = await getUserId();
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${userId}/characters`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        jobClass,
-        attributes,
-        gender: gender === "Male" ? "M" : "F", // Convierte a "M" o "F"
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      alert(`Character "${data.name}" created successfully!`);
-      router.push("/characters");
-    } else {
-      const error = await response.json();
-      alert(`Failed to create character: ${error.message || "Unknown error"}`);
+    if (!name || !jobClass || !gender) {
+      alert("Please fill out all required fields before submitting.");
+      return;
     }
-  } catch (err) {
-    console.error("Error creating character:", err);
-    alert("An error occurred while creating the character. Please try again.");
-  }
-};
+
+    try {
+      const userId = await getUserId();
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${userId}/characters`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            jobClass,
+            attributes,
+            gender: gender === "Male" ? "M" : "F", // Convierte a "M" o "F"
+          }),
+        },
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(`Character "${data.name}" created successfully!`);
+        router.push("/characters");
+      } else {
+        const error = await response.json();
+        alert(
+          `Failed to create character: ${error.message || "Unknown error"}`,
+        );
+      }
+    } catch (err) {
+      console.error("Error creating character:", err);
+      alert(
+        "An error occurred while creating the character. Please try again.",
+      );
+    }
+  };
 
   // Mapeo de rutas para imágenes de géneros
   const genderSprites: { [key: string]: { Male: string; Female: string } } = {
@@ -78,8 +86,9 @@ const Step2 = () => {
 
   // Genera la ruta del sprite dinámicamente según el jobClass y el género
   const selectedstep2Sprite =
-    genderSprites[jobClass]?.[gender as "Male" | "Female"] || "/jobgender/novice/NOVICE_M.gif";
-  
+    genderSprites[jobClass]?.[gender as "Male" | "Female"] ||
+    "/jobgender/novice/NOVICE_M.gif";
+
   return (
     <div className="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6">
       <h2 className="text-2xl font-semibold mb-4">Step 2: Select Gender</h2>
@@ -91,8 +100,8 @@ const Step2 = () => {
           <img
             src={selectedstep2Sprite} // Ruta del sprite dinámico
             alt={`${jobClass} - ${gender}`}
-          className="mx-auto mb-4"
-          style={{ width: 100, height: 100, objectFit: 'contain' }} // Tamaño fijo
+            className="mx-auto mb-4"
+            style={{ width: 100, height: 100, objectFit: "contain" }} // Tamaño fijo
           />
         </div>
       </div>

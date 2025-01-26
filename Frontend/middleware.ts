@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getSession } from "./app/utils/authUtils/getSession";
+import { getSession } from "./utils/authUtils/getSession";
 
 const publicRoutes = ["/auth"];
 
@@ -25,5 +25,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/characters/:path*", "/equipment/:path*","/" ], // Rutas protegidas
+  matcher: ["/characters/:path*", "/equipment/:path*", "/"], // Rutas protegidas
 };

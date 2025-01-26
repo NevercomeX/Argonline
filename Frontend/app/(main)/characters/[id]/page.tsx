@@ -1,15 +1,15 @@
 // app/(main)/characters/[id]/page.tsx
 import { Character } from "../../../../types";
-import { jobGenderSprites } from "../../../../components/Jobs/JobSpritesMap";
-import { getEquipmentSlotsByCharacterId } from "../../../utils/gameUtils/equipmentApi";
-import { getInventory } from "../../../utils/gameUtils/inventoryApi";
-import { getItemsById } from "../../../utils/gameUtils/itemsApi";
-import CharacterInfo from "../../../../components/Characters/Details/CharacterInfo";
-import CombatStats from "../../../../components/Characters/Details/CombatStats";
-import HealthManaBars from "../../../../components/Characters/Details/HealthManaBars";
-import ExperienceInfo from "../../../../components/Characters/Details/ExperienceInfo";
-import RadarChartSection from "../../../../components/Characters/Details/RadarChartSection";
-import EquipmentInventorySection from "../../../../components/Characters/Details/EquipmentInventorySection";
+import { jobGenderSprites } from "../../../../components/GameComponents/Jobs/JobSpritesMap";
+import { getEquipmentSlotsByCharacterId } from "../../../../utils/gameUtils/equipmentApi";
+import { getInventory } from "../../../../utils/gameUtils/inventoryApi";
+import { getItemsById } from "../../../../utils/gameUtils/itemsApi";
+import CharacterInfo from "../../../../components/GameComponents/Characters/Details/CharacterInfo";
+import CombatStats from "../../../../components/GameComponents/Characters/Details/CombatStats";
+import HealthManaBars from "../../../../components/GameComponents/Characters/Details/HealthManaBars";
+import ExperienceInfo from "../../../../components/GameComponents/Characters/Details/ExperienceInfo";
+import RadarChartSection from "../../../../components/GameComponents/Characters/Details/RadarChartSection";
+import EquipmentInventorySection from "../../../../components/GameComponents/Characters/Details/EquipmentInventorySection";
 
 interface CharacterDetailsPageProps {
   params: {
@@ -17,11 +17,15 @@ interface CharacterDetailsPageProps {
   };
 }
 
-export default async function CharacterDetailsPage({ params }: CharacterDetailsPageProps) {
+export default async function CharacterDetailsPage({
+  params,
+}: CharacterDetailsPageProps) {
   const { id } = params;
 
   // Obtener detalles del personaje
-  const characterResponse = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${id}`);
+  const characterResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${id}`,
+  );
   if (!characterResponse.ok) {
     throw new Error("Failed to load character details.");
   }
@@ -59,7 +63,7 @@ export default async function CharacterDetailsPage({ params }: CharacterDetailsP
               templateId: isInstance ? itemDetails?.itemTemplate?.id : null,
             };
           })
-      : [] // Si equipmentData es null o undefined, devolver un array vacío
+      : [], // Si equipmentData es null o undefined, devolver un array vacío
   );
 
   // Formatear el inventario
@@ -75,7 +79,10 @@ export default async function CharacterDetailsPage({ params }: CharacterDetailsP
           name: itemTemplate?.name || itemData?.name || "Unknown Item", // Nombre del ítem
           quantity: item.quantity, // Cantidad
           equipable: itemTemplate?.equipable || itemData?.equipable || false, // Si es equipable
-          equipmentSlot: itemTemplate?.equipmentSlot || itemData?.equipmentSlot || "Unknown Slot", // Slot de equipamiento
+          equipmentSlot:
+            itemTemplate?.equipmentSlot ||
+            itemData?.equipmentSlot ||
+            "Unknown Slot", // Slot de equipamiento
           isInstance: !!item.itemInstanceId, // Si es una instancia
           itemIcon: itemTemplate?.itemIcon || itemData?.itemIcon, // Icono del ítem
         };
@@ -83,7 +90,8 @@ export default async function CharacterDetailsPage({ params }: CharacterDetailsP
     : []; // Si inventoryData es null o undefined, devolver un array vacío
 
   // Ruta del sprite del personaje
-  const jobSpritePath = jobGenderSprites[character.jobclassId] || "/default/path.gif";
+  const jobSpritePath =
+    jobGenderSprites[character.jobclassId] || "/default/path.gif";
   const sprtroute = `${jobSpritePath}_${character.gender}.gif`;
 
   // Datos para el gráfico de radar

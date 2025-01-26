@@ -1,14 +1,14 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   // darkMode: "class",
   theme: {
@@ -21,7 +21,7 @@ const config = {
       "3xl": "2000px",
       ...defaultTheme.screens,
     },
-extend: {
+    extend: {
       colors: {
         current: "currentColor",
         transparent: "transparent",
@@ -386,5 +386,5 @@ extend: {
     },
   },
   plugins: [],
-  }
-export default config
+};
+export default config;

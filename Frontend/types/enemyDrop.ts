@@ -1,5 +1,5 @@
-import { Enemy } from './enemy';
-import { Item } from './item';
+import { Enemy } from "./enemy";
+import { Item } from "./item";
 
 export interface EnemyDrop {
   id: number;

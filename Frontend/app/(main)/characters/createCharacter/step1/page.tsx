@@ -3,9 +3,9 @@
 
 import { useRouter } from "next/navigation";
 import { useCharacterCreation } from "../context/CharacterCreationContext";
-import FormInput from "../../../../../components/Characters/CreateCharacter/FormInput";
-import AttributeDistribution from "../../../../../components/Characters/CreateCharacter/AttributeDistribution";
-import JobClassSelector from "../../../../../components/Characters/CreateCharacter/JobClassSelector";
+import FormInput from "../../../../../components/GameComponents/CreateCharacter/FormInput";
+import AttributeDistribution from "../../../../../components/GameComponents/CreateCharacter/AttributeDistribution";
+import JobClassSelector from "../../../../../components/GameComponents/CreateCharacter/JobClassSelector";
 import { useState } from "react";
 
 const initialAttributes = {
@@ -32,7 +32,10 @@ const Step1 = () => {
   const [points, setPoints] = useState(10);
   const [nameError, setNameError] = useState<string | null>(null);
 
-  const handleAttributeChange = (attribute: keyof typeof initialAttributes, increment: boolean) => {
+  const handleAttributeChange = (
+    attribute: keyof typeof initialAttributes,
+    increment: boolean,
+  ) => {
     if (increment && points <= 0) return;
     if (!increment && attributes[attribute] <= 0) return;
 
@@ -86,7 +89,10 @@ const Step1 = () => {
       {nameError && (
         <p className="text-red-500 text-sm mt-2">{nameError}</p> // Muestra el error si existe
       )}
-      <JobClassSelector value={jobClass} onChange={(e) => setJobClass(e.target.value)} />
+      <JobClassSelector
+        value={jobClass}
+        onChange={(e) => setJobClass(e.target.value)}
+      />
       <AttributeDistribution
         attributes={attributes}
         points={points}
