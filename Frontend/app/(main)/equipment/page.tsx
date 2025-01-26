@@ -12,8 +12,8 @@ export default async function EquipmentAndInventoryPage({
   const characterId = parseInt(searchParams.characterId || '1', 10);
 
   // Obtener datos de equipo e inventario
-  const equipmentSlotsData = await getEquipmentSlotsByCharacterId(characterId);
-  const inventory = await getInventory(characterId);
+  const equipmentSlotsData = await getEquipmentSlotsByCharacterId(2);
+  const inventory = await getInventory(2);
 
   // Función para obtener detalles del ítem si solo tenemos el ID
   const getItemDetails = async (id: number | null) => {
@@ -60,6 +60,8 @@ export default async function EquipmentAndInventoryPage({
         };
       })
   );
+
+  console.log(equipmentSlots);
 
   // Formatear los datos del inventario
   const inventoryItems = inventory.map((inventoryItem: any) => {

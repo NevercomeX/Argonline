@@ -1,5 +1,5 @@
 import React from "react";
-import {jobSprites} from "../Jobs/JobSpritesMap";
+import {jobSprites} from "../../Jobs/JobSpritesMap";
 
 interface JobClassSelectorProps {
   value: string; // El valor actual del trabajo, controlado desde el contexto

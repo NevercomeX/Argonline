@@ -3,9 +3,9 @@
 
 import { useRouter } from "next/navigation";
 import { useCharacterCreation } from "../context/CharacterCreationContext";
-import FormInput from "../../../../../components/Characters/FormInput";
-import AttributeDistribution from "../../../../../components/Characters/AttributeDistribution";
-import JobClassSelector from "../../../../../components/Characters/JobClassSelector";
+import FormInput from "../../../../../components/Characters/CreateCharacter/FormInput";
+import AttributeDistribution from "../../../../../components/Characters/CreateCharacter/AttributeDistribution";
+import JobClassSelector from "../../../../../components/Characters/CreateCharacter/JobClassSelector";
 import { useState } from "react";
 
 const initialAttributes = {

@@ -1,230 +1,167 @@
-"use client";
-
-import { useEffect, useState } from "react";
+// app/(main)/characters/[id]/page.tsx
 import { Character } from "../../../../types";
 import { jobGenderSprites } from "../../../../components/Jobs/JobSpritesMap";
-import { Radar } from "react-chartjs-2"; // Importamos Radar de react-chartjs-2
-import {
-  Chart as ChartJS,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { getEquipmentSlotsByCharacterId } from "../../../utils/gameUtils/equipmentApi";
+import { getInventory } from "../../../utils/gameUtils/inventoryApi";
+import { getItemsById } from "../../../utils/gameUtils/itemsApi";
+import CharacterInfo from "../../../../components/Characters/Details/CharacterInfo";
+import CombatStats from "../../../../components/Characters/Details/CombatStats";
+import HealthManaBars from "../../../../components/Characters/Details/HealthManaBars";
+import ExperienceInfo from "../../../../components/Characters/Details/ExperienceInfo";
+import RadarChartSection from "../../../../components/Characters/Details/RadarChartSection";
+import EquipmentInventorySection from "../../../../components/Characters/Details/EquipmentInventorySection";
 
-ChartJS.register(
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend
-);
+interface CharacterDetailsPageProps {
+  params: {
+    id: string;
+  };
+}
 
-const CharacterDetailsPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params; // Obtiene el ID del personaje de los parámetros
-  const [character, setCharacter] = useState<Character | null>(null);
-  const [spriteGender, setSpriteGender] = useState<string | null>(null);
-  const [jobclassid, setJobClassId] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+export default async function CharacterDetailsPage({ params }: CharacterDetailsPageProps) {
+  const { id } = params;
 
-  useEffect(() => {
-    const fetchCharacter = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${id}`);
+  // Obtener detalles del personaje
+  const characterResponse = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${id}`);
+  if (!characterResponse.ok) {
+    throw new Error("Failed to load character details.");
+  }
+  const character: Character = await characterResponse.json();
 
-        console.log("response", response);
-        if (response.ok) {
-          const data: Character = await response.json(); // Obtiene los datos del personaje
-          setCharacter(data); // Establece los datos en el estado
-          setSpriteGender(data.gender);
-          setJobClassId(data.jobclassId);
-        } else {
-          setError("Failed to load character details.");
-        }
-      } catch (err) {
-        setError("An error occurred while fetching character details.");
-        console.error(err);
-      } finally {
-        setLoading(false); // Detiene la carga independientemente del resultado
-      }
-    };
+  // Obtener el equipo y el inventario
+  const equipmentData = await getEquipmentSlotsByCharacterId(character.id);
+  const inventoryData = await getInventory(character.id);
 
-    fetchCharacter();
-  }, [id]); // El efecto se ejecutará cada vez que cambie el ID del personaje
+  // Formatear el equipo
+  const equipmentSlots = await Promise.all(
+    equipmentData
+      ? Object.keys(equipmentData)
+          .filter((slotName) => slotName !== "id" && slotName !== "characterId")
+          .map(async (slotName) => {
+            const slotData = equipmentData[slotName];
+            let itemDetails = null;
 
-  // Obtener el sprite dinámicamente según el jobclassId y el género del personaje
-  const jobSpritePath = jobGenderSprites[jobclassid] || "/default/path.gif";
+            if (typeof slotData === "number") {
+              itemDetails = await getItemsById(slotData);
+            }
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!character) return <p>Character not found.</p>;
+            const isInstance = !!itemDetails?.itemTemplate;
+            return {
+              slotName,
+              displayName: slotName,
+              itemId: slotData,
+              itemName: isInstance
+                ? itemDetails?.itemTemplate?.name
+                : itemDetails?.name || "Vacío",
+              itemIcon: isInstance
+                ? itemDetails?.itemTemplate?.itemIcon
+                : itemDetails?.itemIcon || "",
+              isInstance,
+              templateId: isInstance ? itemDetails?.itemTemplate?.id : null,
+            };
+          })
+      : [] // Si equipmentData es null o undefined, devolver un array vacío
+  );
+
+  // Formatear el inventario
+  const inventoryItems = inventoryData
+    ? inventoryData.map((item: any) => {
+        const itemInstance = item.itemInstance; // Instancia de ítem, si existe
+        const itemTemplate = itemInstance?.itemTemplate; // Template de la instancia, si existe
+        const itemData = item.item; // Ítem normal, si existe
+
+        return {
+          id: item.itemInstanceId || item.itemId, // ID del ítem o de la instancia
+          templateId: itemTemplate?.id || itemData?.id, // ID del template si es instancia
+          name: itemTemplate?.name || itemData?.name || "Unknown Item", // Nombre del ítem
+          quantity: item.quantity, // Cantidad
+          equipable: itemTemplate?.equipable || itemData?.equipable || false, // Si es equipable
+          equipmentSlot: itemTemplate?.equipmentSlot || itemData?.equipmentSlot || "Unknown Slot", // Slot de equipamiento
+          isInstance: !!item.itemInstanceId, // Si es una instancia
+          itemIcon: itemTemplate?.itemIcon || itemData?.itemIcon, // Icono del ítem
+        };
+      })
+    : []; // Si inventoryData es null o undefined, devolver un array vacío
+
+  // Ruta del sprite del personaje
+  const jobSpritePath = jobGenderSprites[character.jobclassId] || "/default/path.gif";
+  const sprtroute = `${jobSpritePath}_${character.gender}.gif`;
 
   // Datos para el gráfico de radar
   const radarData = {
-    labels: ["Atk", "mAtk", "def", "mdef", "maxHealth", "maxMana"],
+    labels: ["Atk", "mAtk", "Def", "mDef", "Max HP", "Max MP"],
     datasets: [
       {
         label: "Character Stats",
         data: [
-          character.attackPower*character.str*character.agi,
-          character.magicPower*character.int,
-          character.defense*character.vit,
-         character.magicDefense*character.int,
-         character.maxHealth*character.vit,
-         character.maxMana*character.int
-
+          character?.attackPower || 0,
+          character?.magicPower || 0,
+          character?.defense || 0,
+          character?.magicDefense || 0,
+          character?.maxHealth || 0,
+          character?.maxMana || 0,
         ],
         backgroundColor: "rgba(54, 162, 235, 0.2)",
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 2,
-            pointBackgroundColor: "rgba(54, 162, 235, 1)",
-        
-        
       },
     ],
   };
-console.log(character.str)
-  // Opciones para personalizar el gráfico
+
   const radarOptions = {
     responsive: true,
     scales: {
-        r: {
-           max: 300, // Máximo valor en la escala
-        min: 0, // Mínimo valor en la escala
-            angleLines: {
-             stepSize: 50, // Intervalo entre las marcas
-          
-          color: "#ccc", // Color de las líneas angulares
-        },
-        grid: {
-          color: "#ddd", // Color de la cuadrícula
-        },
-        ticks: {
-          display: true, // Mostrar los valores de las escalas
-          color: "#333",
-        },
+      r: {
+        max: 300,
+        min: 0,
+        angleLines: { color: "#ccc" },
+        grid: { color: "#ddd" },
+        ticks: { display: true, color: "#333" },
         pointLabels: {
-          color: "#333", // Color de las etiquetas de los atributos
-          font: {
-            size: 13,
-          },
+          color: "#333",
+          font: { size: 13 },
         },
       },
     },
     plugins: {
-      legend: {
-        position: "top" as const,
-      },
+      legend: { position: "top" },
     },
   };
 
   return (
     <div className="border border-gray-300 bg-white p-4 rounded-lg shadow hover:shadow-md hover:bg-gray-100">
-      <h1 className="text-3xl font-semibold mb-6">{character.name}</h1>
-      <img
-        src={`${jobSpritePath}_${spriteGender}.gif`} // Usa la ruta generada dinámicamente
-        alt={character.name}
-        className="mx-auto mb-4"
-        style={{ width: 100, height: 150, objectFit: "contain" }} // Tamaño fijo
-          />
-                    <div className="w-full space-y-8 pt-">
-          {/* Barra de vida */}
-          <div className=''>
-          <div>
-            <label className="text-sm font-medium text-gray-700">HP</label>
-            <div className="w-full bg-gray-200 rounded-full h-4">
-              <div
-                className="bg-red-500 h-4 rounded-full"
-                style={{ width: `${(character.health / character.maxHealth) * 100}%` }}
-              ></div>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              {character.health}/{character.maxHealth}
-            </p>
-          </div>
-
-          {/* Barra de maná */}
-          <div>
-            <label className="text-sm font-medium text-gray-700">MP</label>
-            <div className="w-full bg-gray-200 rounded-full h-4">
-              <div
-                className="bg-blue-500 h-4 rounded-full"
-                style={{ width: `${(character.mana / character.maxMana) * 100}%` }}
-              ></div>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              {character.mana}/{character.maxMana}
-            </p>
-          </div>
-          </div>
-
-          {/* Barra de experiencia base */}
-          <div>
-          <div>
-            <label className="text-sm font-medium text-gray-700">Base EXP</label>
-            <div className="w-full bg-gray-200 rounded-full h-4">
-              <div
-                className="bg-green-500 h-4 rounded-full"
-                style={{ width: `${(character.baseExp / character.maxBaseExp) * 100}%` }}
-              ></div>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              {character.baseExp}/{character.maxBaseExp}
-            </p>
-          </div>
-
-          {/* Barra de experiencia de job */}
-          <div>
-            <label className="text-sm font-medium text-gray-700">Job EXP</label>
-            <div className="w-full bg-gray-200 rounded-full h-4">
-              <div
-                className="bg-yellow-500 h-4 rounded-full"
-                style={{ width: `${(character.jobExp / character.maxJobExp) * 100}%` }}
-              ></div>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              {character.jobExp}/{character.maxJobExp}
-            </p>
-          </div>
-        </div>
+      <EquipmentInventorySection
+        characterId={parseInt(id, 10)}
+        equipmentSlots={equipmentSlots}
+        inventoryItems={inventoryItems}
+        characterName={character.name} // Nueva prop
+        characterSprite={sprtroute} // Nueva prop
+      />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <CharacterInfo
+          baseLevel={character.baseLevel}
+          jobLevel={character.jobLevel}
+          gender={character.gender}
+        />
+        <CombatStats
+          attackPower={character.attackPower}
+          defense={character.defense}
+          magicPower={character.magicPower}
+          magicDefense={character.magicDefense}
+        />
+        <HealthManaBars
+          health={character.health}
+          maxHealth={character.maxHealth}
+          mana={character.mana}
+          maxMana={character.maxMana}
+        />
+        <ExperienceInfo
+          baseExp={character.baseExp}
+          maxBaseExp={character.maxBaseExp}
+          jobExp={character.jobExp}
+          maxJobExp={character.maxJobExp}
+        />
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <span className="font-medium">Base Level:</span> {character.baseLevel}
-        </div>
-        <div>
-          <span className="font-medium">Job Level:</span> {character.jobLevel}
-        </div>
-        <div>
-          <span className="font-medium">HP:</span> {character.health}
-        </div>
-        <div>
-          <span className="font-medium">Mana:</span> {character.mana}
-        </div>
-        <div>
-          <span className="font-medium">Attack Power:</span> {character.attackPower}
-        </div>
-        <div>
-          <span className="font-medium">Defense:</span> {character.defense}
-        </div>
-          </div>
-          
-
-
-      {/* Contenedor del gráfico de radar */}
-<div className="mt-8">
-  <h2 className="text-2xl font-semibold mb-4">Stats Overview</h2>
-  {/* Contenedor ajustando el tamaño del radar */}
-  <div className="w-72 h-72 mx-auto">
-    <Radar data={radarData} options={radarOptions} />
-  </div>
-</div>
-          </div>
+      <RadarChartSection radarData={radarData} radarOptions={radarOptions} />
+    </div>
   );
-};
-
-export default CharacterDetailsPage;
+}

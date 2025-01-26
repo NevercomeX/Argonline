@@ -24,7 +24,6 @@ const InventoryGrid: React.FC<InventoryGridProps> = ({ characterId, inventoryIte
 
   const handleEquipItem = async (item: InventoryItem) => {
 
-    
     if (item.equipable) {
       try {
         // Verificar si ya hay un ítem equipado en el mismo slot y desequiparlo
@@ -74,7 +73,7 @@ const InventoryGrid: React.FC<InventoryGridProps> = ({ characterId, inventoryIte
   
 
   return (
-    <div className="grid grid-cols-6 gap-4">
+    <div className="grid grid-cols-6 gap-4 my-4 items-center border p-4 rounded-lg bg-gray-50 shadow">
 
       {items.map((item) => (
         <div
