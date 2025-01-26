@@ -10,16 +10,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/Ui/form";
+} from "./AuthUI/form";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/Ui/card";
-import { Input } from "@/components/Ui/input";
-import { Button } from "@/components/Ui/button";
+} from "./AuthUI/card";
+import { Input } from "./AuthUI/input";
+import { Button } from "./AuthUI/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Cookies from "js-cookie";
@@ -64,7 +64,7 @@ const LoginForm = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        },
+        }
       );
 
       if (response.ok) {

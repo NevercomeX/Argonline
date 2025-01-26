@@ -8,7 +8,7 @@ import {
   Avatar,
   AvatarImage,
   AvatarFallback,
-} from "@/components/DashboardComponents/Ui/avatar";
+} from "@/components/Auth/AuthUI/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +16,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/DashboardComponents/Ui/dropdown-menu";
+} from "@/components/Auth/AuthUI/dropdown-menu";
 import ThemeToggler from "@/components/DashboardComponents/ThemeToggler";
 
 const Navbar = () => {
