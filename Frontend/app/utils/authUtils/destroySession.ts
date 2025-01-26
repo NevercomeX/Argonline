@@ -8,7 +8,7 @@ const destroySession = async () => {
 
   try {
     if (refreshToken) {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authV2/logout`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_LOGIN_URL}/authV2/logout`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${refreshToken}`,

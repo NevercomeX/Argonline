@@ -3,7 +3,7 @@
 // Función para obtener los detalles de un ítem por su ID
 export const getItemsById = async (itemId: number) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/items/${itemId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/items/${itemId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ import { revalidateTag } from 'next/cache';
 // app/utils/inventoryApi.ts
 export const getInventory = async (characterId: number) => {
   try {
-    const response = await fetch(`http://localhost:4001/api/inventory/${characterId}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/inventory/${characterId}`, {
       method: 'GET',
       headers: {
         'Cache-Control': 'no-store',
@@ -28,7 +28,7 @@ export const getEquipmentSlotByCharacterIdAndSlot = async (
 ) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/equipment/${characterId}/${slotType}`,
+      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/${slotType}`,
       {
         method: 'GET',
         headers: {
@@ -52,7 +52,7 @@ export const getEquipmentSlotByCharacterIdAndSlot = async (
   export const unequipItem = async (characterId: number, slotType: string) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/equipment/${characterId}/unequip/${slotType}`,
+        `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/unequip/${slotType}`,
         {
           method: "PUT",
           headers: {
@@ -75,7 +75,7 @@ export const getEquipmentSlotByCharacterIdAndSlot = async (
   
   export const getItemInstanceById = async (itemId: number) => {
     try {
-      const response = await fetch(`http://localhost:4001/api/item-instances/${itemId}`,{
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/item-instances/${itemId}`,{
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -102,7 +102,7 @@ export const getEquipmentSlotByCharacterIdAndSlot = async (
   ) => {
     try {
   
-      const response = await fetch(`http://localhost:4001/api/equipment/${characterId}/equip`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/equip`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

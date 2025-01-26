@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
   
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authV2/verify-session`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_LOGIN_URL}/authV2/verify-session`, {
           headers: { Authorization: `Bearer ${savedToken}` },
         });
   
@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authV2/users/getUserIdFromToken`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_LOGIN_URL}/authV2/users/getUserIdFromToken`, {
         method: 'POST', // Cambiamos el método a POST
         headers: {
           'Content-Type': 'application/json',

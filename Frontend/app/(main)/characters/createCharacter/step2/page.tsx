@@ -17,7 +17,7 @@ const Step2 = () => {
 
   try {
     const userId = await getUserId();
-    const response = await fetch(`http://localhost:4001/api/characters/${userId}/characters`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${userId}/characters`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -13,7 +13,7 @@ import { cookies } from "next/headers";
 
 const getSession = async () => {
     try {
-        const response = await get<{ user: { id: number; email: string } }>("/api/authV2/get-session");
+        const response = await get<{ user: { id: number; email: string } }>("/authV2/get-session");
         return response;
     } catch (error) {
         console.error("Error en getSession:", error);

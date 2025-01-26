@@ -5,7 +5,7 @@ import { revalidateTag } from 'next/cache';
 // Obtener los slots de equipamiento de un personaje
 export const getEquipmentSlotsByCharacterId = async (characterId: number) => {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/equipment/character/${characterId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/character/${characterId}`, {
             method: 'GET',
             headers: {
               'Cache-Control': 'no-cache',  // Deshabilitar el cache en el request
@@ -31,7 +31,7 @@ export const getEquipmentSlotsByCharacterId = async (characterId: number) => {
   export const unequipItem = async (characterId: number, slotType: string) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/equipment/${characterId}/unequip/${slotType}`,
+        `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/unequip/${slotType}`,
         {
           method: "PUT",
           headers: {
@@ -55,7 +55,7 @@ export const getEquipmentSlotsByCharacterId = async (characterId: number) => {
   // Obtener nombre del ítem por ID
   export const getItemNameById = async (itemId: number) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/items/${itemId}`,  {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/items/${itemId}`,  {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

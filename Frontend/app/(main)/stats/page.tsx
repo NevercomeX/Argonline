@@ -17,7 +17,7 @@ const ItemsPage = () => {
   }, [page]);
 
   const fetchItems = async (pageNumber: number) => {
-    const response = await fetch(`http://localhost:4001/api/items?page=${pageNumber}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/items?page=${pageNumber}`);
     const data = await response.json();
 
     setItems(data.items || []); // Asegurarse de que items sea un array

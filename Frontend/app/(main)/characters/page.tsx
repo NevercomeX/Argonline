@@ -19,7 +19,7 @@ const CharacterList = () => {
   const fetchCharacters = async (pageNumber: number) => {
     const userId = await getUserId();
     const response = await fetch(
-      `http://localhost:4001/api/characters/${userId}/characters?page=${pageNumber}`
+      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${userId}/characters?page=${pageNumber}`
     );
     const data = await response.json();
     setCharacters(data.characters || []); // Solo se reciben 3 personajes por página

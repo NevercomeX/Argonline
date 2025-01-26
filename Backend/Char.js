@@ -26,9 +26,23 @@ app.use(requestLogger(logRequests));
 app.use(express.json());
 
 // Usar todas las rutas
-app.use("/api", routes);
+app.use("/char", routes);
 
 // Iniciar el servidor
 app.listen(port, () => {
-  console.log(`Server [CHAR] is running on http://localhost:${port}`);
+  console.log("                                             ")
+  console.log("       Nevercomex Development Team Presents:");
+  console.log(`
+             ███╗   ██╗  ██╗  ██╗                    
+             ████╗  ██║  ╚██╗██╔╝                    
+             ██╔██╗ ██║   ╚███╔╝                     
+             ██║╚██╗██║   ██╔██╗                     
+             ██║ ╚████║  ██╔╝ ██╗                    
+             ╚═╝  ╚═══╝  ╚═╝  ╚═╝                    
+`);
+  console.log("                 CHAR SERVER");
+  console.log(" ====================================================");
+  console.log(` =   Server [CHAR] is running on port: ${port}         =`);
+  console.log(" ====================================================");
+  console.log("                                             ")
 });

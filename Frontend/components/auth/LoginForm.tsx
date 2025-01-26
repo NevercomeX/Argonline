@@ -56,7 +56,7 @@ const LoginForm = () => {
     setErrorMessage(null);
 
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/authV2/login', {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_LOGIN_URL + '/authV2/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

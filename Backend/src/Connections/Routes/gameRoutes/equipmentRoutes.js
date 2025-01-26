@@ -116,9 +116,3 @@ router.get("/:characterId/:slotType", async (req, res) => {
 });
 
 export default router;
-
-// GET /api/equipment/: Obtiene la lista de todos los equipamientos.
-// GET /api/equipment/:id: Obtiene el equipamiento por su ID.
-// GET /api/equipment/character/:characterId: Obtiene los slots de equipamiento de un personaje en particular.
-// PUT /api/equipment/:characterId/unequip/:slotType: Desequipa un ítem de un personaje en el slot especificado.
-// PUT /api/equipment/:characterId/equip: Equipa un ítem en el slot especificado.

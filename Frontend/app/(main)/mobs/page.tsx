@@ -13,7 +13,7 @@ const MonsterList: React.FC = () => {
   }, [page]);
 
   const fetchMonsters = async (pageNumber: number) => {
-    const response = await fetch(`http://localhost:4001/api/mobs?page=${pageNumber}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/mobs?page=${pageNumber}`);
     const data = await response.json();
     setMonsters(data.monsters);
     setTotalPages(data.totalPages);

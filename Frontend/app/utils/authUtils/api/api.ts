@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-const API = "http://localhost:4001";
+const API = process.env.NEXT_PUBLIC_API_LOGIN_URL;
 
 // Define types for fetcher response
 interface FetcherResponse<T> {

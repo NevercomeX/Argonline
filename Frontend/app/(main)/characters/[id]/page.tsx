@@ -34,7 +34,7 @@ const CharacterDetailsPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
-        const response = await fetch(`http://localhost:4001/api/characters/${id}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/characters/${id}`);
 
         console.log("response", response);
         if (response.ok) {

@@ -3,7 +3,7 @@
 // Función para obtener los detalles de un usuario por su ID
 export const getUsersById = async (userId: number) => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/users/${userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
