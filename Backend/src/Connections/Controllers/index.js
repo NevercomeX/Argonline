@@ -9,6 +9,8 @@ import {
   createCharacterWithAttributes,
 } from "./Character/character.js";
 
+import { getAvailableSkills, levelUpCharacterSkill, resetCharacterSkills, learnCharacterSkill} from "./Skill/Skills.js";
+
 import { getAllUsers, getAllCharactersFromUser, getUserById, getUserIdFromToken } from "./user/usersController.js";
 
 import { loginUser, registerUser } from "./user/authController.js";
@@ -97,5 +99,9 @@ export {
   updateItemInstance,
   deleteItemInstance,
   getRandomEnemy,
-  getCharactersByUserId
+  getCharactersByUserId,
+  getAvailableSkills,
+  levelUpCharacterSkill,
+  resetCharacterSkills,
+  learnCharacterSkill,
 };

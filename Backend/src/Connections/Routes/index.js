@@ -18,6 +18,7 @@ import getUsers from "./authRoutes/users/users.js";
 import getSession from "./authRoutes/session/get-session.js";
 import refreshSession from "./authRoutes/session/refresh-session.js";
 import verifySession from "./authRoutes/session/verify-session.js";
+import skillRoutes from "./gameRoutes/skillRoutes.js";
 
 const router = express.Router();
 
@@ -30,6 +31,9 @@ router.use("/authV2/users", getUsers);
 router.use("/authV2/get-session", getSession);
 router.use("/authV2/refresh-session", refreshSession);
 router.use("/authV2/verify-session", verifySession);
+
+// Skill routes
+router.use("/skills", skillRoutes);
 
 // User routes
 router.use("/users", userRouters);

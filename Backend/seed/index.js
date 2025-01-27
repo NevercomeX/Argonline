@@ -9,8 +9,12 @@ import { userSeed } from "./users.js";
 import { seedEquipmentSlot } from "./equipment.js";
 import { seedItemInstances } from "./itemInstance.js";
 import { createItemTemplates } from "./itemTemplate.js";
+import { skillSeed } from "./skills.js";
+import { characterSkillSeed } from "./characterskill.js";
+import { skillTreeSeed } from "./skilltree.js";
 import Table from "cli-table3";
 import cliProgress from "cli-progress";
+
 
 const prisma = new PrismaClient();
 
@@ -28,6 +32,10 @@ async function resetDatabase() {
     await prisma.jobClass.deleteMany({});
     await prisma.itemInstance.deleteMany({});
     await prisma.itemTemplate.deleteMany({});
+    await prisma.skill.deleteMany({});
+    await prisma.skillTree.deleteMany({});
+    await prisma.characterSkill.deleteMany({});
+
 
   } catch (error) {
     console.error("Error al resetear la base de datos:", error);
@@ -50,6 +58,10 @@ async function seed() {
     { name: "Item Instances Seed", fn: seedItemInstances },
     { name: "Inventory Seed", fn: inventorySeed },
     { name: "Equipment Slot Seed", fn: seedEquipmentSlot },
+    { name: "Skill Seed", fn: skillSeed },
+    { name: "Character Skill Seed", fn: characterSkillSeed },
+    { name: "Skill Tree Seed", fn: skillTreeSeed },
+
   ];
 
   // Inicializar la barra de progreso

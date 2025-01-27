@@ -19,6 +19,10 @@ model User {
   characters      Character[]
   userSession     UserSession[]
   generalInventory GeneralInventory[] // Relación con el inventario general
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  deletedAt       DateTime?
+  @@unique([username, email])
 }
 
 model UserSession {
@@ -61,6 +65,8 @@ model Character {
   items           ItemInstance[]
   jobclass        JobClass  @relation(fields: [jobclassId], references: [id])
   user            User            @relation(fields: [userId], references: [id])
+  characterSkills CharacterSkill[] 
+  @@unique([userId, name]) // Garantizar que un usuario no tenga personajes con el mismo nombre
 }
 
 model Inventory {
@@ -206,6 +212,7 @@ model EnemyDrop {
   item       Item  @relation(fields: [itemId], references: [id])
   @@unique([enemyId, itemId])
 }
+
 model JobClass {
   id            Int  @id
   name          String @unique
@@ -231,5 +238,41 @@ model JobClass {
   maxJobExp     Int
   skillPoints   Int
   characters      Character[]
-  // skillTree   Skill[]
+  skills         Skill[]  
+  skillTree      SkillTree[]
+}
+
+model Skill {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String
+  jobclassId  Int
+  level       Int      @default(1) // Skill level
+  maxLevel    Int      @default(10) // Maximum skill level
+  requiredLevel Int    @default(1) // Required base/job level to learn
+  spCost      Int      @default(1) // Skill points cost
+  cooldown    Int      @default(0) // Cooldown in seconds
+  effect      String?  // JSON or text for skill effects
+  jobclass    JobClass @relation(fields: [jobclassId], references: [id])
+  skillTree   SkillTree[]
+  characterSkills CharacterSkill[]
+}
+
+model SkillTree {
+  id          Int      @id @default(autoincrement())
+  jobclassId  Int
+  skillId     Int
+  requiredSkillId Int? // Required skill to unlock this skill
+  jobclass    JobClass @relation(fields: [jobclassId], references: [id])
+  skill       Skill    @relation(fields: [skillId], references: [id])
+}
+
+model CharacterSkill {
+  id          Int      @id @default(autoincrement())
+  characterId Int
+  skillId     Int
+  level       Int      @default(1) // Current skill level
+  character   Character @relation(fields: [characterId], references: [id])
+  skill       Skill     @relation(fields: [skillId], references: [id])
+  @@unique([characterId, skillId]) // Prevent duplicate skills for a character
 }
