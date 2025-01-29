@@ -30,6 +30,23 @@ export async function getAvailableSkills(characterId) {
   }
 }
 
+//getSkillTreeByJobClassId on skilltree table just the skills tree for a specific jobclass
+export async function getSkillTreeByJobClassId(characterId) {
+  try {
+    // Obtener el árbol de habilidades para la JobClass
+const characterSkills = await prisma.characterSkill.findMany({
+  where: { characterId: parseInt(characterId) },
+  include: { skill: true }, // Incluir la relación con Skill
+});
+    return characterSkills;
+  }
+  catch (error) {
+    console.error("Error al obtener el árbol de habilidades:", error);
+    throw error;
+  }
+}
+
+
 export async function levelUpCharacterSkill(characterId, skillId) {
   try {
     // Obtener el personaje y su habilidad actual

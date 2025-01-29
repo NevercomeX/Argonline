@@ -4,12 +4,13 @@ import {
   levelUpCharacterSkill,
   resetCharacterSkills,
   learnCharacterSkill,
+  getSkillTreeByJobClassId
 } from "../../Controllers/index.js";
 
 const router = express.Router();
 
 // Ruta para mostrar habilidades disponibles
-router.get("/:characterId/skills", async (req, res) => {
+router.get("/characterskill/:characterId/skills", async (req, res) => {
   const characterId = parseInt(req.params.characterId);
   try {
     const availableSkills = await getAvailableSkills(characterId);
@@ -19,8 +20,19 @@ router.get("/:characterId/skills", async (req, res) => {
   }
 });
 
+// Ruta para obtener Skilltree by jobclass
+router.get("/characterskill/jobclassid/:jobclass", async (req, res) => {
+  const jobClass = parseInt(req.params.jobclass, 10);
+  try {
+    const availableSkills = await getSkillTreeByJobClassId(jobClass);
+    res.status(200).json(availableSkills);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Ruta para subir de nivel una habilidad
-router.post("/:characterId/skills/:skillId/level-up", async (req, res) => {
+router.post("/characterskill/:characterId/skills/:skillId/level-up", async (req, res) => {
   const characterId = parseInt(req.params.characterId);
   const skillId = parseInt(req.params.skillId);
   try {
@@ -32,7 +44,7 @@ router.post("/:characterId/skills/:skillId/level-up", async (req, res) => {
 });
 
 // Ruta para reasignar todos los puntos de habilidades
-router.post("/:characterId/skills/reset", async (req, res) => {
+router.post("/characterskill/:characterId/skills/reset", async (req, res) => {
   const characterId = parseInt(req.params.characterId);
   try {
     const result = await resetCharacterSkills(characterId);
@@ -43,7 +55,7 @@ router.post("/:characterId/skills/reset", async (req, res) => {
 });
 
 // Ruta para aprender una nueva habilidad
-router.post("/:characterId/skills/:skillId/learn", async (req, res) => {
+router.post("/characterskill/:characterId/skills/:skillId/learn", async (req, res) => {
   const characterId = parseInt(req.params.characterId);
   const skillId = parseInt(req.params.skillId);
   try {

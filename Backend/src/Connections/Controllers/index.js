@@ -9,7 +9,7 @@ import {
   createCharacterWithAttributes,
 } from "./Character/character.js";
 
-import { getAvailableSkills, levelUpCharacterSkill, resetCharacterSkills, learnCharacterSkill} from "./Skill/Skills.js";
+import { getAvailableSkills, levelUpCharacterSkill, resetCharacterSkills, learnCharacterSkill,getSkillTreeByJobClassId} from "./Skill/Skills.js";
 
 import { getAllUsers, getAllCharactersFromUser, getUserById, getUserIdFromToken } from "./user/usersController.js";
 
@@ -104,4 +104,5 @@ export {
   levelUpCharacterSkill,
   resetCharacterSkills,
   learnCharacterSkill,
+  getSkillTreeByJobClassId,
 };
