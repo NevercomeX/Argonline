@@ -16,12 +16,9 @@ export async function itemSeed(prisma) {
       await prisma.item.create({
         data: item,
       });
-
     } else {
       console.log(`Item ${item.name} ya existe.`);
     }
   }
   await prisma.$disconnect();
 }
-
-

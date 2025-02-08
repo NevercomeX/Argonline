@@ -2,7 +2,6 @@ import { prisma } from "../../../Prisma/prismaClient.js";
 
 export async function getAvailableSkills(characterId) {
   try {
-    // Obtener el personaje y su JobClass
     const character = await prisma.character.findUnique({
       where: { id: parseInt(characterId) },
       include: { jobclass: true },
@@ -12,14 +11,13 @@ export async function getAvailableSkills(characterId) {
       throw new Error("Personaje no encontrado");
     }
 
-    // Obtener las habilidades disponibles para la JobClass del personaje
     const availableSkills = await prisma.skill.findMany({
       where: {
         jobclassId: character.jobclassId,
-        requiredLevel: { lte: character.baseLevel }, // Solo habilidades con nivel requerido <= al nivel del personaje
+        requiredLevel: { lte: character.baseLevel },
       },
       include: {
-        skillTree: true, // Incluir información del árbol de habilidades
+        skillTree: true,
       },
     });
 
@@ -30,26 +28,21 @@ export async function getAvailableSkills(characterId) {
   }
 }
 
-//getSkillTreeByJobClassId on skilltree table just the skills tree for a specific jobclass
-export async function getSkillTreeByJobClassId(characterId) {
+export async function getSkillTreeByJobClassId(jobclassId) {
   try {
-    // Obtener el árbol de habilidades para la JobClass
-const characterSkills = await prisma.characterSkill.findMany({
-  where: { characterId: parseInt(characterId) },
-  include: { skill: true }, // Incluir la relación con Skill
-});
-    return characterSkills;
-  }
-  catch (error) {
+    const skillTree = await prisma.skillTree.findMany({
+      where: { jobclassId: parseInt(jobclassId) },
+      include: { skill: true },
+    });
+    return skillTree;
+  } catch (error) {
     console.error("Error al obtener el árbol de habilidades:", error);
     throw error;
   }
 }
 
-
 export async function levelUpCharacterSkill(characterId, skillId) {
   try {
-    // Obtener el personaje y su habilidad actual
     const character = await prisma.character.findUnique({
       where: { id: parseInt(characterId) },
       include: { characterSkills: true },
@@ -67,7 +60,6 @@ export async function levelUpCharacterSkill(characterId, skillId) {
       throw new Error("Habilidad no encontrada");
     }
 
-    // Verificar si el personaje ya tiene la habilidad
     const characterSkill = await prisma.characterSkill.findFirst({
       where: {
         characterId: parseInt(characterId),
@@ -79,23 +71,20 @@ export async function levelUpCharacterSkill(characterId, skillId) {
       throw new Error("El personaje no ha aprendido esta habilidad");
     }
 
-    // Verificar si la habilidad ya está al máximo nivel
     if (characterSkill.level >= skill.maxLevel) {
       throw new Error("La habilidad ya está al máximo nivel");
     }
 
-    // Verificar si el personaje tiene suficientes puntos de habilidad
     if (character.skillPoints < skill.spCost) {
       throw new Error("Puntos de habilidad insuficientes");
     }
 
-    // Subir de nivel la habilidad
     const updatedCharacterSkill = await prisma.characterSkill.update({
       where: { id: characterSkill.id },
       data: { level: characterSkill.level + 1 },
+      include: { skill: true }, // Incluir la relación con Skill
     });
 
-    // Reducir los puntos de habilidad del personaje
     await prisma.character.update({
       where: { id: parseInt(characterId) },
       data: { skillPoints: character.skillPoints - skill.spCost },
@@ -143,7 +132,6 @@ export async function resetCharacterSkills(characterId) {
 
 export async function learnCharacterSkill(characterId, skillId) {
   try {
-    // Obtener el personaje y su JobClass
     const character = await prisma.character.findUnique({
       where: { id: parseInt(characterId) },
       include: { jobclass: true },
@@ -153,7 +141,6 @@ export async function learnCharacterSkill(characterId, skillId) {
       throw new Error("Personaje no encontrado");
     }
 
-    // Obtener la habilidad que se desea aprender
     const skill = await prisma.skill.findUnique({
       where: { id: parseInt(skillId) },
     });
@@ -162,12 +149,10 @@ export async function learnCharacterSkill(characterId, skillId) {
       throw new Error("Habilidad no encontrada");
     }
 
-    // Verificar si el personaje cumple con los requisitos
     if (character.baseLevel < skill.requiredLevel) {
       throw new Error("Nivel base insuficiente para aprender esta habilidad");
     }
 
-    // Verificar si el personaje ya tiene la habilidad
     const existingSkill = await prisma.characterSkill.findFirst({
       where: {
         characterId: parseInt(characterId),
@@ -179,13 +164,13 @@ export async function learnCharacterSkill(characterId, skillId) {
       throw new Error("El personaje ya ha aprendido esta habilidad");
     }
 
-    // Aprender la habilidad
     const newCharacterSkill = await prisma.characterSkill.create({
       data: {
         characterId: parseInt(characterId),
         skillId: parseInt(skillId),
-        level: 1, // Nivel inicial
+        level: 1,
       },
+      include: { skill: true }, // Incluir la relación con Skill
     });
 
     return newCharacterSkill;

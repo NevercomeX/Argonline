@@ -1,109 +1,105 @@
 import { PrismaClient } from "@prisma/client";
-import { characterSeed } from "./character.js";
-import { enemySeed } from "./enemies.js";
-import { itemSeed } from "./items.js";
-import { enemyDropSeed } from "./enemydrop.js";
-import { inventorySeed } from "./inventary.js";
-import { jobClassSeed } from "./jobClass.js";
-import { userSeed } from "./users.js";
-import { seedEquipmentSlot } from "./equipment.js";
-import { seedItemInstances } from "./itemInstance.js";
-import { createItemTemplates } from "./itemTemplate.js";
-import { skillSeed } from "./skills.js";
-import { characterSkillSeed } from "./characterskill.js";
-import { skillTreeSeed } from "./skilltree.js";
+import { characterSeed } from "./characterSeed.js";
+import { itemSeed } from "./itemSeed.js";
+import { inventorySeed } from "./inventoryItemSeed.js";
+import { storageSeed } from "./storageSeed.js";
+import { recipeSeed } from "./recipeSeed.js";
+import { equipmentSeed } from "./equipmentSeed.js";
+import { monsterDropSeed } from "./monsterDropSeed.js";
+import { monsterSeed } from "./monsterSeed.js";
+import { monsterSpawnSeed } from "./monsterSpawnSeed.js";
+import { userSeed } from "./userSeed.js";
+import { mapSeed } from "./mapSeed.js";
+import { characterSkillSeed } from "./characterSkillSeed.js";
+import { skillSeed } from "./skillSeed.js";
+
 import Table from "cli-table3";
 import cliProgress from "cli-progress";
 
-
+// Crear una instancia única de PrismaClient
 const prisma = new PrismaClient();
 
 // Función para resetear la base de datos
 async function resetDatabase() {
-
   try {
-    await prisma.inventory.deleteMany({});
-    await prisma.equipmentSlot.deleteMany({});
-    await prisma.enemyDrop.deleteMany({});
-    await prisma.enemy.deleteMany({});
+    // Descomenta las líneas que necesites para eliminar datos de cada tabla.
+    await prisma.inventoryItem.deleteMany({});
+    await prisma.storageItem.deleteMany({});
     await prisma.item.deleteMany({});
-    await prisma.character.deleteMany({});
     await prisma.user.deleteMany({});
-    await prisma.jobClass.deleteMany({});
-    await prisma.itemInstance.deleteMany({});
-    await prisma.itemTemplate.deleteMany({});
-    await prisma.skill.deleteMany({});
-    await prisma.skillTree.deleteMany({});
+    await prisma.map.deleteMany({});
+    await prisma.character.deleteMany({});
+    await prisma.equipmentItem.deleteMany({});
+    await prisma.recipe.deleteMany({});
+    await prisma.monster.deleteMany({});
     await prisma.characterSkill.deleteMany({});
-
-
+    await prisma.skill.deleteMany({});
+    // await prisma.monsterDrop.deleteMany({});
+    // await prisma.monsterSpawn.deleteMany({});
   } catch (error) {
-    console.error("Error al resetear la base de datos:", error);
-    throw error; // Lanzar el error para que se capture en el proceso de seeding
+    console.error("Error resetting database:", error);
+    throw error;
   }
 }
 
 // Función principal de seeding
 async function seed() {
-  const results = [];
+  // Array de tareas de seeding. Descomenta las que necesites ejecutar.
   const tasks = [
     { name: "Reset Database", fn: resetDatabase },
     { name: "User Seed", fn: userSeed },
-    { name: "Job Class Seed", fn: jobClassSeed },
     { name: "Character Seed", fn: characterSeed },
     { name: "Item Seed", fn: itemSeed },
-    { name: "Enemy Seed", fn: enemySeed },
-    { name: "Enemy Drop Seed", fn: enemyDropSeed },
-    { name: "Item Template Seed", fn: createItemTemplates },
-    { name: "Item Instances Seed", fn: seedItemInstances },
-    { name: "Inventory Seed", fn: inventorySeed },
-    { name: "Equipment Slot Seed", fn: seedEquipmentSlot },
     { name: "Skill Seed", fn: skillSeed },
+    { name: "Map Seed", fn: mapSeed },
+    { name: "Monster Seed", fn: monsterSeed },
+    { name: "Recipe Seed", fn: recipeSeed },
+    { name: "Equipment Seed", fn: equipmentSeed },
     { name: "Character Skill Seed", fn: characterSkillSeed },
-    { name: "Skill Tree Seed", fn: skillTreeSeed },
-
+    // { name: "Monster Spawn Seed", fn: monsterSpawnSeed },
+    // { name: "Monster Drop Seed", fn: monsterDropSeed },
+    { name: "Inventory Seed", fn: inventorySeed },
+    { name: "Storage Seed", fn: storageSeed },
+    { name: "Map Seed", fn: mapSeed },
   ];
+
+  const results = [];
 
   // Inicializar la barra de progreso
   const progressBar = new cliProgress.SingleBar({
-    format: 'Progreso de Seeding |{bar}| {percentage}% | {task}',
+    format: 'Seeding Progress |{bar}| {percentage}% | {task}',
     barCompleteChar: '\u2588',
     barIncompleteChar: '\u2591',
     hideCursor: true,
   });
-
   progressBar.start(tasks.length, 0, { task: "Iniciando..." });
 
   try {
-    for (let i = 0; i < tasks.length; i++) {
-      const task = tasks[i];
+    for (const task of tasks) {
       try {
         await task.fn(prisma);
         results.push([task.name, "✅ Success"]);
       } catch (error) {
         results.push([task.name, `❌ Failed: ${error.message}`]);
+        console.error(`Error in task ${task.name}:`, error);
       }
-      progressBar.update(i + 1, { task: task.name });
+      // Actualizar la barra de progreso
+      progressBar.increment({ task: task.name });
     }
-
     progressBar.stop();
-    await prisma.$disconnect();
 
-    // Crear la tabla de resultados
+    // Crear y mostrar la tabla de resultados
     const table = new Table({
       head: ["Tarea", "Resultado"],
       colWidths: [30, 50],
     });
-
-    // Añadir los resultados a la tabla
     results.forEach(result => table.push(result));
-
-    // Mostrar la tabla en la consola
     console.log(table.toString());
     console.log("Proceso de seeding completado! ✅");
   } catch (error) {
     progressBar.stop();
-    console.error("Ocurrió un error durante el seeding:", error);
+    console.error("Ocurrió un error durante el proceso de seeding:", error);
+  } finally {
     await prisma.$disconnect();
   }
 }
