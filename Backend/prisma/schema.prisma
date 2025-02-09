@@ -149,64 +149,82 @@ model Recipe {
 }
 
 model Item {
-  id             Int             @id @default(autoincrement())
-  name           String          @unique
-  type           ItemType
-  description    String
-  buyPrice       Int
-  sellPrice      Int
-  weight         Int
-  attack         Int?            @default(0)
-  magicAttack    Int?            @default(0)
-  defense        Int?            @default(0)
-  magicDefense   Int?            @default(0)
-  requiredLevel  Int?            @default(0)
-  slot           Int?            @default(0) // Para armas/escudos
-  equipSlots     EquipmentSlot[] // Lugares donde se puede equipar
-  script         String?         // Efecto en Lua o texto
-  isStackable    Boolean         @default(false)
-  maxStack       Int             @default(1)
-  isTradable     Boolean         @default(true)
-  isConsumable   Boolean         @default(false)
-  element        ElementType     @default(NEUTRAL)
-  cardSlots      Int?            @default(0) // Para armas/armaduras
-  sprite         String?         // URL de imagen
+  id            Int           @id @default(autoincrement())
+  name          String        @unique
+  type          ItemType
+  jobRequired   JobName?
+  description   String
+  buyPrice      Int
+  sellPrice     Int
+  weight        Int
+  attack        Int?          @default(0)
+  magicAttack   Int?          @default(0)
+  defense       Int?          @default(0)
+  magicDefense  Int?          @default(0)
+  requiredLevel Int?          @default(0)
+  slot          Int?          @default(0) // Para armas/escudos
+  equipSlots    EquipmentSlot[] @default([])
+  script        String?
+  isStackable   Boolean       @default(false) // IMPORTANTE: Para diferenciar ítems instanciables
+  maxStack      Int           @default(1)
+  isTradable    Boolean       @default(true)
+  isConsumable  Boolean       @default(false)
+  element       ElementType   @default(NEUTRAL)
+  cardSlots     Int?          @default(0)
+  sprite        String?
+
+  recipes       Recipe[]
   inventoryItems InventoryItem[]
   storageItems   StorageItem[]
   equipmentItems EquipmentItem[]
   drops          MonsterDrop[]
-  recipes        Recipe[]        // Para crafting
+  instances      ItemInstance[] // Relación con instancias
+}
+
+model ItemInstance {
+  id          Int      @id @default(autoincrement()) // Cada instancia es única
+  itemId      Int
+  refineLevel Int      @default(0) // Refinamientos +1, +2, etc.
+  durability  Int      @default(100)
+  enchantments Json?   // Posibles encantamientos en JSON
+  cards       Json?    // Cartas insertadas en JSON (array de IDs)
+  createdAt   DateTime @default(now())
+
+  item        Item     @relation(fields: [itemId], references: [id])
+
+  inventoryItems InventoryItem[]
+  equipmentItems EquipmentItem[]
 }
 
 model InventoryItem {
-  id          Int         @id @default(autoincrement())
-  characterId Int
-  itemId      Int
-  quantity    Int         @default(1)
-  isEquipped  Boolean     @default(false)
-  refineLevel Int         @default(0)
-  cards       Json?       // [cardId1, cardId2,...]
-  element     ElementType @default(NEUTRAL)
-  createdAt   DateTime    @default(now())
+  id           Int      @id @default(autoincrement())
+  characterId  Int
+  itemId       Int?     // Para ítems que NO son instanciables (pociones, flechas, etc.)
+  itemInstanceId Int?   // Para ítems únicos (armas, armaduras refinadas, etc.)
+  quantity     Int      @default(1)
 
-  character Character @relation(fields: [characterId], references: [id])
-  item      Item      @relation(fields: [itemId], references: [id])
+  character    Character @relation(fields: [characterId], references: [id])
+  item         Item?      @relation(fields: [itemId], references: [id])
+  itemInstance ItemInstance? @relation(fields: [itemInstanceId], references: [id])
 
-  @@unique([characterId, itemId, refineLevel, element])
+  @@unique([characterId, itemId, itemInstanceId]) // Evita duplicados erróneos
 }
 
-model EquipmentItem {
-  id          Int         @id @default(autoincrement())
-  characterId Int
-  itemId      Int
-  slot        EquipmentSlot
-  durability  Int         @default(100)
-  refineLevel Int         @default(0)
-  cards       Json?
-  element     ElementType @default(NEUTRAL)
 
-  character Character @relation(fields: [characterId], references: [id])
-  item      Item      @relation(fields: [itemId], references: [id])
+model EquipmentItem {
+  id             Int          @id @default(autoincrement())
+  characterId    Int
+  itemId         Int?         // Para ítems normales (no instanciables)
+  itemInstanceId Int?         // Para ítems únicos
+  slot           EquipmentSlot
+  durability     Int          @default(100)
+  refineLevel    Int          @default(0)
+  cards          Json?
+  element        ElementType  @default(NEUTRAL)
+
+  character      Character     @relation(fields: [characterId], references: [id])
+  item          Item?          @relation(fields: [itemId], references: [id])
+  itemInstance  ItemInstance?  @relation(fields: [itemInstanceId], references: [id])
 
   @@unique([characterId, slot])
 }

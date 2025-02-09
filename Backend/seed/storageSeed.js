@@ -8,7 +8,6 @@ export async function storageSeed(prisma) {
   const itemNames = [
     "Health Potion",
     "Mana Potion",
-    "Iron Sword",
   ];
 
   // Buscar los ítems base en la tabla Item
@@ -38,10 +37,6 @@ export async function storageSeed(prisma) {
     {
       itemId: items.find((item) => item.name === "Mana Potion").id,
       quantity: 15,
-    },
-    {
-      itemId: items.find((item) => item.name === "Iron Sword").id,
-      quantity: 2,
     },
   ];
 

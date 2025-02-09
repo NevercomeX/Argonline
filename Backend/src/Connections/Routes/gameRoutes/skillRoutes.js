@@ -14,6 +14,7 @@ router.get("/characterskill/:characterId/skills", async (req, res) => {
   const characterId = parseInt(req.params.characterId);
   try {
     const availableSkills = await getAvailableSkills(characterId);
+    console.log("getAvailableSkills", availableSkills);
     res.status(200).json(availableSkills);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -24,8 +25,8 @@ router.get("/characterskill/:characterId/skills", async (req, res) => {
 router.get("/characterskill/jobclassid/:jobclass", async (req, res) => {
   const jobClass = parseInt(req.params.jobclass, 10);
   try {
-    const availableSkills = await getSkillTreeByJobClassId(jobClass);
-    res.status(200).json(availableSkills);
+    const skillTree = await getSkillTreeByJobClassId(jobClass);
+    res.status(200).json(skillTree);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -37,6 +38,7 @@ router.post("/characterskill/:characterId/skills/:skillId/level-up", async (req,
   const skillId = parseInt(req.params.skillId);
   try {
     const updatedSkill = await levelUpCharacterSkill(characterId, skillId);
+    console.log("levelUpCharacterSkill", updatedSkill);
     res.status(200).json(updatedSkill);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -48,7 +50,21 @@ router.post("/characterskill/:characterId/skills/reset", async (req, res) => {
   const characterId = parseInt(req.params.characterId);
   try {
     const result = await resetCharacterSkills(characterId);
+    console.log("resetCharacterSkills", result);
     res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get("/characterskill/:characterId/skills/learned", async (req, res) => {
+  const characterId = parseInt(req.params.characterId);
+  try {
+    const characterSkills = await prisma.characterSkill.findMany({
+      where: { characterId: parseInt(characterId) },
+      include: { skill: true },
+    });
+    res.status(200).json(characterSkills);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -60,6 +76,7 @@ router.post("/characterskill/:characterId/skills/:skillId/learn", async (req, re
   const skillId = parseInt(req.params.skillId);
   try {
     const newSkill = await learnCharacterSkill(characterId, skillId);
+    console.log("learnCharacterSkill", newSkill);
     res.status(201).json(newSkill);
   } catch (error) {
     res.status(500).json({ error: error.message });

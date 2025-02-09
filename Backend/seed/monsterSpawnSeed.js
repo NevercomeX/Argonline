@@ -1,40 +1,51 @@
-export async function monsterSpawnSeed(prisma) {
-  // Buscar monstruos existentes
-  const monsters = await prisma.monster.findMany();
+// monsterSpawnSeed.js
 
-  if (monsters.length === 0) {
-    console.error("No hay monstruos en la base de datos. Asegúrate de correr primero el seeder de Monster.");
+/**
+ * Siembra los puntos de aparición (spawns) para los monsters.
+ * Se asume que existe un mapa con nombre "prontera".
+ */
+export async function monsterSpawnSeed(prisma) {
+  // Buscar el mapa "prontera"
+  const map = await prisma.map.findUnique({
+    where: { name: 'Prontera' }
+  });
+
+  if (!map) {
+    console.error('Mapa "prontera" no encontrado. Por favor, siembra primero los mapas.');
     return;
   }
 
-  // Definir ubicaciones de spawn
-  const spawnPoints = [
-    { monsterName: "Poring", mapName: "Prontera Field", amount: 10, respawnTime: 30, x: 10, y: 20 },
-    { monsterName: "Lunatic", mapName: "Prontera Field", amount: 8, respawnTime: 35, x: 15, y: 25 },
-    { monsterName: "Fabre", mapName: "Geffen Field", amount: 12, respawnTime: 25, x: 5, y: 10 },
-    { monsterName: "Savage", mapName: "Payon Forest", amount: 5, respawnTime: 60, x: 30, y: 40 },
+  // Buscar los monsters que se sembraron previamente
+  const poring = await prisma.monster.findUnique({ where: { name: 'Poring' } });
+  const lunatic = await prisma.monster.findUnique({ where: { name: 'Lunatic' } });
+
+  if (!poring || !lunatic) {
+    console.error('Monsters no encontrados. Asegúrate de sembrar los monsters primero.');
+    return;
+  }
+
+  const spawnsData = [
+    {
+      monsterId: poring.id,
+      mapId: map.id,
+      x: 100,
+      y: 200,
+      amount: 5,
+      respawnTime: 30
+    },
+    {
+      monsterId: lunatic.id,
+      mapId: map.id,
+      x: 150,
+      y: 250,
+      amount: 2,
+      respawnTime: 60
+    }
   ];
 
-  // Insertar spawns en la base de datos
-  for (const spawn of spawnPoints) {
-    const monster = monsters.find((m) => m.name === spawn.monsterName);
-
-    if (!monster) {
-      console.error(`No se encontró el monstruo ${spawn.monsterName} en la base de datos.`);
-      continue;
-    }
-
+  for (const spawn of spawnsData) {
     await prisma.monsterSpawn.create({
-      data: {
-        monsterId: monster.id,
-        map: spawn.mapName,
-        amount: spawn.amount,
-        respawnTime: spawn.respawnTime,
-        x: spawn.x,
-        y: spawn.y,
-      },
+      data: spawn,
     });
-
-    console.log(`Spawn de ${spawn.monsterName} agregado en ${spawn.mapName} con ${spawn.amount} unidades.`);
   }
 }

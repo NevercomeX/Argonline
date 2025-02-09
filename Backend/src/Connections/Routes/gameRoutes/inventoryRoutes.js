@@ -4,7 +4,7 @@ import {
   getInventoryById,
   addItemToInventory,
   removeItemFromInventory,
-  getCharacterInventory,
+  getStorageItemById,
 } from "../../Controllers/index.js";
 
 const router = express.Router();
@@ -71,7 +71,7 @@ router.post("/:characterId/remove", async (req, res) => {
 router.get("/character/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   try {
-    const characterInventory = await getCharacterInventory(id);
+    const characterInventory = await getStorageItemById(id);
     res.status(200).json(characterInventory);
   } catch (error) {
     res.status(500).json({

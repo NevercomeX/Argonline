@@ -1,41 +1,51 @@
 // monsterDropSeed.js
 
+/**
+ * Siembra los drops de los monsters.
+ * Se asume que los items "Health Potion" y "Mana Potion" ya existen en la tabla Item.
+ */
 export async function monsterDropSeed(prisma) {
-  // Buscar monstruos y objetos en la base de datos
-  const monsters = await prisma.monster.findMany();
-  const items = await prisma.item.findMany();
+  // Buscar los monsters sembrados
+  const poring = await prisma.monster.findUnique({ where: { name: 'Poring' } });
+  const lunatic = await prisma.monster.findUnique({ where: { name: 'Lunatic' } });
+  
 
-  if (monsters.length === 0 || items.length === 0) {
-    console.error("No hay monstruos o ítems en la base de datos. Asegúrate de correr primero los seeders de Monster e Item.");
+  if (!poring || !lunatic) {
+    console.error('Monsters no encontrados. Siembra primero los monsters.');
     return;
   }
 
-  // Definir drops por monstruo
-  const drops = [
-    { monsterName: "Poring", itemName: "Health Potion"},
-    { monsterName: "Poring", itemName: "Mana Potion"},
-    { monsterName: "Lunatic", itemName: "Iron Sword"},
-    { monsterName: "Fabre", itemName: "Stamina Elixir"},
-    { monsterName: "Savage", itemName: "Steel Axe"},
-    { monsterName: "Savage", itemName: "Iron Helmet"},
+  // Buscar los items que se usarán como drop
+  const healthPotion = await prisma.item.findUnique({ where: { name: 'Health Potion' } });
+  const manaPotion = await prisma.item.findUnique({ where: { name: 'Mana Potion' } });
+
+  if (!healthPotion || !manaPotion) {
+    console.error('Items para drops no encontrados. Asegúrate de sembrar los items primero.');
+    return;
+  }
+
+  const dropsData = [
+    {
+      monsterId: poring.id,
+      itemId: healthPotion.id,
+      rate: 0.5, // 50% de probabilidad de drop
+      minQuantity: 1,
+      maxQuantity: 2,
+      isMvp: false
+    },
+    {
+      monsterId: lunatic.id,
+      itemId: manaPotion.id,
+      rate: 0.3, // 30% de probabilidad
+      minQuantity: 1,
+      maxQuantity: 1,
+      isMvp: false
+    }
   ];
 
-  // Insertar drops en la base de datos
-  for (const drop of drops) {
-    const monster = monsters.find((m) => m.name === drop.monsterName);
-    const item = items.find((i) => i.name === drop.itemName);
-
-    if (!monster || !item) {
-      console.error(`No se encontró el monstruo ${drop.monsterName} o el ítem ${drop.itemName}.`);
-      continue;
-    }
-
+  for (const drop of dropsData) {
     await prisma.monsterDrop.create({
-      data: {
-        monsterId: monster.id,
-        itemId: item.id,
-        dropRate: drop.dropRate,
-      },
+      data: drop,
     });
   }
 }

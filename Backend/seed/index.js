@@ -12,6 +12,7 @@ import { userSeed } from "./userSeed.js";
 import { mapSeed } from "./mapSeed.js";
 import { characterSkillSeed } from "./characterSkillSeed.js";
 import { skillSeed } from "./skillSeed.js";
+import { itemInstanceSeed } from "./itemInstance.js";
 
 import Table from "cli-table3";
 import cliProgress from "cli-progress";
@@ -34,8 +35,9 @@ async function resetDatabase() {
     await prisma.monster.deleteMany({});
     await prisma.characterSkill.deleteMany({});
     await prisma.skill.deleteMany({});
-    // await prisma.monsterDrop.deleteMany({});
-    // await prisma.monsterSpawn.deleteMany({});
+    await prisma.monsterDrop.deleteMany({});
+    await prisma.monsterSpawn.deleteMany({});
+    await prisma.itemInstance.deleteMany({});
   } catch (error) {
     console.error("Error resetting database:", error);
     throw error;
@@ -56,11 +58,11 @@ async function seed() {
     { name: "Recipe Seed", fn: recipeSeed },
     { name: "Equipment Seed", fn: equipmentSeed },
     { name: "Character Skill Seed", fn: characterSkillSeed },
-    // { name: "Monster Spawn Seed", fn: monsterSpawnSeed },
-    // { name: "Monster Drop Seed", fn: monsterDropSeed },
+    { name: "Monster Spawn Seed", fn: monsterSpawnSeed },
+    { name: "Monster Drop Seed", fn: monsterDropSeed },
     { name: "Inventory Seed", fn: inventorySeed },
     { name: "Storage Seed", fn: storageSeed },
-    { name: "Map Seed", fn: mapSeed },
+    { name: "Item Instance Seed", fn: itemInstanceSeed },
   ];
 
   const results = [];

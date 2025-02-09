@@ -50,38 +50,23 @@ router.get("/character/:characterId", async (req, res) => {
 
 // Desequipar ítem
 router.put("/:characterId/unequip/:slotType", async (req, res) => {
-  // const { characterId, slotType } = parseInt(req.params);
-  const characterId = parseInt(req.params.characterId);
-  const slotType = req.params.slotType;
+  const { characterId, slot } = req.body;
   try {
-    await unequipItem(characterId, slotType);
-    res.status(200).json({ message: `Ítem en slot ${slotType} desequipado` });
+    await unequipItem(characterId, slot);
+    res.status(200).json({ message: "Ítem desequipado correctamente." });
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: `Error al desequipar ítem: ${error.message}` });
+    res.status(400).json({ error: error.message });
   }
 });
 
 // Equipar ítem
 router.put("/:characterId/equip", async (req, res) => {
-  const { characterId } = req.params;
-  const { equipmentSlot, itemId, isInstance } = req.body; // Asegúrate de usar el nombre correcto aquí (antes era slotType)
-
-  console.log("Equip request:", {
-    characterId,
-    equipmentSlot,
-    itemId,
-    isInstance,
-  }); // <-- Verifica que los datos lleguen correctamente al backend
-
+  const { characterId, slot, itemId, itemInstanceId } = req.body;
   try {
-    await equipItem(parseInt(characterId), equipmentSlot, itemId, isInstance);
-    res
-      .status(200)
-      .json({ message: `Ítem ${itemId} equipado en slot ${equipmentSlot}` });
+    await equipItem(characterId, slot, itemId, itemInstanceId);
+    res.status(200).json({ message: "Ítem equipado correctamente." });
   } catch (error) {
-    res.status(500).json({ error: `Error al equipar ítem: ${error.message}` });
+    res.status(400).json({ error: error.message });
   }
 });
 

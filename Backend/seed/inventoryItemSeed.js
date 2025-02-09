@@ -9,9 +9,6 @@ export async function inventorySeed(prisma) {
     "Health Potion",
     "Mana Potion",
     "Stamina Elixir",
-    "Iron Sword",
-    "Steel Axe",
-    "Iron Helmet",
   ];
 
   // Buscar los ítems base en la tabla Item
@@ -48,21 +45,6 @@ export async function inventorySeed(prisma) {
       {
         characterId,
         itemId: items.find((item) => item.name === "Stamina Elixir").id,
-        quantity: 1,
-      },
-      {
-        characterId,
-        itemId: items.find((item) => item.name === "Iron Sword").id,
-        quantity: 1,
-      },
-      {
-        characterId,
-        itemId: items.find((item) => item.name === "Steel Axe").id,
-        quantity: 1,
-      },
-      {
-        characterId,
-        itemId: items.find((item) => item.name === "Iron Helmet").id,
         quantity: 1,
       },
     ])

@@ -7,9 +7,9 @@ import {
   createCharacter,
   getCharactersByUserId,
   createCharacterWithAttributes,
-} from "./Character/character.js";
+} from "./Character/characterController.js";
 
-import { getAvailableSkills, levelUpCharacterSkill, resetCharacterSkills, learnCharacterSkill,getSkillTreeByJobClassId} from "./Skill/Skills.js";
+import { getAvailableSkills, levelUpCharacterSkill, resetCharacterSkills, learnCharacterSkill,getSkillTreeByJobClassId} from "./Skill/skillsController.js";
 
 import { getAllUsers, getAllCharactersFromUser, getUserById, getUserIdFromToken } from "./user/usersController.js";
 
@@ -19,32 +19,19 @@ import { getEnemies, getEnemyById, getRandomEnemy } from "./Enemy/enemies.js";
 import {
   getAllItems,
   getItemNameById,
-  getItemsByName,
-  getItemsById,
-} from "./Item/items.js";
+  getItemsByIds,
+  getItemById,
+} from "./Item/itemsController.js";
 
-import {
-  createItemInstance,
-  getItemInstanceById,
-  getItemInstanceNameById,
-  updateItemInstance,
-  deleteItemInstance,
-  getItemInstancesByCharacterId,
-} from "./Item/itemInstanceController.js";
-import {
-  getJobClasses,
-  getJobClassById,
-  getJobClassNameById,
-  getJobClassByName,
-} from "./Character/jobClass.js";
 import {
   getInventory,
   getInventoryById,
   getCharacterInventoryItems,
-  getCharacterInventory,
   addItemToInventory,
   removeItemFromInventory,
-} from "./Inventory/inventory.js";
+} from "./Inventory/inventoryController.js";
+
+import { getStorageItems, getStorageItemById, addItemToStorage, removeItemFromStorage } from "./Inventory/storageController.js";
 import { getEnemyDrops, getEnemyDropById } from "./Enemy/enemydrop.js";
 
 import {
@@ -54,7 +41,7 @@ import {
   getEquipmentById,
   unequipItem,
   equipItem,
-} from "./Equipment/equipment.js";
+} from "./Equipment/equipmentController.js";
 
 export {
   getAllUsers,
@@ -71,33 +58,23 @@ export {
   getEnemyById,
   getAllItems,
   getItemNameById,
-  getItemsByName,
-  getItemsById,
-  getJobClasses,
-  getJobClassById,
-  getJobClassNameById,
-  getJobClassByName,
+  getItemById,
+  getItemsByIds,
   getInventory,
   getInventoryById,
   addItemToInventory,
   removeItemFromInventory,
   getCharacterInventoryItems,
-  getCharacterInventory,
   createCharacterWithAttributes,
-  getItemInstancesByCharacterId,
   getEnemyDrops,
   getEnemyDropById,
+  getStorageItems, getStorageItemById, addItemToStorage, removeItemFromStorage,
   getEquipment,
   unequipItem,
   equipItem,
   getEquipmentSlotsByCharacterId,
   getEquipmentSlotByCharacterIdAndSlot,
   getEquipmentById,
-  createItemInstance,
-  getItemInstanceById,
-  getItemInstanceNameById,
-  updateItemInstance,
-  deleteItemInstance,
   getRandomEnemy,
   getCharactersByUserId,
   getAvailableSkills,
