@@ -1,28 +1,28 @@
+// src/Routes/user/getUserInfo.js
 import express from "express";
 import authMiddleware from "../../../Middleware/authMiddleware.js";
-import {prisma} from "../../../../Prisma/prismaClient.js";
+import { prisma } from "../../../../Prisma/prismaClient.js";
 
 const router = express.Router();
 
-// const USER = {
-//   id: 1,
-//   email: "test@demo.ltd",
-//   fistName: "Joaquim",
-//   lastName: "Das Couves",
-//   bio: "Im a agricultor and i love to plant and take care of my plants.",
-//   password: "123456",
-// };
+// Función replacer para convertir BigInt a string
+const bigintReplacer = (key, value) => {
+  return typeof value === "bigint" ? value.toString() : value;
+};
 
 router.get("/", authMiddleware(), async (req, res) => {
   try {
-    const userId = req.user.id;
-
-    if (!userId) {
-      return res.status(401).json({ success: false, error: "No user ID found in token" });
+    // Verificar que el middleware haya agregado req.user
+    if (!req.user || !req.user.id) {
+      return res
+        .status(401)
+        .json({ success: false, error: "No se encontró el ID del usuario en el token." });
     }
 
-    const client = await prisma.user.findUnique({
-      where: { id: parseInt(userId) },
+    const userId = parseInt(req.user.id);
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
       select: {
         id: true,
         email: true,
@@ -31,18 +31,18 @@ router.get("/", authMiddleware(), async (req, res) => {
       },
     });
 
-    if (!client) {
-      return res.json({ success: false, error: "User not found" });
+    if (!user) {
+      return res.status(404).json({ success: false, error: "Usuario no encontrado." });
     }
-    return res.json({
-      success: true,
-      user: client,
-    });
+
+    // Convertir el objeto para serializar BigInt
+    const safeUser = JSON.parse(JSON.stringify(user, bigintReplacer));
+
+    return res.status(200).json({ success: true, user: safeUser });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ success: false, error: "Server error" });
+    console.error("Error obteniendo la información del usuario:", err);
+    return res.status(500).json({ success: false, error: "Error del servidor." });
   }
 });
-
 
 export default router;

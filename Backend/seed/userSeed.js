@@ -5,13 +5,13 @@ export async function userSeed(prisma) {
     {
       username: "admin",
       email: "admin@ragnarokonline.com",
-      password: "admin", // Contraseña en texto plano (se hasheará antes de guardar)
+      password: "admin12345", // Contraseña en texto plano (se hasheará antes de guardar)
       role: "admin",
     },
     {
       username: "user",
       email: "user@ragnarokonline.com",
-      password: "user", // Contraseña en texto plano (se hasheará antes de guardar)
+      password: "user12345", // Contraseña en texto plano (se hasheará antes de guardar)
       role: "user",
     },
   ];

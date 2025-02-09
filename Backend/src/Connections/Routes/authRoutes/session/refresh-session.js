@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 
   try {
     // DB QUERY
-    const decoded = await prisma.Usersessions.findUnique({
+    const decoded = await prisma.Usersession.findUnique({
         where: { id: refreshToken },
         select: {
             id: true,

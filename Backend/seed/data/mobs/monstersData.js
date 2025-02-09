@@ -1,13 +1,5 @@
-// monsterSeed.js
-
-/**
- * Siembra algunos monstruos básicos en la base de datos.
- * Asegúrate de que este seeder se ejecute ANTES que los spawns y drops, 
- * ya que ellos dependen de los monsters.
- */
-export async function monsterSeed(prisma) {
-  const monstersData = [
-      {
+const monstersData = [
+  {
     name: 'Poring',
     level: 1,
     health: 50,
@@ -216,11 +208,45 @@ export async function monsterSeed(prisma) {
     race: 'Brute',
     sprite: 'harpy.png'
   }
-  ];
+];
 
-  for (const monsterData of monstersData) {
-    await prisma.monster.create({
-      data: monsterData,
-    });
+const mvpsData = [
+  {
+    name: 'Mistress',
+    level: 99,
+    health: 50000,
+    mana: 5000,
+    baseExp: 10000,
+    jobExp: 5000,
+    attack: 500,
+    magicAttack: 300,
+    defense: 200,
+    magicDefense: 150,
+    attackSpeed: 5,
+    moveSpeed: 3,
+    attackRange: 2,
+    element: 'DARK',
+    size: 'Large',
+    race: 'Demon',
+    sprite: 'mistress.png'
+  },
+  {
+    name: 'Doppelganger',
+    level: 99,
+    health: 60000,
+    mana: 6000,
+    baseExp: 12000,
+    jobExp: 6000,
+    attack: 600,
+    magicAttack: 400,
+    defense: 250,
+    magicDefense: 200,
+    attackSpeed: 6,
+    moveSpeed: 4,
+    attackRange: 2,
+    element: 'DARK',
+    size: 'Large',
+    race: 'Demon',
+    sprite: 'doppelganger.png'
   }
-}
+];
