@@ -18,7 +18,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/novice_breastplate.png"
+    sprite: "amor/"
   },
   {
     name: "Swordsman's Plate",
@@ -39,7 +39,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/swordsman_plate.png"
+    sprite: "amor/"
   },
   {
     name: "Mage's Robe",
@@ -60,7 +60,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/mage_robe.png"
+    sprite: "amor/"
   },
   {
     name: "Archer's Tunic",
@@ -81,7 +81,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/archer_tunic.png"
+    sprite: "amor/"
   },
   {
     name: "Merchant's Overalls",
@@ -102,7 +102,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/merchant_overalls.png"
+    sprite: "amor/"
   },
   {
     name: "Thief's Cloak",
@@ -123,7 +123,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/thief_cloak.png"
+    sprite: "amor/"
   },
   {
     name: "Acolyte's Vestment",
@@ -144,7 +144,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/acolyte_vestment.png"
+    sprite: "amor/"
   },
   {
     name: "Knight's Armor",
@@ -165,7 +165,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/knight_armor.png"
+    sprite: "amor/"
   },
   {
     name: "Wizard's Gown",
@@ -186,7 +186,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/wizard_gown.png"
+    sprite: "amor/"
   },
   {
     name: "Blacksmith's Apron",
@@ -207,7 +207,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/blacksmith_apron.png"
+    sprite: "amor/"
   },
   {
     name: "Hunter's Camouflage",
@@ -228,7 +228,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/hunter_camouflage.png"
+    sprite: "amor/"
   },
   {
     name: "Assassin's Shroud",
@@ -249,7 +249,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "https://example.com/images/assassin_shroud.png"
+    sprite: "amor/"
   },
   {
     name: "Priest's Robe",
@@ -270,7 +270,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/priest_robe.png"
+    sprite: "amor/"
   },
   {
     name: "Crusader's Plate",
@@ -291,7 +291,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/crusader_plate.png"
+    sprite: "amor/"
   },
   {
     name: "Rogue's Leather",
@@ -312,7 +312,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/rogue_leather.png"
+    sprite: "amor/"
   },
   {
     name: "Alchemist's Coat",
@@ -333,7 +333,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/alchemist_coat.png"
+    sprite: "amor/"
   },
   {
     name: "Bard's Attire",
@@ -354,7 +354,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/bard_attire.png"
+    sprite: "amor/"
   },
   {
     name: "Dancer's Garb",
@@ -375,7 +375,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/dancer_garb.png"
+    sprite: "amor/"
   },
   {
     name: "Super Novice Robe",
@@ -396,7 +396,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/super_novice_robe.png"
+    sprite: "amor/"
   },
   {
     name: "Gunslinger's Duster",
@@ -417,7 +417,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/gunslinger_duster.png"
+    sprite: "amor/"
   },
   {
     name: "Ninja's Gi",
@@ -438,6 +438,6 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/ninja_gi.png"
+    sprite: "amor/"
   }
 ];

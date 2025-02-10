@@ -3,9 +3,9 @@
 
 import { useRouter } from "next/navigation";
 import { useCharacterCreation } from "../context/CharacterCreationContext";
-import FormInput from "../../../../../components/GameComponents/CreateCharacter/FormInput";
-import AttributeDistribution from "../../../../../components/GameComponents/CreateCharacter/AttributeDistribution";
-import JobClassSelector from "../../../../../components/GameComponents/CreateCharacter/JobClassSelector";
+import FormInput from "@/components/GameComponents/CreateCharacter/FormInput";
+import AttributeDistribution from "@/components/GameComponents/CreateCharacter/AttributeDistribution";
+import JobClassSelector from "@/components/GameComponents/CreateCharacter/JobClassSelector";
 import { useState } from "react";
 
 const initialAttributes = {
@@ -34,7 +34,7 @@ const Step1 = () => {
 
   const handleAttributeChange = (
     attribute: keyof typeof initialAttributes,
-    increment: boolean,
+    increment: boolean
   ) => {
     if (increment && points <= 0) return;
     if (!increment && attributes[attribute] <= 0) return;

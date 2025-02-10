@@ -1,6 +1,10 @@
+//utils/gameUtils/inventoryApi.ts
+
 import { revalidateTag } from "next/cache";
 
-// app/utils/inventoryApi.ts
+/**
+ * Obtiene el inventario de un personaje.
+ */
 export const getInventory = async (characterId: number) => {
   try {
     const response = await fetch(
@@ -10,70 +14,51 @@ export const getInventory = async (characterId: number) => {
         headers: {
           "Cache-Control": "no-store",
         },
-        cache: "no-store", // Deshabilitar la caché
-      },
+        cache: "no-store",
+      }
     );
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error("Error fetching inventory");
+    if (!response.ok) {
+      throw new Error(`Error fetching inventory: ${response.statusText}`);
     }
+    return await response.json();
   } catch (error) {
     console.error("Error fetching inventory:", error);
     return [];
   }
 };
 
+/**
+ * Obtiene el ítem equipado en un slot específico para un personaje.
+ */
 export const getEquipmentSlotByCharacterIdAndSlot = async (
   characterId: number,
-  slotType: string,
+  slot: string
 ) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/${slotType}`,
+      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/${slot}`,
       {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error(`Error fetching equipment slot: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(`Error fetching equipment slot:`, error);
-    return null;
-  }
-};
-
-export const unequipItem = async (characterId: number, slotType: string) => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/unequip/${slotType}`,
-      {
-        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           "Cache-Control": "no-cache",
         },
         cache: "no-store",
-      },
+      }
     );
-    if (response.ok) {
-      // Invalida la caché del slot de equipo en particular
-    } else {
-      throw new Error("Error unequipping item");
+    if (!response.ok) {
+      throw new Error(`Error fetching equipment slot: ${response.statusText}`);
     }
+    return await response.json();
   } catch (error) {
-    console.error("Error unequipping item:", error);
+    console.error("Error fetching equipment slot:", error);
+    return null;
   }
 };
 
+/**
+ * Obtiene la instancia de un ítem dado su ID.
+ */
 export const getItemInstanceById = async (itemId: number) => {
   try {
     const response = await fetch(
@@ -85,50 +70,14 @@ export const getItemInstanceById = async (itemId: number) => {
           "Cache-Control": "no-cache",
         },
         cache: "no-store",
-      },
+      }
     );
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error("Error fetching item instance");
+    if (!response.ok) {
+      throw new Error(`Error fetching item instance: ${response.statusText}`);
     }
+    return await response.json();
   } catch (error) {
     console.error("Error fetching item instance:", error);
     return null;
-  }
-};
-
-export const equipItem = async (
-  characterId: number,
-  equipmentSlot: string,
-  itemId: number,
-  isInstance: boolean,
-) => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/equip`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "no-cache",
-        },
-        cache: "no-store",
-        body: JSON.stringify({
-          equipmentSlot,
-          itemId,
-          isInstance,
-        }),
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error(`Failed to equip item: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error equipping item:", error);
   }
 };

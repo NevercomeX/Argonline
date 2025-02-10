@@ -20,6 +20,11 @@ module.exports = {
           },
         ],
       },
+      
     ];
   },
+  images: {
+    domains: ["example.com"],
+  },
+  experimental: { esmExternals: true },
 };

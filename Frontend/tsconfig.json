@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "target": "esnext",
+    "baseUrl": ".",
     "plugins": [
       {
         "name": "next"
@@ -19,7 +21,7 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@components/*": ["components/*"],
+      "@components/*": ["./components/*"],
       "@hooks/*": ["hooks/*"],
       "@lib/*": ["lib/*"],
       "@styles/*": ["styles/*"],

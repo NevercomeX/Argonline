@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCharacterCreation } from "../context/CharacterCreationContext";
-import { useAuth } from "../../../../../components/Auth/context/AuthContext";
+import { useAuth } from "@/components/Auth/context/AuthContext";
 
 const Step2 = () => {
   const router = useRouter();
@@ -31,7 +31,7 @@ const Step2 = () => {
             attributes,
             gender: gender === "Male" ? "M" : "F", // Convierte a "M" o "F"
           }),
-        },
+        }
       );
 
       if (response.ok) {
@@ -41,13 +41,13 @@ const Step2 = () => {
       } else {
         const error = await response.json();
         alert(
-          `Failed to create character: ${error.message || "Unknown error"}`,
+          `Failed to create character: ${error.message || "Unknown error"}`
         );
       }
     } catch (err) {
       console.error("Error creating character:", err);
       alert(
-        "An error occurred while creating the character. Please try again.",
+        "An error occurred while creating the character. Please try again."
       );
     }
   };

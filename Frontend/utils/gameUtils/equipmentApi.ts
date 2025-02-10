@@ -1,3 +1,5 @@
+//utils/gameUtils/equipmentApi.ts
+
 import { revalidateTag } from "next/cache";
 
 /**
@@ -122,6 +124,35 @@ export const equipItem = async (
     return await response.json();
   } catch (error) {
     console.error("Error equipping item:", error);
+    throw error;
+  }
+};
+
+/**
+ * Obtiene el menú de equipamiento de un personaje.
+ * Se asume que el endpoint devuelve un array y se toma el primer elemento,
+ * que es el objeto que mapea cada slot con el ítem equipado.
+ */
+export const getEquipmentMenu = async (characterId: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/menu/${characterId}`,
+      {
+        method: "GET",
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+        cache: "no-store",
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`Error fetching equipment menu: ${response.statusText}`);
+    }
+    const equipmentMenu = await response.json();
+    // Se retorna el primer elemento (según el comportamiento esperado)
+    return equipmentMenu;
+  } catch (error) {
+    console.error("Error fetching equipment menu:", error);
     throw error;
   }
 };

@@ -1,7 +1,7 @@
 // components/Characters/Details/EquipmentInventorySection.tsx
 import React from "react";
-import EquipmentPageClient from "../../Equipment/EquipmentMenu";
-import InventoryGrid from "../../Inventory/Inventory";
+import EquipmentPageClient from "./Equipment/EquipmentMenu";
+import InventoryGrid from "./Inventory/Inventory";
 
 // components/Characters/Details/EquipmentInventorySection.tsx
 interface EquipmentInventorySectionProps {

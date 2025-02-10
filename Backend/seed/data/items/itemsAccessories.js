@@ -21,7 +21,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "FIRE",
     cardSlots: 0,
-    sprite: "https://example.com/images/ring_flame_lord.png"
+    sprite: "accessories/"
   },
   {
     name: "Earring of Swordsman",
@@ -45,7 +45,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/earring_swordsman.png"
+    sprite: "accessories/"
   },
   {
     name: "Rosary",
@@ -69,7 +69,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/rosary.png"
+    sprite: "accessories/"
   },
   {
     name: "Brooch",
@@ -93,7 +93,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/brooch.png"
+    sprite: "accessories/"
   },
   {
     name: "Ring of Merchant",
@@ -117,7 +117,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/ring_merchant.png"
+    sprite: "accessories/"
   },
   {
     name: "Clip",
@@ -141,7 +141,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/clip.png"
+    sprite: "accessories/"
   },
   {
     name: "Necklace of Acolyte",
@@ -165,7 +165,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/necklace_acolyte.png"
+    sprite: "accessories/"
   },
   {
     name: "Earring of Knight",
@@ -189,7 +189,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/earring_knight.png"
+    sprite: "accessories/"
   },
   {
     name: "Earring of Wizard",
@@ -213,7 +213,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/earring_wizard.png"
+    sprite: "accessories/"
   },
   {
     name: "Ring of Blacksmith",
@@ -237,6 +237,6 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/ring_blacksmith.png"
+    sprite: "accessories/"
   }
 ];

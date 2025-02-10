@@ -50,6 +50,7 @@ router.get("/character/:characterId", async (req, res) => {
 // Obtener el menú de equipamiento de un personaje
 router.get("/menu/:characterId", async (req, res) => {
   const characterId = Number(req.params.characterId);
+
   try {
     const menu = await getEquipmentMenu(characterId);
     res.status(200).json(menu);
@@ -72,7 +73,8 @@ router.put("/:characterId/unequip/:slotType", async (req, res) => {
 
 // Equipar ítem (los datos se envían en el body)
 router.put("/:characterId/equip", async (req, res) => {
-  const { characterId, slot, itemId, itemInstanceId } = req.body;
+  const { characterId } = req.params;
+  const { slot, itemId, itemInstanceId } = req.body;
   try {
     await equipItem(characterId, slot, itemId, itemInstanceId);
     res.status(200).json({ message: "Ítem equipado correctamente." });

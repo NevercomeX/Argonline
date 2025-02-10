@@ -130,6 +130,7 @@ model Character {
   homunculusId    Int?              // Para sistema de homúnculos
   guildMembership GuildMember?      @relation("CharacterGuildMember")
   ledGuild        Guild?            @relation("GuildLeader")
+  gender          String            @default("M")
 
   @@index([userId])
   @@index([jobclass])
