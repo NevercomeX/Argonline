@@ -46,4 +46,3 @@ router.get("/name/:id", async (req, res) => {
 });
 
 export default router;
-getItemNameById

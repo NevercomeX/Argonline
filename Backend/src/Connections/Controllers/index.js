@@ -41,6 +41,7 @@ import {
   getEquipmentById,
   unequipItem,
   equipItem,
+  getEquipmentMenu,
 } from "./Equipment/equipmentController.js";
 
 export {
@@ -66,6 +67,7 @@ export {
   removeItemFromInventory,
   getCharacterInventoryItems,
   createCharacterWithAttributes,
+  getEquipmentMenu,
   getEnemyDrops,
   getEnemyDropById,
   getStorageItems, getStorageItemById, addItemToStorage, removeItemFromStorage,

@@ -6,6 +6,7 @@ import {
   getEquipmentSlotByCharacterIdAndSlot,
   unequipItem,
   equipItem,
+  getEquipmentMenu,
 } from "../../Controllers/index.js";
 
 const router = express.Router();
@@ -22,7 +23,7 @@ router.get("/", async (req, res) => {
 
 // Obtener equipamiento por ID
 router.get("/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = Number(req.params.id);
   try {
     const equipment = await getEquipmentById(id);
     if (equipment) {
@@ -37,20 +38,30 @@ router.get("/:id", async (req, res) => {
 
 // Obtener los slots de equipamiento por ID de personaje
 router.get("/character/:characterId", async (req, res) => {
-  const characterId = parseInt(req.params.characterId);
+  const characterId = Number(req.params.characterId);
   try {
     const equipmentSlots = await getEquipmentSlotsByCharacterId(characterId);
     res.status(200).json(equipmentSlots);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Error al obtener los slots de equipamiento" });
+    res.status(500).json({ error: "Error al obtener los slots de equipamiento" });
   }
 });
 
-// Desequipar ítem
+// Obtener el menú de equipamiento de un personaje
+router.get("/menu/:characterId", async (req, res) => {
+  const characterId = Number(req.params.characterId);
+  try {
+    const menu = await getEquipmentMenu(characterId);
+    res.status(200).json(menu);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener el menú de equipamiento" });
+  }
+});
+
+// Desequipar ítem (se utiliza el parámetro slotType de la URL)
 router.put("/:characterId/unequip/:slotType", async (req, res) => {
-  const { characterId, slot } = req.body;
+  const characterId = Number(req.params.characterId);
+  const slot = req.params.slotType; // Utilizamos el parámetro de URL
   try {
     await unequipItem(characterId, slot);
     res.status(200).json({ message: "Ítem desequipado correctamente." });
@@ -59,7 +70,7 @@ router.put("/:characterId/unequip/:slotType", async (req, res) => {
   }
 });
 
-// Equipar ítem
+// Equipar ítem (los datos se envían en el body)
 router.put("/:characterId/equip", async (req, res) => {
   const { characterId, slot, itemId, itemInstanceId } = req.body;
   try {
@@ -70,33 +81,21 @@ router.put("/:characterId/equip", async (req, res) => {
   }
 });
 
-// Ruta para obtener el equipo en un slot específico para un personaje
+// Obtener el ítem equipado en un slot específico para un personaje
 router.get("/:characterId/:slotType", async (req, res) => {
-  const { characterId, slotType } = req.params;
-
+  const characterId = Number(req.params.characterId);
+  const slotType = req.params.slotType;
   try {
-    const equipmentSlot = await getEquipmentSlotByCharacterIdAndSlot(
-      characterId,
-      slotType,
-    );
-
+    const equipmentSlot = await getEquipmentSlotByCharacterIdAndSlot(characterId, slotType);
     if (!equipmentSlot) {
-      return res
-        .status(404)
-        .json({
-          error: `No equipment found for character ${characterId} in slot ${slotType}`,
-        });
+      return res.status(404).json({
+        error: `No se encontró equipamiento para el personaje ${characterId} en el slot ${slotType}`,
+      });
     }
-
     res.status(200).json(equipmentSlot);
   } catch (error) {
-    console.error(
-      `Error fetching equipment slot for character ${characterId} in slot ${slotType}:`,
-      error,
-    );
-    res
-      .status(500)
-      .json({ error: `Error fetching equipment slot: ${error.message}` });
+    console.error(`Error obteniendo equipamiento para personaje ${characterId} en slot ${slotType}:`, error);
+    res.status(500).json({ error: `Error al obtener equipamiento: ${error.message}` });
   }
 });
 

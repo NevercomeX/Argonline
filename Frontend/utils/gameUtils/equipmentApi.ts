@@ -1,8 +1,10 @@
-// app/utils/equipmentApi.ts
-
 import { revalidateTag } from "next/cache";
 
-// Obtener los slots de equipamiento de un personaje
+/**
+ * Obtiene el menú de equipamiento de un personaje.
+ * Se asume que el endpoint devuelve un array (o un objeto) y se toma el primer elemento,
+ * que es el objeto que mapea cada slot con el ítem equipado.
+ */
 export const getEquipmentSlotsByCharacterId = async (characterId: number) => {
   try {
     const response = await fetch(
@@ -10,50 +12,56 @@ export const getEquipmentSlotsByCharacterId = async (characterId: number) => {
       {
         method: "GET",
         headers: {
-          "Cache-Control": "no-cache", // Deshabilitar el cache en el request
+          "Cache-Control": "no-cache",
         },
         cache: "no-store",
-      },
+      }
     );
-    if (response.ok) {
-      const equipmentSlots = await response.json();
-      revalidateTag(`equipment-${characterId}`);
-      return equipmentSlots[0]; // Suponiendo que devuelve un solo objeto de equipo
-    } else {
-      throw new Error("Error fetching equipment slots");
+    if (!response.ok) {
+      throw new Error(`Error fetching equipment slots: ${response.statusText}`);
     }
+    const equipmentSlots = await response.json();
+    // Revalidamos la caché del equipo para este character
+    revalidateTag(`equipment-${characterId}`);
+    // Se retorna el primer elemento (suponiendo que el endpoint devuelve un array)
+    return equipmentSlots[0];
   } catch (error) {
     console.error("Error fetching equipment slots:", error);
-    return {};
+    return {}; // Retornamos objeto vacío en caso de error
   }
 };
 
-// Desequipar un ítem del personaje
-
-export const unequipItem = async (characterId: number, slotType: string) => {
+/**
+ * Desequipa un ítem del personaje en un slot dado.
+ */
+export const unequipItem = async (characterId: number, slot: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/unequip/${slotType}`,
+      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/unequip/${slot}`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           "Cache-Control": "no-cache",
         },
-      },
+        cache: "no-store",
+      }
     );
-    if (response.ok) {
-      // Invalida la caché del slot de equipo en particular
-      revalidateTag(`equipment-${characterId}`);
-    } else {
-      throw new Error("Error unequipping item");
+    if (!response.ok) {
+      throw new Error(`Error unequipping item: ${response.statusText}`);
     }
+    // Revalidamos la caché del equipo para este character
+    revalidateTag(`equipment-${characterId}`);
+    return await response.json();
   } catch (error) {
     console.error("Error unequipping item:", error);
+    throw error;
   }
 };
 
-// Obtener nombre del ítem por ID
+/**
+ * Obtiene el nombre de un ítem dado su ID.
+ */
 export const getItemNameById = async (itemId: number) => {
   try {
     const response = await fetch(
@@ -64,16 +72,56 @@ export const getItemNameById = async (itemId: number) => {
           "Content-Type": "application/json",
           "Cache-Control": "no-cache",
         },
-      },
+      }
     );
-    if (response.ok) {
-      const itemData = await response.json();
-      return itemData.name;
-    } else {
-      throw new Error("Error fetching item name");
+    if (!response.ok) {
+      throw new Error(`Error fetching item name: ${response.statusText}`);
     }
+    const itemData = await response.json();
+    return itemData.name;
   } catch (error) {
     console.error("Error fetching item name:", error);
     return "Unknown Item";
+  }
+};
+
+/**
+ * Equipar un ítem en el equipo del personaje.
+ * Se envía en el body: { slot, itemId, itemInstanceId }
+ * donde itemInstanceId puede ser un número o null.
+ */
+export const equipItem = async (
+  characterId: number,
+  slot: string,
+  itemId: number,
+  itemInstanceId: number | null
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/equipment/${characterId}/equip`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
+        },
+        cache: "no-store",
+        body: JSON.stringify({
+          // La API espera que se llame "slot" y "itemId" y "itemInstanceId"
+          slot,
+          itemId,
+          itemInstanceId,
+        }),
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to equip item: ${response.statusText}`);
+    }
+    // Revalidamos la caché del equipo para este character
+    revalidateTag(`equipment-${characterId}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Error equipping item:", error);
+    throw error;
   }
 };
