@@ -1,38 +1,15 @@
-import express from "express";
-import routes from "./src/Connections/Routes/index.js";
-import { requestLogger } from "./src/Connections/Middleware/logger.js";
-import cors from "cors";
+// combatServer.js (Usando WebSocket puro)
+import { WebSocketServer } from "ws";
+import { handleCombatStatsRequest } from "./src/Connections/Controllers/Stats/statsCalculatorController.js";
 
-const app = express();
-const port = 4003;
+const port = 4004; // Puerto exclusivo para combate
 
-// Lee el valor del flag desde variables de entorno o configuración
-const logRequests = process.env.LOG_REQUESTS === "true";
+// Inicializar WebSocket Server
+const wss = new WebSocketServer({ port });
 
-// Configuración de CORS
-const corsOptions = {
-  origin: "http://localhost:3000", // Dominios permitidos (Remix app)
-  methods: ["GET", "POST", "PUT", "DELETE"], // Métodos HTTP permitidos
-  credentials: true, // Permitir credenciales (si necesitas cookies)
-};
-
-// Middleware de CORS
-app.use(cors(corsOptions));
-
-// Middleware de registro
-app.use(requestLogger(logRequests));
-
-// Configuración para recibir datos JSON
-app.use(express.json());
-
-// Usar todas las rutas
-app.use("/map", routes);
-
-// Iniciar el servidor
-app.listen(port, () => {
-    console.log("                                             ")
-  console.log("       Nevercomex Development Team Presents:");
-  console.log(`
+console.log("                                             ");
+console.log("       Nevercomex Development Team Presents:");
+console.log(`
              ███╗   ██╗  ██╗  ██╗                    
              ████╗  ██║  ╚██╗██╔╝                    
              ██╔██╗ ██║   ╚███╔╝                     
@@ -40,9 +17,29 @@ app.listen(port, () => {
              ██║ ╚████║  ██╔╝ ██╗                    
              ╚═╝  ╚═══╝  ╚═╝  ╚═╝                    
 `);
-  console.log("                 MAP SERVER");
-  console.log(" ====================================================");
-  console.log(` =   Server [MAP] is running on port: ${port}          =`);
-  console.log(" ====================================================");
-    console.log("                                             ")
+console.log("                COMBAT SERVER (WebSocket)");
+console.log(" ====================================================");
+console.log(` =   Server [COMBAT] is running on port: ${port}          =`);
+console.log(" ====================================================");
+console.log("                                             ");
+
+wss.on("connection", (ws) => {
+  console.log("Nuevo cliente conectado");
+
+  ws.on("message", async (message) => {
+    try {
+      const parsedMessage = JSON.parse(message);
+
+      if (parsedMessage.type === "combatStats") {
+        await handleCombatStatsRequest(ws, parsedMessage);
+      }
+    } catch (error) {
+      console.error("Error procesando mensaje:", error);
+      ws.send(JSON.stringify({ error: "Mensaje inválido." }));
+    }
+  });
+
+  ws.on("close", () => {
+    console.log("Cliente desconectado");
+  });
 });

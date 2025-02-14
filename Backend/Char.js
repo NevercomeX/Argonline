@@ -1,5 +1,5 @@
 import express from "express";
-import routes from "./src/Connections/Routes/index.js";
+import routes from "./src/Connections/Routes/charRoutes.js"; // Ajusta la ruta según tu estructura
 import { requestLogger } from "./src/Connections/Middleware/logger.js";
 import jsonBigIntMiddleware from "./src/Connections/Middleware/jsonBigIntMiddleware.js"; // Ajusta la ruta según tu estructura
 import cors from "cors";
