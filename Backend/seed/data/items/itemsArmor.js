@@ -18,7 +18,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Swordsman's Plate",
@@ -39,7 +39,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Mage's Robe",
@@ -60,7 +60,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Archer's Tunic",
@@ -81,7 +81,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Merchant's Overalls",
@@ -102,7 +102,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Thief's Cloak",
@@ -123,7 +123,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Acolyte's Vestment",
@@ -144,7 +144,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Knight's Armor",
@@ -165,7 +165,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Wizard's Gown",
@@ -186,7 +186,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Blacksmith's Apron",
@@ -207,7 +207,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Hunter's Camouflage",
@@ -228,7 +228,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Assassin's Shroud",
@@ -249,7 +249,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Priest's Robe",
@@ -270,7 +270,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Crusader's Plate",
@@ -291,7 +291,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Rogue's Leather",
@@ -312,7 +312,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Alchemist's Coat",
@@ -333,7 +333,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Bard's Attire",
@@ -354,7 +354,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Dancer's Garb",
@@ -375,7 +375,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Super Novice Robe",
@@ -396,7 +396,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Gunslinger's Duster",
@@ -417,7 +417,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   },
   {
     name: "Ninja's Gi",
@@ -438,6 +438,6 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "amor/"
+    sprite: "/armor/"
   }
 ];

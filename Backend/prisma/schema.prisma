@@ -136,6 +136,14 @@ model Character {
   @@index([jobclass])
 }
 
+model Battle {
+  id        Int     @id @default(autoincrement())
+  player1   Int
+  player2   Int
+  currentTurn Int
+  winner    Int?
+  status    String @default("active") // active, finished
+}
 
 model Recipe {
   id            Int    @id @default(autoincrement())

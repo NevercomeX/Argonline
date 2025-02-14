@@ -57,6 +57,8 @@ export async function calculateCombatStats(characterId) {
       totalAgi += eq.item.magicAttack || 0;
       totalVit += eq.item.defense || 0;
       totalInt += eq.item.magicDefense || 0;
+      totalDex += eq.item.accuracy || 0;
+      totalLuk += eq.item.evasion || 0;
     }
   });
 
@@ -89,7 +91,7 @@ export async function handleCombatStatsRequest(ws, message) {
       return ws.send(JSON.stringify({ error: "Character ID is required" }));
     }
 
-    const stats = await calculateCombatStats(characterId);
+    const stats = await calculateStatsRO(characterId);
 
     ws.send(JSON.stringify({
       type: "combatStats",
@@ -102,3 +104,71 @@ export async function handleCombatStatsRequest(ws, message) {
     ws.send(JSON.stringify({ error: error.message }));
   }
 }
+
+const calculateStatsRO = async (charId) => {
+  const character = await prisma.character.findUnique({
+    where: { id: charId },
+  });
+
+  const equipmentItems = await prisma.equipmentItem.findMany({
+    where: { characterId: charId },
+    include: { item: true },
+  });
+
+  // 📌 Stats Base del personaje
+  console.log(character);
+  let {health, maxHealth, maxMana, mana, str, agi, vit, int, dex, luk, baseLevel } = character;
+
+  // 📌 Bonos por equipo
+  let equipAtk = 0, equipMatk = 0, equipDef = 0, equipMdef = 0, equipHealth = 0, equipMana = 0;
+  let equipHit = 0, equipFlee = 0, equipCrit = 0, equipAspd = 0, equipMaxHealth = 0, equipMaxMana = 0;
+
+  // 🔹 Procesar cada equipo equipado
+  equipmentItems.forEach(({ item }) => {
+    if (item) {
+      equipHealth += item.health || 0;
+      equipMana += item.mana || 0;
+      equipMaxHealth += item.maxHealth || 0;
+      equipMaxMana += item.maxMana || 0;
+      equipAtk += item.attack || 0;
+      equipMatk += item.magicAttack || 0;
+      equipDef += item.defense || 0;
+      equipMdef += item.magicDefense || 0;
+      equipHit += item.accuracy || 0;
+      equipFlee += item.evasion || 0;
+      equipCrit += item.crit || 0;
+      equipAspd += item.attackSpeed || 0;
+    }
+  });
+
+  // 📌 Cálculo de stats finales según Ragnarok Online
+  const MAXHP = maxHealth + vit * 35 + equipHealth + equipMaxHealth;
+  const MAXSP = maxMana + int * 6 + equipMana + equipMaxMana;
+  const HP = MAXHP;
+  const SP = MAXSP;
+  const ATK = str + Math.floor(dex / 5) + equipAtk;
+  const MATK = int + Math.floor(dex / 5) + equipMatk;
+  const DEF = vit + equipDef + Math.floor(str / 5);
+  const MDEF = int + equipMdef + Math.floor(vit / 5); 
+  const HIT = dex + baseLevel + equipHit;
+  const FLEE = agi + baseLevel + equipFlee;
+  const CRIT = Math.floor(luk / 2) + equipCrit;
+  const ASPD = Math.floor(calculateAspd(character.jobclass, agi, dex, equipAspd));
+
+  return {MAXHP,MAXSP,HP, SP, ATK, MATK, DEF, MDEF, HIT, FLEE, CRIT, ASPD };
+};
+
+const calculateAspd = (job, agi, dex, equipAspd) => {
+  let baseAspd = 140; // Base estándar
+
+  if (job === "Knight") baseAspd = 145;
+  if (job === "Assassin") baseAspd = 150;
+  if (job === "Hunter") baseAspd = 142;
+  if (job === "Priest") baseAspd = 135;
+  if (job === "Wizard") baseAspd = 135;
+  if (job === "Blacksmith") baseAspd = 140;
+  if (job === "Monk") baseAspd = 140;
+  
+
+  return baseAspd + (agi + dex) / 4 + equipAspd;
+};
