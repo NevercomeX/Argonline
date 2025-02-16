@@ -1,5 +1,5 @@
 {
-  "name": "ahgonline",
+  "name": "argonline",
   "version": "0.26.8",
   "description": "ragnarok online clone",
   "main": "index.ts",
@@ -15,7 +15,10 @@
     "pre-commit": "lint-staged",
     "rseed": "npx prisma db push --force-reset &&  node seed/index.js",
     "seed": "node seed/index.js",
-    "server": "nodemon Char.js "
+    "remigrate": "npx prisma migrate reset --force && npx prisma migrate dev --name init",
+    "char": "node --watch char.js ",
+    "login": "node --watch login.js",
+    "map": "node --watch map.js "
   },
   "repository": {
     "type": "git",
@@ -41,9 +44,11 @@
     "jsonwebtoken": "^9.0.2",
     "readline-sync": "^1.4.10",
     "redis": "^4.7.0",
+    "socket.io": "^4.8.1",
     "typescript": "^5.4.5",
     "typewriter-effect": "^2.21.0",
-    "uuid": "^11.0.4"
+    "uuid": "^11.0.4",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

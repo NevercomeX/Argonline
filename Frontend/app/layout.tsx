@@ -1,44 +1,35 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
-import { ThemeProvider } from '@/components/providers/ThemeProvider';
-import { AuthProvider } from '@/components/auth/context/AuthContext';
+// src/app/layout.tsx
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { AuthProvider } from "@/components/Auth/context/AuthContext";
+import { ClientProviders } from "@/components/ClientProviders";
 
-
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'NevercomeX',
-  description: 'Admin dashboard',
-
+  title: "NevercomeX",
+  description: "Admin dashboard",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-
+}) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <head>
-
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"></link>
-
-</head>
-
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon/favicon-32x32.png"
+        />
+      </head>
       <body className={inter.className}>
-        <AuthProvider>  
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='light'
-          enableSystem={true}
-          storageKey='dashboard-theme'
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <AuthProvider>
+          <ClientProviders>{children}</ClientProviders>
         </AuthProvider>
       </body>
     </html>

@@ -1,23 +1,50 @@
-import express from "express";
-import routes from "./src/Routes/index.js";
-import { requestLogger } from "./src/Middleware/logger.js";
+import { WebSocketServer } from "ws";
+import configureRoutes from "./src/Connections/Routes/mapRoutes.js";
+import { sendJson } from "./src/Connections/Middleware/wsbigIntMiddleware.js";
 
-const app = express();
-const port = 4002;
+const PORT = 4003;
+const wss = new WebSocketServer({ port: PORT });
+const clients = new Map(); // Almacena clientes suscritos por characterId
 
-// Lee el valor del flag desde variables de entorno o configuración
-const logRequests = process.env.LOG_REQUESTS === "true";
+// Registro global de manejadores de mensajes (handlers)
+const messageHandlers = {};
 
-// Middleware de registro
-app.use(requestLogger(logRequests));
+// Configurar handlers de los distintos módulos
+configureRoutes(messageHandlers);
 
-// Configuración para recibir datos JSON
-app.use(express.json());
+wss.on("connection", (ws) => {
+  console.log("✅ Nuevo jugador conectado en el mapa");
 
-// Usar todas las rutas
-app.use("/map", routes);
+  ws.on("message", (message) => {
+    try {
+      const parsedMessage = JSON.parse(message);
+      const handler = messageHandlers[parsedMessage.type];
 
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Server [MAP] is running on http://localhost:${port}`);
+      if (handler) {
+        handler(ws, parsedMessage);
+      } else {
+        console.warn("⚠️ Tipo de mensaje desconocido:", parsedMessage.type);
+        sendJson(ws, { error: "Tipo de mensaje desconocido." });
+      }
+    } catch (error) {
+      console.error("❌ Error procesando mensaje:", error);
+      sendJson(ws, { error: "Mensaje inválido" });
+    }
+  });
+
+  ws.on("close", () => {
+    console.log("🔴 Jugador desconectado del mapa");
+    clients.delete(ws);
+  });
 });
+
+// Envía actualizaciones a los clientes suscritos
+export const broadcastCharacterUpdate = (characterId, updateData) => {
+  wss.clients.forEach((client) => {
+    if (clients.get(client) === characterId && client.readyState === WebSocket.OPEN) {
+      sendJson(client, { type: "characterUpdate", characterId, ...updateData });
+    }
+  });
+};
+
+console.log(`🗺️ MAP SERVER RUNNING ON PORT: ${PORT}`);

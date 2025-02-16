@@ -1,6 +1,7 @@
-import { Character } from './character';
-import { Item } from './item';
-import { ItemInstance } from './itemInstance';
+import { Character } from "@/types/Character";
+import { Item } from "@/types/Item";
+import { ItemInstance } from "@/types/ItemInstance";
+
 
 export interface Inventory {
   id: number;

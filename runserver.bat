@@ -5,8 +5,23 @@ tasklist /FI "WINDOWTITLE eq ArgOnline Backend" | find /I "cmd.exe" >nul
 if errorlevel 1 (
     REM Navegar al directorio del backend y arrancar el servidor
     cd /d "C:\Users\Chipi Chapa\Desktop\DASHBOARD\backend"
-    start "ArgOnline Backend" cmd /k "npm run server"
+    start "ArgOnline Backend" cmd /k "npm run char"
 )
+
+tasklist /FI "WINDOWTITLE eq ArgOnline Backend" | find /I "cmd.exe" >nul
+if errorlevel 1 (
+    REM Navegar al directorio del backend y arrancar el servidor
+    cd /d "C:\Users\Chipi Chapa\Desktop\DASHBOARD\backend"
+    start "ArgOnline Backend" cmd /k "npm run login"
+)
+
+tasklist /FI "WINDOWTITLE eq ArgOnline Backend" | find /I "cmd.exe" >nul
+if errorlevel 1 (
+    REM Navegar al directorio del backend y arrancar el servidor
+    cd /d "C:\Users\Chipi Chapa\Desktop\DASHBOARD\backend"
+    start "ArgOnline Backend" cmd /k "npm run map"
+)
+
 
 tasklist /FI "WINDOWTITLE eq ArgOnline Frontend" | find /I "cmd.exe" >nul
 if errorlevel 1 (

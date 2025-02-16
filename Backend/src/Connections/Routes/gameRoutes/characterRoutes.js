@@ -3,20 +3,23 @@ import {
   getAllCharacters,
   getCharacterById,
   updateCharacter,
-  createCharacter,
   getCharactersByUserId,
+  createCharacterWithAttributes,
 } from "../../Controllers/index.js";
 
 const router = express.Router();
 
-// get all characters of user id
+// Obtener todos los personajes de un usuario con paginación
 router.get("/:userId/characters", async (req, res) => {
   const { userId } = req.params;
-  console.log(userId);
+  const { page } = req.query; // Obtener el número de página de la query string
+
   try {
-    const characters = await getCharactersByUserId(userId);
+    // Llamar al controlador con la página y el userId
+    const characters = await getCharactersByUserId(userId, page);
     res.status(200).json(characters);
   } catch (error) {
+    console.error("Error al obtener los personajes:", error);
     res.status(500).json({ error: "Error al obtener los personajes" });
   }
 });
@@ -59,12 +62,13 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.post("/users/:userId/characters", async (req, res) => {
-  const { userId } = req.params;
-  const { name, jobClass } = req.body;
+//create character with attributes
 
+router.post("/:userId/characters", async (req, res) => {
+  const { userId } = req.params;
+  const { name, jobClass, attributes, gender } = req.body;
   try {
-    const newCharacter = await createCharacter(userId, name, jobClass);
+    const newCharacter = await createCharacterWithAttributes(userId, name, jobClass, attributes, gender);
     res.status(201).json(newCharacter);
   } catch (error) {
     res.status(500).json({ error: "Error al crear el personaje" });

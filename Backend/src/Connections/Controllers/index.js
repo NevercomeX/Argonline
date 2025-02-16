@@ -1,49 +1,81 @@
-//index of the controllers
-
+// ================================
+// Character Controllers
+// ================================
 import {
   getCharacterById,
   updateCharacter,
   getAllCharacters,
   createCharacter,
+  createCharacterWithAttributes,
   getCharactersByUserId,
-} from "./Character/character.js";
+} from "./Character/characterController.js";
 
-import { getAllUsers, getAllCharactersFromUser, getUserById, getUserIdFromToken } from "./user/usersController.js";
+// ================================
+// Skill Controllers
+// ================================
+import {
+  getAvailableSkills,
+  levelUpCharacterSkill,
+  resetCharacterSkills,
+  learnCharacterSkill,
+  getSkillTreeByJobClassId,
+} from "./Skill/skillsController.js";
 
+// ================================
+// User Controllers
+// ================================
+import {
+  getAllUsers,
+  getAllCharactersFromUser,
+  getUserById,
+  getUserIdFromToken,
+} from "./user/usersController.js";
+
+// ================================
+// Authentication Controllers
+// ================================
 import { loginUser, registerUser } from "./user/authController.js";
 
+// ================================
+// Enemy Controllers
+// ================================
 import { getEnemies, getEnemyById, getRandomEnemy } from "./Enemy/enemies.js";
+import { getEnemyDrops, getEnemyDropById } from "./Enemy/enemydrop.js";
+
+// ================================
+// Item Controllers
+// ================================
 import {
   getAllItems,
   getItemNameById,
-  getItemsByName,
-  getItemsById,
-} from "./Item/items.js";
+  getItemsByIds,
+  getItemById,
+} from "./Item/itemsController.js";
 
-import {
-  createItemInstance,
-  getItemInstanceById,
-  getItemInstanceNameById,
-  updateItemInstance,
-  deleteItemInstance,
-  getItemInstancesByCharacterId,
-} from "./Item/itemInstanceController.js";
-import {
-  getJobClasses,
-  getJobClassById,
-  getJobClassNameById,
-  getJobClassByName,
-} from "./Character/jobClass.js";
+// ================================
+// Inventory Controllers
+// ================================
 import {
   getInventory,
   getInventoryById,
   getCharacterInventoryItems,
-  getCharacterInventory,
   addItemToInventory,
   removeItemFromInventory,
-} from "./Inventory/inventory.js";
-import { getEnemyDrops, getEnemyDropById } from "./Enemy/enemydrop.js";
+} from "./Inventory/inventoryController.js";
 
+// ================================
+// Storage Controllers
+// ================================
+import {
+  getStorageItems,
+  getStorageItemById,
+  addItemToStorage,
+  removeItemFromStorage,
+} from "./Inventory/storageController.js";
+
+// ================================
+// Equipment Controllers
+// ================================
 import {
   getEquipment,
   getEquipmentSlotsByCharacterId,
@@ -51,49 +83,69 @@ import {
   getEquipmentById,
   unequipItem,
   equipItem,
-} from "./Equipment/equipment.js";
+  getEquipmentMenu,
+} from "./Equipment/equipmentController.js";
 
+
+// ================================
+// Export all controllers
+// ================================
 export {
+  // User and Authentication
   getAllUsers,
   getUserById,
   getAllCharactersFromUser,
-  registerUser,
-  createCharacter,
-  loginUser,
   getUserIdFromToken,
+  registerUser,
+  loginUser,
+
+  // Character
   getCharacterById,
   updateCharacter,
   getAllCharacters,
+  createCharacter,
+  createCharacterWithAttributes,
+  getCharactersByUserId,
+
+  // Enemy
   getEnemies,
   getEnemyById,
-  getAllItems,
-  getItemNameById,
-  getItemsByName,
-  getItemsById,
-  getJobClasses,
-  getJobClassById,
-  getJobClassNameById,
-  getJobClassByName,
-  getInventory,
-  getInventoryById,
-  addItemToInventory,
-  removeItemFromInventory,
-  getCharacterInventoryItems,
-  getCharacterInventory,
-  getItemInstancesByCharacterId,
+  getRandomEnemy,
   getEnemyDrops,
   getEnemyDropById,
+
+  // Items
+  getAllItems,
+  getItemNameById,
+  getItemById,
+  getItemsByIds,
+
+  // Inventory
+  getInventory,
+  getInventoryById,
+  getCharacterInventoryItems,
+  addItemToInventory,
+  removeItemFromInventory,
+
+  // Storage
+  getStorageItems,
+  getStorageItemById,
+  addItemToStorage,
+  removeItemFromStorage,
+
+  // Equipment
   getEquipment,
-  unequipItem,
-  equipItem,
   getEquipmentSlotsByCharacterId,
   getEquipmentSlotByCharacterIdAndSlot,
   getEquipmentById,
-  createItemInstance,
-  getItemInstanceById,
-  getItemInstanceNameById,
-  updateItemInstance,
-  deleteItemInstance,
-  getRandomEnemy,
-  getCharactersByUserId
+  unequipItem,
+  equipItem,
+  getEquipmentMenu,
+
+  // Skills
+  getAvailableSkills,
+  levelUpCharacterSkill,
+  resetCharacterSkills,
+  learnCharacterSkill,
+  getSkillTreeByJobClassId,
 };

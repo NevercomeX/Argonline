@@ -1,10 +1,16 @@
-import {Character} from "./character"
+import { Character } from "./Character";
+import { StorageItem } from "./StorageItem";
 
-export interface User {
-    id: number;
-    username: string;
-    email: string;
-    password: string;
-    role: string;
-    characters: Character[];
-  }
+export type User = {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+  zeny: number;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt?: Date;
+  characters: Character[];
+  storage: StorageItem[];
+};

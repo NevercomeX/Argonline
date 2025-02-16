@@ -1,19 +1,16 @@
-import { ItemTemplate } from "./itemTamplate";
-import {Character} from "./character"
-import { Inventory } from "./inventory";
+import { EquipmentItem } from "@/types/EquipmentItem";
+import { InventoryItem } from "@/types/InventoryItem";
+import { Item } from "@/types/Item";
 
-export interface ItemInstance {
-    id: number;
-    itemTemplateId: number;
-    characterId: number;
-    currentAttack: number;
-    currentDefense: number;
-    currentHealth: number;
-    currentMana: number;
-    upgradeLevel: number;
-    socketedGems?: string | null;
-    enchantments?: string | null;
-    itemTemplate: ItemTemplate;
-    character: Character;
-    inventory: Inventory[];
-  }
+export type ItemInstance = {
+  id: number;
+  itemId: number;
+  refineLevel: number;
+  durability: number;
+  enchantments?: any; // JSON
+  cards?: any; // JSON
+  createdAt: Date;
+  item: Item;
+  inventoryItems: InventoryItem[];
+  equipmentItems: EquipmentItem[];
+};

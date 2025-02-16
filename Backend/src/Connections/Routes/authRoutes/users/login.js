@@ -1,3 +1,4 @@
+// src/Routes/auth/login.js
 import express from "express";
 import { generateRefreshToken, generateAccessToken } from "../utils/generateTokens.js";
 import { loginUser } from "../../../Controllers/index.js";
@@ -8,20 +9,23 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
 
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email y contraseña son requeridos." });
+  }
+
   try {
     // Validar credenciales del usuario
     const { user } = await loginUser(email, password);
 
     if (!user) {
-      return res.status(401).json({ error: "Invalid credentials." });
+      return res.status(401).json({ error: "Credenciales inválidas." });
     }
 
-    // Obtener el tokenId del refresh token anterior (si existe)
+    // Buscar el refresh token previo, si existe, para eliminarlo
     const existingSession = await prisma.userSession.findFirst({
       where: { userId: user.id },
-      orderBy: { expiresAt: "desc" }, // Obtener el token más reciente
+      orderBy: { expiresAt: "desc" },
     });
-
     const tokenId = existingSession?.id;
 
     // Crear payload para el access token
@@ -31,11 +35,11 @@ router.post("/", async (req, res) => {
       role: user.role,
     };
 
-    // Generar tokens
+    // Generar los tokens
     const refreshToken = await generateRefreshToken({ tokenId, userId: user.id });
     const accessToken = await generateAccessToken({ payload });
 
-    // Preparar cookies para el cliente
+    // Preparar cookies (o bien el objeto de respuesta) con los tokens
     const cookies = {
       accessCookie: {
         value: accessToken.token,
@@ -46,14 +50,14 @@ router.post("/", async (req, res) => {
         maxAge: refreshToken.maxAge,
       },
     };
-    // Enviar respuesta
+
     return res.status(200).json({
       success: true,
       cookies,
     });
   } catch (error) {
     console.error("Login error:", error.message);
-    return res.status(500).json({ error: "Server error. Please try again later." });
+    return res.status(500).json({ error: "Error en el servidor. Intenta de nuevo más tarde." });
   }
 });
 

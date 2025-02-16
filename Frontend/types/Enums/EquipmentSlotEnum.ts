@@ -1,0 +1,14 @@
+export enum EquipmentSlot {
+  HEAD_TOP = "HEAD_TOP",
+  HEAD_MID = "HEAD_MID",
+  HEAD_LOW = "HEAD_LOW",
+  ARMOR = "ARMOR",
+  WEAPON = "WEAPON",
+  SHIELD = "SHIELD",
+  GARMENT = "GARMENT",
+  SHOES = "SHOES",
+  ACCESSORY1 = "ACCESSORY1",
+  ACCESSORY2 = "ACCESSORY2",
+  AMMO = "AMMO",
+}
+

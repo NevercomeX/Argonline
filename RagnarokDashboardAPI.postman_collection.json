@@ -1,0 +1,522 @@
+{
+  "info": {
+    "_postman_id": "d0b6e5d4-1234-5678-9abc-123456789abc",
+    "name": "Ragnarok Dashboard API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth Endpoints",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{login_url}}/authV2/register",
+              "host": ["{{login_url}}"],
+              "path": ["authV2", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Route",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{login_url}}/authV2/admin",
+              "host": ["{{login_url}}"],
+              "path": ["authV2", "admin"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{login_url}}/authV2/login",
+              "host": ["{{login_url}}"],
+              "path": ["authV2", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{login_url}}/authV2/logout",
+              "host": ["{{login_url}}"],
+              "path": ["authV2", "logout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{login_url}}/authV2/users",
+              "host": ["{{login_url}}"],
+              "path": ["authV2", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{login_url}}/authV2/get-session",
+              "host": ["{{login_url}}"],
+              "path": ["authV2", "get-session"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{login_url}}/authV2/refresh-session",
+              "host": ["{{login_url}}"],
+              "path": ["authV2", "refresh-session"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{login_url}}/authV2/verify-session",
+              "host": ["{{login_url}}"],
+              "path": ["authV2", "verify-session"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Game Endpoints",
+      "item": [
+        {
+          "name": "Get Skills",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/skills",
+              "host": ["{{char_url}}"],
+              "path": ["skills"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Characters by User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/characters/1/characters?page=1",
+              "host": ["{{char_url}}"],
+              "path": ["characters", "1", "characters"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Characters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/characters?page=1&limit=9",
+              "host": ["{{char_url}}"],
+              "path": ["characters"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "9"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Character by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/characters/1",
+              "host": ["{{char_url}}"],
+              "path": ["characters", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Character",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Character Name\"\n}"
+            },
+            "url": {
+              "raw": "{{char_url}}/characters/1",
+              "host": ["{{char_url}}"],
+              "path": ["characters", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Character with Attributes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Character\",\n  \"jobClass\": \"NOVICE\",\n  \"attributes\": {\n    \"str\": 10,\n    \"agi\": 10,\n    \"vit\": 10,\n    \"int\": 10,\n    \"dex\": 10,\n    \"luk\": 10\n  },\n  \"gender\": \"male\"\n}"
+            },
+            "url": {
+              "raw": "{{char_url}}/characters/1/characters",
+              "host": ["{{char_url}}"],
+              "path": ["characters", "1", "characters"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/items?page=1&limit=9",
+              "host": ["{{char_url}}"],
+              "path": ["items"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "9"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Item by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/items/1",
+              "host": ["{{char_url}}"],
+              "path": ["items", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Item Name by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/items/name/1",
+              "host": ["{{char_url}}"],
+              "path": ["items", "name", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Equipment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/equipment",
+              "host": ["{{char_url}}"],
+              "path": ["equipment"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Equipment by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/equipment/1",
+              "host": ["{{char_url}}"],
+              "path": ["equipment", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Equipment Slots for Character",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/equipment/character/1",
+              "host": ["{{char_url}}"],
+              "path": ["equipment", "character", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unequip Item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slot\": \"HEAD_TOP\"\n}"
+            },
+            "url": {
+              "raw": "{{char_url}}/equipment/1/unequip/HEAD_TOP",
+              "host": ["{{char_url}}"],
+              "path": ["equipment", "1", "unequip", "HEAD_TOP"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Equip Item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"characterId\": 1,\n  \"slot\": \"WEAPON\",\n  \"itemId\": 100,\n  \"itemInstanceId\": 200\n}"
+            },
+            "url": {
+              "raw": "{{char_url}}/equipment/1/equip",
+              "host": ["{{char_url}}"],
+              "path": ["equipment", "1", "equip"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Equipment Slot",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/equipment/1/WEAPON",
+              "host": ["{{char_url}}"],
+              "path": ["equipment", "1", "WEAPON"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Inventory",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/inventory/1",
+              "host": ["{{char_url}}"],
+              "path": ["inventory", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Inventory Item by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/inventory/item/1",
+              "host": ["{{char_url}}"],
+              "path": ["inventory", "item", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Item to Inventory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"itemId\": 10,\n  \"quantity\": 1\n}"
+            },
+            "url": {
+              "raw": "{{char_url}}/inventory/1/add",
+              "host": ["{{char_url}}"],
+              "path": ["inventory", "1", "add"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Item from Inventory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"itemId\": 10,\n  \"quantity\": 1\n}"
+            },
+            "url": {
+              "raw": "{{char_url}}/inventory/1/remove",
+              "host": ["{{char_url}}"],
+              "path": ["inventory", "1", "remove"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Character Inventory (Storage Item)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/inventory/character/1",
+              "host": ["{{char_url}}"],
+              "path": ["inventory", "character", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Enemies (Mobs)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{char_url}}/mobs",
+              "host": ["{{char_url}}"],
+              "path": ["mobs"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "login_url",
+      "value": "http://localhost:4002/login"
+    },
+    {
+      "key": "char_url",
+      "value": "http://localhost:4001/char"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import express from "express";
 import {
   getAllItems,
-  getItemsById,
+  getItemById,
   getItemNameById,
 } from "../../Controllers/index.js";
 
@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const item = await getItemsById(id);
+    const item = await getItemById(id);
     if (item) {
       res.status(200).json(item);
     } else {

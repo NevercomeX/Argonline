@@ -1,220 +1,367 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+// schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql" // Mejor para producción que SQLite
   url      = env("DATABASE_URL")
 }
 
+enum JobName {
+  NOVICE
+  SWORDSMAN
+  MAGE
+  ARCHER
+  MERCHANT
+  THIEF
+  ACOLYTE
+  KNIGHT
+  WIZARD
+  BLACKSMITH
+  HUNTER
+  ASSASSIN
+  PRIEST
+  CRUSADER
+  ROGUE
+  ALCHEMIST
+  BARD
+  DANCER
+  SUPER_NOVICE
+  GUNSLINGER
+  NINJA
+}
+
+enum ItemType {
+  HEALING
+  WEAPON
+  ARMOR
+  AMULET
+  CARD
+  QUEST
+  AMMO
+  USABLE
+  MISCELLANEOUS
+}
+
+enum EquipmentSlot {
+  HEAD_TOP
+  HEAD_MID
+  HEAD_LOW
+  ARMOR
+  WEAPON
+  SHIELD
+  GARMENT
+  SHOES
+  ACCESSORY1
+  ACCESSORY2
+  AMMO
+}
+
+enum ElementType {
+  NEUTRAL
+  FIRE
+  WATER
+  WIND
+  EARTH
+  HOLY
+  DARK
+  GHOST
+  UNDEAD
+}
+
 model User {
-  id         Int         @id @default(autoincrement())
-  username   String      @unique
-  email      String      @unique
-  password   String
-  role       String      @default("user")
-  characters Character[]
+  id          Int           @id @default(autoincrement())
+  username    String        @unique
+  email       String        @unique
+  password    String
+  role        String        @default("user")
+  characters  Character[]
+  storage     StorageItem[] @relation("UserStorage") // Almacenamiento tipo Kafra
+  zeny        Int           @default(10000) // Dinero del juego
   userSession UserSession[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
 }
 
 model UserSession {
-  id         String     @id @default(uuid())
-  userId     Int
-  token      String @unique 
-  expiresAt  Int
-  user       User    @relation(fields: [userId], references: [id])
+  id        String   @id @default(uuid())
+  userId    Int
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Character {
-  id              Int             @id @default(autoincrement())
-  name            String          @unique @default("Player")
+  id              Int               @id @default(autoincrement())
+  name            String            @unique
   userId          Int
-  jobclassId      Int
-  str             Int
-  agi             Int
-  vit             Int
-  int             Int
-  dex             Int
-  luk             Int
-  baseLevel       Int
-  jobLevel        Int
-  baseExp         Int
-  jobExp          Int
-  maxBaseExp      Int
-  maxJobExp       Int
-  skillPoints     Int
+  jobclass        JobName           @default(NOVICE)
+  str             Int               @default(1)
+  agi             Int               @default(1)
+  vit             Int               @default(1)
+  int             Int               @default(1)
+  dex             Int               @default(1)
+  luk             Int               @default(1)
+  baseLevel       Int               @default(1)
+  jobLevel        Int               @default(1)
+  baseExp         BigInt            @default(0)
+  jobExp          BigInt            @default(0)
+  zeny            Int               @default(0)
+  statusPoints    Int               @default(0)
+  skillPoints     Int               @default(0)
   health          Int
   maxHealth       Int
   maxMana         Int
   mana            Int
-  attackPower     Int 
-  magicPower      Int
-  defense         Int
-  magicDefense    Int
-  inventory       Inventory[]
-  equipmentSlot   EquipmentSlot[]
-  items           ItemInstance[]
-  user            User            @relation(fields: [userId], references: [id])
+  attackSpeed     Int               @default(150)
+  attackRange     Int               @default(1)
+  element         ElementType       @default(NEUTRAL)
+  map             String            @default("prontera")
+  x               Int               @default(150)
+  y               Int               @default(150)
+  inventory       InventoryItem[]
+  equipment       EquipmentItem[]
+  skills          CharacterSkill[]
+  user            User              @relation(fields: [userId], references: [id])
+  partyId         Int?              // Para sistema de grupos
+  guildId         Int?              // Para sistema de guilds
+  homunculusId    Int?              // Para sistema de homúnculos
+  guildMembership GuildMember?      @relation("CharacterGuildMember")
+  ledGuild        Guild?            @relation("GuildLeader")
+  gender          String            @default("M")
+
+  @@index([userId])
+  @@index([jobclass])
 }
 
-model Inventory {
-  id             Int          @id @default(autoincrement())
-  itemId         Int?
-  characterId    Int
-  itemInstanceId Int?         // Referencia opcional a la instancia de ítem
-  quantity       Int          @default(1)
-  character      Character    @relation(fields: [characterId], references: [id])
-  itemInstance   ItemInstance? @relation(fields: [itemInstanceId], references: [id])
-  item           Item?         @relation(fields: [itemId], references: [id])
+model Battle {
+  id        Int     @id @default(autoincrement())
+  player1   Int
+  player2   Int
+  currentTurn Int
+  winner    Int?
+  status    String @default("active") // active, finished
+}
+
+model Recipe {
+  id            Int    @id @default(autoincrement())
+  resultItemId  Int
+  requiredItems Json   // Ejemplo: [{"itemId": 1, "quantity": 2}, ...]
+  successRate   Float  @default(0.8) // 80%
+  skillRequired String?
+  jobRequired   JobName?
+  minLevel      Int?
+  
+  item          Item   @relation(fields: [resultItemId], references: [id])
 }
 
 model Item {
-  id            Int      @id 
-  name          String   @unique
-  itemType      String   @default("None")
-  itemSubType   String   @default("None")
-  equipmentSlot String?   @default("None")
+  id            Int           @id @default(autoincrement())
+  name          String        @unique
+  type          ItemType
+  jobRequired   JobName?
   description   String
-  price         Int
-  attackPower   Int
-  magicPower    Int
-  defense       Int
-  magicDefense  Int
-  health        Int
-  mana          Int
-  str           Int
-  agi           Int
-  vit           Int
-  int           Int
-  dex           Int
-  luk           Int
-  slot          Int
-  weaponType    String
-  usable        Boolean
-  rarity        String
-  effect        String?
-  equipable     Boolean
-  inventory     Inventory[]
-  enemyDrops    EnemyDrop[]
-  itemIcon      String @default("")
-}
+  buyPrice      Int
+  sellPrice     Int
+  weight        Int
+  attack        Int?          @default(0)
+  magicAttack   Int?          @default(0)
+  defense       Int?          @default(0)
+  magicDefense  Int?          @default(0)
+  requiredLevel Int?          @default(0)
+  slot          Int?          @default(0) // Para armas/escudos
+  equipSlots    EquipmentSlot[] @default([])
+  script        String?
+  isStackable   Boolean       @default(false) // IMPORTANTE: Para diferenciar ítems instanciables
+  maxStack      Int           @default(1)
+  isTradable    Boolean       @default(true)
+  isConsumable  Boolean       @default(false)
+  element       ElementType   @default(NEUTRAL)
+  cardSlots     Int?          @default(0)
+  sprite        String?
 
-model ItemTemplate {
-  id            Int      @id 
-  name          String   @unique
-  itemType      String   @default("None")
-  itemSubType   String   @default("None")
-  equipmentSlot String
-  description   String
-  price         Int
-  attackPower   Int
-  magicPower    Int
-  defense       Int
-  magicDefense  Int
-  health        Int
-  mana          Int
-  str           Int
-  agi           Int
-  vit           Int
-  int           Int
-  dex           Int
-  luk           Int
-  slot          Int
-  weaponType    String
-  usable        Boolean
-  rarity        String
-  effect        String?
-  equipable     Boolean
-  itemInstances ItemInstance[]
-  itemIcon      String
+  recipes       Recipe[]
+  inventoryItems InventoryItem[]
+  storageItems   StorageItem[]
+  equipmentItems EquipmentItem[]
+  drops          MonsterDrop[]
+  instances      ItemInstance[] // Relación con instancias
 }
 
 model ItemInstance {
-  id            Int       @id
-  itemTemplateId Int
+  id          Int      @id @default(autoincrement()) // Cada instancia es única
+  itemId      Int
+  refineLevel Int      @default(0) // Refinamientos +1, +2, etc.
+  durability  Int      @default(100)
+  enchantments Json?   // Posibles encantamientos en JSON
+  cards       Json?    // Cartas insertadas en JSON (array de IDs)
+  createdAt   DateTime @default(now())
+
+  item        Item     @relation(fields: [itemId], references: [id])
+
+  inventoryItems InventoryItem[]
+  equipmentItems EquipmentItem[]
+}
+
+model InventoryItem {
+  id           Int      @id @default(autoincrement())
+  characterId  Int
+  itemId       Int?     // Para ítems que NO son instanciables (pociones, flechas, etc.)
+  itemInstanceId Int?   // Para ítems únicos (armas, armaduras refinadas, etc.)
+  quantity     Int      @default(1)
+
+  character    Character @relation(fields: [characterId], references: [id])
+  item         Item?      @relation(fields: [itemId], references: [id])
+  itemInstance ItemInstance? @relation(fields: [itemInstanceId], references: [id])
+
+  @@unique([characterId, itemId, itemInstanceId]) // Evita duplicados erróneos
+}
+
+
+model EquipmentItem {
+  id             Int          @id @default(autoincrement())
   characterId    Int
-  currentAttack  Int
-  currentDefense Int
-  currentHealth  Int
-  currentMana    Int
-  upgradeLevel   Int          @default(0) // Nivel de mejora o mejora
-  socketedGems   String?      // JSON o texto para cualquier gema o runa
-  enchantments   String?      // JSON o texto para encantamientos adicionales
-  itemTemplate   ItemTemplate @relation(fields: [itemTemplateId], references: [id])
-  character      Character    @relation(fields: [characterId], references: [id])
-  inventory      Inventory[]
+  itemId         Int?         // Para ítems normales (no instanciables)
+  itemInstanceId Int?         // Para ítems únicos
+  slot           EquipmentSlot
+  durability     Int          @default(100)
+  refineLevel    Int          @default(0)
+  cards          Json?
+  element        ElementType  @default(NEUTRAL)
+
+  character      Character     @relation(fields: [characterId], references: [id])
+  item          Item?          @relation(fields: [itemId], references: [id])
+  itemInstance  ItemInstance?  @relation(fields: [itemInstanceId], references: [id])
+
+  @@unique([characterId, slot])
 }
 
-model EquipmentSlot {
-  id            Int      @id @default(autoincrement())
-  characterId     Int
-  upperHeadSlot   Int?
-  midHeadSlot     Int?
-  lowerHeadSlot   Int?
-  bodySlot        Int?
-  rightHandSlot   Int?
-  leftHandSlot    Int?
-  robeSlot        Int?
-  shoesSlot       Int?
-  accessorySlot01 Int?
-  accessorySlot02 Int?
-  ammoSlot        Int?
-  character       Character @relation(fields: [characterId], references: [id])
+model StorageItem {
+  id          Int     @id @default(autoincrement())
+  userId      Int
+  itemId      Int
+  quantity    Int     @default(1)
+  refineLevel Int     @default(0)
+  cards       Json?
+  user        User    @relation("UserStorage", fields: [userId], references: [id])
+  item        Item    @relation(fields: [itemId], references: [id])
+
+  @@unique([userId, itemId, refineLevel])
 }
 
-model Enemy {
-  id               Int       @id @default(autoincrement())
-  name             String    @unique
-  attackType       String
-  giveBaseExpAmount Int
-  giveJobExpAmount Int
-  health           Int
-  maxHealth        Int
-  attackPower      Int
-  magicPower       Int
-  defense          Int
-  magicDefense     Int
-  baseLevel        Int
-  monsterType      String
-  itemDrops        EnemyDrop[]
-  mobIcon          String    @default("")
+model Monster {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  level       Int @default(1)
+  health      Int        @default(100)  // Vida base
+  mana        Int        @default(10)  // Mana base
+  baseExp     Int @default(100)
+  jobExp      Int @default(100)
+  attack      Int @default(1)
+  magicAttack Int @default(1)
+  defense     Int @default(1)
+  magicDefense Int @default(1)
+  attackSpeed Int @default(1)
+  moveSpeed   Int @default(1)
+  attackRange Int @default(1)
+  element     ElementType   @default(NEUTRAL)
+  size        String        @default("Medium")
+  race        String        @default("Formless")
+  sprite      String?
+  drops       MonsterDrop[]
+  spawns      MonsterSpawn[]
 }
 
-model EnemyDrop {
-  id         Int   @id @default(autoincrement())
-  enemyId    Int
-  itemId     Int
-  dropChance Float
-  enemy      Enemy @relation(fields: [enemyId], references: [id])
-  item       Item  @relation(fields: [itemId], references: [id])
-  @@unique([enemyId, itemId])
+model MonsterDrop {
+  id          Int     @id @default(autoincrement())
+  monsterId   Int
+  itemId      Int
+  rate        Float   @default(0.01)
+  minQuantity Int     @default(1)
+  maxQuantity Int     @default(1)
+  isMvp       Boolean @default(false)
+
+  monster   Monster @relation(fields: [monsterId], references: [id])
+  item      Item    @relation(fields: [itemId], references: [id])
 }
-model JobClass {
-  id            Int  @id @default(autoincrement())
-  name          String @unique
-  str           Int
-  agi           Int
-  vit           Int
-  int           Int
-  dex           Int
-  luk           Int
-  health        Int
-  mana          Int
-  maxHealth     Int
-  maxMana       Int
-  attackPower   Int
-  magicPower    Int
-  defense       Int
-  magicDefense  Int
-  baseLevel     Int
-  jobLevel      Int
-  baseExp       Int
-  jobExp        Int
-  maxBaseExp    Int
-  maxJobExp     Int
-  skillPoints   Int
-  // skillTree   Skill[]
+
+model MonsterSpawn {
+  id          Int       @id @default(autoincrement())
+  monsterId   Int
+  mapId       Int
+  x           Int
+  y           Int
+  amount      Int       @default(1)
+  respawnTime Int       @default(60) // En segundos
+
+  monster   Monster @relation(fields: [monsterId], references: [id])
+  map       Map     @relation(fields: [mapId], references: [id])
+}
+
+model Skill {
+  id             Int       @id @default(autoincrement())
+  name           String    @unique
+  description    String
+  job            JobName
+  level          Int       @default(1)
+  maxLevel       Int       @default(10)
+  spCost         Int
+  hpCost         Int       @default(0)
+  castTime       Float     @default(0)
+  cooldown       Float     @default(0)
+  target         String    @default("Self")
+  range          Int       @default(0)
+  area           Int       @default(0)
+  element        ElementType?
+  script         String?   // Efecto en Lua
+  requiredSkills Json?     // JSON con pre-requisitos
+  icon           String?
+  characterSkills CharacterSkill[]
+}
+
+model CharacterSkill {
+  id          Int     @id @default(autoincrement())
+  characterId Int
+  skillId     Int
+  level       Int     @default(1)
+
+  character Character @relation(fields: [characterId], references: [id])
+  skill     Skill     @relation(fields: [skillId], references: [id])
+
+  @@unique([characterId, skillId])
+}
+
+model Map {
+  id     Int              @id @default(autoincrement())
+  name   String           @unique
+  file   String           // Nombre del archivo .gat
+  width  Int
+  height Int
+  spawns MonsterSpawn[]
+}
+
+// Sistema de Guilds básico
+model Guild {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  leaderId  Int       @unique    // Se marca como único para cumplir con la relación one-to-one
+  level     Int       @default(1)
+  members   GuildMember[]
+  createdAt DateTime  @default(now())
+
+  leader    Character @relation("GuildLeader", fields: [leaderId], references: [id])
+}
+
+model GuildMember {
+  id          Int       @id @default(autoincrement())
+  guildId     Int
+  characterId Int       @unique
+  rank        String    @default("Member")
+  position    String    @default("Member")
+
+  guild     Guild     @relation(fields: [guildId], references: [id])
+  character Character @relation("CharacterGuildMember", fields: [characterId], references: [id])
 }

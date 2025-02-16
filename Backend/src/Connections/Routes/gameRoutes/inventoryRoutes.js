@@ -4,7 +4,7 @@ import {
   getInventoryById,
   addItemToInventory,
   removeItemFromInventory,
-  getCharacterInventory,
+  getStorageItemById,
 } from "../../Controllers/index.js";
 
 const router = express.Router();
@@ -71,7 +71,7 @@ router.post("/:characterId/remove", async (req, res) => {
 router.get("/character/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   try {
-    const characterInventory = await getCharacterInventory(id);
+    const characterInventory = await getStorageItemById(id);
     res.status(200).json(characterInventory);
   } catch (error) {
     res.status(500).json({
@@ -81,9 +81,3 @@ router.get("/character/:id", async (req, res) => {
 });
 
 export default router;
-
-// GET /api/inventory/:characterId: Devuelve el inventario completo del personaje especificado por characterId.
-// GET /api/inventory/item/:id: Devuelve un ítem específico del inventario por su id.
-// POST /api/inventory/:characterId/add: Añade un ítem al inventario del personaje con characterId. Los parámetros itemId y quantity vienen en el cuerpo de la solicitud.
-// POST /api/inventory/:characterId/remove: Elimina una cantidad específica de un ítem del inventario del personaje. El itemId y quantity se pasan en el cuerpo.
-// GET /api/inventory/character/:id: Obtiene el inventario completo del personaje especificado.

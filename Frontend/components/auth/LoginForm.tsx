@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -10,30 +10,30 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "./AuthUI/form";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Cookies from 'js-cookie';
+} from "./AuthUI/card";
+import { Input } from "./AuthUI/input";
+import { Button } from "./AuthUI/button";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Cookies from "js-cookie";
 
 // Definir el esquema de validación usando Zod
 const formSchema = z.object({
   email: z
     .string()
-    .min(1, { message: 'Email is required' })
-    .email({ message: 'Please enter a valid email' }),
+    .min(1, { message: "Email is required" })
+    .email({ message: "Please enter a valid email" }),
   password: z
     .string()
-    .min(6, { message: 'Password must be at least 6 characters long' })
-    .max(64, { message: 'Password cannot exceed 64 characters' }),
+    .min(6, { message: "Password must be at least 6 characters long" })
+    .max(64, { message: "Password cannot exceed 64 characters" }),
 });
 
 const LoginForm = () => {
@@ -44,10 +44,10 @@ const LoginForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
-    mode: 'onChange', // Validación en tiempo real
+    mode: "onChange", // Validación en tiempo real
   });
 
   // Lógica de autenticación conectada a la API
@@ -56,44 +56,46 @@ const LoginForm = () => {
     setErrorMessage(null);
 
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/authV2/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_API_LOGIN_URL + "/authV2/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (response.ok) {
         const responseData = await response.json();
         const { accessCookie, refreshCookie } = responseData.cookies;
 
-
         // Configuración de cookies
         if (accessCookie) {
-          Cookies.set('accessToken', accessCookie.value, {
+          Cookies.set("accessToken", accessCookie.value, {
             expires: accessCookie.maxAge / 86400,
             secure: true,
-            sameSite: 'Strict',
+            sameSite: "Strict",
           });
         }
 
         if (refreshCookie) {
-          Cookies.set('refreshToken', refreshCookie.value, {
+          Cookies.set("refreshToken", refreshCookie.value, {
             expires: refreshCookie.maxAge / 86400,
             secure: true,
-            sameSite: 'Strict',
+            sameSite: "Strict",
           });
         }
 
-        router.push('/characters'); // Redirigir al usuario autenticado
+        router.push("/characters"); // Redirigir al usuario autenticado
       } else {
         const errorData = await response.json();
-        setErrorMessage(errorData.message || 'Login failed. Please try again.');
+        setErrorMessage(errorData.message || "Login failed. Please try again.");
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setErrorMessage('An unexpected error occurred. Please try again later.');
+      console.error("Login error:", error);
+      setErrorMessage("An unexpected error occurred. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -109,7 +111,10 @@ const LoginForm = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-6"
+          >
             {errorMessage && (
               <div className="text-red-500 bg-red-100 p-2 rounded">
                 {errorMessage}
@@ -163,7 +168,7 @@ const LoginForm = () => {
               className="w-full bg-indigo-600 text-white hover:bg-indigo-700"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Signing In...' : 'Sign In'}
+              {isSubmitting ? "Signing In..." : "Sign In"}
             </Button>
           </form>
         </Form>

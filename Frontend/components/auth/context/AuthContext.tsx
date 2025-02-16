@@ -1,8 +1,14 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 interface User {
   id: string;
@@ -25,7 +31,7 @@ export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error('useAuth debe estar dentro de AuthProvider');
+    throw new Error("useAuth debe estar dentro de AuthProvider");
   }
   return context;
 };
@@ -34,24 +40,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Nuevo estado
-  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     let isMounted = true; // Bandera para evitar actualizaciones en componentes desmontados
-  
+
     const verifyToken = async () => {
-      const savedToken = Cookies.get('accessToken');
+      const savedToken = Cookies.get("accessToken");
       if (!savedToken) {
         setIsLoading(false);
         return;
       }
-  
+
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authV2/verify-session`, {
-          headers: { Authorization: `Bearer ${savedToken}` },
-        });
-  
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_LOGIN_URL}/authV2/verify-session`,
+          {
+            headers: { Authorization: `Bearer ${savedToken}` },
+          },
+        );
+
         if (isMounted && res.ok) {
           setToken(savedToken);
           setIsAuthenticated(true);
@@ -59,26 +67,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           logout();
         }
       } catch (err) {
-        console.error('Error verifying session:', err);
+        console.error("Error verifying session:", err);
         if (isMounted) logout();
       } finally {
         if (isMounted) setIsLoading(false);
       }
     };
-  
+
     verifyToken();
-  
+
     return () => {
       isMounted = false; // Evita actualizaciones si el componente se desmonta
     };
   }, []);
-  
 
   const logout = () => {
     setToken(null);
     setIsAuthenticated(false);
-    Cookies.remove('accessToken');
-    router.push('/auth');
+    Cookies.remove("accessToken");
+    router.push("/auth");
   };
 
   // get user ID from token in UserSession table in DB
@@ -86,26 +93,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // set user state with user data
   // return user data
 
-  
   const getUserId = async () => {
-    const token = Cookies.get('refreshToken'); // Cambiar por el nombre correcto de la cookie
+    const token = Cookies.get("refreshToken"); // Cambiar por el nombre correcto de la cookie
 
-    console.log(" authcontext ============",token);
+    console.log(" authcontext ============", token);
 
     if (!token) {
       return;
     }
-  
+
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authV2/users/getUserIdFromToken`, {
-        method: 'POST', // Cambiamos el método a POST
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Enviar el token también en los headers si es necesario
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_LOGIN_URL}/authV2/users/getUserIdFromToken`,
+        {
+          method: "POST", // Cambiamos el método a POST
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Enviar el token también en los headers si es necesario
+          },
+          body: JSON.stringify({ token }), // Enviamos el token en el cuerpo
         },
-        body: JSON.stringify({ token }), // Enviamos el token en el cuerpo
-      });
-  
+      );
+
       const data = await response.json();
       return data.data;
     } catch (error) {
@@ -113,10 +122,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
- 
-
   return (
-    <AuthContext.Provider value={{ token, logout, isAuthenticated, isLoading, getUserId }}>
+    <AuthContext.Provider
+      value={{ token, logout, isAuthenticated, isLoading, getUserId }}
+    >
       {children}
     </AuthContext.Provider>
   );
