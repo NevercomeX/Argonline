@@ -1,21 +1,50 @@
-//index of the controllers
-
+// ================================
+// Character Controllers
+// ================================
 import {
   getCharacterById,
   updateCharacter,
   getAllCharacters,
   createCharacter,
-  getCharactersByUserId,
   createCharacterWithAttributes,
+  getCharactersByUserId,
 } from "./Character/characterController.js";
 
-import { getAvailableSkills, levelUpCharacterSkill, resetCharacterSkills, learnCharacterSkill,getSkillTreeByJobClassId} from "./Skill/skillsController.js";
+// ================================
+// Skill Controllers
+// ================================
+import {
+  getAvailableSkills,
+  levelUpCharacterSkill,
+  resetCharacterSkills,
+  learnCharacterSkill,
+  getSkillTreeByJobClassId,
+} from "./Skill/skillsController.js";
 
-import { getAllUsers, getAllCharactersFromUser, getUserById, getUserIdFromToken } from "./user/usersController.js";
+// ================================
+// User Controllers
+// ================================
+import {
+  getAllUsers,
+  getAllCharactersFromUser,
+  getUserById,
+  getUserIdFromToken,
+} from "./user/usersController.js";
 
+// ================================
+// Authentication Controllers
+// ================================
 import { loginUser, registerUser } from "./user/authController.js";
 
+// ================================
+// Enemy Controllers
+// ================================
 import { getEnemies, getEnemyById, getRandomEnemy } from "./Enemy/enemies.js";
+import { getEnemyDrops, getEnemyDropById } from "./Enemy/enemydrop.js";
+
+// ================================
+// Item Controllers
+// ================================
 import {
   getAllItems,
   getItemNameById,
@@ -23,6 +52,9 @@ import {
   getItemById,
 } from "./Item/itemsController.js";
 
+// ================================
+// Inventory Controllers
+// ================================
 import {
   getInventory,
   getInventoryById,
@@ -31,9 +63,19 @@ import {
   removeItemFromInventory,
 } from "./Inventory/inventoryController.js";
 
-import { getStorageItems, getStorageItemById, addItemToStorage, removeItemFromStorage } from "./Inventory/storageController.js";
-import { getEnemyDrops, getEnemyDropById } from "./Enemy/enemydrop.js";
+// ================================
+// Storage Controllers
+// ================================
+import {
+  getStorageItems,
+  getStorageItemById,
+  addItemToStorage,
+  removeItemFromStorage,
+} from "./Inventory/storageController.js";
 
+// ================================
+// Equipment Controllers
+// ================================
 import {
   getEquipment,
   getEquipmentSlotsByCharacterId,
@@ -44,41 +86,63 @@ import {
   getEquipmentMenu,
 } from "./Equipment/equipmentController.js";
 
+
+// ================================
+// Export all controllers
+// ================================
 export {
+  // User and Authentication
   getAllUsers,
   getUserById,
   getAllCharactersFromUser,
-  registerUser,
-  createCharacter,
-  loginUser,
   getUserIdFromToken,
+  registerUser,
+  loginUser,
+
+  // Character
   getCharacterById,
   updateCharacter,
   getAllCharacters,
+  createCharacter,
+  createCharacterWithAttributes,
+  getCharactersByUserId,
+
+  // Enemy
   getEnemies,
   getEnemyById,
+  getRandomEnemy,
+  getEnemyDrops,
+  getEnemyDropById,
+
+  // Items
   getAllItems,
   getItemNameById,
   getItemById,
   getItemsByIds,
+
+  // Inventory
   getInventory,
   getInventoryById,
+  getCharacterInventoryItems,
   addItemToInventory,
   removeItemFromInventory,
-  getCharacterInventoryItems,
-  createCharacterWithAttributes,
-  getEquipmentMenu,
-  getEnemyDrops,
-  getEnemyDropById,
-  getStorageItems, getStorageItemById, addItemToStorage, removeItemFromStorage,
+
+  // Storage
+  getStorageItems,
+  getStorageItemById,
+  addItemToStorage,
+  removeItemFromStorage,
+
+  // Equipment
   getEquipment,
-  unequipItem,
-  equipItem,
   getEquipmentSlotsByCharacterId,
   getEquipmentSlotByCharacterIdAndSlot,
   getEquipmentById,
-  getRandomEnemy,
-  getCharactersByUserId,
+  unequipItem,
+  equipItem,
+  getEquipmentMenu,
+
+  // Skills
   getAvailableSkills,
   levelUpCharacterSkill,
   resetCharacterSkills,

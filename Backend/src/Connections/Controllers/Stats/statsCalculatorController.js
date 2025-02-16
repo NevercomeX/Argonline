@@ -91,7 +91,7 @@ export async function handleCombatStatsRequest(ws, message) {
       return ws.send(JSON.stringify({ error: "Character ID is required" }));
     }
 
-    const stats = await calculateStatsRO(characterId);
+    const stats = await calculateStats(characterId);
 
     ws.send(JSON.stringify({
       type: "combatStats",
@@ -105,7 +105,7 @@ export async function handleCombatStatsRequest(ws, message) {
   }
 }
 
-const calculateStatsRO = async (charId) => {
+const calculateStats = async (charId) => {
   const character = await prisma.character.findUnique({
     where: { id: charId },
   });
@@ -142,10 +142,10 @@ const calculateStatsRO = async (charId) => {
   });
 
   // 📌 Cálculo de stats finales según Ragnarok Online
+  const HP = health;
+  const SP = mana;
   const MAXHP = maxHealth + vit * 35 + equipHealth + equipMaxHealth;
   const MAXSP = maxMana + int * 6 + equipMana + equipMaxMana;
-  const HP = MAXHP;
-  const SP = MAXSP;
   const ATK = str + Math.floor(dex / 5) + equipAtk;
   const MATK = int + Math.floor(dex / 5) + equipMatk;
   const DEF = vit + equipDef + Math.floor(str / 5);
@@ -154,6 +154,8 @@ const calculateStatsRO = async (charId) => {
   const FLEE = agi + baseLevel + equipFlee;
   const CRIT = Math.floor(luk / 2) + equipCrit;
   const ASPD = Math.floor(calculateAspd(character.jobclass, agi, dex, equipAspd));
+
+  console.log({MAXHP,MAXSP,HP, SP, ATK, MATK, DEF, MDEF, HIT, FLEE, CRIT, ASPD });
 
   return {MAXHP,MAXSP,HP, SP, ATK, MATK, DEF, MDEF, HIT, FLEE, CRIT, ASPD };
 };
@@ -168,6 +170,18 @@ const calculateAspd = (job, agi, dex, equipAspd) => {
   if (job === "Wizard") baseAspd = 135;
   if (job === "Blacksmith") baseAspd = 140;
   if (job === "Monk") baseAspd = 140;
+  if (job === "Crusader") baseAspd = 135;
+  if (job === "Rogue") baseAspd = 150;
+  if (job === "Bard") baseAspd = 140;
+  if (job === "Dancer") baseAspd = 140;
+  if (job === "Sage") baseAspd = 135;
+  if (job === "Alchemist") baseAspd = 145;
+  if (job === "Star Gladiator") baseAspd = 140;
+  if (job === "Soul Linker") baseAspd = 140;
+  if (job === "Ninja") baseAspd = 150;
+  if (job === "Gunslinger") baseAspd = 150;
+  if (job === "Super Novice") baseAspd = 140;
+  if (job === "Taekwon") baseAspd = 140;
   
 
   return baseAspd + (agi + dex) / 4 + equipAspd;

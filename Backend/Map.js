@@ -1,44 +1,50 @@
-// combatServer.js
 import { WebSocketServer } from "ws";
-import { handleBattleAction } from "./src/Connections/Controllers/Combat/combatController.js";
-import { handleCombatStatsRequest } from "./src/Connections/Controllers/Stats/statsCalculatorController.js";
+import configureRoutes from "./src/Connections/Routes/mapRoutes.js";
+import { sendJson } from "./src/Connections/Middleware/wsbigIntMiddleware.js";
 
-const port = 4003;
-const wss = new WebSocketServer({ port });
+const PORT = 4003;
+const wss = new WebSocketServer({ port: PORT });
+const clients = new Map(); // Almacena clientes suscritos por characterId
 
-console.log("🔥 COMBAT SERVER RUNNING ON PORT:", port);
+// Registro global de manejadores de mensajes (handlers)
+const messageHandlers = {};
 
-const battles = new Map(); // Almacena batallas activas en memoria
+// Configurar handlers de los distintos módulos
+configureRoutes(messageHandlers);
 
 wss.on("connection", (ws) => {
-  console.log("✅ Nuevo jugador conectado");
+  console.log("✅ Nuevo jugador conectado en el mapa");
 
-  ws.on("message", async (message) => {
+  ws.on("message", (message) => {
     try {
       const parsedMessage = JSON.parse(message);
-      console.log("📩 [RECEIVED]", parsedMessage);
+      const handler = messageHandlers[parsedMessage.type];
 
-      if (parsedMessage.type === "battleAction") {
-        await handleBattleAction(parsedMessage, ws, battles);
+      if (handler) {
+        handler(ws, parsedMessage);
+      } else {
+        console.warn("⚠️ Tipo de mensaje desconocido:", parsedMessage.type);
+        sendJson(ws, { error: "Tipo de mensaje desconocido." });
       }
     } catch (error) {
       console.error("❌ Error procesando mensaje:", error);
-      ws.send(JSON.stringify({ error: "Mensaje inválido" }));
+      sendJson(ws, { error: "Mensaje inválido" });
     }
   });
 
-    ws.on("message", async (message) => {
-    try {
-      const parsedMessage = JSON.parse(message);
-
-      if (parsedMessage.type === "combatStats") {
-        await handleCombatStatsRequest(ws, parsedMessage);
-      }
-    } catch (error) {
-      console.error("Error procesando mensaje:", error);
-      ws.send(JSON.stringify({ error: "Mensaje inválido." }));
-    }
+  ws.on("close", () => {
+    console.log("🔴 Jugador desconectado del mapa");
+    clients.delete(ws);
   });
-
-  ws.on("close", () => console.log("🔴 Jugador desconectado"));
 });
+
+// Envía actualizaciones a los clientes suscritos
+export const broadcastCharacterUpdate = (characterId, updateData) => {
+  wss.clients.forEach((client) => {
+    if (clients.get(client) === characterId && client.readyState === WebSocket.OPEN) {
+      sendJson(client, { type: "characterUpdate", characterId, ...updateData });
+    }
+  });
+};
+
+console.log(`🗺️ MAP SERVER RUNNING ON PORT: ${PORT}`);

@@ -16,9 +16,9 @@
     "rseed": "npx prisma db push --force-reset &&  node seed/index.js",
     "seed": "node seed/index.js",
     "remigrate": "npx prisma migrate reset --force && npx prisma migrate dev --name init",
-    "char": "nodemon char.js ",
-    "login": "nodemon login.js ",
-    "map": "nodemon map.js "
+    "char": "node --watch char.js ",
+    "login": "node --watch login.js",
+    "map": "node --watch map.js "
   },
   "repository": {
     "type": "git",
