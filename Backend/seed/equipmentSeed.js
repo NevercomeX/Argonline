@@ -10,7 +10,7 @@ export async function equipmentSeed(prisma) {
   // - "Iron Helmet" al slot "HEAD_TOP"
   const equipmentAssignments = [
     { slot: "WEAPON", itemName: "Novice Dagger" },
-    { slot: "HEAD_TOP", itemName: "Helm of the Forgotten King" },
+    { slot: "ARMOR", itemName: "Tattered Shirt" },
   ];
 
   // Extraer la lista de nombres de ítems requeridos

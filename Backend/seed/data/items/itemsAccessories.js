@@ -1,8 +1,8 @@
 export const itemsAccessories = [
   {
-    name: "Ring of Flame Lord",
+    name: "Cooper Ring",
     type: "AMULET",
-    jobRequired: "NOVICE",
+    
     description: "A ring imbued with the power of fire.",
     buyPrice: 1000,
     sellPrice: 500,
@@ -21,12 +21,12 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "FIRE",
     cardSlots: 0,
-    sprite: "/accessories/ring_of_flame_lord.png"
+    sprite: "/accessories/copper_ring.png"
   },
   {
-    name: "Earring of Swordsman",
+    name: "Iron Ring",
     type: "AMULET",
-    jobRequired: "SWORDSMAN",
+    
     description: "An earring that enhances the strength of swordsmen.",
     buyPrice: 1200,
     sellPrice: 600,
@@ -45,12 +45,12 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/earring_of_swordsman.png"
+    sprite: "/accessories/iron_ring.png"
   },
   {
-    name: "Rosary",
+    name: "Silver Ring",
     type: "AMULET",
-    jobRequired: "MAGE",
+    
     description: "A rosary that enhances magical power.",
     buyPrice: 1500,
     sellPrice: 750,
@@ -69,12 +69,12 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/rosary.png"
+    sprite: "/accessories/silver_ring.png"
   },
   {
-    name: "Brooch",
+    name: "Golden Ring",
     type: "AMULET",
-    jobRequired: "ARCHER",
+    
     description: "A brooch that enhances precision and agility.",
     buyPrice: 1300,
     sellPrice: 650,
@@ -93,12 +93,12 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/brooch.png"
+    sprite: "/accessories/gold_ring.png"
   },
   {
-    name: "Ring of Merchant",
+    name: "Cloth Gloves",
     type: "AMULET",
-    jobRequired: "MERCHANT",
+    
     description: "A ring that brings good fortune to merchants.",
     buyPrice: 1100,
     sellPrice: 550,
@@ -117,10 +117,10 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/ring_of_merchant.png"
+    sprite: "/accessories/cloth_gloves.png"
   },
   {
-    name: "Clip",
+    name: "Leather Gloves",
     type: "AMULET",
     jobRequired: "THIEF",
     description: "A clip that enhances stealth and agility.",
@@ -141,12 +141,12 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/clip.png"
+    sprite: "/accessories/leather_gloves.png"
   },
   {
     name: "Necklace of Acolyte",
     type: "AMULET",
-    jobRequired: "ACOLYTE",
+    
     description: "A necklace that enhances holy power.",
     buyPrice: 1600,
     sellPrice: 800,
@@ -168,9 +168,9 @@ export const itemsAccessories = [
     sprite: "/accessories/necklace_of_acolyte.png"
   },
   {
-    name: "Earring of Knight",
+    name: "Gauntlets",
     type: "AMULET",
-    jobRequired: "KNIGHT",
+    
     description: "An earring that enhances the strength and defense of knights.",
     buyPrice: 1700,
     sellPrice: 850,
@@ -189,12 +189,12 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/earring_of_knight.png"
+    sprite: "/accessories/gauntlets.png"
   },
   {
-    name: "Earring of Wizard",
+    name: "Chainmail Gloves",
     type: "AMULET",
-    jobRequired: "WIZARD",
+    
     description: "An earring that enhances magical power.",
     buyPrice: 1800,
     sellPrice: 900,
@@ -213,12 +213,12 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/earring_of_wizard.png"
+    sprite: "/accessories/chainmail_gloves.png"
   },
   {
-    name: "Ring of Blacksmith",
+    name: "Necklace Esmerald",
     type: "AMULET",
-    jobRequired: "BLACKSMITH",
+    
     description: "A ring that enhances the strength and crafting skills of blacksmiths.",
     buyPrice: 1500,
     sellPrice: 750,
@@ -237,6 +237,78 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/ring_of_blacksmith.png"
+    sprite: "/accessories/necklace_esmerald.png"
+  },
+  {
+    name: "Necklace Ambar",
+    type: "AMULET",
+    
+    description: "A ring that enhances the strength and crafting skills of blacksmiths.",
+    buyPrice: 1500,
+    sellPrice: 750,
+    weight: 1,
+    attack: 5,
+    magicAttack: 0,
+    defense: 6,
+    magicDefense: 3,
+    requiredLevel: 20,
+    slot: 0,
+    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    script: "",
+    isStackable: false,
+    maxStack: 1,
+    isTradable: true,
+    isConsumable: false,
+    element: "NEUTRAL",
+    cardSlots: 0,
+    sprite: "/accessories/necklace_ambar.png"
+  },
+  {
+    name: "Necklace of Agamotto",
+    type: "AMULET",
+    
+    description: "A ring that enhances the strength and crafting skills of blacksmiths.",
+    buyPrice: 1500,
+    sellPrice: 750,
+    weight: 1,
+    attack: 5,
+    magicAttack: 0,
+    defense: 6,
+    magicDefense: 3,
+    requiredLevel: 20,
+    slot: 0,
+    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    script: "",
+    isStackable: false,
+    maxStack: 1,
+    isTradable: true,
+    isConsumable: false,
+    element: "NEUTRAL",
+    cardSlots: 0,
+    sprite: "/accessories/necklace_of_agamotto.png"
+  },
+  {
+    name: "Studded Gloves",
+    type: "AMULET",
+    
+    description: "A ring that enhances the strength and crafting skills of blacksmiths.",
+    buyPrice: 1500,
+    sellPrice: 750,
+    weight: 1,
+    attack: 5,
+    magicAttack: 0,
+    defense: 6,
+    magicDefense: 3,
+    requiredLevel: 20,
+    slot: 0,
+    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    script: "",
+    isStackable: false,
+    maxStack: 1,
+    isTradable: true,
+    isConsumable: false,
+    element: "NEUTRAL",
+    cardSlots: 0,
+    sprite: "/accessories/studded_gloves.png"
   }
 ];

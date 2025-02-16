@@ -41,6 +41,7 @@ enum ItemType {
   QUEST
   AMMO
   USABLE
+  MISCELLANEOUS
 }
 
 enum EquipmentSlot {

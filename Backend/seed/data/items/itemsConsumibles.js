@@ -91,7 +91,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/consumible/arrows.png"
+    sprite: "/ammo/arrows.png"
   },
   {
     name: "Steel Arrows",
@@ -115,10 +115,10 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/consumible/steel_arrows.png"
+    sprite: "/ammo/steel_arrows.png"
   },
   {
-    name: "Bullets",
+    name: "Bullet",
     type: "AMMO",
     jobRequired: "GUNSLINGER",
     description: "Basic bullets for guns.",
@@ -139,10 +139,10 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/consumible/bullets.png"
+    sprite: "/ammo/bullet.png"
   },
   {
-    name: "Silver Bullets",
+    name: "Silver Bullet",
     type: "AMMO",
     jobRequired: "GUNSLINGER",
     description: "Special bullets effective against dark creatures.",
@@ -163,7 +163,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "/consumible/silver_bullets.png"
+    sprite: "/ammo/silver_bullet.png"
   },
   {
     name: "Throwing Knives",
@@ -187,10 +187,34 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/consumible/throwing_knives.png"
+    sprite: "/ammo/throwing_knives.png"
   },
   {
-    name: "Shurikens",
+    name: "Throwing Knives",
+    type: "AMMO",
+    jobRequired: "ASSASSIN",
+    description: "Sharp knives for throwing.",
+    buyPrice: 25,
+    sellPrice: 12,
+    weight: 0.2,
+    attack: 0,
+    magicAttack: 0,
+    defense: 0,
+    magicDefense: 0,
+    requiredLevel: 10,
+    slot: 0,
+    equipSlots: ["AMMO"],
+    script: "",
+    isStackable: true,
+    maxStack: 999,
+    isTradable: true,
+    isConsumable: true,
+    element: "NEUTRAL",
+    cardSlots: 0,
+    sprite: "/ammo/steel_throwing_knives.png"
+  },
+  {
+    name: "Shuriken",
     type: "AMMO",
     jobRequired: "NINJA",
     description: "Sharp shurikens for ninjas.",
@@ -211,7 +235,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/consumible/shurikens.png"
+    sprite: "/ammo/shuriken.png"
   },
   {
     name: "Holy Water",
@@ -261,52 +285,4 @@ export const itemsConsumibles = [
     cardSlots: 0,
     sprite: "/consumible/fire_bottle.png"
   },
-  {
-    name: "Bard's Sheet Music",
-    type: "USABLE",
-    jobRequired: "BARD",
-    description: "Sheet music that enhances performance.",
-    buyPrice: 40,
-    sellPrice: 20,
-    weight: 0.5,
-    attack: 0,
-    magicAttack: 0,
-    defense: 0,
-    magicDefense: 0,
-    requiredLevel: 10,
-    slot: 0,
-    equipSlots: [],
-    script: "enhancePerformance(15)",
-    isStackable: true,
-    maxStack: 50,
-    isTradable: true,
-    isConsumable: true,
-    element: "NEUTRAL",
-    cardSlots: 0,
-    sprite: "/consumible/bard_sheet_music.png"
-  },
-  {
-    name: "Dancer's Ribbon",
-    type: "USABLE",
-    jobRequired: "DANCER",
-    description: "A ribbon that enhances dance skills.",
-    buyPrice: 40,
-    sellPrice: 20,
-    weight: 0.5,
-    attack: 0,
-    magicAttack: 0,
-    defense: 0,
-    magicDefense: 0,
-    requiredLevel: 10,
-    slot: 0,
-    equipSlots: [],
-    script: "enhanceDance(15)",
-    isStackable: true,
-    maxStack: 50,
-    isTradable: true,
-    isConsumable: true,
-    element: "NEUTRAL",
-    cardSlots: 0,
-    sprite: "/consumible/dancer_ribbon.png"
-  }
 ];

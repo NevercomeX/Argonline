@@ -7,10 +7,13 @@ import { itemsGarment } from "./data/items/itemsGarment.js";
 import { itemsFootgear } from "./data/items/itemsFootgear.js"
 import { itemsAccessories } from "./data/items/itemsAccessories.js";
 import { itemsCards } from "./data/items/itemsCards.js";
+import { itemsEtc } from "./data/items/itemsEtc.js";
+
 
 export async function itemSeed(prisma) {
   // Combina los datos de los tres archivos
-  const allItems = [...itemsConsumibles,
+  const allItems = [
+    ...itemsConsumibles,
     ...itemsWeapons,
     ...itemsArmor,
     ...itemsShield,
@@ -19,6 +22,8 @@ export async function itemSeed(prisma) {
     ...itemsFootgear,
     ...itemsAccessories,
     ...itemsCards,
+    ...itemsEtc
+
 ];
 
   // Crear items

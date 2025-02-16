@@ -8,10 +8,10 @@ export async function recipeSeed(prisma) {
   // - successRate, skillRequired, jobRequired y minLevel: datos adicionales de la receta
   const recipeDefinitions = [
     {
-      resultItemName: "Earring of Knight",
+      resultItemName: "Coin",
       ingredients: [
-        { name: "Merchant's Axe", quantity: 1 },
-        { name: "Health Potion", quantity: 2 },
+        { name: "Copper Key", quantity: 1 },
+        { name: "Copper Chest", quantity: 1 },
       ],
       successRate: 0.8,
       skillRequired: "Smithing",
@@ -21,8 +21,8 @@ export async function recipeSeed(prisma) {
     {
       resultItemName: "Necklace of Acolyte",
       ingredients: [
-        { name: "Blacksmith's Forgewalkers", quantity: 1 },
-        { name: "Mana Potion", quantity: 2 },
+        { name: "Novice Dagger", quantity: 1 },
+        { name: "Health Potion", quantity: 2 },
       ],
       successRate: 0.75,
       skillRequired: "Tailoring",
