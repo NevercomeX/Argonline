@@ -54,7 +54,7 @@ const DraggableInventoryItem: React.FC<{ item: InventoryItem }> = ({
       className="border rounded p-2 flex flex-col items-center cursor-move"
     >
       <Image
-        src={item.sprite}
+        src={`/items` + item.sprite}
         alt={item.name}
         width={48}
         height={48}
@@ -91,7 +91,7 @@ const DraggableEquippedItem: React.FC<{
       className="cursor-move"
     >
       <Image
-        src={item.sprite}
+        src={`/items` + item.sprite}
         alt={item.name}
         width={64}
         height={64}

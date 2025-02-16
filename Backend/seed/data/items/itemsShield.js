@@ -21,7 +21,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/novice_shield.png"
+    sprite: "/shield/novice_shield.png"
   },
   {
     name: "Swordsman's Buckler",
@@ -45,7 +45,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/swordsman_buckler.png"
+    sprite: "/shield/swordsman_buckler.png"
   },
   {
     name: "Knight's Tower Shield",
@@ -69,7 +69,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/knight_tower_shield.png"
+    sprite: "/shield/knight_tower_shield.png"
   },
   {
     name: "Crusader's Holy Shield",
@@ -93,7 +93,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/crusader_holy_shield.png"
+    sprite: "/shield/crusader_holy_shield.png"
   },
   {
     name: "Priest's Divine Shield",
@@ -117,7 +117,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/priest_divine_shield.png"
+    sprite: "/shield/priest_divine_shield.png"
   },
   {
     name: "Merchant's Round Shield",
@@ -141,7 +141,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/merchant_round_shield.png"
+    sprite: "/shield/merchant_round_shield.png"
   },
   {
     name: "Blacksmith's Heavy Shield",
@@ -165,7 +165,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/blacksmith_heavy_shield.png"
+    sprite: "/shield/blacksmith_heavy_shield.png"
   },
   {
     name: "Alchemist's Barrier",
@@ -189,7 +189,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/alchemist_barrier.png"
+    sprite: "/shield/alchemist_barrier.png"
   },
   {
     name: "Rogue's Buckler",
@@ -213,7 +213,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/rogue_buckler.png"
+    sprite: "/shield/rogue_buckler.png"
   },
   {
     name: "Super Novice's Shield",
@@ -237,6 +237,6 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/super_novice_shield.png"
+    sprite: "/shield/super_novice_shield.png"
   }
 ];

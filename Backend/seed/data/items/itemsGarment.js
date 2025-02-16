@@ -21,7 +21,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/novice_cape.png"
+    sprite: "/garment/novice_cape.png"
   },
   {
     name: "Swordsman's Cloak",
@@ -45,7 +45,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/swordsman_cloak.png"
+    sprite: "/garment/swordsman_cloak.png"
   },
   {
     name: "Mage's Mantle",
@@ -69,7 +69,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/mage_mantle.png"
+    sprite: "/garment/mage_mantle.png"
   },
   {
     name: "Archer's Cape",
@@ -93,7 +93,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/archer_cape.png"
+    sprite: "/garment/archer_cape.png"
   },
   {
     name: "Merchant's Overcoat",
@@ -117,7 +117,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/merchant_overcoat.png"
+    sprite: "/garment/merchant_overcoat.png"
   },
   {
     name: "Thief's Shadow Cloak",
@@ -141,7 +141,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "https://example.com/images/thief_shadow_cloak.png"
+    sprite: "/garment/thief_shadow_cloak.png"
   },
   {
     name: "Acolyte's Robe",
@@ -165,7 +165,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/acolyte_robe.png"
+    sprite: "/garment/acolyte_robe.png"
   },
   {
     name: "Knight's Cape",
@@ -189,7 +189,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/knight_cape.png"
+    sprite: "/garment/knight_cape.png"
   },
   {
     name: "Wizard's Cape",
@@ -213,7 +213,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/wizard_cape.png"
+    sprite: "/garment/wizard_cape.png"
   },
   {
     name: "Blacksmith's Apron",
@@ -237,7 +237,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/blacksmith_apron.png"
+    sprite: "/garment/blacksmith_apron.png"
   },
   {
     name: "Hunter's Camouflage Cloak",
@@ -261,7 +261,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/hunter_camouflage_cloak.png"
+    sprite: "/garment/hunter_camouflage_cloak.png"
   },
   {
     name: "Assassin's Shadow Mantle",
@@ -285,7 +285,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "https://example.com/images/assassin_shadow_mantle.png"
+    sprite: "/garment/assassin_shadow_mantle.png"
   },
   {
     name: "Priest's Holy Mantle",
@@ -309,7 +309,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/priest_holy_mantle.png"
+    sprite: "/garment/priest_holy_mantle.png"
   },
   {
     name: "Crusader's Tabard",
@@ -333,7 +333,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/crusader_tabard.png"
+    sprite: "/garment/crusader_tabard.png"
   },
   {
     name: "Rogue's Shadow Cape",
@@ -357,7 +357,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "https://example.com/images/rogue_shadow_cape.png"
+    sprite: "/garment/rogue_shadow_cape.png"
   },
   {
     name: "Alchemist's Lab Coat",
@@ -381,7 +381,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/alchemist_lab_coat.png"
+    sprite: "/garment/alchemist_lab_coat.png"
   },
   {
     name: "Bard's Performance Cape",
@@ -405,7 +405,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/bard_performance_cape.png"
+    sprite: "/garment/bard_performance_cape.png"
   },
   {
     name: "Dancer's Silk Shawl",
@@ -429,7 +429,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/dancer_silk_shawl.png"
+    sprite: "/garment/dancer_silk_shawl.png"
   },
   {
     name: "Super Novice Cape",
@@ -453,7 +453,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/super_novice_cape.png"
+    sprite: "/garment/super_novice_cape.png"
   },
   {
     name: "Gunslinger's Duster",
@@ -477,7 +477,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/gunslinger_duster.png"
+    sprite: "/garment/gunslinger_duster.png"
   },
   {
     name: "Ninja's Shadow Cloak",
@@ -501,6 +501,6 @@ export const itemsGarment = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "https://example.com/images/ninja_shadow_cloak.png"
+    sprite: "/garment/ninja_shadow_cloak.png"
   }
 ];

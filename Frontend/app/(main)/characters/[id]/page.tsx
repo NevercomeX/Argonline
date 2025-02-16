@@ -65,6 +65,7 @@ export default async function CharacterDetailsPage({
   });
 
   // Actualizar la ruta del sprite del personaje usando jobGenderSprites
+  console.log(character.jobclass);
   const jobSpritePath =
     jobGenderSprites[character.jobclass] || "/default/path.gif";
   const characterSprite = `${jobSpritePath}_${character.gender || "male"}.gif`;

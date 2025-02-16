@@ -6,7 +6,7 @@ export async function characterSeed(prisma) {
     {
       name: "Fulanito",
       userId: 1,
-      jobclass: "NOVICE", // Valor válido del enum JobName
+      jobclass: "ASSASSIN", // Valor válido del enum JobName
       str: 1,
       agi: 1,
       vit: 1,

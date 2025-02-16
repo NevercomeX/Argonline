@@ -21,7 +21,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/novice_trailblazers.png"
+    sprite: "/footgear/novice_trailblazers.png"
   },
   {
     name: "Swordsman's Ironclad Striders",
@@ -45,7 +45,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/swordsman_ironclad_striders.png"
+    sprite: "/footgear/swordsman_ironclad_striders.png"
   },
   {
     name: "Mage's Arcane Slippers",
@@ -69,7 +69,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/mage_arcane_slippers.png"
+    sprite: "/footgear/mage_arcane_slippers.png"
   },
   {
     name: "Archer's Windrider Boots",
@@ -93,7 +93,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "WIND",
     cardSlots: 0,
-    sprite: "https://example.com/images/archer_windrider_boots.png"
+    sprite: "/footgear/archer_windrider_boots.png"
   },
   {
     name: "Merchant's Goldstep Shoes",
@@ -117,7 +117,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/merchant_goldstep_shoes.png"
+    sprite: "/footgear/merchant_goldstep_shoes.png"
   },
   {
     name: "Thief's Shadowstep Boots",
@@ -141,7 +141,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "https://example.com/images/thief_shadowstep_boots.png"
+    sprite: "/footgear/thief_shadowstep_boots.png"
   },
   {
     name: "Acolyte's Sanctified Sandals",
@@ -165,7 +165,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/acolyte_sanctified_sandals.png"
+    sprite: "/footgear/acolyte_sanctified_sandals.png"
   },
   {
     name: "Knight's Valor Greaves",
@@ -189,7 +189,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/knight_valor_greaves.png"
+    sprite: "/footgear/knight_valor_greaves.png"
   },
   {
     name: "Wizard's Ethereal Treads",
@@ -213,7 +213,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/wizard_ethereal_treads.png"
+    sprite: "/footgear/wizard_ethereal_treads.png"
   },
   {
     name: "Blacksmith's Forgewalkers",
@@ -237,7 +237,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "FIRE",
     cardSlots: 0,
-    sprite: "https://example.com/images/blacksmith_forgewalkers.png"
+    sprite: "/footgear/blacksmith_forgewalkers.png"
   },
   {
     name: "Hunter's Forest Striders",
@@ -261,7 +261,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "EARTH",
     cardSlots: 0,
-    sprite: "https://example.com/images/hunter_forest_striders.png"
+    sprite: "/footgear/hunter_forest_striders.png"
   },
   {
     name: "Assassin's Silent Treads",
@@ -285,7 +285,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "https://example.com/images/assassin_silent_treads.png"
+    sprite: "/footgear/assassin_silent_treads.png"
   },
   {
     name: "Priest's Blessed Heels",
@@ -309,7 +309,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/priest_blessed_heels.png"
+    sprite: "/footgear/priest_blessed_heels.png"
   },
   {
     name: "Crusader's Divine Sabatons",
@@ -333,7 +333,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/crusader_divine_sabatons.png"
+    sprite: "/footgear/crusader_divine_sabatons.png"
   },
   {
     name: "Rogue's Swiftfoot Boots",
@@ -357,7 +357,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/rogue_swiftfoot_boots.png"
+    sprite: "/footgear/rogue_swiftfoot_boots.png"
   },
   {
     name: "Alchemist's Alchemical Boots",
@@ -381,7 +381,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/alchemist_alchemical_boots.png"
+    sprite: "/footgear/alchemist_alchemical_boots.png"
   },
   {
     name: "Bard's Melodic Boots",
@@ -405,7 +405,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/bard_melodic_boots.png"
+    sprite: "/footgear/bard_melodic_boots.png"
   },
   {
     name: "Dancer's Graceful Slippers",
@@ -429,7 +429,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/dancer_graceful_slippers.png"
+    sprite: "/footgear/dancer_graceful_slippers.png"
   },
   {
     name: "Super Novice's Adventurer Boots",
@@ -453,7 +453,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/super_novice_adventurer_boots.png"
+    sprite: "/footgear/super_novice_adventurer_boots.png"
   },
   {
     name: "Gunslinger's Outlaw Boots",
@@ -477,7 +477,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/gunslinger_outlaw_boots.png"
+    sprite: "/footgear/gunslinger_outlaw_boots.png"
   },
   {
     name: "Ninja's Shadow Tabi",
@@ -501,6 +501,6 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "https://example.com/images/ninja_shadow_tabi.png"
+    sprite: "/footgear/ninja_shadow_tabi.png"
   }
 ];

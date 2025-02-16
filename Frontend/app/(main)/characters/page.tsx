@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Character } from "../../../types";
-import { useAuth } from "../../../components/Auth/context/AuthContext";
-import CharacterCard from "../../../components/GameComponents/Characters/CharacterCard";
-import CreateCharacterButton from "../../../components/GameComponents/Characters/CreateCharacterButton";
-import Pagination from "../../../components/GameComponents/Characters/Pagination";
+import { Character } from "@/types";
+import { useAuth } from "@/components/Auth/context/AuthContext";
+import CharacterCard from "@/components/GameComponents/Characters/CharacterCard";
+import CreateCharacterButton from "@/components/GameComponents/Characters/CreateCharacterButton";
+import Pagination from "@/components/GameComponents/Characters/Pagination";
 
 const CharacterList = () => {
   const [characters, setCharacters] = useState<Character[]>([]);

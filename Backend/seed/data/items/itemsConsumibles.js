@@ -21,7 +21,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/health_potion.png"
+    sprite: "/consumible/health_potion.png"
   },
   {
     name: "Mana Potion",
@@ -44,7 +44,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/mana_potion.png"
+    sprite: "/consumible/mana_potion.png"
   },
   {
     name: "Stamina Elixir",
@@ -67,7 +67,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/stamina_elixir.png"
+    sprite: "/consumible/stamina_elixir.png"
   },
   {
     name: "Arrows",
@@ -91,7 +91,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/arrows.png"
+    sprite: "/consumible/arrows.png"
   },
   {
     name: "Steel Arrows",
@@ -115,7 +115,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/steel_arrows.png"
+    sprite: "/consumible/steel_arrows.png"
   },
   {
     name: "Bullets",
@@ -139,7 +139,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/bullets.png"
+    sprite: "/consumible/bullets.png"
   },
   {
     name: "Silver Bullets",
@@ -163,7 +163,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/silver_bullets.png"
+    sprite: "/consumible/silver_bullets.png"
   },
   {
     name: "Throwing Knives",
@@ -187,7 +187,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/throwing_knives.png"
+    sprite: "/consumible/throwing_knives.png"
   },
   {
     name: "Shurikens",
@@ -211,7 +211,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/shurikens.png"
+    sprite: "/consumible/shurikens.png"
   },
   {
     name: "Holy Water",
@@ -235,7 +235,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "https://example.com/images/holy_water.png"
+    sprite: "/consumible/holy_water.png"
   },
   {
     name: "Fire Bottle",
@@ -259,7 +259,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "FIRE",
     cardSlots: 0,
-    sprite: "https://example.com/images/fire_bottle.png"
+    sprite: "/consumible/fire_bottle.png"
   },
   {
     name: "Bard's Sheet Music",
@@ -283,7 +283,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/bard_sheet_music.png"
+    sprite: "/consumible/bard_sheet_music.png"
   },
   {
     name: "Dancer's Ribbon",
@@ -307,6 +307,6 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/dancer_ribbon.png"
+    sprite: "/consumible/dancer_ribbon.png"
   }
 ];

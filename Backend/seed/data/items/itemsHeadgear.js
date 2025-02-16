@@ -20,7 +20,7 @@ export const itemsHeadgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/crown_eternal_twilight.png"
+     sprite: "/headgear/crown_eternal_twilight.png"
   },
   {
     name: "Helm of the Forgotten King",
@@ -43,7 +43,7 @@ export const itemsHeadgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/helm_forgotten_king.png"
+     sprite: "/headgear/helm_forgotten_king.png"
   },
     {
     name: "Spectacles of Infinite Wisdom",
@@ -66,7 +66,7 @@ export const itemsHeadgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "https://example.com/images/spectacles_infinite_wisdom.png"
+     sprite: "/headgear/spectacles_infinite_wisdom.png"
   },
   {
     name: "Mask of the Whispering Wind",
@@ -89,7 +89,7 @@ export const itemsHeadgear = [
     isConsumable: false,
     element: "WIND",
     cardSlots: 0,
-    sprite: "https://example.com/images/mask_whispering_wind.png"
+     sprite: "/headgear/mask_whispering_wind.png"
   },
     {
     name: "Veil of Silent Shadows",
@@ -112,7 +112,7 @@ export const itemsHeadgear = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "https://example.com/images/veil_silent_shadows.png"
+     sprite: "/headgear/veil_silent_shadows.png"
   },
   {
     name: "Bandana of the Crimson Flame",
@@ -135,6 +135,6 @@ export const itemsHeadgear = [
     isConsumable: false,
     element: "FIRE",
     cardSlots: 0,
-    sprite: "https://example.com/images/bandana_crimson_flame.png"
+     sprite: "/headgear/bandana_crimson_flame.png"
   }
 ];
