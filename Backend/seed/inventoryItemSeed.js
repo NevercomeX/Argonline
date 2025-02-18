@@ -17,7 +17,13 @@ export async function inventorySeed(prisma) {
     "Golden Key",
     "Steel Key",
     "Map",
-
+    "Iron Ring",
+    "Silver Ring",
+    "Cooper Ring",
+    "Mage's Arcane Slippers",
+    "Mithril Magic Cape",
+    "Helm Forgotten King",
+    "Studded Gloves",
   ];
 
   // Buscar los ítems base en la tabla Item
@@ -94,6 +100,41 @@ export async function inventorySeed(prisma) {
       {
         characterId,
         itemId: items.find((item) => item.name === "Map").id,
+        quantity: 1,
+      },
+      {
+        characterId,
+        itemId: items.find((item) => item.name === "Cooper Ring").id,
+        quantity: 1,
+      },
+      {
+        characterId,
+        itemId: items.find((item) => item.name === "Iron Ring").id,
+        quantity: 1,
+      },
+      {
+        characterId,
+        itemId: items.find((item) => item.name === "Silver Ring").id,
+        quantity: 1,
+      },
+      {
+        characterId,
+        itemId: items.find((item) => item.name === "Mage's Arcane Slippers").id,
+        quantity: 1,
+      },
+      {
+        characterId,
+        itemId: items.find((item) => item.name === "Mithril Magic Cape").id,
+        quantity: 1,
+      },
+      {
+        characterId,
+        itemId: items.find((item) => item.name === "Helm Forgotten King").id,
+        quantity: 1,
+      },
+      {
+        characterId,
+        itemId: items.find((item) => item.name === "Studded Gloves").id,
         quantity: 1,
       },
     ])

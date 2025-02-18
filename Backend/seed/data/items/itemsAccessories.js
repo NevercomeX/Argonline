@@ -2,7 +2,6 @@ export const itemsAccessories = [
   {
     name: "Cooper Ring",
     type: "AMULET",
-    
     description: "A ring imbued with the power of fire.",
     buyPrice: 1000,
     sellPrice: 500,
@@ -13,7 +12,7 @@ export const itemsAccessories = [
     magicDefense: 5,
     requiredLevel: 10,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY1"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -26,7 +25,6 @@ export const itemsAccessories = [
   {
     name: "Iron Ring",
     type: "AMULET",
-    
     description: "An earring that enhances the strength of swordsmen.",
     buyPrice: 1200,
     sellPrice: 600,
@@ -37,7 +35,7 @@ export const itemsAccessories = [
     magicDefense: 0,
     requiredLevel: 15,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY1"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -50,7 +48,6 @@ export const itemsAccessories = [
   {
     name: "Silver Ring",
     type: "AMULET",
-    
     description: "A rosary that enhances magical power.",
     buyPrice: 1500,
     sellPrice: 750,
@@ -61,7 +58,7 @@ export const itemsAccessories = [
     magicDefense: 5,
     requiredLevel: 20,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY1"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -74,7 +71,6 @@ export const itemsAccessories = [
   {
     name: "Golden Ring",
     type: "AMULET",
-    
     description: "A brooch that enhances precision and agility.",
     buyPrice: 1300,
     sellPrice: 650,
@@ -85,7 +81,7 @@ export const itemsAccessories = [
     magicDefense: 3,
     requiredLevel: 15,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY1"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -98,7 +94,6 @@ export const itemsAccessories = [
   {
     name: "Cloth Gloves",
     type: "AMULET",
-    
     description: "A ring that brings good fortune to merchants.",
     buyPrice: 1100,
     sellPrice: 550,
@@ -109,7 +104,7 @@ export const itemsAccessories = [
     magicDefense: 4,
     requiredLevel: 10,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY1"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -122,7 +117,6 @@ export const itemsAccessories = [
   {
     name: "Leather Gloves",
     type: "AMULET",
-    jobRequired: "THIEF",
     description: "A clip that enhances stealth and agility.",
     buyPrice: 1400,
     sellPrice: 700,
@@ -133,7 +127,7 @@ export const itemsAccessories = [
     magicDefense: 2,
     requiredLevel: 15,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY1"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -146,7 +140,6 @@ export const itemsAccessories = [
   {
     name: "Necklace of Acolyte",
     type: "AMULET",
-    
     description: "A necklace that enhances holy power.",
     buyPrice: 1600,
     sellPrice: 800,
@@ -157,7 +150,7 @@ export const itemsAccessories = [
     magicDefense: 8,
     requiredLevel: 20,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY2"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -170,7 +163,6 @@ export const itemsAccessories = [
   {
     name: "Gauntlets",
     type: "AMULET",
-    
     description: "An earring that enhances the strength and defense of knights.",
     buyPrice: 1700,
     sellPrice: 850,
@@ -181,7 +173,7 @@ export const itemsAccessories = [
     magicDefense: 4,
     requiredLevel: 25,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY1"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -194,7 +186,6 @@ export const itemsAccessories = [
   {
     name: "Chainmail Gloves",
     type: "AMULET",
-    
     description: "An earring that enhances magical power.",
     buyPrice: 1800,
     sellPrice: 900,
@@ -205,7 +196,7 @@ export const itemsAccessories = [
     magicDefense: 6,
     requiredLevel: 30,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY1"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -218,7 +209,6 @@ export const itemsAccessories = [
   {
     name: "Necklace Esmerald",
     type: "AMULET",
-    
     description: "A ring that enhances the strength and crafting skills of blacksmiths.",
     buyPrice: 1500,
     sellPrice: 750,
@@ -229,7 +219,7 @@ export const itemsAccessories = [
     magicDefense: 3,
     requiredLevel: 20,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: [ "ACCESSORY2"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -242,7 +232,6 @@ export const itemsAccessories = [
   {
     name: "Necklace Ambar",
     type: "AMULET",
-    
     description: "A ring that enhances the strength and crafting skills of blacksmiths.",
     buyPrice: 1500,
     sellPrice: 750,
@@ -253,7 +242,7 @@ export const itemsAccessories = [
     magicDefense: 3,
     requiredLevel: 20,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: [ "ACCESSORY2"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -266,7 +255,6 @@ export const itemsAccessories = [
   {
     name: "Necklace of Agamotto",
     type: "AMULET",
-    
     description: "A ring that enhances the strength and crafting skills of blacksmiths.",
     buyPrice: 1500,
     sellPrice: 750,
@@ -277,7 +265,7 @@ export const itemsAccessories = [
     magicDefense: 3,
     requiredLevel: 20,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY2"],
     script: "",
     isStackable: false,
     maxStack: 1,
@@ -290,7 +278,6 @@ export const itemsAccessories = [
   {
     name: "Studded Gloves",
     type: "AMULET",
-    
     description: "A ring that enhances the strength and crafting skills of blacksmiths.",
     buyPrice: 1500,
     sellPrice: 750,
@@ -301,7 +288,7 @@ export const itemsAccessories = [
     magicDefense: 3,
     requiredLevel: 20,
     slot: 0,
-    equipSlots: ["ACCESSORY1", "ACCESSORY2"],
+    equipSlots: ["ACCESSORY2"],
     script: "",
     isStackable: false,
     maxStack: 1,

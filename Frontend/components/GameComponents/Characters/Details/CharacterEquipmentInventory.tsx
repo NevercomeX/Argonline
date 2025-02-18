@@ -32,6 +32,23 @@ export interface InventoryItem {
   isInstance: boolean;
 }
 
+// Función para transformar la data cruda del inventario en el formato esperado
+function transformInventoryData(rawData: any[]): InventoryItem[] {
+  return (rawData || []).map((item: any) => {
+    const itemTemplate = item.itemInstance?.item || item.item;
+    return {
+      itemId: item.itemId,
+      instanceId: item.itemInstance ? item.itemInstance.id : null,
+      name: itemTemplate?.name || "Unknown Item",
+      quantity: item.quantity,
+      sprite: itemTemplate?.sprite || "",
+      equipable: itemTemplate?.isStackable === false,
+      equipmentSlot: itemTemplate?.equipSlots?.[0] || "Unknown Slot",
+      isInstance: !!item.itemInstanceId,
+    };
+  });
+}
+
 // Draggable para ítems en el inventario
 const DraggableInventoryItem: React.FC<{ item: InventoryItem }> = ({
   item,
@@ -54,7 +71,7 @@ const DraggableInventoryItem: React.FC<{ item: InventoryItem }> = ({
       className="border rounded p-2 flex flex-col items-center cursor-move"
     >
       <Image
-        src={`/items` + item.sprite}
+        src={`/items${item.sprite}`}
         alt={item.name}
         width={48}
         height={48}
@@ -84,6 +101,7 @@ const DraggableEquippedItem: React.FC<{
     }),
     [slot]
   );
+
   return (
     <div
       ref={drag}
@@ -91,7 +109,7 @@ const DraggableEquippedItem: React.FC<{
       className="cursor-move"
     >
       <Image
-        src={`/items` + item.sprite}
+        src={`/items${item.sprite}`}
         alt={item.name}
         width={64}
         height={64}
@@ -110,7 +128,7 @@ const DroppableEquipmentSlot: React.FC<{
 }> = ({ slotData, onDropItem, onUnequip }) => {
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
-      accept: INVENTORY_ITEM_TYPE, // Este slot acepta ítems del inventario
+      accept: INVENTORY_ITEM_TYPE,
       drop: (draggedItem: InventoryItem) => {
         if (draggedItem.equipmentSlot === slotData.slot) {
           onDropItem(draggedItem, slotData.slot);
@@ -137,9 +155,7 @@ const DroppableEquipmentSlot: React.FC<{
   return (
     <div
       ref={drop}
-      className={`border rounded p-2 flex flex-col items-center ${
-        isOver && canDrop ? "bg-green-100" : ""
-      }`}
+      className={`border rounded p-2 flex flex-col items-center ${isOver && canDrop ? "bg-green-100" : ""}`}
     >
       <p className="text-sm font-medium">{formatSlotName(slotData.slot)}</p>
       {slotData.item ? (
@@ -161,7 +177,7 @@ const DroppableEquipmentSlot: React.FC<{
   );
 };
 
-// Área droppable para desequipar (la sección de inventario)
+// Área droppable para desequipar: al soltar un ítem equipado en esta área, se desequipa.
 const InventoryDropArea: React.FC<{
   onDropEquipped: (slot: string) => void;
   children: React.ReactNode;
@@ -214,7 +230,7 @@ const CharacterEquipmentInventory: React.FC<
     initialInventoryItems
   );
 
-  // Función para desequipar (usada tanto en botón como en drop)
+  // Función para desequipar
   const handleUnequip = async (slot: string) => {
     try {
       await unequipItem(characterId, slot);
@@ -222,15 +238,15 @@ const CharacterEquipmentInventory: React.FC<
       setEquipmentSlots((prev) =>
         prev.map((s) => (s.slot === slot ? { ...s, item: null } : s))
       );
-      // Refrescar inventario
+      // Refrescar inventario transformando la data recibida
       const refreshedInventory = await getInventory(characterId);
-      setInventoryItems(refreshedInventory);
+      setInventoryItems(transformInventoryData(refreshedInventory));
     } catch (error) {
       console.error("Error al desequipar ítem:", error);
     }
   };
 
-  // Función para equipar un ítem (cuando se suelta desde el inventario en un slot)
+  // Función para equipar un ítem
   const handleDropEquip = async (
     droppedItem: InventoryItem,
     targetSlot: string
@@ -275,6 +291,23 @@ const CharacterEquipmentInventory: React.FC<
     }
   };
 
+  // Función para transformar la data cruda del inventario
+  function transformInventoryData(rawData: any[]): InventoryItem[] {
+    return (rawData || []).map((item: any) => {
+      const itemTemplate = item.itemInstance?.item || item.item;
+      return {
+        itemId: item.itemId,
+        instanceId: item.itemInstance ? item.itemInstance.id : null,
+        name: itemTemplate?.name || "Unknown Item",
+        quantity: item.quantity,
+        sprite: itemTemplate?.sprite || "",
+        equipable: itemTemplate?.isStackable === false,
+        equipmentSlot: itemTemplate?.equipSlots?.[0] || "Unknown Slot",
+        isInstance: !!item.itemInstanceId,
+      };
+    });
+  }
+
   return (
     <div className="container mx-auto p-4">
       {/* Encabezado con nombre y sprite del personaje */}
@@ -305,7 +338,7 @@ const CharacterEquipmentInventory: React.FC<
           </div>
         </div>
 
-        {/* Sección de Inventario: la envolvemos en un drop area que acepta EQUIPPED_ITEM para desequipar */}
+        {/* Sección de Inventario */}
         <InventoryDropArea onDropEquipped={(slot) => handleUnequip(slot)}>
           <div className="flex-1 border p-4 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-3">Inventario</h2>
