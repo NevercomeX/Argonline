@@ -1,3 +1,5 @@
+"use server";
+
 //utils/gameUtils/equipmentApi.ts
 import { revalidateTag } from "next/cache";
 
@@ -52,7 +54,7 @@ export const unequipItem = async (characterId: number, slot: string) => {
       throw new Error(`Error unequipping item: ${response.statusText}`);
     }
     // Revalidamos la caché del equipo para este character
-    revalidateTag(`equipment-${characterId}`);
+    // revalidateTag(`equipment-${characterId}`);
     return await response.json();
   } catch (error) {
     console.error("Error unequipping item:", error);
@@ -119,7 +121,7 @@ export const equipItem = async (
       throw new Error(`Failed to equip item: ${response.statusText}`);
     }
     // Revalidamos la caché del equipo para este character
-    revalidateTag(`equipment-${characterId}`);
+    // revalidateTag(`equipment-${characterId}`);
     return await response.json();
   } catch (error) {
     console.error("Error equipping item:", error);

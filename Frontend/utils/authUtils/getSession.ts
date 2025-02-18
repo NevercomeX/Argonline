@@ -30,7 +30,7 @@ const getSession = async () => {
  * const session = await getLocalSession();
  */
 const getLocalSession = async () => {
-  const cookie = cookies();
+  const cookie = await cookies();
   const token = cookie.get("accessToken")?.value;
 
   if (!token) return;

@@ -22,7 +22,7 @@ interface CharacterDetailsPageProps {
 export default async function CharacterDetailsPage({
   params,
 }: CharacterDetailsPageProps) {
-  const { id } = params;
+  const { id } = await params;
   const characterId = Number(id);
 
   // Obtener los detalles del personaje usando la utilidad

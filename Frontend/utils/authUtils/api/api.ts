@@ -45,9 +45,9 @@ const fetcher = async <T>(
 };
 
 // Define headers function
-const getHeaders = (): Record<string, string> => {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
+const getHeaders = async (): Promise<Record<string, string>> => {
+  const cookieStore = await cookies();
+  const  accessToken =  cookieStore.get("accessToken")?.value;
 
   const commonHeaders: Record<string, string> = {
     /** Add any default headers here */
@@ -64,7 +64,7 @@ export const get = async <T>(
   url: string,
   config: { cache?: RequestCache; headers?: Record<string, string> } = {},
 ): Promise<T> => {
-  const headers = getHeaders();
+  const headers = await getHeaders();
 
   const requestOptions: RequestInit = {
     method: "GET",
@@ -99,7 +99,7 @@ export const post = async <T = any>(
   body: any,
   config: RequestConfig = {},
 ): Promise<FetcherResponse<T>> => {
-  const headers = getHeaders();
+  const headers = await getHeaders();
 
   const requestOptions: RequestInit = {
     method: "POST",
@@ -128,7 +128,7 @@ export const put = async <T = any>(
   body: any,
   config: RequestConfig = {},
 ): Promise<FetcherResponse<T>> => {
-  const headers = getHeaders();
+  const headers = await getHeaders();
 
   const requestOptions: RequestInit = {
     method: "PUT",
@@ -156,7 +156,7 @@ export const remove = async <T = any>(
   url: string,
   config: RequestConfig = {},
 ): Promise<FetcherResponse<T>> => {
-  const headers = getHeaders();
+  const headers = await getHeaders();
 
   const requestOptions: RequestInit = {
     method: "DELETE",
