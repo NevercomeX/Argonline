@@ -48,6 +48,11 @@ import { getEnemies, getEnemyById, getRandomEnemy } from "./Enemy/enemies.js";
 import { getEnemyDrops, getEnemyDropById } from "./Enemy/enemydrop.js";
 
 // ================================
+// Items Transactions
+// ================================
+import { purchaseItem, sellItem, getShopItems } from "./Item/itemTransactions.js";
+
+// ================================
 // Item Controllers
 // ================================
 import {
@@ -121,6 +126,11 @@ export {
   getRandomEnemy,
   getEnemyDrops,
   getEnemyDropById,
+
+  // Item Transactions
+  purchaseItem,
+  sellItem,
+  getShopItems,
 
   // Items
   getAllItems,

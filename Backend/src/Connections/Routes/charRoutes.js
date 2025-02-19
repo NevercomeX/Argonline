@@ -8,16 +8,18 @@ import enemiesRoutes from "./gameRoutes/enemiesRoutes.js";
 import userRouters from "./gameRoutes/userRouter.js";
 import skillRoutes from "./gameRoutes/skillRoutes.js";
 import stats from "./gameRoutes/statsRoutes.js";
+import purchaseRoutes from "./gameRoutes/purchaseRoutes.js";
+
 
 const router = express.Router();
 
 router.use("/skills", skillRoutes);
 router.use("/users", userRouters);
 router.use("/characters", characterRoutes);
+router.use("/shop", purchaseRoutes);
 router.use("/items", itemRoutes);
 router.use("/equipment", equipmentRoutes);
 router.use("/stats", stats);
-// router.use("/item-instances", itemInstanceRoutes);
 router.use("/inventory", inventoryRoutes);
 router.use("/mobs", enemiesRoutes);
 

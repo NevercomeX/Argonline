@@ -26,3 +26,27 @@ export const getItemsById = async (itemId: number) => {
     return null;
   }
 };
+
+export const getItems = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/items`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error fetching items: ${response.statusText}`);
+    }
+
+    const items = await response.json();
+    return items;
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    return [];
+  }
+}

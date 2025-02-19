@@ -1,7 +1,11 @@
 // src/app/characters/[id]/page.tsx
 import { Character } from "@/types";
 import { CombatStats } from "@/types/CombatStats";
+
+// Importamos los sprites de los trabajos
 import { jobGenderSprites } from "@/components/GameComponents/Jobs/JobSpritesMap";
+
+// Importamos los componentes necesarios
 import CharacterEquipmentInventory from "@/components/GameComponents/Characters/Details/CharacterEquipmentInventory";
 import RadarChartSection from "@/components/GameComponents/Characters/Details/RadarChartSection";
 import CombatStatsDisplay from "@/components/GameComponents/Characters/Details/CombatStatsDisplay";
@@ -21,7 +25,7 @@ interface CharacterDetailsPageProps {
 export default async function CharacterDetailsPage({
   params,
 }: CharacterDetailsPageProps) {
-  const { id } = params;
+  const { id } = await params;
   const characterId = Number(id);
 
   // Carga inicial SSR para datos base

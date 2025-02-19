@@ -3,6 +3,13 @@ import { jobSprites } from "../Jobs/JobSpritesMap"; // Rutas de sprites para tra
 import { jobGenderSprites } from "../Jobs/JobSpritesMap";
 import { useRouter } from "next/navigation";
 import { Character } from "@/types/Character";
+import { getStatsCharacter } from "@/utils/gameUtils/statsApi";
+
+// Obtener estadísticas de combate de un personaje
+const getStats = (characterId: number) => {
+  const stats = getStatsCharacter(characterId);
+  return stats;
+};
 
 const CharacterCard = ({ character }: { character: Character }) => {
   // Obtener la ruta base del sprite según el jobclass; se asume que jobSprites y jobGenderSprites son objetos
@@ -16,6 +23,8 @@ const CharacterCard = ({ character }: { character: Character }) => {
   const handleClick = () => {
     router.push(`/characters/${character.id}`);
   };
+
+  const stats = getStats(character.id);
 
   // Convertir BigInt a number para los cálculos
   const baseExpPercent =
@@ -55,7 +64,7 @@ const CharacterCard = ({ character }: { character: Character }) => {
               ></div>
             </div>
             <p className="text-xs text-gray-500 mt-1">
-              {character.health}/{character.maxHealth}
+              {stats.HP}/{stats.MAXHP}
             </p>
           </div>
 
@@ -85,7 +94,7 @@ const CharacterCard = ({ character }: { character: Character }) => {
               ></div>
             </div>
             <p className="text-xs text-gray-500 mt-1">
-              {character.baseExp}/{character.maxBaseExp}
+              {character.baseExp}/{Number(character.maxBaseExp)}
             </p>
           </div>
 

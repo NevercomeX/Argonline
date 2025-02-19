@@ -17,6 +17,7 @@ export const getInventory = async (characterId: number) => {
         cache: "no-store",
       }
     );
+    console.log(response);
     if (!response.ok) {
       throw new Error(`Error fetching inventory: ${response.statusText}`);
     }
