@@ -31,6 +31,11 @@ import {
   getUserIdFromToken,
 } from "./user/usersController.js";
 
+//=================================
+// Stats Controllers
+//=================================
+import { calculateCombatStats } from "./Stats/statsCalculatorControllerV2.js";
+
 // ================================
 // Authentication Controllers
 // ================================
@@ -106,6 +111,9 @@ export {
   createCharacter,
   createCharacterWithAttributes,
   getCharactersByUserId,
+
+  // Stats
+  calculateCombatStats,
 
   // Enemy
   getEnemies,

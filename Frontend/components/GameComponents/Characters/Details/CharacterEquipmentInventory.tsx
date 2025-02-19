@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useDrag, useDrop } from "react-dnd";
+import { useQueryClient } from "@tanstack/react-query";
 import { equipItem, unequipItem } from "@/utils/gameUtils/equipmentApi";
 import { getInventory } from "@/utils/gameUtils/inventoryApi";
 
@@ -66,15 +67,17 @@ const DraggableInventoryItem: React.FC<{ item: InventoryItem }> = ({
 
   return (
     <div
-      ref={drag}
+      ref={(node) => {
+        drag(node);
+      }}
       style={{ opacity: isDragging ? 0.5 : 1 }}
       className="border rounded p-2 flex flex-col items-center cursor-move"
     >
       <Image
         src={`/items${item.sprite}`}
         alt={item.name}
-        width={48}
-        height={48}
+        width={32}
+        height={32}
         className="object-contain"
       />
       <p className="text-xs font-medium mt-1">{item.name}</p>
@@ -104,15 +107,17 @@ const DraggableEquippedItem: React.FC<{
 
   return (
     <div
-      ref={drag}
+      ref={(node) => {
+        drag(node);
+      }}
       style={{ opacity: isDragging ? 0.5 : 1 }}
-      className="cursor-move"
+      className="cursor-move flex flex-col justify-center items-center "
     >
       <Image
         src={`/items${item.sprite}`}
         alt={item.name}
-        width={64}
-        height={64}
+        width={32}
+        height={32}
         className="object-contain"
       />
       <p className="text-xs mt-1">{item.name}</p>
@@ -154,7 +159,9 @@ const DroppableEquipmentSlot: React.FC<{
 
   return (
     <div
-      ref={drop}
+      ref={(node) => {
+        drop(node);
+      }}
       className={`border rounded p-2 flex flex-col items-center ${isOver && canDrop ? "bg-green-100" : ""}`}
     >
       <p className="text-sm font-medium">{formatSlotName(slotData.slot)}</p>
@@ -198,7 +205,9 @@ const InventoryDropArea: React.FC<{
 
   return (
     <div
-      ref={drop}
+      ref={(node) => {
+        drop(node);
+      }}
       className={`p-2 border rounded ${isOver && canDrop ? "bg-blue-100" : ""}`}
     >
       {children}
@@ -229,16 +238,19 @@ const CharacterEquipmentInventory: React.FC<
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>(
     initialInventoryItems
   );
+  const queryClient = useQueryClient();
 
   // Función para desequipar
   const handleUnequip = async (slot: string) => {
     try {
       await unequipItem(characterId, slot);
-      // Actualizar el equipment: vaciar el slot
+      // Invalidar query de estadísticas para actualizar datos en otro componente si es necesario
+      queryClient.invalidateQueries({ queryKey: ["combatStats", characterId] });
+      // Actualizar equipment: vaciar el slot
       setEquipmentSlots((prev) =>
         prev.map((s) => (s.slot === slot ? { ...s, item: null } : s))
       );
-      // Refrescar inventario transformando la data recibida
+      // Refrescar inventario y transformar la data
       const refreshedInventory = await getInventory(characterId);
       setInventoryItems(transformInventoryData(refreshedInventory));
     } catch (error) {
@@ -258,7 +270,9 @@ const CharacterEquipmentInventory: React.FC<
         droppedItem.itemId,
         droppedItem.isInstance ? droppedItem.instanceId : null
       );
-      // Actualizar el equipment: asignar el ítem al slot correspondiente.
+      // Invalidar query de estadísticas
+      queryClient.invalidateQueries({ queryKey: ["combatStats", characterId] });
+      // Actualizar equipment: asignar el ítem al slot correspondiente.
       setEquipmentSlots((prev) =>
         prev.map((s) =>
           s.slot === targetSlot
@@ -275,7 +289,7 @@ const CharacterEquipmentInventory: React.FC<
             : s
         )
       );
-      // Actualizar el inventario: disminuir la cantidad, eliminar si queda 0.
+      // Actualizar inventario: disminuir la cantidad y eliminar si queda 0.
       setInventoryItems((prev) =>
         prev
           .map((i) =>
@@ -291,23 +305,6 @@ const CharacterEquipmentInventory: React.FC<
     }
   };
 
-  // Función para transformar la data cruda del inventario
-  function transformInventoryData(rawData: any[]): InventoryItem[] {
-    return (rawData || []).map((item: any) => {
-      const itemTemplate = item.itemInstance?.item || item.item;
-      return {
-        itemId: item.itemId,
-        instanceId: item.itemInstance ? item.itemInstance.id : null,
-        name: itemTemplate?.name || "Unknown Item",
-        quantity: item.quantity,
-        sprite: itemTemplate?.sprite || "",
-        equipable: itemTemplate?.isStackable === false,
-        equipmentSlot: itemTemplate?.equipSlots?.[0] || "Unknown Slot",
-        isInstance: !!item.itemInstanceId,
-      };
-    });
-  }
-
   return (
     <div className="container mx-auto p-4">
       {/* Encabezado con nombre y sprite del personaje */}
@@ -316,8 +313,8 @@ const CharacterEquipmentInventory: React.FC<
         <Image
           src={characterSprite}
           alt={characterName}
-          width={150}
-          height={150}
+          width={64}
+          height={64}
           className="object-contain mt-2"
         />
       </div>
@@ -340,7 +337,7 @@ const CharacterEquipmentInventory: React.FC<
 
         {/* Sección de Inventario */}
         <InventoryDropArea onDropEquipped={(slot) => handleUnequip(slot)}>
-          <div className="flex-1 border p-4 rounded-lg shadow">
+          <div className="flex-1  p-4 rounded-lg ">
             <h2 className="text-xl font-semibold mb-3">Inventario</h2>
             <div className="grid grid-cols-4 gap-4">
               {inventoryItems.map((item) => (
