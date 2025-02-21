@@ -8,7 +8,7 @@ if (!SECRET) {
   throw new Error("Falta la variable de entorno JWT_SECRET.");
 }
 
-const JWT_ACCESS_EXPIRES = "5m";   // 5 minutos
+const JWT_ACCESS_EXPIRES = "500m";   // 500 minutos test purposes
 const JWT_REFRESH_EXPIRES = "30d"; // 30 días
 
 /**

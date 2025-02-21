@@ -29,7 +29,7 @@ const Step1 = () => {
     setSelectedSprite,
   } = useCharacterCreation();
 
-  const [points, setPoints] = useState(10);
+  const [points, setPoints] = useState(100);
   const [nameError, setNameError] = useState<string | null>(null);
 
   const handleAttributeChange = (

@@ -35,14 +35,14 @@ const initialAttributes = {
 };
 
 const CharacterCreationContext = createContext<CharacterCreationState | null>(
-  null,
+  null
 );
 
 export const CharacterCreationProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   const [name, setName] = useState("");
-  const [jobClass, setJobClass] = useState("1");
+  const [jobClass, setJobClass] = useState("NOVICE");
   const [attributes, setAttributes] = useState(initialAttributes);
   const [gender, setGender] = useState("");
   const [selectedSprite, setSelectedSprite] = useState("/default/path.gif"); // Valor inicial
@@ -71,7 +71,7 @@ export const useCharacterCreation = () => {
   const context = useContext(CharacterCreationContext);
   if (!context) {
     throw new Error(
-      "useCharacterCreation must be used within CharacterCreationProvider",
+      "useCharacterCreation must be used within CharacterCreationProvider"
     );
   }
   return context;
