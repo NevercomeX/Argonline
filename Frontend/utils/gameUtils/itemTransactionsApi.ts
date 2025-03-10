@@ -29,6 +29,8 @@ export const sellItem = async ({
   characterId: number;
   inventoryItemId: number;
   quantity?: number;
-}) => {
+  }) => {
+  
+  console.log("sellItem", { characterId, inventoryItemId, quantity });
   return axios.post(`${process.env.NEXT_PUBLIC_API_CHAR_URL}/shop/sell`, { characterId, inventoryItemId, quantity });
 };

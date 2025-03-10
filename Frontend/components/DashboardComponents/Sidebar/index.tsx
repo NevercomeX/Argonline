@@ -125,7 +125,10 @@ const menuGroups = [
         ),
         label: "Shop",
         route: "#",
-        children: [{ label: "Purchase", route: "/shop" }],
+        children: [
+          { label: "Purchase", route: "/market/purchase" },
+          { label: "Sell", route: "/market/sell" },
+        ],
       },
       {
         icon: (

@@ -19,6 +19,7 @@ router.post("/purchase", async (req, res) => {
 
 // Endpoint para vender ítems
 router.post("/sell", async (req, res) => {
+  console.log(req.body);
   try {
     // Se espera recibir en el body: { characterId, inventoryItemId, quantity }
     const result = await sellItem(req.body);
