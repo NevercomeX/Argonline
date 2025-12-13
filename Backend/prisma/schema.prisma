@@ -1,11 +1,16 @@
-// schema.prisma
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/Prisma/generated"
 }
 
 datasource db {
-  provider = "postgresql" // Mejor para producción que SQLite
-  url      = env("DATABASE_URL")
+  provider = "mysql"
 }
 
 enum JobName {
@@ -163,7 +168,7 @@ model Item {
   name          String        @unique
   type          ItemType
   jobRequired   JobName?
-  description   String
+  description   String        @db.Text
   buyPrice      Int
   sellPrice     Int
   weight        Int
@@ -173,8 +178,8 @@ model Item {
   magicDefense  Int?          @default(0)
   requiredLevel Int?          @default(0)
   slot          Int?          @default(0) // Para armas/escudos
-  equipSlots    EquipmentSlot[] @default([])
-  script        String?
+  equipSlots    Json            @default("[]")
+  script        String?       @db.Text
   isStackable   Boolean       @default(false) // IMPORTANTE: Para diferenciar ítems instanciables
   maxStack      Int           @default(1)
   isTradable    Boolean       @default(true)
@@ -304,7 +309,7 @@ model MonsterSpawn {
 model Skill {
   id             Int       @id @default(autoincrement())
   name           String    @unique
-  description    String
+  description    String  @db.Text
   job            JobName
   level          Int       @default(1)
   maxLevel       Int       @default(10)
@@ -316,10 +321,21 @@ model Skill {
   range          Int       @default(0)
   area           Int       @default(0)
   element        ElementType?
-  script         String?   // Efecto en Lua
+  script         String?   @db.Text   // Efecto en Lua
   requiredSkills Json?     // JSON con pre-requisitos
   icon           String?
+  requiredLevel  Int       @default(1)
+  skillTrees     SkillTree[]
   characterSkills CharacterSkill[]
+}
+
+model SkillTree {
+  id      Int     @id @default(autoincrement())
+  job     JobName
+  skillId Int
+  skill   Skill   @relation(fields: [skillId], references: [id])
+
+  @@index([job])
 }
 
 model CharacterSkill {

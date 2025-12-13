@@ -1,0 +1,48 @@
+import { JobName } from './JobName';
+import { ElementType } from './ElementType';
+import { InventoryItem } from './InventoryItem';
+import { EquipmentItem } from './EquipmentItem';
+import { CharacterSkill } from './CharacterSkill';
+import { User } from './User';
+import { GuildMember } from './GuildMember';
+import { Guild } from './Guild';
+
+export interface Character {
+  id: number;
+  name: string;
+  userId: number;
+  jobclass: JobName;
+  str: number;
+  agi: number;
+  vit: number;
+  int: number;
+  dex: number;
+  luk: number;
+  baseLevel: number;
+  jobLevel: number;
+  baseExp: bigint;
+  jobExp: bigint;
+  zeny: number;
+  statusPoints: number;
+  skillPoints: number;
+  health: number;
+  maxHealth: number;
+  maxMana: number;
+  mana: number;
+  attackSpeed: number;
+  attackRange: number;
+  element: ElementType;
+  map: string;
+  x: number;
+  y: number;
+  inventory?: InventoryItem[];
+  equipment?: EquipmentItem[];
+  skills?: CharacterSkill[];
+  user?: User;
+  partyId?: number | null;
+  guildId?: number | null;
+  homunculusId?: number | null;
+  guildMembership?: GuildMember | null;
+  ledGuild?: Guild | null;
+  gender: string;
+}
