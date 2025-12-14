@@ -30,7 +30,10 @@ export const JobName = {
   DANCER: 'DANCER',
   SUPER_NOVICE: 'SUPER_NOVICE',
   GUNSLINGER: 'GUNSLINGER',
-  NINJA: 'NINJA'
+  NINJA: 'NINJA',
+  MONK: 'MONK',
+  SAGE: 'SAGE',
+  CHICKEN: 'CHICKEN'
 } as const
 
 export type JobName = (typeof JobName)[keyof typeof JobName]

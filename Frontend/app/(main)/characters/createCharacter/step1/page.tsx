@@ -6,6 +6,7 @@ import { useCharacterCreation } from "../context/CharacterCreationContext";
 import FormInput from "@/components/GameComponents/CreateCharacter/FormInput";
 import AttributeDistribution from "@/components/GameComponents/CreateCharacter/AttributeDistribution";
 import JobClassSelector from "@/components/GameComponents/CreateCharacter/JobClassSelector";
+import { jobGenderSprites } from "@/components/GameComponents/Jobs/JobSpritesMap";
 import { useState } from "react";
 
 const initialAttributes = {
@@ -73,7 +74,8 @@ const Step1 = () => {
     }
 
     // Define la ruta del sprite según el jobClass seleccionado
-    const spritePath = `/jobgender/firstclass/${jobClass}_M.gif`; // Por defecto, selecciona el sprite masculino
+    const baseSpritePath = jobGenderSprites[jobClass];
+    const spritePath = `${baseSpritePath}_M.gif`; // Por defecto, selecciona el sprite masculino
     setSelectedSprite(spritePath); // Actualiza el sprite en el contexto
     router.push("/characters/createCharacter/step2");
   };

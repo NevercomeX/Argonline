@@ -35,6 +35,9 @@ enum JobName {
   SUPER_NOVICE
   GUNSLINGER
   NINJA
+  MONK
+  SAGE
+  CHICKEN
 }
 
 enum ItemType {

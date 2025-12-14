@@ -1,4 +1,31 @@
-import { prisma } from "../../../prismaClient/prismaClient";
+import { prisma, JobName } from "../../../prismaClient/prismaClient";
+
+const JOB_ID_TO_ENUM: Record<string, JobName> = {
+  "1": JobName.NOVICE,
+  "2": JobName.SWORDSMAN,
+  "3": JobName.ARCHER,
+  "4": JobName.MAGE,
+  "5": JobName.MERCHANT,
+  "6": JobName.THIEF,
+  "7": JobName.ACOLYTE,
+  "8": JobName.SUPER_NOVICE,
+  "9": JobName.HUNTER,
+  "10": JobName.CHICKEN,
+  "11": JobName.NINJA,
+  "12": JobName.ALCHEMIST,
+  "13": JobName.ASSASSIN,
+  "14": JobName.BARD,
+  "15": JobName.BLACKSMITH,
+  "16": JobName.CRUSADER,
+  "17": JobName.DANCER,
+  "18": JobName.GUNSLINGER,
+  "19": JobName.KNIGHT,
+  "20": JobName.MONK,
+  "21": JobName.PRIEST,
+  "22": JobName.ROGUE,
+  "23": JobName.SAGE,
+  "24": JobName.WIZARD,
+};
 
 /**
  * Obtiene todos los personajes con paginación.
@@ -71,11 +98,18 @@ export async function updateCharacter(id: any, data: any) {
  * Crea un nuevo personaje para un usuario.
  */
 export async function createCharacter(userId: any, name: any, jobClass: any) {
+  // Convert jobClass ID to Enum if necessary
+  const validJobClass = JOB_ID_TO_ENUM[(jobClass)] || (jobClass as JobName);
+
+  if (!Object.values(JobName).includes(validJobClass)) {
+    throw new Error(`Invalid job class: ${jobClass}`);
+  }
+
   try {
     const newCharacter = await prisma.character.create({
       data: {
         name,
-        jobclass: jobClass, // ✅ Ahora es un enum
+        jobclass: validJobClass, // ✅ Ahora es un enum
         userId: parseInt(userId),
         baseLevel: 1,
         jobLevel: 1,
@@ -108,6 +142,12 @@ export async function createCharacterWithAttributes(userId: any, name: any, jobC
 
     const { str, agi, vit, int, dex, luk } = attributes;
 
+    const validJobClass = JOB_ID_TO_ENUM[String(jobClass)] || (jobClass as JobName);
+
+    if (!Object.values(JobName).includes(validJobClass)) {
+      throw new Error(`Invalid job class: ${jobClass}`);
+    }
+
     // Cálculo de estadísticas iniciales
     const baseHealth = 100 + vit * 10;
     const baseMana = 50 + int * 5;
@@ -115,7 +155,7 @@ export async function createCharacterWithAttributes(userId: any, name: any, jobC
     const newCharacter = await prisma.character.create({
       data: {
         name,
-        jobclass: jobClass, // ✅ Enum, no jobclassId
+        jobclass: validJobClass, // ✅ Enum, no jobclassId
         userId: parseInt(userId),
         baseLevel: 1,
         jobLevel: 1,
