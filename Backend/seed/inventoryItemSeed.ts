@@ -1,8 +1,19 @@
 // inventorySeed.js
 
-export async function inventorySeed(prisma) {
-  // Lista de IDs de los personajes para poblar su inventario
-  const characterIds = [1, 2]; // Agrega aquí los IDs de los personajes que existan
+import { prisma } from "../src/prismaClient/prismaClient";
+export async function inventorySeed() {
+  // Get all characters from the database
+  const characters = await prisma.character.findMany({
+    select: { id: true, name: true },
+  });
+
+  if (characters.length === 0) {
+    console.error("No characters found! Make sure characterSeed has run successfully.");
+    return;
+  }
+
+  console.log(`Found ${characters.length} characters for inventory seeding`);
+  const characterIds = characters.map(c => c.id);
 
   // Lista de nombres de ítems base para buscar en la tabla Item
   const itemNames = [
@@ -35,7 +46,7 @@ export async function inventorySeed(prisma) {
 
   // Verifica si todos los ítems fueron encontrados
   const missingItems = itemNames.filter(
-    (name) => !items.find((item) => item.name === name)
+    (name) => !items.find((item : any) => item.name === name)
   );
   if (missingItems.length > 0) {
     console.error(
@@ -49,92 +60,92 @@ export async function inventorySeed(prisma) {
     .map((characterId) => [
       {
         characterId,
-        itemId: items.find((item) => item.name === "Health Potion").id,
+        itemId: items.find((item : any) => item.name === "Health Potion")!.id,
         quantity: 4,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Mana Potion").id,
+        itemId: items.find((item : any) => item.name === "Mana Potion")!.id,
         quantity: 7,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Stamina Elixir").id,
+        itemId: items.find((item : any) => item.name === "Stamina Elixir")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Coin").id,
+        itemId: items.find((item : any) => item.name === "Coin")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Copper Chest").id,
+        itemId: items.find((item : any) => item.name === "Copper Chest")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Golden Chest").id,
+        itemId: items.find((item : any) => item.name === "Golden Chest")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Steel Chest").id,
+        itemId: items.find((item : any) => item.name === "Steel Chest")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Copper Key").id,
+        itemId: items.find((item : any) => item.name === "Copper Key")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Golden Key").id,
+        itemId: items.find((item : any) => item.name === "Golden Key")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Steel Key").id,
+        itemId: items.find((item : any) => item.name === "Steel Key")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Map").id,
+        itemId: items.find((item : any) => item.name === "Map")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Cooper Ring").id,
+        itemId: items.find((item : any) => item.name === "Cooper Ring")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Iron Ring").id,
+        itemId: items.find((item : any) => item.name === "Iron Ring")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Silver Ring").id,
+        itemId: items.find((item : any) => item.name === "Silver Ring")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Mage's Arcane Slippers").id,
+        itemId: items.find((item : any) => item.name === "Mage's Arcane Slippers")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Mithril Magic Cape").id,
+        itemId: items.find((item : any) => item.name === "Mithril Magic Cape")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Helm Forgotten King").id,
+        itemId: items.find((item : any) => item.name === "Helm Forgotten King")!.id,
         quantity: 1,
       },
       {
         characterId,
-        itemId: items.find((item) => item.name === "Studded Gloves").id,
+        itemId: items.find((item : any) => item.name === "Studded Gloves")!.id,
         quantity: 1,
       },
     ])

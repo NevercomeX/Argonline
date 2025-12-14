@@ -1,6 +1,7 @@
 // recipeSeed.js
 
-export async function recipeSeed(prisma) {
+import { prisma, JobName } from "../src/prismaClient/prismaClient";
+export async function recipeSeed() {
   // Definición de recetas
   // Cada receta incluye:
   // - resultItemName: el nombre del ítem resultante (ya debe existir en la tabla Item)
@@ -15,7 +16,7 @@ export async function recipeSeed(prisma) {
       ],
       successRate: 0.8,
       skillRequired: "Smithing",
-      jobRequired: "BLACKSMITH", // Debe coincidir con un valor del enum JobName
+      jobRequired: JobName.BLACKSMITH, // Debe coincidir con un valor del enum JobName
       minLevel: 10,
     },
     {
@@ -26,7 +27,7 @@ export async function recipeSeed(prisma) {
       ],
       successRate: 0.75,
       skillRequired: "Tailoring",
-      jobRequired: "ALCHEMIST", // Debe coincidir con un valor del enum JobName
+      jobRequired: JobName.ALCHEMIST, // Debe coincidir con un valor del enum JobName
       minLevel: 5,
     },
   ];
@@ -37,7 +38,7 @@ export async function recipeSeed(prisma) {
     allItemNames.add(recipe.resultItemName);
     recipe.ingredients.forEach((ing) => allItemNames.add(ing.name));
   });
-  const itemNamesArray = Array.from(allItemNames);
+  const itemNamesArray = Array.from(allItemNames) as string[];
 
   // Buscar en la tabla Item todos los ítems involucrados
   const items = await prisma.item.findMany({
@@ -64,7 +65,7 @@ export async function recipeSeed(prisma) {
 
     // Construir el array requiredItems a partir de los ingredientes
     const requiredItems = recipeDef.ingredients.map((ing) => {
-      const foundIngredient = items.find((item) => item.name === ing.name);
+      const foundIngredient = items.find((item) => item.name === ing.name)!;
       return { itemId: foundIngredient.id, quantity: ing.quantity };
     });
 

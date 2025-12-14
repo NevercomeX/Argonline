@@ -1,0 +1,5 @@
+{
+	"devDependencies": {
+		"@types/cli-progress": "^3.11.6"
+	}
+}

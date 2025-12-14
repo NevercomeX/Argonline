@@ -8,9 +8,11 @@ import { itemsFootgear } from "./data/items/itemsFootgear";
 import { itemsAccessories } from "./data/items/itemsAccessories";
 import { itemsCards } from "./data/items/itemsCards";
 import { itemsEtc } from "./data/items/itemsEtc";
+import { prisma, ItemType, ElementType } from "../src/prismaClient/prismaClient";
 
 
-export async function itemSeed(prisma) {
+
+export async function itemSeed() {
   // Combina los datos de los tres archivos
   const allItems = [
     ...itemsConsumibles,
@@ -34,10 +36,14 @@ export async function itemSeed(prisma) {
 
     if (!existingItem) {
       await prisma.item.create({
-        data: item,
+        data: {
+          ...item,
+          type: item.type as ItemType,
+          element: (item as any).element ? ((item as any).element as ElementType) : undefined,
+        },
       });
     } else {
     }
   }
-  await prisma.$disconnect();
+
 }

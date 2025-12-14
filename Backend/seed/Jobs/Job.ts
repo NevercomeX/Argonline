@@ -1,14 +1,19 @@
 class Job {
-  constructor(name, skills = {}) {
-    this.name = name;
+  name: string;
+  maxJobLevel: number;
+  maxBaseLevel: number;
+  skills: any;
+  skillLevels: { [key: string]: number };
 
+  constructor(name: string, skills: any = {}) {
+    this.name = name;
     this.maxJobLevel = 10;
     this.maxBaseLevel = 99;
     this.skills = skills; // Inicialmente vacío, se llenará con los métodos de habilidades.
     this.skillLevels = {}; // Inicialmente vacío, se llenará con los niveles de habilidades.
   }
 
-  learnSkill(skillName) {
+  learnSkill(skillName : any) {
     if (!this.skills[skillName]) {
       console.log(`La habilidad ${skillName} no existe.`);
       return;
@@ -20,7 +25,7 @@ class Job {
     );
   }
 
-  useSkill(skillName, target) {
+  useSkill(skillName : any, target : any) {
     if (!this.skills[skillName]) {
       console.log(`La habilidad ${skillName} no existe.`);
       return;
@@ -42,7 +47,7 @@ class Job {
 
   // Aquí puedes agregar los métodos específicos de Job.
   // Por ejemplo, un método para agregar una skill:
-  addSkill(skill) {
+  addSkill(skill : string) {
     this.skills.push(skill);
     console.log(`${this.name} learned a new skill: ${skill}!`);
   }

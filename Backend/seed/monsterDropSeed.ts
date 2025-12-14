@@ -4,7 +4,8 @@
  * Siembra los drops de los monsters.
  * Se asume que los items "Health Potion" y "Mana Potion" ya existen en la tabla Item.
  */
-export async function monsterDropSeed(prisma) {
+import { prisma } from "../src/prismaClient/prismaClient";
+export async function monsterDropSeed() {
   // Buscar los monsters sembrados
   const poring = await prisma.monster.findUnique({ where: { name: 'Poring' } });
   const lunatic = await prisma.monster.findUnique({ where: { name: 'Lunatic' } });

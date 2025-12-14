@@ -1,4 +1,5 @@
-export async function characterSkillSeed(prisma) {
+import { prisma } from "../src/prismaClient/prismaClient";
+export async function characterSkillSeed() {
   const characterSkills = [
     {
       characterId: 1,

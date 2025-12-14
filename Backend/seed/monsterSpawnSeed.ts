@@ -4,7 +4,8 @@
  * Siembra los puntos de aparición (spawns) para los monsters.
  * Se asume que existe un mapa con nombre "prontera".
  */
-export async function monsterSpawnSeed(prisma) {
+import { prisma } from "../src/prismaClient/prismaClient";
+export async function monsterSpawnSeed() {
   // Buscar el mapa "prontera"
   const map = await prisma.map.findUnique({
     where: { name: 'Prontera' }

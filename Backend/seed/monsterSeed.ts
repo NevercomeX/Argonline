@@ -1,11 +1,12 @@
 // monsterSeed.js
+import { prisma, ElementType } from "../src/prismaClient/prismaClient";
 
 /**
  * Siembra algunos monstruos básicos en la base de datos.
  * Asegúrate de que este seeder se ejecute ANTES que los spawns y drops, 
  * ya que ellos dependen de los monsters.
  */
-export async function monsterSeed(prisma) {
+export async function monsterSeed() {
   const monstersData = [
       {
     name: 'Poring',
@@ -21,7 +22,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 1,
     moveSpeed: 1,
     attackRange: 1,
-    element: 'NEUTRAL',
+    element: ElementType.NEUTRAL,
     size: 'Small',
     race: 'Slime',
     sprite: 'poring.png'
@@ -40,7 +41,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 2,
     moveSpeed: 2,
     attackRange: 1,
-    element: 'WIND',
+    element: ElementType.WIND,
     size: 'Medium',
     race: 'Undead',
     sprite: 'lunatic.png'
@@ -59,7 +60,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 1,
     moveSpeed: 1,
     attackRange: 1,
-    element: 'NEUTRAL',
+    element: ElementType.NEUTRAL,
     size: 'Small',
     race: 'Slime',
     sprite: 'poporing.png'
@@ -78,7 +79,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 1,
     moveSpeed: 1,
     attackRange: 1,
-    element: 'WATER',
+    element: ElementType.WATER,
     size: 'Small',
     race: 'Slime',
     sprite: 'drops.png'
@@ -97,7 +98,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 2,
     moveSpeed: 2,
     attackRange: 1,
-    element: 'WATER',
+    element: ElementType.WATER,
     size: 'Medium',
     race: 'Fish',
     sprite: 'marin.png'
@@ -116,7 +117,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 2,
     moveSpeed: 1,
     attackRange: 1,
-    element: 'DARK',
+    element: ElementType.DARK,
     size: 'Medium',
     race: 'Undead',
     sprite: 'zombie.png'
@@ -135,7 +136,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 3,
     moveSpeed: 2,
     attackRange: 5,
-    element: 'DARK',
+    element: ElementType.DARK,
     size: 'Medium',
     race: 'Undead',
     sprite: 'archer_skeleton.png'
@@ -154,7 +155,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 2,
     moveSpeed: 2,
     attackRange: 1,
-    element: 'FIRE',
+    element: ElementType.FIRE,
     size: 'Large',
     race: 'Demi-Human',
     sprite: 'orc.png'
@@ -173,7 +174,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 2,
     moveSpeed: 1,
     attackRange: 1,
-    element: 'DARK',
+    element: ElementType.DARK,
     size: 'Medium',
     race: 'Undead',
     sprite: 'mummy.png'
@@ -192,7 +193,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 1,
     moveSpeed: 1,
     attackRange: 1,
-    element: 'EARTH',
+    element: ElementType.EARTH,
     size: 'Large',
     race: 'Formless',
     sprite: 'golem.png'
@@ -211,7 +212,7 @@ export async function monsterSeed(prisma) {
     attackSpeed: 3,
     moveSpeed: 3,
     attackRange: 1,
-    element: 'WIND',
+    element: ElementType.WIND,
     size: 'Medium',
     race: 'Brute',
     sprite: 'harpy.png'
@@ -219,8 +220,14 @@ export async function monsterSeed(prisma) {
   ];
 
   for (const monsterData of monstersData) {
-    await prisma.monster.create({
-      data: monsterData,
+    const existingMonster = await prisma.monster.findUnique({
+      where: { name: monsterData.name },
     });
+
+    if (!existingMonster) {
+      await prisma.monster.create({
+        data: monsterData,
+      });
+    }
   }
 }

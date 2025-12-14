@@ -1,29 +1,8 @@
 import cliProgress from "cli-progress";
+import { prisma, JobName, ElementType } from "../src/prismaClient/prismaClient";
 
-export async function skillSeed(prisma) {
-  const JOB_CLASSES = [
-    "NOVICE",
-    "SWORDSMAN",
-    "MAGE",
-    "ARCHER",
-    "MERCHANT",
-    "THIEF",
-    "ACOLYTE",
-    "KNIGHT",
-    "WIZARD",
-    "BLACKSMITH",
-    "HUNTER",
-    "ASSASSIN",
-    "PRIEST",
-    "CRUSADER",
-    "ROGUE",
-    "ALCHEMIST",
-    "BARD",
-    "DANCER",
-    "SUPER_NOVICE",
-    "GUNSLINGER",
-    "NINJA"
-  ];
+export async function skillSeed() {
+  const JOB_CLASSES = Object.keys(JobName) as JobName[];
 
   // Generamos 5 skills para cada jobclass
   const skills = JOB_CLASSES.flatMap(job => {
@@ -40,7 +19,7 @@ export async function skillSeed(prisma) {
       target: "Enemy",       // Objetivo de la skill (puede ser "Enemy", "Self", etc.)
       range: (job === "MAGE" || job === "WIZARD") ? 3 : 1, // Ejemplo: skills mágicas tienen mayor rango
       area: 0,               // Área de efecto (0 para habilidades de un solo objetivo)
-      element: (job === "MAGE" || job === "WIZARD") ? "FIRE" : "NEUTRAL" // Asigna un elemento según el job
+      element: (job === JobName.MAGE || job === JobName.WIZARD) ? ElementType.FIRE : ElementType.NEUTRAL // Asigna un elemento según el job
     }));
   });
 

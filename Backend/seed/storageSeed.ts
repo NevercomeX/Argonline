@@ -1,8 +1,19 @@
 // storageSeed.js
 
-export async function storageSeed(prisma) {
-  // Lista de IDs de los usuarios a quienes asignar almacenamiento
-  const userIds = [1, 2]; // Agrega aquí los IDs de los usuarios
+import { prisma } from "../src/prismaClient/prismaClient";
+export async function storageSeed() {
+  // Get all users from the database
+  const users = await prisma.user.findMany({
+    select: { id: true, username: true },
+  });
+
+  if (users.length === 0) {
+    console.error("No users found! Make sure userSeed has run successfully.");
+    return;
+  }
+
+  console.log(`Found ${users.length} users for storage seeding`);
+  const userIds = users.map(u => u.id);
 
   // Lista de nombres de ítems base para buscar en la tabla Item
   const itemNames = [
@@ -31,11 +42,11 @@ export async function storageSeed(prisma) {
   // Definir la cantidad total de cada ítem en el almacenamiento general
   const generalStorageData = [
     {
-      itemId: items.find((item) => item.name === "Health Potion").id,
+      itemId: items.find((item) => item.name === "Health Potion")!.id,
       quantity: 10,
     },
     {
-      itemId: items.find((item) => item.name === "Mana Potion").id,
+      itemId: items.find((item) => item.name === "Mana Potion")!.id,
       quantity: 15,
     },
   ];

@@ -1,4 +1,5 @@
-export async function mapSeed(prisma) {
+import { prisma } from "../src/prismaClient/prismaClient";
+export async function mapSeed() {
   const maps = [
     {
       name: "Prontera",

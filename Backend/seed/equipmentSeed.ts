@@ -1,16 +1,27 @@
 // equipmentSeed.js
 
-export async function equipmentSeed(prisma) {
-  // Lista de IDs de los personajes a quienes se les asignará equipamiento
-  const characterIds = [1, 2]; // Ajusta estos valores según tus datos existentes
+import { prisma, EquipmentSlot, ElementType, Prisma } from "../src/prismaClient/prismaClient";
+export async function equipmentSeed() {
+  // Get all characters from the database
+  const characters = await prisma.character.findMany({
+    select: { id: true, name: true },
+  });
+
+  if (characters.length === 0) {
+    console.error("No characters found! Make sure characterSeed has run successfully.");
+    return;
+  }
+
+  console.log(`Found ${characters.length} characters for equipment seeding`);
+  const characterIds = characters.map(c => c.id);
 
   // Definición de asignaciones: para cada personaje se asignarán ciertos ítems a determinados slots.
   // En este ejemplo, asignamos:
   // - "Iron Sword" al slot "WEAPON"
   // - "Iron Helmet" al slot "HEAD_TOP"
-  const equipmentAssignments = [
-    { slot: "WEAPON", itemName: "Novice Dagger" },
-    { slot: "ARMOR", itemName: "Tattered Shirt" },
+  const equipmentAssignments: { slot: EquipmentSlot; itemName: string }[] = [
+    { slot: EquipmentSlot.WEAPON, itemName: "Novice Dagger" },
+    { slot: EquipmentSlot.ARMOR, itemName: "Tattered Shirt" },
   ];
 
   // Extraer la lista de nombres de ítems requeridos
@@ -40,7 +51,7 @@ export async function equipmentSeed(prisma) {
         where: { characterId, slot: assignment.slot },
       });
       if (!existingEquip) {
-        const item = items.find((i) => i.name === assignment.itemName);
+        const item = items.find((i) => i.name === assignment.itemName)!;
         await prisma.equipmentItem.create({
           data: {
             characterId,
@@ -48,8 +59,8 @@ export async function equipmentSeed(prisma) {
             slot: assignment.slot, // Debe coincidir con un valor del enum EquipmentSlot
             durability: 100,       // Valor por defecto
             refineLevel: 0,        // Valor por defecto
-            cards: null,           // Se puede asignar null o un array JSON si se requiere
-            element: "NEUTRAL",    // Valor por defecto del enum ElementType
+            cards: Prisma.DbNull,  // Se puede asignar null o un array JSON si se requiere
+            element: ElementType.NEUTRAL,    // Valor por defecto del enum ElementType
           },
         });
       } else {

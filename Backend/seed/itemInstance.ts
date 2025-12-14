@@ -1,6 +1,7 @@
 // itemInstance.js
 
-export async function itemInstanceSeed(prisma) {
+import { prisma, Prisma } from "../src/prismaClient/prismaClient";
+export async function itemInstanceSeed() {
   // Lista de instancias de ítems para agregar
   const itemInstances = [
     {
@@ -21,8 +22,8 @@ export async function itemInstanceSeed(prisma) {
       itemId: 3,
       refineLevel: 0, // Sin refinamiento
       durability: 100, // Máxima durabilidad
-      enchantments: null, // Sin encantamientos
-      cards: null, // Sin cartas
+      enchantments: Prisma.DbNull, // Sin encantamientos
+      cards: Prisma.DbNull, // Sin cartas
     },
   ];
 

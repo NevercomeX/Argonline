@@ -1,6 +1,7 @@
 import argon2 from "argon2"; // Importa Argon2 para el hashing de contraseñas
+import { prisma } from "../src/prismaClient/prismaClient";
 
-export async function userSeed(prisma) {
+export async function userSeed() {
   const users = [
     {
       username: "admin",

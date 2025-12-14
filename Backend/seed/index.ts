@@ -17,24 +17,23 @@ import { itemInstanceSeed } from "./itemInstance";
 import Table from "cli-table3";
 import cliProgress from "cli-progress";
 
-// Función para resetear la base de datos
 async function resetDatabase() {
   try {
-    // Descomenta las líneas que necesites para eliminar datos de cada tabla.
-    await prisma.inventoryItem.deleteMany({});
-    await prisma.storageItem.deleteMany({});
-    await prisma.item.deleteMany({});
-    await prisma.user.deleteMany({});
-    await prisma.map.deleteMany({});
-    await prisma.character.deleteMany({});
-    await prisma.equipmentItem.deleteMany({});
-    await prisma.recipe.deleteMany({});
-    await prisma.monster.deleteMany({});
+    // Delete in order: child tables first (those with foreign keys), then parent tables
     await prisma.characterSkill.deleteMany({});
-    await prisma.skill.deleteMany({});
+    await prisma.equipmentItem.deleteMany({});
+    await prisma.inventoryItem.deleteMany({});
     await prisma.monsterDrop.deleteMany({});
     await prisma.monsterSpawn.deleteMany({});
     await prisma.itemInstance.deleteMany({});
+    await prisma.recipe.deleteMany({});
+    await prisma.storageItem.deleteMany({});
+    await prisma.character.deleteMany({});
+    await prisma.item.deleteMany({});
+    await prisma.monster.deleteMany({});
+    await prisma.skill.deleteMany({});
+    await prisma.map.deleteMany({});
+    await prisma.user.deleteMany({});
   } catch (error) {
     console.error("Error resetting database:", error);
     throw error;
@@ -76,10 +75,10 @@ async function seed() {
   try {
     for (const task of tasks) {
       try {
-        await task.fn(prisma);
+        await task.fn();
         results.push([task.name, "✅ Success"]);
       } catch (error) {
-        results.push([task.name, `❌ Failed: ${error.message}`]);
+        results.push([task.name, `❌ Failed: ${(error as any).message}`]);
         console.error(`Error in task ${task.name}:`, error);
       }
       // Actualizar la barra de progreso
