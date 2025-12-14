@@ -21,7 +21,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/shield/wooden_buckler.png"
+    sprite: "/items/shield/wooden_buckler.png"
   },
   {
     name: "Iron Buckler",
@@ -45,7 +45,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/shield/iron_buckler.png"
+    sprite: "/items/shield/iron_buckler.png"
   },
   {
     name: "Tower Shield",
@@ -69,7 +69,7 @@ export const itemsShield = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/shield/tower_shield.png"
+    sprite: "/items/shield/tower_shield.png"
   },
   {
     name: "Kite Shield",
@@ -93,6 +93,6 @@ export const itemsShield = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "/shield/kite_shield.png"
+    sprite: "/items/shield/kite_shield.png"
   },
 ];

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Navbar from "@/components/DashboardComponents/Navbar";
-import Sidebar from "@/components/Sidebar";
 import { Item } from "../../../types"; // Asegúrate de que este tipo esté definido correctamente
 
 const ItemsPage = () => {
@@ -16,7 +15,7 @@ const ItemsPage = () => {
 
   const fetchItems = async (pageNumber: number) => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/items?page=${pageNumber}`,
+      `${process.env.NEXT_PUBLIC_API_CHAR_URL}/items?page=${pageNumber}`
     );
     const data = await response.json();
 
@@ -41,17 +40,18 @@ const ItemsPage = () => {
                 <span className="text-gray-500">Item-ID#{item.id}</span>
               </div>
               <img
-                src={`/items/${item.id}.gif`}
+                src={item.sprite || "/items/placeholder.png"}
                 alt={item.name}
                 className="w-12 h-12 mx-auto mb-4"
               />
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div>
-                  <span className="font-medium">HP:</span> {item.health}
+                  <span className="font-medium">Attack:</span>{" "}
+                  {item.attack || 0}
                 </div>
                 <div>
-                  <span className="font-medium">attackPower:</span>{" "}
-                  {item.attackPower}
+                  <span className="font-medium">Magic Attack:</span>{" "}
+                  {item.magicAttack || 0}
                 </div>
                 {/* Más atributos aquí */}
               </div>

@@ -20,7 +20,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "FIRE",
     cardSlots: 0,
-    sprite: "/accessories/copper_ring.png"
+    sprite: "/items/accessories/copper_ring.png"
   },
   {
     name: "Iron Ring",
@@ -43,7 +43,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/iron_ring.png"
+    sprite: "/items/accessories/iron_ring.png"
   },
   {
     name: "Silver Ring",
@@ -66,7 +66,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/silver_ring.png"
+    sprite: "/items/accessories/silver_ring.png"
   },
   {
     name: "Golden Ring",
@@ -89,7 +89,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/gold_ring.png"
+    sprite: "/items/accessories/gold_ring.png"
   },
   {
     name: "Cloth Gloves",
@@ -112,7 +112,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/cloth_gloves.png"
+    sprite: "/items/accessories/cloth_gloves.png"
   },
   {
     name: "Leather Gloves",
@@ -135,7 +135,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/leather_gloves.png"
+    sprite: "/items/accessories/leather_gloves.png"
   },
   {
     name: "Necklace of Acolyte",
@@ -158,7 +158,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "/accessories/necklace_of_acolyte.png"
+    sprite: "/items/accessories/necklace_of_acolyte.png"
   },
   {
     name: "Gauntlets",
@@ -181,7 +181,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/gauntlets.png"
+    sprite: "/items/accessories/gauntlets.png"
   },
   {
     name: "Chainmail Gloves",
@@ -204,7 +204,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/chainmail_gloves.png"
+    sprite: "/items/accessories/chainmail_gloves.png"
   },
   {
     name: "Necklace Esmerald",
@@ -227,7 +227,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/necklace_esmerald.png"
+    sprite: "/items/accessories/necklace_esmerald.png"
   },
   {
     name: "Necklace Ambar",
@@ -250,7 +250,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/necklace_ambar.png"
+    sprite: "/items/accessories/necklace_ambar.png"
   },
   {
     name: "Necklace of Agamotto",
@@ -273,7 +273,7 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/necklace_of_agamotto.png"
+    sprite: "/items/accessories/necklace_of_agamotto.png"
   },
   {
     name: "Studded Gloves",
@@ -296,6 +296,6 @@ export const itemsAccessories = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/accessories/studded_gloves.png"
+    sprite: "/items/accessories/studded_gloves.png"
   }
 ];

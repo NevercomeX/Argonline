@@ -20,7 +20,7 @@ export const itemsHeadgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-     sprite: "/headgear/leather_cap.png"
+     sprite: "/items/headgear/leather_cap.png"
   },
   {
     name: "Cloth Hood",
@@ -43,7 +43,7 @@ export const itemsHeadgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-     sprite: "/headgear/cloth_hood.png"
+     sprite: "/items/headgear/cloth_hood.png"
   },
   {
     name: "Chainmail Coif",
@@ -66,7 +66,7 @@ export const itemsHeadgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-     sprite: "/headgear/chainmail_coif.png"
+     sprite: "/items/headgear/chainmail_coif.png"
   },
   {
     name: "Helm Forgotten King",
@@ -89,6 +89,6 @@ export const itemsHeadgear = [
     isConsumable: false,
     element: "WIND",
     cardSlots: 0,
-     sprite: "/headgear/helm_forgotten_king.png"
+     sprite: "/items/headgear/helm_forgotten_king.png"
   },
 ];

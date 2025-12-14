@@ -21,7 +21,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/garment/cloak.png"
+    sprite: "/items/garment/cloak.png"
   },
   {
     name: "Swordsman's Cloak",
@@ -45,7 +45,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/garment/cloth_robe.png"
+    sprite: "/items/garment/cloth_robe.png"
   },
   {
     name: "Mithril Magic Cape",
@@ -69,7 +69,7 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/garment/mithril_magic_cape.png"
+    sprite: "/items/garment/mithril_magic_cape.png"
   },
   {
     name: "Diabolus Manteau",
@@ -93,6 +93,6 @@ export const itemsGarment = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/garment/diabolus_manteau.png"
+    sprite: "/items/garment/diabolus_manteau.png"
   },
 ];

@@ -17,7 +17,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/armor/tattered_shirt.png"
+    sprite: "/items/armor/tattered_shirt.png"
   },
   {
     name: "Chainmail Jacket",
@@ -37,7 +37,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/armor/chainmail_jacket.png"
+    sprite: "/items/armor/chainmail_jacket.png"
   },
   {
     name: "Swordsman Plate",
@@ -57,7 +57,7 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/armor/swordsman_plate.png"
+    sprite: "/items/armor/swordsman_plate.png"
   },
   {
     name: "Platemail",
@@ -77,6 +77,6 @@ export const itemsArmor = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/armor/platemail.png"
+    sprite: "/items/armor/platemail.png"
   },
 ];

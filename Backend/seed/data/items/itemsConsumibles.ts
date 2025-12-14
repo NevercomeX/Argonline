@@ -21,7 +21,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/consumible/health_potion.png"
+    sprite: "/items/consumible/health_potion.png"
   },
   {
     name: "Mana Potion",
@@ -44,7 +44,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/consumible/mana_potion.png"
+    sprite: "/items/consumible/mana_potion.png"
   },
   {
     name: "Stamina Elixir",
@@ -67,7 +67,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/consumible/stamina_elixir.png"
+    sprite: "/items/consumible/stamina_elixir.png"
   },
   {
     name: "Arrows",
@@ -91,7 +91,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/ammo/arrows.png"
+    sprite: "/items/ammo/arrow.png"
   },
   {
     name: "Steel Arrows",
@@ -115,7 +115,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/ammo/steel_arrows.png"
+    sprite: "/items/ammo/steel_arrows.png"
   },
   {
     name: "Bullet",
@@ -139,7 +139,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/ammo/bullet.png"
+    sprite: "/items/ammo/bullet.png"
   },
   {
     name: "Silver Bullet",
@@ -163,7 +163,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "/ammo/silver_bullet.png"
+    sprite: "/items/ammo/silver_bullet.png"
   },
   {
     name: "Throwing Knives",
@@ -187,10 +187,10 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/ammo/throwing_knives.png"
+    sprite: "/items/ammo/throwing_knives.png"
   },
   {
-    name: "Throwing Knives",
+    name: "Steel Throwing Knives",
     type: "AMMO",
     jobRequired: "ASSASSIN",
     description: "Sharp knives for throwing.",
@@ -211,7 +211,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/ammo/steel_throwing_knives.png"
+    sprite: "/items/ammo/steel_throwing_knives.png"
   },
   {
     name: "Shuriken",
@@ -235,7 +235,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/ammo/shuriken.png"
+    sprite: "/items/ammo/shuriken.png"
   },
   {
     name: "Holy Water",
@@ -259,7 +259,7 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "/consumible/holy_water.png"
+    sprite: "/items/ammo/holy_water.png"
   },
   {
     name: "Fire Bottle",
@@ -283,6 +283,6 @@ export const itemsConsumibles = [
     isConsumable: true,
     element: "FIRE",
     cardSlots: 0,
-    sprite: "/consumible/fire_bottle.png"
+    sprite: "/items/ammo/fire_bottle.png"
   },
 ];

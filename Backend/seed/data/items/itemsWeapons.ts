@@ -21,7 +21,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/novice_dagger.png"
+    sprite: "/items/weapons/novice_dagger.png"
   },
   {
     name: "Swordsman's Broadsword",
@@ -45,7 +45,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/swordsman_broadsword.png"
+    sprite: "/items/weapons/swordsman_broadsword.png"
   },
   {
     name: "Mage's Staff",
@@ -69,7 +69,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/mage_staff.png"
+    sprite: "/items/weapons/mage_staff.png"
   },
   {
     name: "Archer's Bow",
@@ -93,7 +93,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/archer_bow.png"
+    sprite: "/items/weapons/archer_bow.png"
   },
   {
     name: "Merchant's Axe",
@@ -117,7 +117,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/merchant_axe.png"
+    sprite: "/items/weapons/merchant_axe.png"
   },
   {
     name: "Thief's Katar",
@@ -141,7 +141,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/thief_katar.png"
+    sprite: "/items/weapons/thief_katar.png"
   },
   {
     name: "Acolyte's Mace",
@@ -165,7 +165,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "/weapons/acolyte_mace.png"
+    sprite: "/items/weapons/acolyte_mace.png"
   },
   {
     name: "Knight's Spear",
@@ -189,7 +189,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/knight_spear.png"
+    sprite: "/items/weapons/knight_spear.png"
   },
   {
     name: "Wizard's Wand",
@@ -213,7 +213,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/wizard_wand.png"
+    sprite: "/items/weapons/wizard_wand.png"
   },
   {
     name: "Blacksmith's Hammer",
@@ -237,8 +237,8 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/blacksmith_hammer.png"
-  },
+    sprite: "/items/weapons/blacksmith_hammer.png"
+  },  
   {
     name: "Hunter's Crossbow",
     type: "WEAPON",
@@ -261,7 +261,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/hunter_crossbow.png"
+    sprite: "/items/weapons/hunter_crossbow.png"
   },
   {
     name: "Assassin's Blade",
@@ -285,7 +285,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 0,
-    sprite: "/weapons/assassin_blade.png"
+    sprite: "/items/weapons/assassin_blade.png"
   },
   {
     name: "Priest's Holy Staff",
@@ -309,7 +309,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "HOLY",
     cardSlots: 0,
-    sprite: "/weapons/priest_holy_staff.png"
+    sprite: "/items/weapons/priest_holy_staff.png"
   },
   {
     name: "Crusader's Greatsword",
@@ -333,7 +333,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/crusader_greatsword.png"
+    sprite: "/items/weapons/crusader_greatsword.png"
   },
   {
     name: "Rogue's Dagger",
@@ -357,7 +357,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/rogue_dagger.png"
+    sprite: "/items/weapons/rogue_dagger.png"
   },
   {
     name: "Alchemist's Flask",
@@ -381,7 +381,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/alchemist_flask.png"
+    sprite: "/items/weapons/alchemist_flask.png"
   },
   {
     name: "Bard's Lute",
@@ -405,7 +405,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/bard_lute.png"
+    sprite: "/items/weapons/bard_lute.png"
   },
   {
     name: "Dancer's Fan",
@@ -429,7 +429,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/dancer_fan.png"
+    sprite: "/items/weapons/dancer_fan.png"
   },
   {
     name: "Super Novice's Stick",
@@ -453,7 +453,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/super_novice_stick.png"
+    sprite: "/items/weapons/super_novice_stick.png"
   },
   {
     name: "Gunslinger's Revolver",
@@ -477,7 +477,7 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/gunslinger_revolver.png"
+    sprite: "/items/weapons/gunslinger_revolver.png"
   },
   {
     name: "Ninja's Shuriken",
@@ -501,6 +501,6 @@ export const itemsWeapons = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/weapons/ninja_shuriken.png"
+    sprite: "/items/weapons/ninja_shuriken.png"
   }
 ];

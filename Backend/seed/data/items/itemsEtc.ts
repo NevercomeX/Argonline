@@ -20,7 +20,7 @@ export const itemsEtc = [
     isConsumable: true,
 
     cardSlots: 0,
-    sprite: "/etc/coin.png"
+    sprite: "/items/etc/coin.png"
   },
   {
     name: "Copper Chest",
@@ -43,7 +43,7 @@ export const itemsEtc = [
     isConsumable: true,
 
     cardSlots: 0,
-    sprite: "/etc/copper_chest.png"
+    sprite: "/items/etc/copper_chest.png"
   },
   {
     name: "Golden Chest",
@@ -66,7 +66,7 @@ export const itemsEtc = [
     isConsumable: true,
 
     cardSlots: 0,
-    sprite: "/etc/golden_chest.png"
+    sprite: "/items/etc/golden_chest.png"
   },
   {
     name: "Steel Chest",
@@ -89,7 +89,7 @@ export const itemsEtc = [
     isConsumable: true,
 
     cardSlots: 0,
-    sprite: "/etc/steel_chest.png"
+    sprite: "/items/etc/steel_chest.png"
   },
   {
     name: "Copper Key",
@@ -111,7 +111,7 @@ export const itemsEtc = [
     isTradable: true,
     isConsumable: true,
     cardSlots: 0,
-    sprite: "/etc/copper_key.png"
+    sprite: "/items/etc/copper_key.png"
   },
   {
     name: "Golden Key",
@@ -133,7 +133,7 @@ export const itemsEtc = [
     isTradable: true,
     isConsumable: true,
     cardSlots: 0,
-    sprite: "/etc/golden_key.png"
+    sprite: "/items/etc/golden_key.png"
   },
   {
     name: "Steel Key",
@@ -155,7 +155,7 @@ export const itemsEtc = [
     isTradable: true,
     isConsumable: true,
     cardSlots: 0,
-    sprite: "/etc/steel_key.png"
+    sprite: "/items/etc/steel_key.png"
   },
   {
     name: "Map",
@@ -177,6 +177,6 @@ export const itemsEtc = [
     isTradable: true,
     isConsumable: true,
     cardSlots: 0,
-    sprite: "/etc/map.png"
+    sprite: "/items/etc/map.png"
   },
 ]

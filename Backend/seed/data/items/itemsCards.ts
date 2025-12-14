@@ -20,7 +20,7 @@ export const itemsCards = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 1,
-    sprite: "/card/hydra_card.png"
+    sprite: "/items/card/hydra_card.png"
   },
   {
     name: "Dragon Tail Card",
@@ -43,7 +43,7 @@ export const itemsCards = [
     isConsumable: false,
     element: "FIRE",
     cardSlots: 1,
-    sprite: "/card/dragon_tail_card.png"
+    sprite: "/items/card/dragon_tail_card.png"
   },
   {
     name: "Mysteltainn Card",
@@ -66,7 +66,7 @@ export const itemsCards = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 1,
-    sprite: "/card/mysteltainn_card.png"
+    sprite: "/items/card/mysteltainn_card.png"
   },
   {
     name: "Turtle General Card",
@@ -89,7 +89,7 @@ export const itemsCards = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 1,
-    sprite: "/card/turtle_general_card.png"
+    sprite: "/items/card/turtle_general_card.png"
   },
   {
     name: "Incantation Samurai Card",
@@ -112,7 +112,7 @@ export const itemsCards = [
     isConsumable: false,
     element: "GHOST",
     cardSlots: 1,
-    sprite: "/card/incantation_samurai_card.png"
+    sprite: "/items/card/incantation_samurai_card.png"
   },
   {
     name: "Abysmal Knight Card",
@@ -135,7 +135,7 @@ export const itemsCards = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 1,
-    sprite: "/card/abysmal_knight_card.png"
+    sprite: "/items/card/abysmal_knight_card.png"
   },
   {
     name: "Golden Thief Bug Card",
@@ -158,7 +158,7 @@ export const itemsCards = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 1,
-    sprite: "/card/golden_thief_bug_card.png"
+    sprite: "/items/card/golden_thief_bug_card.png"
   },
   {
     name: "Orc Hero Card",
@@ -181,7 +181,7 @@ export const itemsCards = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 1,
-    sprite: "/card/orc_hero_card.png"
+    sprite: "/items/card/orc_hero_card.png"
   },
   {
     name: "Marduk Card",
@@ -204,7 +204,7 @@ export const itemsCards = [
     isConsumable: false,
     element: "DARK",
     cardSlots: 1,
-    sprite: "/card/marduk_card.png"
+    sprite: "/items/card/marduk_card.png"
   },
   {
     name: "Phreeoni Card",
@@ -227,6 +227,6 @@ export const itemsCards = [
     isConsumable: false,
     element: "WIND",
     cardSlots: 1,
-    sprite: "/card/phreeoni_card.png"
+    sprite: "/items/card/phreeoni_card.png"
   }
 ];

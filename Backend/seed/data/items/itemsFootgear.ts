@@ -21,7 +21,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/footgear/trailblazers.png"
+    sprite: "/items/footgear/trailblazers.png"
   },
   {
     name: "Swordsman's Ironclad Striders",
@@ -45,7 +45,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/footgear/ironclad_striders.png"
+    sprite: "/items/footgear/ironclad_striders.png"
   },
   {
     name: "Mage's Arcane Slippers",
@@ -69,7 +69,7 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "NEUTRAL",
     cardSlots: 0,
-    sprite: "/footgear/arcane_slippers.png"
+    sprite: "/items/footgear/arcane_slippers.png"
   },
   {
     name: "Archer's Windrider Boots",
@@ -93,6 +93,6 @@ export const itemsFootgear = [
     isConsumable: false,
     element: "WIND",
     cardSlots: 0,
-    sprite: "/footgear/plate_steel_boots.png"
+    sprite: "/items/footgear/plate_steel_boots.png"
   },
 ];
